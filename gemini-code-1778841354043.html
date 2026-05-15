@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OPC TechBridge | 工业4.0技术落地桥梁</title>
+    
+    <!-- Calendly 官方弹窗样式与脚本 -->
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+
+    <style>
+        :root {
+            --primary-color: #0052cc;
+            --primary-hover: #0040a3;
+            --accent-green: #10b981;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --bg-light: #f8fafc;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            line-height: 1.7;
+        }
+
+        /* 双语控制核心逻辑 */
+        body.lang-zh .lang-de { display: none !important; }
+        body.lang-de .lang-zh { display: none !important; }
+
+        /* 导航栏 */
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            letter-spacing: -0.5px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+
+        .lang-btn {
+            background-color: var(--text-dark);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: background-color 0.2s;
+        }
+
+        .lang-btn:hover {
+            background-color: var(--primary-color);
+        }
+
+        /* 主体布局 */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hero 区域 */
+        .hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+            color: white;
+            padding: 5rem 3rem;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.25;
+            letter-spacing: -0.5px;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto 2.5rem auto;
+        }
+
+        .cta-btn {
+            background-color: var(--accent-green);
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: transform 0.2s, background-color 0.2s;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            background-color: #059669;
+        }
+
+        /* 通用 Section 样式 */
+        .section {
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 16px;
+            margin-bottom: 3rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+        }
+
+        .section h2 {
+            font-size: 2rem;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 4px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .badge-efficiency {
+            background-color: #eff6ff;
+            color: var(--primary-color);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1.5rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        /* 自动化链条示意图 */
+        .workflow-container {
+            margin: 2.5rem 0;
+            background: #f1f5f9;
+            padding: 2rem;
+            border-radius: 12px;
+        }
+        .workflow-title {
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: var(--text-dark);
+        }
+        .workflow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            align-items: center;
+        }
+        .workflow-step {
+            background: white;
+            padding: 1.2rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+        .workflow-step .icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .workflow-step h4 {
+            margin-bottom: 0.3rem;
+            color: var(--primary-color);
+        }
+        .workflow-step p {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        /* 服务卡片 */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .service-card {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.05);
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .service-card ul {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card li {
+            margin-bottom: 0.6rem;
+            font-size: 0.95rem;
+            color: var(--text-light);
+            position: relative;
+            padding-left: 1.2rem;
+        }
+
+        .service-card li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        .price-tag {
+            background: #f8fafc;
+            padding: 0.8rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            border: 1px dashed var(--border-color);
+            text-align: center;
+        }
+
+        /* 价值观布局 */
+        .values-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        /* 页脚与 Impressum */
+        footer {
+            background-color: #0f172a;
+            color: #94a3b8;
+            padding: 4rem 2rem;
+            margin-top: 5rem;
+            font-size: 0.9rem;
+            border-top: 4px solid var(--primary-color);
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+
+        .impressum h3 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .impressum p {
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #334155;
+        }
+
+        /* 响应式断点 */
+        @media (max-width: 768px) {
+            .nav-container { flex-direction: column; gap: 1rem; text-align: center; }
+            .hero { padding: 3rem 1.5rem; }
+            .hero h1 { font-size: 2rem; }
+            .section { padding: 1.8rem; }
+            .values-grid { grid-template-columns: 1fr; }
+            .footer-container { grid-template-columns: 1fr; gap: 2rem; }
+        }
+    </style>
+</head>
+<body class="lang-zh">
+
+    <!-- 导航栏 -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">OPC TechBridge</div>
+            <nav>
+                <a href="#about" class="lang-zh">关于我</a>
+                <a href="#about" class="lang-de">Über mich</a>
+                <a href="#services" class="lang-zh">服务项目</a>
+                <a href="#services" class="lang-de">Leistungen</a>
+                <a href="#values" class="lang-zh">商业价值</a>
+                <a href="#values" class="lang-de">Grundhaltung</a>
+                <a href="#contact" class="lang-zh">联系我们</a>
+                <a href="#contact" class="lang-de">Kontakt</a>
+                <button class="lang-btn" onclick="toggleLanguage()">DE / 中文</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主体内容 -->
+    <main>
+        
+        <!-- 1. Hero Section -->
+        <section class="hero">
+            <div class="lang-zh">
+                <h1>连接中国创新与德国标准<br>助力自动化硬科技精准落地</h1>
+                <p>凭借电气自动化背景与深厚在德经验，为您提供可订阅、标准化、高效率的德国 market-execution 执行服务。</p>
+            </div>
+            <div class="lang-de">
+                <h1>Technisches Projektmanagement<br>mit chinesischer Dynamik und deutscher Präzision</h1>
+                <p>Effiziente Schnittstelle für Automatisierung, autonomes Fahren und digitale Transformation.</p>
+            </div>
+            <!-- 绑定 Calendly 弹窗事件的按钮 -->
+            <button class="cta-btn" onclick="openCalendly(event)">
+                <span class="lang-zh">预约 15 分钟效率评估 ➔</span>
+                <span class="lang-de">15-Minuten Effizienzanalyse buchen ➔</span>
+            </button>
+        </section>
+
+        <!-- 2. About Me Section -->
+        <section id="about" class="section">
+            <div class="lang-zh">
+                <h2>关于我</h2>
+                <p>我深耕于电气工程与自动化领域，在德国拥有多年的职业沉淀，曾深度参与自动驾驶测试与验证、IT数据管理及复杂技术项目管理。</p>
+                <div class="badge-efficiency">
+                    <strong>🚀 核心效率优势 (OPC 规模化交付)：</strong><br>
+                    我采用个人工作室（OPC）模式，通过构建完整成熟的自动化工作链条，实现了业务流程的极度标准化。这使我能够以极高的成本效率，处理远超以往规模的跨境事务，并始终确保每一份交付物（如调研报告、客户跟进）都具备工业级的严谨质量。
+                </div>
+            </div>
+            <div class="lang-de">
+                <h2>Über mich</h2>
+                <p>Mit fundiertem Hintergrund in Elektrotechnik und Automatisierungstechnik sowie langjähriger Erfahrung in der Validierung von autonomem Fahren verstehe ich die Komplexität moderner Industriesysteme.</p>
+                <div class="badge-efficiency">
+                    <strong>🚀 Effizienz & Skalierbarkeit (Das OPC-Modell):</strong><br>
+                    Durch mein OPC-Modell (Personal Studio) und eine ausgereifte, automatisierte Prozesskette bin ich in der Lage, ein weitaus größeres Aufgabenpensum als herkömmliche Beraterstrukturen zu bewältigen. Diese hohe Standardisierung garantiert Ihnen erstklassige Qualität bei gleichzeitig optimierter Kostenstruktur.
+                </div>
+            </div>
+
+            <!-- 自动化链条示意图 -->
+            <div class="workflow-container">
+                <div class="workflow-title">
+                    <span class="lang-zh">⚙️ 我的全自动化服务链条（高效率、低成本的秘密）</span>
+                    <span class="lang-de">⚙️ Meine automatisierte Prozesskette (Der Effizienz-Hebel)</span>
+                </div>
+                <div class="workflow-grid">
+                    <div class="workflow-step">
+                        <div class="icon">📥</div>
+                        <h4 class="lang-zh">1. 需求输入</h4><h4 class="lang-de">1. Input</h4>
+                        <p class="lang-zh">客户标准化委托投递</p><p class="lang-de">Standardisierte Anfrage</p>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="icon">🤖</div>
+                        <h4 class="lang-zh">2. 工具链流转</h4><h4 class="lang-de">2. Automation</h4>
+                        <p class="lang-zh">AI与数字化架构深度处理</p><p class="lang-de">KI & Digitale Tools</p>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="icon">📅</div>
+                        <h4 class="lang-zh">3. 透明追踪</h4><h4 class="lang-de">3. Transparenz</h4>
+                        <p class="lang-zh">共享日历与看板实时同步</p><p class="lang-de">Live-Synchronisierung</p>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="icon">📦</div>
+                        <h4 class="lang-zh">4. 工业级交付</h4><h4 class="lang-de">4. Output</h4>
+                        <p class="lang-zh">严谨合规的德标产出文件</p><p class="lang-de">Industrie-Qualität</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Services Section -->
+        <section id="services" class="section">
+            <h2 class="lang-zh">标准化服务包</h2>
+            <h2 class="lang-de">Meine Kompetenzen & Leistungen</h2>
+            
+            <div class="services-grid">
+                <!-- 服务一 -->
+                <div class="service-card">
+                    <div>
+                        <h3 class="lang-zh">📡 德国 market-execution 业务跑动 (Abo月租)</h3>
+                        <h3 class="lang-de">Interface Consulting & Abo</h3>
+                        <ul>
+                            <li class="lang-zh">展会与客户维护：代表国内企业维护德国一线关系（如汉诺威工博会）。</li>
+                            <li class="lang-zh">进度实时透明：通过共享日历 (Calendar) 实时同步每一个动作。</li>
+                            <li class="lang-zh">低成本、高产出：订阅制费用模式，无需负担全职外派高昂成本。</li>
+                            <li class="lang-de">Market Entry Support: Flexible technische Abstimmung mit chinesischen Partnern.</li>
+                            <li class="lang-de">Business Execution Abo: Repräsentanz auf Messen und proaktive Zulieferer-Kommunikation.</li>
+                        </ul>
+                    </div>
+                    <div class="price-tag">
+                        <span class="lang-zh">💡 得益于自动化流程，费用仅为传统全职BD的 [30%-50%]</span>
+                        <span class="lang-de">💡 Kostenoptimiert durch digitale Infrastruktur</span>
+                    </div>
+                </div>
+
+                <!-- 服务二 -->
+                <div class="service-card">
+                    <div>
+                        <h3 class="lang-zh">⚖️ 落地合规性调研与对接</h3>
+                        <h3 class="lang-de">Technical Project Management</h3>
+                        <ul>
+                            <li class="lang-zh">认证准入咨询：协助调研 [CE、VDE等] 欧洲及德国本地认证门槛。</li>
+                            <li class="lang-zh">财税法律对接：联动专业税务师（如 KGS TAX）处理双重征税（DBA）及合规文件。</li>
+                            <li class="lang-de">Strukturierte Planung, Validierung und Ergebnisberichte für interkulturelle Teams.</li>
+                            <li class="lang-de">Einhaltung lokaler Standards und regulatorischer Vorgaben.</li>
+                        </ul>
+                    </div>
+                    <div class="price-tag">
+                        <span class="lang-zh">📊 工业级严谨报告生成</span>
+                        <span class="lang-de">📊 Strukturierte Meilenstein-Lieferung</span>
+                    </div>
+                </div>
+
+                <!-- 服务三 -->
+                <div class="service-card">
+                    <div>
+                        <h3 class="lang-zh">🎓 全产业链人力输出</h3>
+                        <h3 class="lang-de">Relational Leadership</h3>
+                        <ul>
+                            <li class="lang-zh">对接国内优质职教资源与德国本土技术人才缺口。</li>
+                            <li class="lang-zh">提供精准的入职辅导、跨文化培训与资源高效匹配。</li>
+                            <li class="lang-de">Führung durch Vertrauen und psychologische Sicherheit (OK/OK-Haltung).</li>
+                            <li class="lang-de">Förderung der Innovationskraft in interkulturellen Teams.</li>
+                        </ul>
+                    </div>
+                    <div class="price-tag">
+                        <span class="lang-zh">🤝 建立长期人才战略资产</span>
+                        <span class="lang-de">🤝 Brücke für Fachkräfte & Synergien</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Values & Compliance Section -->
+        <section id="values" class="section">
+            <div class="values-grid">
+                <div class="lang-zh">
+                    <h2>商业价值观</h2>
+                    <p style="margin-bottom: 1rem;"><strong>🤝 诚信建造：</strong>坚持用“干净的手”处理商业委托，正直的名声胜过大财。</p>
+                    <p><strong>Ant 蚂蚁精神：</strong>以极高的勤奋度和纪律性，为您在海外的每一分投入负责。</p>
+                </div>
+                <div class="lang-de">
+                    <h2>Grundhaltung & Ethik</h2>
+                    <p>Geprägt durch christliche Werte wie Integrität und Zuverlässigkeit. Ich stehe für eine transparente Kommunikation und nachhaltige Partnerships.</p>
+                </div>
+
+                <div>
+                    <h2 class="lang-zh">合规与信任锚点</h2>
+                    <h2 class="lang-de">Rechtlicher Hintergrund</h2>
+                    <p class="lang-zh"><strong>📍 官方注册：</strong>本工作室在德国卡尔斯鲁厄依法完成执照登记（Gewerbe angemeldet gemäß §14 GewO）。</p>
+                    <p class="lang-zh"><strong>💶 税务安全：</strong>深度联合专业德国税务师（如 KGS TAX），严格确保中德双重征税协定（DBA）合规。</p>
+                    
+                    <p class="lang-de"><strong>📍 Offiziell registriert:</strong> Mein Gewerbe ist in Karlsruhe ordnungsgemäß angemeldet (Gewerbe angemeldet gemäß §14 GewO).</p>
+                    <p class="lang-de"><strong>💶 Steuerliche Sicherheit:</strong> In Zusammenarbeit mit Spezialisten (z.B. KGS TAX) zur rechtssicheren Einhaltung des Doppelbesteuerungsabkommens (DBA).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Contact Section -->
+        <section id="contact" class="section" style="text-align: center; background: #f1f5f9;">
+            <h2 class="lang-zh">立刻启动您的德国执行引擎</h2>
+            <h2 class="lang-de">Bereit für die Skalierung?</h2>
+            <p class="lang-zh" style="margin-bottom: 1.5rem;">无论您是寻找出海落地的工业企业，还是寻求高效技术协作的德国本土团队，欢迎随时发起会议预约。</p>
+            <p class="lang-de" style="margin-bottom: 1.5rem;">Kontaktieren Sie mich für ein unverbindliches Erstgespräch über Ihre Anforderungen.</p>
+            
+            <button class="cta-btn" onclick="openCalendly(event)" style="margin-bottom: 1.5rem;">
+                <span class="lang-zh">通过 Calendly 锁定时间 ➔</span>
+                <span class="lang-de">Termin via Calendly sichern ➔</span>
+            </button>
+
+            <div style="font-size: 1.1rem; font-weight: 600; color: var(--primary-color);">
+                📧 Email: <a href="mailto:heyijianchina@gmail.com" style="color: var(--primary-color); text-decoration: none;">heyijianchina@gmail.com</a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 页脚与 Impressum -->
+    <footer>
+        <div class="footer-container">
+            <div>
+                <p>© 2026 OPC TechBridge. Powered by GitHub Pages.</p>
+                <p style="font-size: 0.8rem; margin-top: 0.5rem; opacity: 0.7;">
+                    <span class="lang-zh">免责声明：本网站所载内容旨在展示个人工作室之商务模式，具体业务合作以正式签署的法律合同为准。</span>
+                    <span class="lang-de">Haftungsausschluss: Die Inhalte dieser Webseite dienen der Darstellung des OPC-Geschäftsmodells. Verbindliche Zusagen bedürfen der Schriftform.</span>
+                </p>
+            </div>
+            
+            <div class="impressum">
+                <h3>Impressum (Legal Notice)</h3>
+                <p><strong>Angaben gemäß § 5 TMG:</strong></p>
+                <p>[您的姓名 / Ihr Name]</p>
+                <p>OPC TechBridge</p>
+                <p>[卡尔斯鲁厄注册地址 / Straße, PLZ Karlsruhe]</p>
+                <p><strong>Kontakt:</strong></p>
+                <p>E-Mail: heyijianchina@gmail.com</p>
+                <p><strong>Aufsichtsbehörde:</strong></p>
+                <p>Gewerbeamt Karlsruhe</p>
+                <p>Gewerbe-Anmeldeschein-Nr: [待填入您的登记号]</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Designed with 🇩🇪 Precision & 🇨🇳 Dynamism.</p>
+        </div>
+    </footer>
+
+    <!-- 核心控制脚本 -->
+    <script>
+        // 语言切换函数
+        function toggleLanguage() {
+            const body = document.body;
+            if (body.classList.contains('lang-zh')) {
+                body.classList.remove('lang-zh');
+                body.classList.add('lang-de');
+            } else {
+                body.classList.remove('lang-de');
+                body.classList.add('lang-zh');
+            }
+        }
+
+        // Calendly 弹窗触发函数
+        function openCalendly(event) {
+            event.preventDefault(); 
+            Calendly.initPopupWidget({
+                url: 'https://calendly.com/yijian' 
+            });
+            return false;
+        }
+    </script>
+</body>
+</html>
