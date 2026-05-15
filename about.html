@@ -3,43 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yijian He | 深度履历</title>
+    <title>Portfolio | Yijian He</title>
     <style>
-        body { font-family: "Courier New", monospace; background: #fff; padding: 2rem; }
-        .container { max-width: 700px; margin: 0 auto; border: 1px solid #000; padding: 2rem; }
-        header { border-bottom: 2px solid #000; padding-bottom: 1rem; margin-bottom: 2rem; text-align: center; }
-        h1 { font-size: 1.5rem; text-transform: uppercase; }
-        h2 { font-size: 1.1rem; background: #000; color: #fff; padding: 2px 5px; margin: 1.5rem 0 1rem; }
-        .entry { margin-bottom: 1.5rem; }
-        .entry-head { display: flex; justify-content: space-between; font-weight: bold; }
-        .back { display: block; margin-top: 3rem; text-decoration: none; color: #000; border-bottom: 1px solid #000; width: fit-content; }
+        /* 90s 极客/老派风格 */
+        :root { --bg: #ffffff; --text: #000000; --border: #000000; }
+        * { margin: 0; padding: 0; box-sizing: border-box; border-radius: 0 !important; }
+        body { 
+            font-family: "Courier New", Courier, monospace; 
+            background: var(--bg); color: var(--text); 
+            line-height: 1.5; padding: 1rem; 
+        }
+        .container { max-width: 800px; margin: 0 auto; border: 2px solid var(--border); padding: 2rem; }
+        header { border-bottom: 2px solid var(--border); padding-bottom: 1rem; margin-bottom: 2rem; text-align: center; }
+        h1 { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px; }
+        
+        /* 导航与语言切换 */
+        .toolbar { display: flex; justify-content: space-between; margin-bottom: 1rem; }
+        .btn-lang { background: #eee; border: 1px solid #000; padding: 2px 8px; cursor: pointer; font-family: inherit; font-size: 0.8rem; }
+        
+        h2 { font-size: 1.1rem; background: #000; color: #fff; padding: 2px 8px; margin: 2rem 0 1rem; display: inline-block; text-transform: uppercase; }
+        .entry { margin-bottom: 2rem; }
+        .entry-head { display: flex; justify-content: space-between; font-weight: bold; border-bottom: 1px dashed #000; margin-bottom: 0.5rem; }
+        .entry-sub { font-style: italic; font-weight: bold; margin-bottom: 0.5rem; }
+        ul { padding-left: 1.5rem; }
+        li { margin-bottom: 0.3rem; }
+        
+        .back-link { display: inline-block; margin-top: 3rem; text-decoration: underline; font-weight: bold; color: #000; }
+
+        /* 双语控制 */
+        body.lang-zh .lang-de { display: none !important; }
+        body.lang-de .lang-zh { display: none !important; }
+
+        @media (max-width: 600px) { .entry-head { flex-direction: column; } .container { padding: 1rem; } }
     </style>
 </head>
-<body>
+<body class="lang-zh">
     <div class="container">
         <header>
+            <div class="toolbar">
+                <a href="index.html" style="color: #000; font-weight: bold;"><< BACK</a>
+                <button class="btn-lang" onclick="document.body.classList.toggle('lang-zh');document.body.classList.toggle('lang-de');">[DE/中文]</button>
+            </div>
             <h1>Yijian He</h1>
-            <p>Karlsruhe, Germany | heyijianchina@gmail.com</p>
+            <p class="lang-zh">传感器与自动化技术硕士</p>
+            <p class="lang-de">M.Eng. Sensor- und Automatisierungstechnik</p>
+            <p>Karlsruhe, DE | heyijianchina@gmail.com</p>
         </header>
 
-        <h2>职业经历 (EXPERIENCE)</h2>
+        <h2 class="lang-zh">职业经历</h2>
+        <h2 class="lang-de">Berufserfahrung</h2>
+
         <div class="entry">
-            <div class="entry-head"><span>KIT (GPI)</span> <span>2025-2026</span></div>
-            <p>Techniker im eLabor | 负责实验室设备维护、数据管理及 Datalogger 系统开发。</p>
-        </div>
-        <div class="entry">
-            <div class="entry-head"><span>亮道智能 (LiangDao)</span> <span>2022-2025</span></div>
-            <p>Project Manager / IT Ops | 协调 BMW, NIO, BYD 项目；维护 AWS 云端基础设施及 SAP 流程。</p>
-        </div>
-        <div class="entry">
-            <div class="entry-head"><span>Modis GmbH (Daimler 项目)</span> <span>2018-2020</span></div>
-            <p>自动化项目工程师 | SPS 编程 (TIA Portal, S7-1500)；负责戴姆勒 AGV 系统项目。</p>
+            <div class="entry-head"><span>KIT (GPI)</span><span>2025.08 - 2026.01</span></div>
+            <div class="entry-sub lang-zh">地质物理研究所 (GPI) - eLabor 技术员</div>
+            <div class="entry-sub lang-de">Techniker im eLabor (GPI)</div>
+            <ul class="lang-zh">
+                <li>负责地质物理研究所实验设备的维护与管理。</li>
+                <li>支持测量数据评估（Messdatenauswertung）及数据管理。</li>
+                <li>概念化并构建新型 Datalogger 系统及地震设备测试台。</li>
+            </ul>
+            <ul class="lang-de">
+                <li>Wartung und Instandhaltung der Laborausrüstung am Institut für Geophysik.</li>
+                <li>Unterstützung bei Messdatenauswertung und Datenmanagement.</li>
+                <li>Konzeption und Aufbau neuer Datalogger-Systeme und Testbenches.</li>
+            </ul>
         </div>
 
-        <h2>学历背景 (EDUCATION)</h2>
-        <p>工程硕士 (M.Eng.) - 传感器与自动化技术<br>汉诺威应用科学大学 | 2013-2018</p>
+        <div class="entry">
+            <div class="entry-head"><span>LiangDao GmbH</span><span>2022.07 - 2024.12</span></div>
+            <div class="entry-sub lang-zh">项目经理 / IT 运营经理</div>
+            <div class="entry-sub lang-de">Project Manager / IT Operations Manager</div>
+            <ul class="lang-zh">
+                <li>为 <b>BMW, NIO, BYD</b> 等客户协调传感器验证项目。</li>
+                <li>构建并维护 IT 基础设施（AWS, Microsoft, IONOS），支持 SAP 引入。</li>
+            </ul>
+            <ul class="lang-de">
+                <li>Projektkoordination für Kunden wie BMW, NIO, BYD im Bereich Sensorvalidierung.</li>
+                <li>Aufbau und Wartung der IT-Infrastruktur (AWS, Microsoft, IONOS).</li>
+            </ul>
+        </div>
 
-        <a href="index.html" class="back"><< 返回首页 / BACK</a>
+        <div class="entry">
+            <div class="entry-head"><span>Modis (Daimler Projekt)</span><span>2018.04 - 2020.11</span></div>
+            <div class="entry-sub lang-zh">自动化项目工程师</div>
+            <div class="entry-sub lang-de">Projektingenieur Automatisierung</div>
+            <ul class="lang-zh">
+                <li>SPS 编程 (TIA Portal, S7-1500) 与 EPLAN 硬件规划。</li>
+                <li>负责 <b>Daimler</b> 的 AGV 系统、测试台及输送技术项目。</li>
+            </ul>
+            <ul class="lang-de">
+                <li>SPS-Programmierung (TIA Portal, S7-1500) und Hardwareplanung mit EPLAN.</li>
+                <li>Projekte: AGV-Systeme, Prüfstände, Fördertechnik für Daimler.</li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link lang-zh"><< 返回首页</a>
+        <a href="index.html" class="back-link lang-de"><< ZURÜCK ZUR STARTSEITE</a>
     </div>
 </body>
 </html>
