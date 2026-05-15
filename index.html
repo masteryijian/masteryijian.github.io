@@ -355,14 +355,10 @@
         <div class="nav-container">
             <div class="logo">OPC TechBridge</div>
             <nav>
-                <a href="#about" class="lang-zh">关于我</a>
-                <a href="#about" class="lang-de">Über mich</a>
-                <a href="#services" class="lang-zh">服务项目</a>
-                <a href="#services" class="lang-de">Leistungen</a>
-                <a href="#values" class="lang-zh">商业价值</a>
-                <a href="#values" class="lang-de">Grundhaltung</a>
-                <a href="#contact" class="lang-zh">联系我们</a>
-                <a href="#contact" class="lang-de">Kontakt</a>
+                <a href="index.html" class="lang-zh">首页</a><a href="index.html" class="lang-de">Home</a>
+                <a href="about.html" class="lang-zh">深度履历</a><a href="about.html" class="lang-de">Über mich</a>
+                <a href="news.html" class="lang-zh">行业动态</a><a href="news.html" class="lang-de">Markt-Trends</a>
+                <a href="#contact" class="lang-zh">联系方式</a><a href="#contact" class="lang-de">Kontakt</a>
                 <button class="lang-btn" onclick="toggleLanguage()">DE / 中文</button>
             </nav>
         </div>
@@ -546,6 +542,22 @@
     </main>
 
     <!-- 页脚与 Impressum -->
+    
+    <!-- 深度内容入口 -->
+    <section class="container" style="margin-top: 0; padding-top: 0;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+            <a href="about.html" style="text-decoration: none; color: inherit; background: #fff; padding: 2rem; border-radius: 12px; border: 1px solid #e2e8f0; transition: 0.3s;" onmouseover="this.style.borderColor='#0052cc'" onmouseout="this.style.borderColor='#e2e8f0'">
+                <h3 style="color: #0052cc; margin-bottom: 1rem;"><span class="lang-zh">👤 深度技术履历</span><span class="lang-de">👤 Technisches Portfolio</span></h3>
+                <p class="lang-zh">点击查看在 <strong>Daimler、BMW、NIO、Siemens</strong> 等名企的 SPS 自动化与传感器验证项目详情。</p>
+                <p class="lang-de">Detaillierte Einblicke in Projekte für Daimler, BMW, NIO und Siemens im Bereich Automatisierung.</p>
+            </a>
+            <a href="news.html" style="text-decoration: none; color: inherit; background: #fff; padding: 2rem; border-radius: 12px; border: 1px solid #e2e8f0; transition: 0.3s;" onmouseover="this.style.borderColor='#0052cc'" onmouseout="this.style.borderColor='#e2e8f0'">
+                <h3 style="color: #0052cc; margin-bottom: 1rem;"><span class="lang-zh">📈 每周行业动态更新</span><span class="lang-de">📈 Wöchentliche Trends</span></h3>
+                <p class="lang-zh">每周一 09:00 定时抓取并分析中德工业 4.0 与自动驾驶准入市场的最新风向。</p>
+                <p class="lang-de">Analysen zu Industrie 4.0 und autonomen Fahren – jeden Montag um 09:00 Uhr aktualisiert.</p>
+            </a>
+        </div>
+    </section>
     <footer>
         <div class="footer-container">
             <div>
