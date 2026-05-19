@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kubernetes 技术分享 - K8s & AWS 实战</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/white.css">
+    <style>
+        .reveal h1 { font-size: 2.5em; color: #667eea; }
+        .reveal h2 { font-size: 2em; color: #764ba2; }
+        .reveal h3 { font-size: 1.5em; color: #495057; }
+        .reveal ul { text-align: left; }
+        .reveal li { margin: 10px 0; }
+        .reveal strong { color: #667eea; }
+        .reveal code { background: #f8f9fa; padding: 2px 6px; border-radius: 3px; }
+        .speaker-notes { font-size: 0.6em; }
+        .cn-script { color: #667eea; margin: 10px 0; }
+        .de-script { color: #764ba2; margin: 10px 0; font-style: italic; }
+        .arch-box { background: #f8f9fa; border: 2px solid #667eea; border-radius: 8px; padding: 15px; margin: 15px 0; font-family: monospace; font-size: 0.6em; text-align: left; }
+        .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0; }
+        .pros { background: #d4edda; border-left: 4px solid #28a745; padding: 10px; font-size: 0.7em; }
+        .cons { background: #f8d7da; border-left: 4px solid #dc3545; padding: 10px; font-size: 0.7em; }
+        .example-box { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 15px 0; font-size: 0.7em; text-align: left; }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Slide 1: 封面 -->
+            <section data-background-gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                <h1 style="color: white;">🐳 Kubernetes 技术分享</h1>
+                <h3 style="color: white;">从架构到实战 - K8s & AWS & Docker</h3>
+                <p style="color: white; margin-top: 50px;">演讲人：何一健 (He Yijian)</p>
+                <p style="color: white; font-size: 0.8em;">2026 年 5 月</p>
+                
+                <aside class="notes">
+                    <div class="cn-script">
+                        大家好！今天我要分享的是 Kubernetes（简称 K8s）的技术实战经验。
+                        我将从架构设计、AWS 集成、Docker 容器化，以及实际项目中的取舍案例来展开。
+                        这次分享会结合我在生产环境中的真实经验，希望给大家带来实际的参考价值。
+                    </div>
+                    <div class="de-script">
+                        Hallo zusammen! Heute möchte ich meine praktischen Erfahrungen mit Kubernetes (kurz K8s) teilen.
+                        Ich werde die Architektur, AWS-Integration, Docker-Containerisierung und echte Trade-off-Beispiele aus Projekten behandeln.
+                        Dieser Vortrag basiert auf meiner Erfahrung in Produktionsumgebungen und soll Ihnen praktischen Nutzen bringen.
+                    </div>
+                </aside>
+            </section>
+
+            <!-- Slide 2: 目录 -->
+            <section>
+                <h2>📚 分享大纲</h2>
+                <ul style="font-size: 0.9em;">
+                    <li>✅ <strong>K8s 架构核心</strong> - Control Plane & Worker Nodes</li>
+                    <li>✅ <strong>Docker 容器化</strong> - 从镜像到运行时</li>
+                    <li>✅ <strong>AWS EKS 实战</strong> - 托管 K8s 最佳实践</li>
+                    <li>✅ <strong>网络与存储</strong> - Overlay 网络 & 持久化</li>
+                    <li>✅ <strong>架构取舍案例</strong> - 真实场景的决策过程</li>
+                    <li>✅ <strong>生产最佳实践</strong> - 高可用 & 成本优化</li>
+                </ul>
+                
+                <aside class="notes">
+                    <div class="cn-script">
+                        今天的分享分为六个部分。
+                        首先，我会深入讲解 K8s 的核心架构，帮助大家理解 Control Plane 和 Worker Nodes 的协作机制。
+                        然后，我们会看 Docker 容器化如何与 K8s 配合。
+                        接着是 AWS EKS 的实战经验，这部分我会分享生产环境中的最佳实践。
+                        之后会讨论网络和存储的架构设计。
+                        重点是第四部分 - 我会用真实案例讲解架构取舍的决策过程。
+                        最后，我会分享生产环境的高可用和成本优化策略。
+                    </div>
+                    <div class="de-script">
+                        Der heutige Vortrag ist in sechs Teile gegliedert.
+                        Zuerst erkläre ich die Kernarchitektur von K8s, um zu verstehen, wie Control Plane und Worker Nodes zusammenarbeiten.
+                        Dann besprechen wir, wie Docker-Containerisierung mit K8s integriert wird.
+                        Als nächstes teile ich praktische Erfahrungen mit AWS EKS in Produktionsumgebungen.
+                        Danach diskutieren wir Architekturdesign für Netzwerk und Speicher.
+                        Der Schwerpunkt liegt auf Teil 4 - ich werde echte Trade-off-Entscheidungsprozesse mit realen Beispielen erklären.
+                        Zum Schluss teile ich Best Practices für Hochverfügbarkeit und Kostenoptimierung in Produktionsumgebungen.
+                    </div>
+                </aside>
+            </section>
+
+            <!-- Slide 3: K8s 架构 -->
+            <section>
+                <h2>🏗️ K8s 架构核心</h2>
+                <div class="arch-box">
+<strong>Control Plane (Master)</strong>
+  ├── API Server - 统一入口 (REST API)
+  ├── etcd - 分布式键值存储 (集群状态)
+  ├── Scheduler - 调度 Pod 到 Node
+  └── Controller Manager - 维护期望状态
+
+<strong>Worker Nodes</strong>
+  ├── Kubelet - 管理 Pod 生命周期
+  ├── Kube-proxy - 网络代理 (Service)
+  └── Container Runtime - 运行容器 (containerd)
+                </div>
+                <p style="font-size: 0.8em; margin-top: 20px;"><strong>核心理念：</strong>声明式 API (Declarative API) + 控制循环 (Control Loop)</p>
+                
+                <aside class="notes">
+                    <div class="cn-script">
+                        K8s 的架构分为两大组件：Control Plane 和 Worker Nodes。
+                        Control Plane 是集群的大脑，包含 API Server、etcd、Scheduler 和 Controller Manager。
+                        API Server 是所有操作的统一入口，etcd 存储集群状态，Scheduler 决定 Pod 运行在哪个 Node，Controller Manager 确保实际状态匹配期望状态。
+                        Worker Nodes 是干活的手，运行实际的容器。
+                        K8s 的核心理念是声明式 API：你告诉它"我想要什么状态"，它自动帮你实现，这就是控制循环的原理。
+                    </div>
+                    <div class="de-script">
+                        Die K8s-Architektur besteht aus zwei Hauptkomponenten: Control Plane und Worker Nodes.
+                        Die Control Plane ist das Gehirn des Clusters und umfasst API Server, etcd, Scheduler und Controller Manager.
+                        Der API Server ist der zentrale Eingangspunkt für alle Operationen, etcd speichert den Cluster-Status, der Scheduler entscheidet, auf welchem Node Pods laufen, und der Controller Manager stellt sicher, dass der tatsächliche Status mit dem gewünschten Status übereinstimmt.
+                        Worker Nodes sind die Arbeiter, die tatsächlich Container ausführen.
+                        Das Kernkonzept von K8s ist die deklarative API: Sie sagen ihm "welchen Status ich will", und es erreicht dies automatisch - das ist das Prinzip der Control Loop.
+                    </div>
+                </aside>
+            </section>
+
+            <!-- Slide 4: Docker 容器化 -->
+            <section>
+                <h2>🐳 Docker 容器化基础</h2>
+                <div class="example-box">
+                    <strong>💡 实战案例：多阶段构建优化镜像体积</strong>
+<pre style="background: #282c34; color: #61dafb; padding: 10px; border-radius: 4px; font-size: 0.7em; text-align: left;">
+# 阶段 1：构建
+FROM node:18 AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+# 阶段 2：运行（最终镜像仅 80MB）
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+EXPOSE 80
+</pre>
+                </div>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <strong>✅ 多阶段构建优势</strong>
+                        <ul style="font-size: 0.7em;">
+                            <li>镜像体积小 (去掉构建工具)</li>
+                            <li>安全性高 (减少攻击面)</li>
+                            <li>适合生产环境</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <strong>❌ 单阶段构建</strong>
+                        <ul style="font-size: 0.7em;">
+                            <li>构建速度快</li>
+                            <li>调试方便</li>
+                            <li>适合开发环境</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <aside class="notes">
+                    <div class="cn-script">
+                        Docker 是 K8s 的底层运行时。这个案例展示了多阶段构建的实战应用。
+                        在阶段 1，我们使用完整的 Node.js 镜像来构建应用。
+                        在阶段 2，我们只复制构建产物到轻量级的 Nginx 镜像。
+                        最终镜像从 1.2GB 降到 80MB，部署速度提升 10 倍，安全性也更高（没有 npm 包中的漏洞）。
+                        我的建议是：开发环境用单阶段（快速迭代），生产环境用多阶段（优化体积和安全性）。
+                    </div>
+                    <div class="de-script">
+                        Docker ist die zugrundeliegende Laufzeitumgebung von K8s. Dieses Beispiel zeigt die praktische Anwendung von Multi-Stage-Builds.
+                        In Phase 1 verwenden wir das vollständige Node.js-Image, um die Anwendung zu bauen.
+                        In Phase 2 kopieren wir nur die Build-Artefakte in ein leichtgewichtiges Nginx-Image.
+                        Das finale Image wird von 1,2 GB auf 80 MB reduziert, die Bereitstellungsgeschwindigkeit wird um das 10-fache erhöht, und die Sicherheit ist ebenfalls höher (keine Schwachstellen in npm-Paketen).
+                        Meine Empfehlung: Verwenden Sie Single-Stage für Entwicklungsumgebungen (schnelle Iteration) und Multi-Stage für Produktionsumgebungen (optimiertes Volumen und Sicherheit).
+                    </div>
+                </aside>
+            </section>
+
+            <!-- Slide 5: AWS EKS -->
+            <section>
+                <h2>☁️ AWS EKS 实战</h2>
+                <div class="arch-box">
+<strong>AWS EKS 架构</strong>
+EKS Control Plane (AWS 托管，高可用)
+  ├── API Server (跨 AZ 部署)
+  ├── etcd (多 AZ 备份)
+  └── IAM 集成 (RBAC)
+
+Worker Nodes (用户管理)
+  ├── Managed Node Groups (推荐)
+  │     └── EC2 Instances (按需/Spot)
+  └── Fargate (Serverless，无需管理 Node)
+                </div>
+                <p style="font-size: 0.8em;"><strong>关键优势：</strong>AWS 负责控制平面高可用，用户专注于应用部署</p>
+                
+                <aside class="notes">
+                    <div class="cn-script">
+                        AWS EKS 是 AWS 托管的 Kubernetes 服务。
+                        最大的优势是控制平面由 AWS 托管，自动实现高可用，用户无需运维 master 节点。
+                        在生产环境中，我使用 Managed Node Groups 来管理 Worker Nodes，配合 Spot 实例节省成本（节省了 60% 的 EC2 费用）。
+                        EKS 与 AWS 服务深度集成，比如 IAM Roles for Service Accounts (IRSA)，让 Pod 可以直接访问 S3、RDS 等服务，无需硬编码 AK/SK。
+                        这是生产环境的最佳实践：使用 IRSA + Secret Manager 管理敏感信息。
+                    </div>
+                    <div class="de-script">
+                        AWS EKS ist ein von AWS verwalteter Kubernetes-Service.
+                        Der größte Vorteil ist, dass die Control Plane von AWS verwaltet wird und automatisch Hochverfügbarkeit erreicht wird, sodass Benutzer keine Master-Nodes warten müssen.
+                        In Produktionsumgebungen verwende ich Managed Node Groups, um Worker Nodes zu verwalten, kombiniert mit Spot-Instances zur Kostenersparnis (60% Ersparnis bei EC2-Kosten).
+                        EKS ist tief in AWS-Services integriert, wie z.B. IAM Roles for Service Accounts (IRSA), die es Pods ermöglichen, direkt auf Services wie S3 und RDS zuzugreifen, ohne AK/SK hart zu kodieren.
+                        Dies ist eine Best Practice in Produktionsumgebungen: Verwenden Sie IRSA + Secret Manager zur Verwaltung sensibler Informationen.
+                    </div>
+                </aside>
+            </section>
+
+            <!-- Slide 6: 网络架构 -->
+            <section>
+                <h2>🌐 K8s 网络架构</h2>
+                <div class="arch-box">
+<strong>三层网络模型</strong>
+1. Container-to-Container (同一 Pod)
+   → localhost 通信 (共享网络命名空间)
+
+2. Pod-to-Pod (跨 Node)
+   → Overlay 网络 (如 Calico, Flannel)
+   → 每个 Pod 有独立 IP (扁平网络)
+
+3. Service-to-External
+   → ClusterIP (集群内)
+   → NodePort (所有 Node 暴露)
+   → LoadBalancer (云平台 ELB)
+   → Ingress (七层路由，推荐)
+                </div>
+                
+                <aside class="notes">
+                    <div class="cn-script">
+                        K8s 的网络模型是"每个 Pod 一个 IP"，这简化了网络设计。
+                        在同一个 Pod 内，多个容器共享网络命名空间，可以通过 localhost 通信。
+                        跨 Node 的 Pod 通信需要 Overlay 网络，我在生产中使用 Calico（支持 Network Policy）。
+                        对于外部流量，我强烈推荐使用 Ingress + LoadBalancer 的组合：LoadBalancer 提供一个固定的入口 IP，Ingress 根据域名和路径路由到不同的 Service。
+                        在一个实际项目中，我们用 Nginx Ingress Controller 管理了 50+ 个微服务的路由，统一了 TLS 证书管理。
+                    </div>
+                    <div class="de-script">
+                        Das K8s-Netzwerkmodell ist "eine IP pro Pod", was das Netzwerkdesign vereinfacht.
+                        Innerhalb desselben Pods teilen sich mehrere Container den Netzwerknamensraum und können über localhost kommunizieren.
+                        Für die Pod-Kommunikation über Node-Grenzen hinweg wird ein Overlay-Netzwerk benötigt. In Produktionsumgebungen verwende ich Calico (unterstützt Network Policy).
+                        Für externen Datenverkehr empfehle ich dringend die Kombination aus Ingress + LoadBalancer: LoadBalancer bietet eine feste Eingangs-IP, und Ingress leitet basierend auf Domainnamen und Pfaden zu verschiedenen Services weiter.
+                        In einem realen Projekt haben wir Nginx Ingress Controller verwendet, um das Routing für 50+ Microservices zu verwalten und das TLS-Zertifikatsmanagement zu vereinheitlichen.
+                    </div>
+                </aside>
+            </section>
+
+            <!-- Slide 7: 存储架构 -->
+            <section>
+                <h2>💾 持久化存储设计</h2>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <strong>✅ ReadWriteOnce (RWO)</strong>
+                        <ul style="font-size: 0.7em;">
+                            <li>只能被一个 Node 挂载</li>
+                            <li>高性能 (块存储，如 AWS EBS)</li>
+                            <li>适合数据库 (MySQL, MongoDB)</li>
+                            <li>成本较低</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <strong>✅ ReadWriteMany (RWX)</strong>
+                        <ul style="font-size: 0.7em;">
+                            <li>可以被多个 Node 同时挂载</li>
+                            <li>性能较差 (网络文件系统)</li>
+                            <li>适合共享文件 (NAS, AWS EFS)</li>
+                            <li>成本较高</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="example-box" style="font-size: 0.7em;">
+                    <strong>💡 实战取舍：</strong>MySQL 用 EBS (RWO)，WordPress 上传目录用 EFS (RWX)
+                </div>
+                
+                <aside class="notes">
+                    <div class="cn-script">
+                        在 K8s 中，存储的访问模式决定了架构设计。
+                        RWO (ReadWriteOnce) 适合数据库这类需要高性能块存储的场景，比如 AWS EBS。
+                        RWX (ReadWriteMany) 适合多个 Pod 需要共享文件的场景，比如 AWS EFS。
+                        在一个电商项目中，我遇到了这样的取舍：订单数据库用 EBS (RWO)，因为它需要低延迟和高 IOPS；
+                        而商品图片上传目录用 EFS (RWX)，因为多个 Web 服务器需要同时读取这些图片。
+                        这个混合方案既保证了性能，又实现了共享访问。
+                    </div>
+                    <div class="de-script">
+                        In K8s bestimmt der Zugriffsmodus für Speicher das Architekturdesign.
+                        RWO (ReadWriteOnce) eignet sich für Szenarien, die Hochleistungs-Blockspeicher benötigen, wie z.B. AWS EBS für Datenbanken.
+                        RWX (ReadWriteMany) eignet sich für Szenarien, in denen mehrere Pods Dateien teilen müssen, wie z.B. AWS EFS.
+                        In einem E-Commerce-Projekt stand ich vor folgendem Trade-off: Die Bestelldatenbank verwendet EBS (RWO), da sie niedrige Latenz und hohe IOPS benötigt;
+                        Das Upload-Verzeichnis für Produktbilder verwendet EFS (RWX), da mehrere Webserver gleichzeitig auf diese Bilder zugreifen müssen.
+                        Diese Hybrid-Lösung gewährleistet sowohl Leistung als auch gemeinsamen Zugriff.
+                    </div>
+                </aside>
+            </section>
+
+            <!-- Slide 8: 架构取舍案例 1 -->
+            <section>
+                <h2>⚖️ 架构取舍案例 1</h2>
+                <h3>Deployment vs StatefulSet</h3>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <strong>✅ Deployment (无状态)</strong>
+                        <ul style="font-size: 0.7em;">
+                            <li>Pod 名称随机 (nginx-xxxx-xxx)</li>
+                            <li>扩缩容快 (无需顺序)</li>
+                            <li>适合 Web 服务、API</li>
+                            <li>滚动更新 (Rolling Update)</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <strong>✅ StatefulSet (有状态)</strong>
+                        <ul style="font-size: 0.7em;">
+                            <li>Pod 名称固定 (mysql-0, mysql-1)</li>
+                            <li>稳定的网络标识 (Persistent Identity)</li>
+                            <li>适合数据库、消息队列</li>
+                            <li>顺序部署和扩缩容</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="example-box" style="font-size: 0.7em;">
+                    <strong>💡 决策依据：</strong>99% 的场景用 Deployment，只有需要稳定网络标识（如 MySQL 主从复制）时才用 StatefulSet
+                </div>
+                
+                <aside class="notes">
+                    <div class="cn-script">
+                        这是一个经典的架构取舍问题。
+                        在我的实际项目中，API 服务使用 Deployment，因为无状态服务可以随意扩缩容，滚动更新也不会影响服务可用性。
+                        但是，当我们需要部署 MySQL 主从集群时，必须用 StatefulSet，因为主从复制需要固定的 Pod 名称和网络标识。
+                        比如，MySQL 主节点是 mysql-0，从节点是 mysql-1，这个关系是固定的。
+                        我的建议是：除非你明确需要稳定标识（如数据库、消息队列），否则一律用 Deployment。
+                    </div>
+                    <div class="de-script">
+                        Dies ist ein klassisches Architektur-Trade-off-Problem.
+                        In meinen realen Projekten verwenden API-Services Deployment, da zustandslose Services beliebig skaliert werden können und Rolling Updates die Serviceverfügbarkeit nicht beeinträchtigen.
+                        Wenn wir jedoch ein MySQL Master-Slave-Cluster bereitstellen müssen, müssen wir StatefulSet verwenden, da die Master-Slave-Replikation feste Pod-Namen und Netzwerkidentitäten benötigt.
+                        Zum Beispiel ist der MySQL-Master-Knoten mysql-0 und der Slave-Knoten mysql-1, diese Beziehung ist fest.
+                        Meine Empfehlung: Verwenden Sie immer Deployment, es sei denn, Sie benötigen ausdrücklich stabile Identitäten (wie Datenbanken, Message Queues).
+                    </div>
+                </aside>
+            </section>
+
+            <!-- Slide 9: 架构取舍案例 2 -->
+            <section>
+                <h2>⚖️ 架构取舍案例 2</h2>
+                <h3>Service 类型选择</h3>
+                <div class="arch-box">
+<strong>场景：</strong>电商平台需要暴露用户 API 和商家 API
+
+方案 A：每个 Service 一个 LoadBalancer
+  ├── 用户 API → ELB-1 ($18/月)
+  ├── 商家 API → ELB-2 ($18/月)
+  └── 管理后台 → ELB-3 ($18/月)
+  → 总成本：$54/月，3 个公网 IP
+
+方案 B：一个 LoadBalancer + Ingress
+  ├── ELB-1 ($18/月) → Ingress Controller
+  │     ├── /user/* → 用户 API Service (ClusterIP)
+  │     └── /merchant/* → 商家 API Service (ClusterIP)
+  → 总成本：$18/月，1 个公网 IP
+                </div>
+                
+                <aside class="notes">
+                    <div class="cn-script">
+                        这是一个成本优化的实际案例。
+                        在 AWS 上，每个 LoadBalancer 每月费用约 $18，而且会占用公网 IP。
+                        如果我们有 10 个微服务，每个都创建一个 LoadBalancer，月成本是 $180，而且 IP 资源有限。
+                        更好的方案是使用一个 LoadBalancer 配合 Ingress Controller，根据 URL 路径或域名路由到不同的 Service。
+                        在一个实际项目中，我们用这种方法将 LoadBalancer 数量从 15 个降到 1 个，每月节省 $252，而且简化了证书管理（只需管理 1 个证书的 ARN）。
+                        这是生产环境的标准做法。
+                    </div>
+                    <div class="de-script">
+                        Dies ist ein praktisches Beispiel für Kostenoptimierung.
+                        Bei AWS kostet jeder LoadBalancer etwa $18 pro Monat und verbraucht eine öffentliche IP.
+                        Wenn wir 10 Microservices haben und für jeden einen LoadBalancer erstellen, betragen die monatlichen Kosten $180, und IP-Ressourcen sind begrenzt.
+                        Eine bessere Lösung ist die Verwendung eines LoadBalancers mit einem Ingress Controller, der basierend auf URL-Pfaden oder Domainnamen an verschiedene Services weiterleitet.
+                        In einem realen Projekt haben wir diese Methode verwendet, um die Anzahl der LoadBalancer von 15 auf 1 zu reduzieren, was $252 pro Monat einspart, und das Zertifikatsmanagement wurde vereinfacht (nur 1 Zertifikats-ARN verwalten).
+                        Dies ist eine Standardpraxis in Produktionsumgebungen.
+                    </div>
+                </aside>
+            </section>
+
+            <!-- Slide 10: 高可用设计 -->
+            <section>
+                <h2>🚀 生产高可用设计</h2>
+                <div class="arch-box">
+<strong>多可用区部署 (Multi-AZ Deployment)</strong>
+AZ-1a (可用区 1)
+  └── Worker Nodes (2 台) → Pod 副本 1
+
+AZ-1b (可用区 2)
+  └── Worker Nodes (2 台) → Pod 副本 2
+
+AZ-1c (可用区 3)
+  └── Worker Nodes (2 台) → Pod 副本 3
+
+<strong>关键配置：</strong>
+  ├── Pod Anti-Affinity (反亲和性)
+  ├── PodDisruptionBudget (PDB)
+  └── Horizontal Pod Autoscaler (HPA)
+                </div>
+                
+                <aside class="notes">
+                    <div class="cn-script">
+                        生产环境的高可用设计必须从架构层面考虑。
+                        首先，Worker Nodes 必须分布在多个可用区（AZ），这样即使一个 AZ 故障，集群仍然可用。
+                        其次，使用 Pod Anti-Affinity 确保同一个应用的副本分散在不同 Node 上，避免单点故障。
+                        第三，配置 PodDisruptionBudget (PDB) 确保滚动更新时至少有 N 个 Pod 始终运行。
+                        最后，使用 HPA (Horizontal Pod Autoscaler) 根据 CPU/内存使用率自动扩缩容。
+                        在一个黑五促销项目中，我们利用 HPA 将 API 服务的 Pod 从 10 个自动扩容到 100 个，平稳度过了流量高峰（QPS 从 1000 涨到 10000）。
+                    </div>
+                    <div class="de-script">
+                        Das Design für Hochverfügbarkeit in Produktionsumgebungen muss auf Architekturebene berücksichtigt werden.
+                        Zuerst müssen Worker Nodes über mehrere Verfügbarkeitszonen (AZs) verteilt sein, sodass der Cluster auch bei einem Ausfall einer AZ verfügbar bleibt.
+                        Zweitens verwenden wir Pod Anti-Affinity, um sicherzustellen, dass Replikate derselben Anwendung auf verschiedenen Nodes verteilt sind, um Single Points of Failure zu vermeiden.
+                        Drittens konfigurieren wir PodDisruptionBudget (PDB), um sicherzustellen, dass während Rolling Updates mindestens N Pods immer ausgeführt werden.
+                        Schließlich verwenden wir HPA (Horizontal Pod Autoscaler), um basierend auf CPU/Arbeitsspeicher-Nutzung automatisch zu skalieren.
+                        In einem Black Friday Promotions-Projekt haben wir HPA verwendet, um die Pods des API-Services von 10 auf 100 automatisch zu skalieren, und haben den Datenverkehrs-Peak reibungslos gemeistert (QPS von 1000 auf 10000).
+                    </div>
+                </aside>
+            </section>
+
+            <!-- Slide 11: 监控与可观测性 -->
+            <section>
+                <h2>📊 监控与可观测性</h2>
+                <div class="arch-box">
+<strong>可观测性三大支柱</strong>
+1. Metrics (指标) - Prometheus + Grafana
+   ├── 采集：Node Exporter, Kube-state-metrics
+   ├── 存储：Prometheus TSDB (本地) 或 Thanos (长期)
+   └── 可视化：Grafana Dashboards
+
+2. Logging (日志) - ELK / Loki
+   ├── 采集：Fluentd / Promtail
+   ├── 存储：Elasticsearch / Loki
+   └── 查询：Kibana / Grafana
+
+3. Tracing (链路追踪) - Jaeger
+   └── 分布式追踪 (Distributed Tracing)
+</pre>
+                </div>
+                
+                <aside class="notes">
+                    <div class="cn-script">
+                        在分布式系统中，可观测性是刚需。
+                        我使用 Prometheus 采集指标，Grafana 做可视化，已经配置了 20+ 个 Dashboard（节点监控、Pod 资源使用、API 延迟等）。
+                        对于日志，我使用 Loki + Promtail + Grafana 的轻量级方案（比 ELK 省资源）。
+                        在微服务架构中，链路追踪非常重要。我集成了 Jaeger，可以追踪一个请求在多个服务间的调用链路，快速定位性能瓶颈。
+                        比如，通过 Tracing 我们发现某个 API 慢是因为数据库查询没有加索引，优化后延迟从 2 秒降到 200 毫秒。
+                        我的建议是：监控要全面，但不能过度，重点关注 RED 指标（Rate、Errors、Duration）。
+                    </div>
+                    <div class="de-script">
+                        In verteilten Systemen ist Observability eine Notwendigkeit.
+                        Ich verwende Prometheus zur Metrikerfassung und Grafana zur Visualisierung und habe bereits 20+ Dashboards konfiguriert (Node-Überwachung, Pod-Ressourcennutzung, API-Latenz usw.).
+                        Für Logs verwende ich die leichtgewichtige Lösung Loki + Promtail + Grafana (ressourcenschonender als ELK).
+                        In Microservice-Architekturen ist Distributed Tracing sehr wichtig. Ich habe Jaeger integriert, um den Aufrufpfad einer Anfrage über mehrere Services hinweg zu verfolgen und Leistungsengpässe schnell zu identifizieren.
+                        Zum Beispiel haben wir durch Tracing festgestellt, dass eine API langsam war, weil der Datenbankabfrage kein Index hinzugefügt wurde. Nach der Optimierung wurde die Latenz von 2 Sekunden auf 200 Millisekunden reduziert.
+                        Meine Empfehlung: Überwachung sollte umfassend, aber nicht übermäßig sein. Konzentrieren Sie sich auf RED-Metriken (Rate, Errors, Duration).
+                    </div>
+                </aside>
+            </section>
+
+            <!-- Slide 12: 安全最佳实践 -->
+            <section>
+                <h2>🔒 安全最佳实践</h2>
+                <ul style="font-size: 0.8em;">
+                    <li>✅ <strong>RBAC</strong>：基于角色的权限控制 (最小权限原则)</li>
+                    <li>✅ <strong>Network Policy</strong>：网络隔离 (类似防火墙规则)</li>
+                    <li>✅ <strong>Pod Security Standards</strong>：限制特权容器 (禁止 root)</li>
+                    <li>✅ <strong>Image Scanning</strong>：扫描镜像漏洞 (如 Trivy)</li>
+                    <li>✅ <strong>Secrets Encryption</strong>：加密 etcd 中的 Secret (不是 base64！)</li>
+                    <li>✅ <strong>IRSA</strong>：IAM Roles for Service Accounts (替代硬编码 AK/SK)</li>
+                </ul>
+                <div class="example-box" style="font-size: 0.7em; margin-top: 20px;">
+                    <strong>💡 安全检查清单：</strong>CI/CD 流水线自动扫描镜像漏洞 → 阻断高危漏洞镜像部署
+                </div>
+                
+                <aside class="notes">
+                    <div class="cn-script">
+                        安全是 K8s 生产环境的重要组成部分。
+                        首先，必须启用 RBAC，遵循最小权限原则。比如，开发人员只能查看日志，不能修改 Deployment。
+                        其次，配置 Network Policy 实现网络隔离。比如，前端服务只能访问后端 API，不能直连数据库。
+                        第三，使用 Pod Security Standards 禁止特权容器（privileged: true），防止容器逃逸。
+                        第四，在 CI/CD 流水线中集成镜像扫描工具（如 Trivy），自动阻断高危漏洞的镜像部署。
+                        最后，使用 AWS IRSA 替代硬编码的 AK/SK，实现细粒度的权限控制。
+                        通过这些措施，我们可以将安全风险降到最低。
+                    </div>
+                    <div class="de-script">
+                        Sicherheit ist ein wichtiger Bestandteil von K8s-Produktionsumgebungen.
+                        Zuerst müssen Sie RBAC aktivieren und dem Prinzip der geringsten Rechte folgen. Zum Beispiel können Entwickler nur Logs anzeigen, aber keine Deployments ändern.
+                        Zweitens konfigurieren Sie Network Policy, um Netzwerkisolation zu erreichen. Zum Beispiel können Frontend-Services nur auf Backend-APIs zugreifen, nicht direkt auf die Datenbank.
+                        Drittens verwenden Sie Pod Security Standards, um privilegierte Container (privileged: true) zu verbieten und Container-Escapes zu verhindern.
+                        Viertens integrieren Sie Image-Scanning-Tools (wie Trivy) in die CI/CD-Pipeline, um die Bereitstellung von Images mit kritischen Schwachstellen automatisch zu blockieren.
+                        Verwenden Sie schließlich AWS IRSA anstelle von hart kodierten AK/SK, um feingranulare Zugriffskontrolle zu erreichen.
+                        Durch diese Maßnahmen können wir Sicherheitsrisiken minimieren.
+                    </div>
+                </aside>
+            </section>
+
+            <!-- Slide 13: 成本优化 -->
+            <section>
+                <h2>💰 成本优化策略</h2>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <strong>✅ 节省成本的方案</strong>
+                        <ul style="font-size: 0.7em;">
+                            <li>使用 Spot 实例 (便宜 70-90%)</li>
+                            <li> right-sizing (选择合适大小的实例)</li>
+                            <li>Auto Scaling (按需自动扩缩容)</li>
+                            <li>定时关闭非生产环境</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <strong>❌ 成本高但可靠的方案</strong>
+                        <ul style="font-size: 0.7em;">
+                            <li>On-Demand 实例 (稳定)</li>
+                            <li>过度配置资源 (request > actual)</li>
+                            <li>手动管理 (无 Auto Scaling)</li>
+                            <li>24/7 运行所有环境</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="example-box" style="font-size: 0.7em;">
+                    <strong>💡 实际效果：</strong>混合使用 On-Demand (生产) + Spot (开发/测试)，整体成本降低 50%
+                </div>
+                
+                <aside class="notes">
+                    <div class="cn-script">
+                        云资源成本优化是一个持续的过程。
+                        在我的项目中，我采用了混合策略：生产环境使用 On-Demand 实例保证稳定性，开发和测试环境使用 Spot 实例节省成本。
+                        同时，我使用 Kubernetes Cluster Autoscaler 根据 Pod 的资源请求自动调整 Node 数量，避免资源浪费。
+                        另一个策略是 right-sizing：通过分析实际资源使用率，调整 Pod 的 requests 和 limits，提高集群利用率。
+                        比如，我们发现某个应用的 CPU request 设置过高（实际只用 100m，但设置了 500m），调整后集群可以调度更多 Pod，延迟了扩容需求。
+                        最终，这些优化让整体成本降低了 50%。
+                    </div>
+                    <div class="de-script">
+                        Die Optimierung der Cloud-Ressourcenkosten ist ein kontinuierlicher Prozess.
+                        In meinen Projekten habe ich eine Hybridstrategie angewendet: Produktionsumgebungen verwenden On-Demand-Instances, um Stabilität zu gewährleisten, und Entwicklungs- und Testumgebungen verwenden Spot-Instances, um Kosten zu sparen.
+                        Gleichzeitig verwende ich Kubernetes Cluster Autoscaler, um die Anzahl der Nodes basierend auf den Ressourcenanforderungen der Pods automatisch anzupassen und Ressourcenverschwendung zu vermeiden.
+                        Eine weitere Strategie ist Right-sizing: Durch die Analyse der tatsächlichen Ressourcennutzung passe ich die Requests und Limits der Pods an, um die Cluster-Auslastung zu erhöhen.
+                        Zum Beispiel haben wir festgestellt, dass die CPU-Request-Einstellung einer Anwendung zu hoch war (tatsächlich nur 100m verwendet, aber 500m eingestellt), und nach der Anpassung konnte der Cluster mehr Pods planen, was den Skalierungsbedarf verzögerte.
+                        Letztendlich haben diese Optimierungen die Gesamtkosten um 50% gesenkt.
+                    </div>
+                </aside>
+            </section>
+
+            <!-- Slide 14: CI/CD 集成 -->
+            <section>
+                <h2>🔄 CI/CD 自动化部署</h2>
+                <div class="arch-box">
+<strong>GitOps 工作流 (ArgoCD)</strong>
+Developer (git push)
+  ↓
+GitHub / GitLab (代码仓库)
+  ↓
+CI Pipeline (GitHub Actions)
+  ├── 1. Lint & Unit Test
+  ├── 2. Build & Push Image (ECR)
+  └── 3. Update Helm Chart (values.yaml)
+
+ArgoCD (监听 Git 变化)
+  └── 自动同步 (Auto Sync) → kubectl apply
+                </div>
+                <p style="font-size: 0.8em; margin-top: 15px;"><strong>核心优势：</strong>Git 作为唯一真相源 (Single Source of Truth)，回滚只需 git revert</p>
+                
+                <aside class="notes">
+                    <div class="cn-script">
+                        在现代 K8s 生产环境中，GitOps 是标准做法。
+                        我们使用 ArgoCD 实现自动部署：当开发人员 push 代码到 Git 仓库，CI 流水线自动构建镜像并更新 Helm Chart 的镜像标签。
+                        ArgoCD 监听 Git 仓库的变化，自动同步到 K8s 集群（类似 kubectl apply，但是声明式的）。
+                        这种方式的好处是：Git 仓库就是集群状态的唯一真相源，任何变更都有版本记录，回滚只需 git revert。
+                        在一个实际项目中，我们曾经因为错误配置导致服务中断，通过 ArgoCD 的历史版本功能，3 分钟内就回滚到了上一个稳定版本。
+                        这比手动 kubectl rollout undo 更安全、更可追溯。
+                    </div>
+                    <div class="de-script">
+                        In modernen K8s-Produktionsumgebungen ist GitOps die Standardpraxis.
+                        Wir verwenden ArgoCD für automatische Bereitstellungen: Wenn Entwickler Code in das Git-Repository pushen, erstellt die CI-Pipeline automatisch das Image und aktualisiert das Image-Tag im Helm Chart.
+                        ArgoCD überwacht Änderungen im Git-Repository und synchronisiert automatisch mit dem K8s-Cluster (ähnlich wie kubectl apply, aber deklarativ).
+                        Der Vorteil dieses Ansatzes ist: Das Git-Repository ist die einzige Quelle der Wahrheit für den Cluster-Status, alle Änderungen haben Versionsaufzeichnungen, und für Rollbacks ist nur git revert erforderlich.
+                        In einem realen Projekt hatten wir einmal einen Service-Ausfall aufgrund einer Fehlkonfiguration, und durch die Versionshistorie-Funktion von ArgoCD konnten wir innerhalb von 3 Minuten auf die vorherige stabile Version zurückrollen.
+                        Dies ist sicherer und besser nachvollziehbar als manuelles kubectl rollout undo.
+                    </div>
+                </aside>
+            </section>
+
+            <!-- Slide 15: 总结 -->
+            <section>
+                <h2>📝 总结与展望</h2>
+                <div style="text-align: left; font-size: 0.8em;">
+                    <p><strong>✅ 核心要点回顾：</strong></p>
+                    <ul>
+                        <li>K8s 架构：Control Plane + Worker Nodes，声明式 API</li>
+                        <li>Docker 多阶段构建优化镜像体积和安全性</li>
+                        <li>AWS EKS 托管控制平面，降低运维负担</li>
+                        <li>网络：Ingress + LoadBalancer 节省成本和 IP</li>
+                        <li>存储：RWO vs RWX 根据场景选择</li>
+                        <li>高可用：多 AZ + Pod Anti-Affinity + HPA</li>
+                        <li>成本优化：Spot + Right-sizing + Auto Scaling</li>
+                        <li>GitOps：ArgoCD 实现自动化部署和回滚</li>
+                    </ul>
+                    <p style="margin-top: 20px;"><strong>🚀 下一步学习方向：</strong></p>
+                    <ul>
+                        <li>服务网格 (Service Mesh) - Istio / Linkerd</li>
+                        <li>Serverless K8s - Knative / AWS Fargate</li>
+                        <li>多集群管理 (Multi-cluster) - Rancher / Anthos</li>
+                    </ul>
+                </div>
+                
+                <aside class="notes">
+                    <div class="cn-script">
+                        今天我分享了 K8s 的核心架构、Docker 容器化、AWS EKS 实战、网络和存储设计、架构取舍案例，以及生产最佳实践。
+                        这些经验都来自实际项目，希望能够帮助大家更好地理解 K8s 的实战应用。
+                        对于下一步学习，我推荐深入服务网格（如 Istio），它可以实现更精细的流量管理（如金丝雀发布、熔断）。
+                        另外，Serverless K8s（如 Knative）也是一个热门方向，可以进一步提高资源利用率。
+                        最后，如果你们公司有多集群需求，可以研究 Rancher 或 Anthos 这样的多集群管理工具。
+                        感谢大家的聆听！如果有问题，欢迎提问。
+                    </div>
+                    <div class="de-script">
+                        Heute habe ich die Kernarchitektur von K8s, Docker-Containerisierung, AWS EKS-Praxis, Netzwerk- und Speicherdesign, Architektur-Trade-off-Beispiele und Best Practices für Produktionsumgebungen geteilt.
+                        Diese Erfahrungen stammen alle aus realen Projekten, und ich hoffe, dass sie Ihnen helfen können, die praktische Anwendung von K8s besser zu verstehen.
+                        Für das weitere Lernen empfehle ich, sich intensiv mit Service Mesh (wie Istio) zu befassen, das ein feingranulares Datenverkehrsmanagement (wie Canary Releases, Circuit Breaking) ermöglicht.
+                        Außerdem ist Serverless K8s (wie Knative) auch ein heißes Thema, das die Ressourcennutzung weiter verbessern kann.
+                        Wenn Ihr Unternehmen Multi-Cluster-Anforderungen hat, können Sie Tools für das Multi-Cluster-Management wie Rancher oder Anthos untersuchen.
+                        Vielen Dank für Ihre Aufmerksamkeit! Wenn Sie Fragen haben, stehe ich gerne zur Verfügung.
+                    </div>
+                </aside>
+            </section>
+
+            <!-- Slide 16: Q&A -->
+            <section data-background-gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                <h1 style="color: white;">❓ Q&A</h1>
+                <h3 style="color: white; margin-top: 50px;">感谢聆听！</h3>
+                <p style="color: white; font-size: 0.8em; margin-top: 30px;">
+                    联系方式：<br>
+                    📧 Email: heyijianchina@gmail.com<br>
+                    🐙 GitHub: https://masteryijian.github.io/<br>
+                    🔗 LinkedIn: [你的 LinkedIn]
+                </p>
+                
+                <aside class="notes">
+                    <div class="cn-script">
+                        谢谢大家！现在进入问答环节，欢迎任何关于 K8s、AWS、Docker 或者云原生架构的问题。
+                        如果是我没遇到过的场景，我会诚实说明，并建议我们一起查阅官方文档或者社区最佳实践。
+                        技术分享的意义在于互相学习，我很期待听到大家的经验和分析。
+                    </div>
+                    <div class="de-script">
+                        Vielen Dank an alle! Jetzt kommen wir zum Fragen-und-Antworten-Teil. Ich freue mich über alle Fragen zu K8s, AWS, Docker oder Cloud-Native-Architektur.
+                        Wenn es sich um ein Szenario handelt, dem ich noch nicht begegnet bin, werde ich ehrlich antworten und vorschlagen, dass wir gemeinsam die offizielle Dokumentation oder Best Practices der Community konsultieren.
+                        Der Sinn eines technischen Austauschs liegt im gegenseitigen Lernen, und ich freue mich sehr, von Ihren Erfahrungen und Analysen zu hören.
+                    </div>
+                </aside>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            transition: 'slide',
+            backgroundTransition: 'fade',
+            width: 1280,
+            height: 720,
+            margin: 0.1,
+            minScale: 0.2,
+            maxScale: 2.0,
+            // 按 's' 键打开演讲者视图（含备注）
+            keyboard: {
+                83: function() { // 's' key
+                    Reveal.toggleHelp();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
