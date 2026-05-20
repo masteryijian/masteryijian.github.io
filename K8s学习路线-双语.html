@@ -1,0 +1,2231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kubernetes 学习路线 - 从零到实战 | Kubernetes Lernpfad</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 40px;
+        }
+        .phase {
+            margin-bottom: 40px;
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+        }
+        .phase h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .phase h2::before {
+            content: attr(data-phase);
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 0.8em;
+        }
+        .concept {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        .concept h3 {
+            color: #495057;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+        .concept .en {
+            color: #667eea;
+            font-weight: bold;
+            font-style: italic;
+        }
+        .concept p {
+            margin: 10px 0;
+            color: #495057;
+        }
+        .example {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .example strong {
+            color: #856404;
+        }
+        .trade-off {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        .trade-off h4 {
+            color: #0c5460;
+            margin-bottom: 10px;
+        }
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .pros, .cons {
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .pros {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+        .cons {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+        }
+        .pros h5, .cons h5 {
+            margin-bottom: 8px;
+        }
+        .practice {
+            background: #e7f3ff;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .practice h4 {
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+        .practice code {
+            background: #282c34;
+            color: #61dafb;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        .architecture {
+            background: #f5f5f5;
+            border: 2px solid #9c27b0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .architecture h4 {
+            color: #9c27b0;
+            margin-bottom: 15px;
+        }
+        .arch-diagram {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+        .resources {
+            background: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        .resources h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .resources ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .resources li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .resources li::before {
+            content: "→ ";
+            color: #667eea;
+            font-weight: bold;
+        }
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #6c757d;
+            border-top: 1px solid #dee2e6;
+        }
+        code {
+            background: #282c34;
+            color: #61dafb;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: "Courier New", monospace;
+        }
+        pre {
+            background: #282c34;
+            color: #61dafb;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background: #667eea;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        /* 语言切换样式 */
+        body.lang-zh .lang-de { display: none !important; }
+        body.lang-de .lang-zh { display: none !important; }
+        
+        /* 语言切换按钮 */
+        .lang-toggle {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: "Courier New", monospace;
+            font-size: 1em;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        .lang-toggle:hover { background: #764ba2; }
+        
+        /* 返回按钮 */
+        .back-btn {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 1000;
+            background: #333;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-family: "Courier New", monospace;
+            font-size: 0.9em;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .back-btn:hover { background: #555; }
+        
+        /* 脚本样式 */
+        .cn-script { display: none; }
+        .de-script { display: none; }
+        body.lang-zh .cn-script { display: block; }
+        body.lang-de .de-script { display: block; }
+        
+        @media (max-width: 768px) {
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+            .header h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body class="lang-zh">
+    <!-- 返回按钮 -->
+    <a href="about.html" class="back-btn"><< 返回</a>
+    
+    <!-- 语言切换按钮 -->
+    <button class="lang-toggle" onclick="toggleLanguage()">DE / 中文</button>
+    
+    <div class="container">
+        <div class="header">
+            <!-- 中文版本 -->
+            <div class="lang-zh">
+                <h1>🐳 Kubernetes 学习路线</h1>
+                <p>从零开始，掌握容器编排与云原生架构</p>
+                <p style="font-size: 0.9em; margin-top: 10px;">包含 Docker · AWS · 架构设计 · 实战案例</p>
+            </div>
+            <!-- 德语版本 -->
+            <div class="lang-de">
+                <h1>🐳 Kubernetes Lernpfad</h1>
+                <p>Von Grundlagen zum Beherrschen der Container-Orchestrierung und Cloud-Native-Architektur</p>
+                <p style="font-size: 0.9em; margin-top: 10px;">Enthält Docker · AWS · Architekturdesign · Praxisbeispiele</p>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Phase 1: 基础准备 -->
+            <div class="phase">
+                <!-- 中文版本 -->
+                <div class="lang-zh">
+                    <h2 data-phase="1">基础准备阶段</h2>
+                </div>
+                <!-- 德语版本 -->
+                <div class="lang-de">
+                    <h2 data-phase="1">Grundlagen-Vorbereitungsphase</h2>
+                </div>
+                
+                <div class="concept">
+                    <!-- 中文版本 -->
+                    <div class="lang-zh">
+                        <h3>Linux 基础 <span class="en">(Linux Fundamentals)</span></h3>
+                        <p><strong>为什么重要：</strong>K8s 底层运行在 Linux 上，需要熟悉命令行、进程管理、网络基础。</p>
+                        <p><strong>核心知识点：</strong></p>
+                        <ul>
+                            <li>文件系统结构 (Filesystem Hierarchy)</li>
+                            <li>进程管理 (Process Management) - ps, top, systemd</li>
+                            <li>网络基础 (Networking Basics) - IP, DNS, iptables</li>
+                            <li>权限管理 (Permission Management) - user, group, chmod</li>
+                        </ul>
+                        <div class="practice">
+                            <h4>📝 练习任务</h4>
+                            <p>在本地虚拟机或云服务器上：</p>
+                            <ul>
+                                <li>熟练使用 <code>vim</code> / <code>nano</code> 编辑器</li>
+                                <li>配置 SSH 免密登录</li>
+                                <li>设置防火墙规则 (iptables / firewalld)</li>
+                                <li>查看系统资源使用情况 (df, free, top)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- 德语版本 -->
+                    <div class="lang-de">
+                        <h3>Linux Grundlagen <span class="en">(Linux Fundamentals)</span></h3>
+                        <p><strong>Warum wichtig:</strong> K8s läuft unter Linux, vertraute Kenntnisse in Kommandozeile, Prozessverwaltung und Netzwerkgrundlagen sind erforderlich.</p>
+                        <p><strong>Kernwissenspunkte:</strong></p>
+                        <ul>
+                            <li>Dateisystem-Hierarchie (Filesystem Hierarchy)</li>
+                            <li>Prozessverwaltung (Process Management) - ps, top, systemd</li>
+                            <li>Netzwerkgrundlagen (Networking Basics) - IP, DNS, iptables</li>
+                            <li>Berechtigungsverwaltung (Permission Management) - user, group, chmod</li>
+                        </ul>
+                        <div class="practice">
+                            <h4>📝 Übungsaufgaben</h4>
+                            <p>Auf lokaler VM oder Cloud-Server:</p>
+                            <ul>
+                                <li>Beherrschen von <code>vim</code> / <code>nano</code> Editoren</li>
+                                <li>SSH-Passwortfreie Anmeldung konfigurieren</li>
+                                <li>Firewall-Regeln einrichten (iptables / firewalld)</li>
+                                <li>Systemressourcennutzung prüfen (df, free, top)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept">
+                    <!-- 中文版本 -->
+                    <div class="lang-zh">
+                        <h3>Docker 基础 <span class="en">(Docker Fundamentals)</span></h3>
+                        <p><strong>核心概念：</strong>容器化技术的基石，K8s 的底层运行时。</p>
+                        
+                        <div class="architecture">
+                            <h4>🏗️ Docker 架构 (Docker Architecture)</h4>
+                            <div class="arch-diagram">
+Client (Docker CLI)
+    ↓
+Docker Daemon (dockerd)
+    ↓
+Container Runtime (containerd / runc)
+    ↓
+Containers (隔离的进程空间)
+                            </div>
+                        </div>
+
+                        <p><strong>必须掌握：</strong></p>
+                        <ul>
+                            <li><strong>镜像 (Image)</strong>：只读模板，分层存储 (Layer Storage)</li>
+                            <li><strong>容器 (Container)</strong>：镜像的运行实例，轻量级虚拟化</li>
+                            <li><strong>Dockerfile</strong>：构建镜像的指令文件</li>
+                            <li><strong>Registry</strong>：镜像存储仓库 (如 Docker Hub)</li>
+                        </ul>
+
+                        <div class="example">
+                            <strong>💡 实际例子：</strong> 构建一个 Node.js 应用镜像
+<pre style="background: #282c34; color: #61dafb; padding: 15px; border-radius: 4px; overflow-x: auto;">
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install --production
+COPY . .
+EXPOSE 3000
+CMD ["node", "server.js"]</pre>
+                        </div>
+
+                        <div class="trade-off">
+                            <h4>⚖️ 架构取舍：镜像大小 vs 构建速度</h4>
+                            <p><strong>场景：</strong>多阶段构建 (Multi-stage Build) 的选择</p>
+                            <div class="pros-cons">
+                                <div class="pros">
+                                    <h5>✅ 多阶段构建</h5>
+                                    <ul>
+                                        <li>最终镜像体积小 (去掉构建工具)</li>
+                                        <li>安全性更高 (减少攻击面)</li>
+                                        <li>适合生产环境</li>
+                                    </ul>
+                                </div>
+                                <div class="cons">
+                                    <h5>❌ 单阶段构建</h5>
+                                    <ul>
+                                        <li>构建速度快 (无需多步)</li>
+                                        <li>调试方便 (包含完整工具)</li>
+                                        <li>适合开发环境</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p><strong>实践建议：</strong>开发用单阶段（快速迭代），生产用多阶段（优化体积）。</p>
+                        </div>
+
+                        <div class="practice">
+                            <h4>📝 练习任务</h4>
+                            <ul>
+                                <li>安装 Docker Desktop (Mac/Windows) 或 Docker Engine (Linux)</li>
+                                <li>拉取并运行 Nginx 镜像：<code>docker run -d -p 80:80 nginx</code></li>
+                                <li>编写 Dockerfile 构建自定义镜像</li>
+                                <li>使用 Docker Compose 编排多容器应用</li>
+                                <li>推送镜像到 Docker Hub 或私有 Registry</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- 德语版本 -->
+                    <div class="lang-de">
+                        <h3>Docker Grundlagen <span class="en">(Docker Fundamentals)</span></h3>
+                        <p><strong>Kernkonzepte:</strong> Grundlage der Containerisierungstechnologie, unterliegende Laufzeitumgebung von K8s.</p>
+                        
+                        <div class="architecture">
+                            <h4>🏗️ Docker-Architektur (Docker Architecture)</h4>
+                            <div class="arch-diagram">
+Client (Docker CLI)
+    ↓
+Docker Daemon (dockerd)
+    ↓
+Container Runtime (containerd / runc)
+    ↓
+Containers (Isolierter Prozessraum)
+                            </div>
+                        </div>
+
+                        <p><strong>Unbedingt beherrschen:</strong></p>
+                        <ul>
+                            <li><strong>Image (Abbild)</strong>: Schreibgeschützte Vorlage, Schichtenspeicher (Layer Storage)</li>
+                            <li><strong>Container</strong>: Laufende Instanz eines Images, leichtgewichtige Virtualisierung</li>
+                            <li><strong>Dockerfile</strong>: Anweisungsdatei zum Erstellen eines Images</li>
+                            <li><strong>Registry</strong>: Image-Speicher-Repository (z.B. Docker Hub)</li>
+                        </ul>
+
+                        <div class="example">
+                            <strong>💡 Praxis-Beispiel:</strong> Ein Node.js-Anwendungs-Image erstellen
+<pre style="background: #282c34; color: #61dafb; padding: 15px; border-radius: 4px; overflow-x: auto;">
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install --production
+COPY . .
+EXPOSE 3000
+CMD ["node", "server.js"]</pre>
+                        </div>
+
+                        <div class="trade-off">
+                            <h4>⚖️ Architektur-Trade-off: Image-Größe vs Build-Geschwindigkeit</h4>
+                            <p><strong>Szenario:</strong> Multi-Stage-Build-Auswahl</p>
+                            <div class="pros-cons">
+                                <div class="pros">
+                                    <h5>✅ Multi-Stage-Build</h5>
+                                    <ul>
+                                        <li>Finales Image klein (Build-Tools entfernt)</li>
+                                        <li>Höhere Sicherheit (reduzierte Angriffsfläche)</li>
+                                        <li>Geeignet für Produktionsumgebung</li>
+                                    </ul>
+                                </div>
+                                <div class="cons">
+                                    <h5>❌ Single-Stage-Build</h5>
+                                    <ul>
+                                        <li>Schnellerer Build (keine mehrstufigen Schritte)</li>
+                                        <li>Einfacheres Debugging (enthält alle Tools)</li>
+                                        <li>Geeignet für Entwicklungsumgebung</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p><strong>Praxis-Empfehlung:</strong> Entwicklung verwendet Single-Stage (schnelle Iteration), Produktion verwendet Multi-Stage (optimierte Größe).</p>
+                        </div>
+
+                        <div class="practice">
+                            <h4>📝 Übungsaufgaben</h4>
+                            <ul>
+                                <li>Docker Desktop (Mac/Windows) oder Docker Engine (Linux) installieren</li>
+                                <li>Nginx-Image pullen und ausführen: <code>docker run -d -p 80:80 nginx</code></li>
+                                <li>Dockerfile schreiben, um benutzerdefiniertes Image zu erstellen</li>
+                                <li>Docker Compose verwenden, um Multi-Container-Anwendungen zu orchestrieren</li>
+                                <li>Image zu Docker Hub oder privater Registry pushen</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 2: AWS 基础 -->
+            <div class="phase">
+                <!-- 中文版本 -->
+                <div class="lang-zh">
+                    <h2 data-phase="2">AWS 云平台基础</h2>
+                </div>
+                <!-- 德语版本 -->
+                <div class="lang-de">
+                    <h2 data-phase="2">AWS Cloud-Plattform Grundlagen</h2>
+                </div>
+
+                <div class="concept">
+                    <!-- 中文版本 -->
+                    <div class="lang-zh">
+                        <h3>AWS 核心服务 <span class="en">(AWS Core Services)</span></h3>
+                        <p><strong>为什么重要：</strong>AWS 是 K8s 最常见的运行环境 (EKS)，需要理解云基础设施。</p>
+
+                        <div class="architecture">
+                            <h4>🏗️ AWS VPC 网络架构 (VPC Networking Architecture)</h4>
+                            <div class="arch-diagram">
+VPC (Virtual Private Cloud) - 10.0.0.0/16
+  ├── Public Subnet (10.0.1.0/24)
+  │     ├── Internet Gateway (IGW)
+  │     └── NAT Gateway
+  ├── Private Subnet (10.0.2.0/24)
+  │     └── EC2 Instances / EKS Worker Nodes
+  └── Private Subnet (10.0.3.0/24)
+        └── Database (RDS / Aurora)
+                            </div>
+                        </div>
+
+                        <p><strong>核心服务：</strong></p>
+                        <ul>
+                            <li><strong>EC2 (Elastic Compute Cloud)</strong>：虚拟服务器，K8s 节点的运行载体</li>
+                            <li><strong>VPC (Virtual Private Cloud)</strong>：隔离的虚拟网络环境</li>
+                            <li><strong>EBS (Elastic Block Store)</strong>：持久化块存储，类似硬盘</li>
+                            <li><strong>ELB (Elastic Load Balancing)</strong>：负载均衡器，流量入口</li>
+                            <li><strong>IAM (Identity and Access Management)</strong>：权限管理，安全控制</li>
+                            <li><strong>S3 (Simple Storage Service)</strong>：对象存储，存镜像/日志/备份</li>
+                        </ul>
+
+                        <div class="example">
+                            <strong>💡 实际例子：</strong> 在 AWS 上手动部署 K8s 前的网络规划
+                            <ul>
+                                <li>创建 VPC：<code>10.0.0.0/16</code> (65536 个 IP)</li>
+                                <li>公有子网：<code>10.0.1.0/24</code> (256 个 IP，放 ELB)</li>
+                                <li>私有子网：<code>10.0.2.0/24</code> (256 个 IP，放 Worker Nodes)</li>
+                                <li>配置 NAT Gateway：让私有子网访问互联网 (下载镜像)</li>
+                            </ul>
+                        </div>
+
+                        <div class="trade-off">
+                            <h4>⚖️ 架构取舍：自动驾驶数据处理流水线架构</h4>
+                            <p><strong>实际场景：</strong>激光雷达点云数据实时处理 + 仿真环境多节点部署</p>
+                            <div class="pros-cons">
+                                <div class="pros">
+                                    <h5>✅ 集中式流处理架构 (Fluentd → Kafka → Flink)</h5>
+                                    <ul>
+                                        <li>低延迟实时处理 (< 100ms)</li>
+                                        <li>适合自动驾驶感知流水线</li>
+                                        <li>Kafka 确保数据不丢失</li>
+                                        <li>Flink 状态管理适合复杂聚合</li>
+                                    </ul>
+                                </div>
+                                <div class="cons">
+                                    <h5>❌ 分布式批处理架构 (S3 → Spark)</h5>
+                                    <ul>
+                                        <li>高吞吐量离线分析</li>
+                                        <li>适合仿真回放数据</li>
+                                        <li>成本低 (按需启动)</li>
+                                        <li>延迟高 (分钟级)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p><strong>实践建议：</strong>生产用流处理 (实时感知)，开发用批处理 (仿真回放)。LiangDao 采用混合架构：流处理负责实时数据，批处理负责离线仿真分析。</p>
+                        </div>
+
+                        <div class="practice">
+                            <h4>📝 练习任务</h4>
+                            <ul>
+                                <li>注册 AWS 账号 (需要信用卡，有免费套餐)</li>
+                                <li>启动一个 EC2 实例 (t2.micro，免费套餐)</li>
+                                <li>创建 VPC 和子网，配置安全组 (Security Group)</li>
+                                <li>挂载 EBS 卷到 EC2，测试持久化存储</li>
+                                <li>配置 IAM 用户和角色，理解最小权限原则</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- 德语版本 -->
+                    <div class="lang-de">
+                        <h3>AWS Kerndienste <span class="en">(AWS Core Services)</span></h3>
+                        <p><strong>Warum wichtig:</strong> AWS ist die häufigste K8s-Laufzeitumgebung (EKS), Cloud-Infrastruktur muss verstanden werden.</p>
+
+                        <div class="architecture">
+                            <h4>🏗️ AWS VPC-Netzwerkarchitektur (VPC Networking Architecture)</h4>
+                            <div class="arch-diagram">
+VPC (Virtual Private Cloud) - 10.0.0.0/16
+  ├── Public Subnet (10.0.1.0/24)
+  │     ├── Internet Gateway (IGW)
+  │     └── NAT Gateway
+  ├── Private Subnet (10.0.2.0/24)
+  │     └── EC2 Instances / EKS Worker Nodes
+  └── Private Subnet (10.0.3.0/24)
+        └── Datenbank (RDS / Aurora)
+                            </div>
+                        </div>
+
+                        <p><strong>Kerndienste:</strong></p>
+                        <ul>
+                            <li><strong>EC2 (Elastic Compute Cloud)</strong>: Virtueller Server, Träger für K8s-Nodes</li>
+                            <li><strong>VPC (Virtual Private Cloud)</strong>: Isolierte virtuelle Netzwerkumgebung</li>
+                            <li><strong>EBS (Elastic Block Store)</strong>: Persistenter Blockspeicher, ähnlich einer Festplatte</li>
+                            <li><strong>ELB (Elastic Load Balancing)</strong>: Load Balancer, Datenverkehrseingang</li>
+                            <li><strong>IAM (Identity and Access Management)</strong>: Berechtigungsverwaltung, Sicherheitskontrolle</li>
+                            <li><strong>S3 (Simple Storage Service)</strong>: Objektspeicher, Images/Logs/Backups speichern</li>
+                        </ul>
+
+                        <div class="example">
+                            <strong>💡 Praxis-Beispiel:</strong> Netzwerkplanung vor manueller K8s-Bereitstellung auf AWS
+                            <ul>
+                                <li>VPC erstellen: <code>10.0.0.0/16</code> (65536 IPs)</li>
+                                <li>Öffentliches Subnetz: <code>10.0.1.0/24</code> (256 IPs, für ELB)</li>
+                                <li>Privates Subnetz: <code>10.0.2.0/24</code> (256 IPs, für Worker Nodes)</li>
+                                <li>NAT Gateway konfigurieren: Privatem Subnetz Internetzugang ermöglichen (Images herunterladen)</li>
+                            </ul>
+                        </div>
+
+                        <div class="trade-off">
+                            <h4>⚖️ Architektur-Trade-off: Autonomes Fahren Datenverarbeitungs-Pipeline</h4>
+                            <p><strong>Praxis-Szenario:</strong> LiDAR Point-Cloud-Daten Echtzeitverarbeitung + Simulationsumgebung Multi-Node-Bereitstellung</p>
+                            <div class="pros-cons">
+                                <div class="pros">
+                                    <h5>✅ Zentralisierte Stream-Verarbeitung (Fluentd → Kafka → Flink)</h5>
+                                    <ul>
+                                        <li>Geringe Latenz Echtzeitverarbeitung (< 100ms)</li>
+                                        <li>Geeignet für autonomes Fahren Perzeption-Pipeline</li>
+                                        <li>Kafka garantiert keine Datenverluste</li>
+                                        <li>Flink Statusmanagement für komplexe Aggregation</li>
+                                    </ul>
+                                </div>
+                                <div class="cons">
+                                    <h5>❌ Verteilte Batch-Verarbeitung (S3 → Spark)</h5>
+                                    <ul>
+                                        <li>Hoher Durchsatz für Offline-Analyse</li>
+                                        <li>Geeignet für Simulations-Wiedergabedaten</li>
+                                        <li>Niedrige Kosten (bedarfsgesteuert)</li>
+                                        <li>Höhere Latenz (Minutenebene)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p><strong>Praxis-Empfehlung:</strong> Produktion: Stream-Verarbeitung (Echtzeit-Perzeption), Entwicklung: Batch-Verarbeitung (Simulations-Wiedergabe). LiangDao verwendet Hybrid-Architektur: Stream für Echtzeitdaten, Batch für Offline-Simulationsanalyse.</p>
+                        </div>
+
+                        <div class="practice">
+                            <h4>📝 Übungsaufgaben</h4>
+                            <ul>
+                                <li>AWS-Konto registrieren (Kreditkarte erforderlich, kostenloses Kontingent verfügbar)</li>
+                                <li>Eine EC2-Instanz starten (t2.micro, kostenloses Kontingent)</li>
+                                <li>VPC und Subnetze erstellen, Security Groups konfigurieren</li>
+                                <li>EBS-Volume an EC2 anhängen, persistenten Speicher testen</li>
+                                <li>IAM-Benutzer und -Rollen konfigurieren, Prinzip der geringsten Rechte verstehen</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 3: Kubernetes 核心概念 -->
+            <div class="phase">
+                <!-- 中文版本 -->
+                <div class="lang-zh">
+                    <h2 data-phase="3">Kubernetes 核心概念</h2>
+                </div>
+                <!-- 德语版本 -->
+                <div class="lang-de">
+                    <h2 data-phase="3">Kubernetes Kernkonzepte</h2>
+                </div>
+
+                <div class="concept">
+                    <!-- 中文版本 -->
+                    <div class="lang-zh">
+                        <h3>K8s 架构 <span class="en">(Kubernetes Architecture)</span></h3>
+                        
+                        <div class="architecture">
+                            <h4>🏗️ K8s 集群架构 (Cluster Architecture)</h4>
+                            <div class="arch-diagram">
+Control Plane (Master Node) - 大脑
+  ├── API Server (kube-apiserver) - 统一入口
+  ├── etcd - 分布式键值存储 (集群状态)
+  ├── Scheduler (kube-scheduler) - 调度 Pod 到 Node
+  ├── Controller Manager (kube-controller-manager) - 维护期望状态
+  └── Cloud Controller Manager - 对接云平台 (可选)
+
+Worker Nodes - 干活的手
+  ├── Kubelet - 与 API Server 通信，管理 Pod
+  ├── Kube-proxy - 网络代理，Service 实现
+  ├── Container Runtime (containerd / Docker) - 运行容器
+  └── Pods - 最小调度单元 (包含 1+ 容器)
+                            </div>
+                        </div>
+
+                        <p><strong>核心原理：</strong></p>
+                        <ul>
+                            <li><strong>声明式 API (Declarative API)</strong>：告诉 K8s "想要什么状态"，而不是"怎么做"</li>
+                            <li><strong>控制循环 (Control Loop)</strong>：不断对比 "当前状态" 和 "期望状态"，自动修复</li>
+                            <li><strong>松耦合 (Loose Coupling)</strong>：各组件通过 API Server 通信，互不依赖</li>
+                        </ul>
+
+                        <div class="example">
+                            <strong>💡 实际例子：</strong> 副本自愈 (Self-healing)
+                            <p>你声明：<code>replicas: 3</code> (想要 3 个 Pod)</p>
+                            <p>某个 Pod 崩溃 → K8s 检测到 "当前 2 个" ≠ "期望 3 个" → 自动创建新 Pod</p>
+                            <p><strong>对比传统：</strong>需要手动 restart，或写 Supervisor 脚本。</p>
+                        </div>
+                    </div>
+                    <!-- 德语版本 -->
+                    <div class="lang-de">
+                        <h3>K8s Architektur <span class="en">(Kubernetes Architecture)</span></h3>
+                        
+                        <div class="architecture">
+                            <h4>🏗️ K8s-Cluster-Architektur (Cluster Architecture)</h4>
+                            <div class="arch-diagram">
+Control Plane (Master Node) - Gehirn
+  ├── API Server (kube-apiserver) - Zentraler Eingang
+  ├── etcd - Verteilter Key-Value-Speicher (Cluster-Status)
+  ├── Scheduler (kube-scheduler) - Plant Pods auf Nodes
+  ├── Controller Manager (kube-controller-manager) - Hält gewünschten Status aufrecht
+  └── Cloud Controller Manager - Cloud-Plattform-Anbindung (optional)
+
+Worker Nodes - Arbeitende Hände
+  ├── Kubelet - Kommuniziert mit API Server, verwaltet Pods
+  ├── Kube-proxy - Netzwerk-Proxy, Service-Implementierung
+  ├── Container Runtime (containerd / Docker) - Führt Container aus
+  └── Pods - Kleinste Planungseinheit (enthält 1+ Container)
+                            </div>
+                        </div>
+
+                        <p><strong>Kernprinzipien:</strong></p>
+                        <ul>
+                            <li><strong>Deklarative API (Declarative API)</strong>: K8s mitteilen "welchen Status ich will", nicht "wie es gemacht wird"</li>
+                            <li><strong>Control Loop (Kontrollschleife)</strong>: Ständiger Vergleich von "Ist-Zustand" und "Soll-Zustand", automatische Korrektur</li>
+                            <li><strong>Lose Kopplung (Loose Coupling)</strong>: Komponenten kommunizieren über API Server, keine gegenseitigen Abhängigkeiten</li>
+                        </ul>
+
+                        <div class="example">
+                            <strong>💡 Praxis-Beispiel:</strong> Replikat-Selbstheilung (Self-healing)
+                            <p>Sie deklarieren: <code>replicas: 3</code> (3 Pods erwartet)</p>
+                            <p>Ein Pod stürzt ab → K8s erkennt "aktuell 2" ≠ "erwartet 3" → Erstellt automatisch neuen Pod</p>
+                            <p><strong>Im Vergleich zu traditionell:</strong> Manuelles Restart erforderlich oder Supervisor-Skript schreiben.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept">
+                    <!-- 中文版本 -->
+                    <div class="lang-zh">
+                        <h3>Pod - 最小调度单元 <span class="en">(Pod - Smallest Deployable Unit)</span></h3>
+                        <p><strong>为什么需要 Pod：</strong>容器共享网络/存储，类似 "豌豆荚" 的概念。</p>
+                        
+                        <div class="architecture">
+                            <h4>🏗️ Pod 内部结构 (Pod Internal Structure)</h4>
+                            <div class="arch-diagram">
+Pod (IP: 10.244.1.5)
+  ├── Pause Container (基础设施容器，持有网络命名空间)
+  ├── App Container (你的应用，如 Nginx)
+  └── Sidecar Container (辅助容器，如日志收集)
+                            </div>
+                        </div>
+
+                        <p><strong>关键特性：</strong></p>
+                        <ul>
+                            <li><strong>共享网络 (Shared Network)</strong>：Pod 内所有容器共享 IP 和端口空间</li>
+                            <li><strong>共享存储 (Shared Storage)</strong>：Volume 可以被多个容器挂载</li>
+                            <li><strong>生命周期 (Lifecycle)</strong>：Pod 是短暂的，随时可能被重建</li>
+                        </ul>
+
+                        <div class="trade-off">
+                            <h4>⚖️ 架构取舍：一个 Pod 运行多个容器 vs 每个 Pod 一个容器</h4>
+                            <div class="pros-cons">
+                                <div class="pros">
+                                    <h5>✅ Sidecar 模式 (多容器 Pod)</h5>
+                                    <ul>
+                                        <li>紧密耦合的服务 (如日志收集)</li>
+                                        <li>共享存储和网络 (高效通信)</li>
+                                        <li>统一生命周期 (一起扩缩容)</li>
+                                    </ul>
+                                </div>
+                                <div class="cons">
+                                    <h5>❌ 单容器 Pod</h5>
+                                    <ul>
+                                        <li>独立扩缩容 (精细化资源控制)</li>
+                                        <li>故障隔离 (一个挂了不影响其他)</li>
+                                        <li>符合微服务原则 (单一职责)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p><strong>实践建议：</strong>除非是 Sidecar (如 Istio Proxy)，否则一个 Pod 只放一个容器。</p>
+                        </div>
+
+                        <div class="practice">
+                            <h4>📝 练习任务</h4>
+                            <ul>
+                                <li>安装 Minikube (本地 K8s 单机版)</li>
+                                <li>运行第一个 Pod：<code>kubectl run nginx --image=nginx</code></li>
+                                <li>查看 Pod 详情：<code>kubectl describe pod nginx</code></li>
+                                <li>进入 Pod 内部：<code>kubectl exec -it nginx -- /bin/bash</code></li>
+                                <li>删除 Pod 观察重建 (配合 Deployment)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- 德语版本 -->
+                    <div class="lang-de">
+                        <h3>Pod - Kleinste Planungseinheit <span class="en">(Pod - Smallest Deployable Unit)</span></h3>
+                        <p><strong>Warum Pod benötigt:</strong> Container teilen Netzwerk/Speicher, ähnlich dem Konzept einer "Erbse in einer Hülse".</p>
+                        
+                        <div class="architecture">
+                            <h4>🏗️ Pod-Interne Struktur (Pod Internal Structure)</h4>
+                            <div class="arch-diagram">
+Pod (IP: 10.244.1.5)
+  ├── Pause Container (Infrastruktur-Container, hält Netzwerk-Namensraum)
+  ├── App Container (Ihre Anwendung, z.B. Nginx)
+  └── Sidecar Container (Hilfs-Container, z.B. Log-Sammlung)
+                            </div>
+                        </div>
+
+                        <p><strong>Wichtige Eigenschaften:</strong></p>
+                        <ul>
+                            <li><strong>Geteiltes Netzwerk (Shared Network)</strong>: Alle Container im Pod teilen IP und Port-Raum</li>
+                            <li><strong>Geteilter Speicher (Shared Storage)</strong>: Volume kann von mehreren Containern eingehängt werden</li>
+                            <li><strong>Lebenszyklus (Lifecycle)</strong>: Pods sind kurzlebig, können jederzeit neu erstellt werden</li>
+                        </ul>
+
+                        <div class="trade-off">
+                            <h4>⚖️ Architektur-Trade-off: Mehrere Container in einem Pod vs Ein Container pro Pod</h4>
+                            <div class="pros-cons">
+                                <div class="pros">
+                                    <h5>✅ Sidecar-Muster (Multi-Container Pod)</h5>
+                                    <ul>
+                                        <li>Eng gekoppelte Dienste (z.B. Log-Sammlung)</li>
+                                        <li>Geteilter Speicher und Netzwerk (effiziente Kommunikation)</li>
+                                        <li>Einheitlicher Lebenszyklus (zusammen skalieren)</li>
+                                    </ul>
+                                </div>
+                                <div class="cons">
+                                    <h5>❌ Single-Container Pod</h5>
+                                    <ul>
+                                        <li>Unabhängige Skalierung (feinkörnige Ressourcenkontrolle)</li>
+                                        <li>Fehlerisolation (einer fällt aus, andere nicht betroffen)</li>
+                                        <li>Entspricht Microservice-Prinzipien (Single Responsibility)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p><strong>Praxis-Empfehlung:</strong> Außer bei Sidecars (z.B. Istio Proxy) sollte ein Pod nur einen Container enthalten.</p>
+                        </div>
+
+                        <div class="practice">
+                            <h4>📝 Übungsaufgaben</h4>
+                            <ul>
+                                <li>Minikube installieren (lokale K8s-Einplatzversion)</li>
+                                <li>Ersten Pod ausführen: <code>kubectl run nginx --image=nginx</code></li>
+                                <li>Pod-Details anzeigen: <code>kubectl describe pod nginx</code></li>
+                                <li>In Pod eintreten: <code>kubectl exec -it nginx -- /bin/bash</code></li>
+                                <li>Pod löschen und Neuerstellung beobachten (mit Deployment)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept">
+                    <!-- 中文版本 -->
+                    <div class="lang-zh">
+                        <h3>工作负载控制器 <span class="en">(Workload Controllers)</span></h3>
+                        <p><strong>为什么需要控制器：</strong>直接管理 Pod 太累，控制器提供声明式管理和自愈能力。</p>
+
+                        <p><strong>核心控制器对比：</strong></p>
+                        <ul>
+                            <li><strong>Deployment</strong>：无状态应用 (Stateless)，支持滚动更新 (Rolling Update)</li>
+                            <li><strong>StatefulSet</strong>：有状态应用 (Stateful)，稳定的网络标识和存储</li>
+                            <li><strong>DaemonSet</strong>：每个 Node 运行一个副本 (如日志收集器)</li>
+                            <li><strong>Job / CronJob</strong>：批处理任务 (Batch Jobs)</li>
+                        </ul>
+
+                        <div class="example">
+                            <strong>💡 实际例子：</strong> Deployment 的滚动更新策略
+<pre style="background: #282c34; color: #61dafb; padding: 15px; border-radius: 4px; overflow-x: auto;">
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1        # 最多多 1 个 Pod
+      maxUnavailable: 1   # 最多少 1 个 Pod
+</pre>
+                        </div>
+
+                        <div class="trade-off">
+                            <h4>⚖️ 架构取舍：Deployment vs StatefulSet</h4>
+                            <div class="pros-cons">
+                                <div class="pros">
+                                    <h5>✅ Deployment (无状态)</h5>
+                                    <ul>
+                                        <li>Pod 名称随机 (nginx-xxxx-xxx)</li>
+                                        <li>扩缩容快 (无需顺序)</li>
+                                        <li>适合 Web 服务、API</li>
+                                    </ul>
+                                </div>
+                                <div class="cons">
+                                    <h5>✅ StatefulSet (有状态)</h5>
+                                    <ul>
+                                        <li>Pod 名称固定 (mysql-0, mysql-1)</li>
+                                        <li>稳定的网络标识 (Persistent Identity)</li>
+                                        <li>适合数据库、消息队列</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p><strong>实践建议：</strong>99% 的场景用 Deployment，只有需要稳定标识时才用 StatefulSet。</p>
+                        </div>
+                    </div>
+                    <!-- 德语版本 -->
+                    <div class="lang-de">
+                        <h3>Workload-Controller <span class="en">(Workload Controllers)</span></h3>
+                        <p><strong>Warum Controller benötigt:</strong> Direkte Pod-Verwaltung ist zu mühsam, Controller bieten deklarative Verwaltung und Selbstheilungsfähigkeiten.</p>
+
+                        <p><strong> Kern-Controller-Vergleich:</strong></p>
+                        <ul>
+                            <li><strong>Deployment</strong>: Stateless Apps, Rolling Update unterstützt</li>
+                            <li><strong>StatefulSet</strong>: Stateful Apps, stabile Netzwerkidentität und Speicher</li>
+                            <li><strong>DaemonSet</strong>: Ein Replikat pro Node (z.B. Log-Sammler)</li>
+                            <li><strong>Job / CronJob</strong>: Batch-Aufgaben</li>
+                        </ul>
+
+                        <div class="example">
+                            <strong>💡 Praxis-Beispiel:</strong> Rolling-Update-Strategie von Deployment
+<pre style="background: #282c34; color: #61dafb; padding: 15px; border-radius: 4px; overflow-x: auto;">
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1        # Maximal 1 zusätzlicher Pod
+      maxUnavailable: 1   # Maximal 1 Pod weniger
+</pre>
+                        </div>
+
+                        <div class="trade-off">
+                            <h4>⚖️ Architektur-Trade-off: Deployment vs StatefulSet</h4>
+                            <div class="pros-cons">
+                                <div class="pros">
+                                    <h5>✅ Deployment (zustandslos)</h5>
+                                    <ul>
+                                        <li>Zufällige Pod-Namen (nginx-xxxx-xxx)</li>
+                                        <li>Schnelle Skalierung (keine Reihenfolge erforderlich)</li>
+                                        <li>Geeignet für Web-Services, APIs</li>
+                                    </ul>
+                                </div>
+                                <div class="cons">
+                                    <h5>✅ StatefulSet (zustandsbehaftet)</h5>
+                                    <ul>
+                                        <li>Feste Pod-Namen (mysql-0, mysql-1)</li>
+                                        <li>Stabile Netzwerkidentität (Persistent Identity)</li>
+                                        <li>Geeignet für Datenbanken, Message Queues</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p><strong>Praxis-Empfehlung:</strong> 99% der Szenarien verwenden Deployment, nur wenn stabile Identität erforderlich ist.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 4: 网络与存储 -->
+            <div class="phase">
+                <!-- 中文版本 -->
+                <div class="lang-zh">
+                    <h2 data-phase="4">网络与存储</h2>
+                </div>
+                <!-- 德语版本 -->
+                <div class="lang-de">
+                    <h2 data-phase="4">Netzwerk & Speicher</h2>
+                </div>
+
+                <div class="concept">
+                    <!-- 中文版本 -->
+                    <div class="lang-zh">
+                        <h3>K8s 网络模型 <span class="en">(Kubernetes Networking Model)</span></h3>
+                        <p><strong>核心原则：</strong>所有 Pod 可以互相通信，所有 Pod 可以与所有 Node 通信。</p>
+
+                        <div class="architecture">
+                            <h4>🏗️ K8s 网络架构 (Network Architecture)</h4>
+                            <div class="arch-diagram">
+Service (虚拟 IP，负载均衡)
+  ↓
+Pod (10.244.1.5) ←→ Pod (10.244.2.3)  [Pod 间通信]
+  ↓
+Node (物理机) 
+  ↓
+Internet / External Service
+                            </div>
+                        </div>
+
+                        <p><strong>三层网络模型：</strong></p>
+                        <ul>
+                            <li><strong>Container-to-Container (同一 Pod)</strong>：localhost 通信</li>
+                            <li><strong>Pod-to-Pod (跨 Node)</strong>：Overlay 网络 (如 Flannel, Calico)</li>
+                            <li><strong>Pod-to-Service</strong>：通过 kube-proxy 实现负载均衡</li>
+                            <li><strong>External-to-Service</strong>：NodePort / LoadBalancer / Ingress</li>
+                        </ul>
+
+                        <div class="example">
+                            <strong>💡 实际例子：</strong> Service 的负载均衡
+<pre style="background: #282c34; color: #61dafb; padding: 15px; border-radius: 4px; overflow-x: auto;">
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  type: ClusterIP
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+</pre>
+                        </div>
+
+                        <div class="trade-off">
+                            <h4>⚖️ 架构取舍：Service 类型选择</h4>
+                            <div class="pros-cons">
+                                <div class="pros">
+                                    <h5>✅ ClusterIP (默认)</h5>
+                                    <ul>
+                                        <li>仅在集群内可访问</li>
+                                        <li>适合后端服务 (如数据库)</li>
+                                        <li>安全 (不暴露到外网)</li>
+                                    </ul>
+                                </div>
+                                <div class="cons">
+                                    <h5>✅ LoadBalancer (生产推荐)</h5>
+                                    <ul>
+                                        <li>自动创建云平台负载均衡器</li>
+                                        <li>高可用 (跨可用区)</li>
+                                        <li>成本高 (每个 Service 一个 LB)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p><strong>实践建议：</strong>外部流量用 Ingress (七层) + LoadBalancer (四层)，内部通信用 ClusterIP。</p>
+                        </div>
+                    </div>
+                    <!-- 德语版本 -->
+                    <div class="lang-de">
+                        <h3>K8s-Netzwerkmodell <span class="en">(Kubernetes Networking Model)</span></h3>
+                        <p><strong>Kernprinzip:</strong> Alle Pods können miteinander kommunizieren, alle Pods können mit allen Nodes kommunizieren.</p>
+
+                        <div class="architecture">
+                            <h4>🏗️ K8s-Netzwerkarchitektur (Network Architecture)</h4>
+                            <div class="arch-diagram">
+Service (Virtuelle IP, Load Balancing)
+  ↓
+Pod (10.244.1.5) ←→ Pod (10.244.2.3)  [Pod-zu-Pod-Kommunikation]
+  ↓
+Node (Physische Maschine) 
+  ↓
+Internet / Externer Service
+                            </div>
+                        </div>
+
+                        <p><strong>Drei-Ebenen-Netzwerkmodell:</strong></p>
+                        <ul>
+                            <li><strong>Container-zu-Container (gleicher Pod)</strong>: localhost-Kommunikation</li>
+                            <li><strong>Pod-zu-Pod (über Node-Grenzen)</strong>: Overlay-Netzwerk (z.B. Flannel, Calico)</li>
+                            <li><strong>Pod-zu-Service</strong>: Load Balancing durch kube-proxy</li>
+                            <li><strong>Extern-zu-Service</strong>: NodePort / LoadBalancer / Ingress</li>
+                        </ul>
+
+                        <div class="example">
+                            <strong>💡 Praxis-Beispiel:</strong> Service Load Balancing
+<pre style="background: #282c34; color: #61dafb; padding: 15px; border-radius: 4px; overflow-x: auto;">
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  type: ClusterIP
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+</pre>
+                        </div>
+
+                        <div class="trade-off">
+                            <h4>⚖️ Architektur-Trade-off: Service-Typ-Auswahl</h4>
+                            <div class="pros-cons">
+                                <div class="pros">
+                                    <h5>✅ ClusterIP (Standard)</h5>
+                                    <ul>
+                                        <li>Nur innerhalb des Clusters erreichbar</li>
+                                        <li>Geeignet für Backend-Dienste (z.B. Datenbanken)</li>
+                                        <li>Sicher (nicht nach außen exponiert)</li>
+                                    </ul>
+                                </div>
+                                <div class="cons">
+                                    <h5>✅ LoadBalancer (Produktion empfohlen)</h5>
+                                    <ul>
+                                        <li>Erstellt automatisch Cloud-Plattform Load Balancer</li>
+                                        <li>Hochverfügbar (über Verfügbarkeitszonen)</li>
+                                        <li>Höhere Kosten (ein LB pro Service)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p><strong>Praxis-Empfehlung:</strong> Externer Datenverkehr: Ingress (Layer 7) + LoadBalancer (Layer 4), Interne Kommunikation: ClusterIP.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept">
+                    <!-- 中文版本 -->
+                    <div class="lang-zh">
+                        <h3>持久化存储 <span class="en">(Persistent Storage)</span></h3>
+                        <p><strong>问题：</strong>Pod 是短暂的，数据不能存在容器里 (重启就没了)。</p>
+
+                        <p><strong>核心概念：</strong></p>
+                        <ul>
+                            <li><strong>PV (PersistentVolume)</strong>：集群级别的存储资源 (由管理员创建)</li>
+                            <li><strong>PVC (PersistentVolumeClaim)</strong>：用户对存储的请求 (类似 "下单")</li>
+                            <li><strong>StorageClass</strong>：动态供应 (Dynamic Provisioning)，自动创建 PV</li>
+                        </ul>
+
+                        <div class="example">
+                            <strong>💡 实际例子：</strong> AWS EBS 作为持久化存储
+<pre style="background: #282c34; color: #61dafb; padding: 15px; border-radius: 4px; overflow-x: auto;">
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: gp3-storage
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: gp3
+  fsType: ext4
+</pre>
+                        </div>
+
+                        <div class="trade-off">
+                            <h4>⚖️ 架构取舍：存储访问模式</h4>
+                            <div class="pros-cons">
+                                <div class="pros">
+                                    <h5>✅ ReadWriteOnce (RWO)</h5>
+                                    <ul>
+                                        <li>只能被一个 Node 挂载</li>
+                                        <li>性能最好 (块存储，如 EBS)</li>
+                                        <li>适合数据库</li>
+                                    </ul>
+                                </div>
+                                <div class="cons">
+                                    <h5>✅ ReadWriteMany (RWX)</h5>
+                                    <ul>
+                                        <li>可以被多个 Node 同时挂载</li>
+                                        <li>适合共享文件系统 (如 NFS, EFS)</li>
+                                        <li>性能较差 (网络文件系统)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p><strong>实践建议：</strong>数据库用 RWO (EBS)，共享配置用 RWX (EFS/NFS)。</p>
+                        </div>
+                    </div>
+                    <!-- 德语版本 -->
+                    <div class="lang-de">
+                        <h3>Persistenter Speicher <span class="en">(Persistent Storage)</span></h3>
+                        <p><strong>Problem:</strong> Pods sind kurzlebig, Daten können nicht im Container gespeichert werden (nach Neustart weg).</p>
+
+                        <p><strong>Kernkonzepte:</strong></p>
+                        <ul>
+                            <li><strong>PV (PersistentVolume)</strong>: Clusterspeicherressource (von Administrator erstellt)</li>
+                            <li><strong>PVC (PersistentVolumeClaim)</strong>: Speicheranfrage des Benutzers (ähnlich "Bestellung")</li>
+                            <li><strong>StorageClass</strong>: Dynamische Bereitstellung, automatische PV-Erstellung</li>
+                        </ul>
+
+                        <div class="example">
+                            <strong>💡 Praxis-Beispiel:</strong> AWS EBS als persistenter Speicher
+<pre style="background: #282c34; color: #61dafb; padding: 15px; border-radius: 4px; overflow-x: auto;">
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: gp3-storage
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: gp3
+  fsType: ext4
+</pre>
+                        </div>
+
+                        <div class="trade-off">
+                            <h4>⚖️ Architektur-Trade-off: Speicherzugriffsmodi</h4>
+                            <div class="pros-cons">
+                                <div class="pros">
+                                    <h5>✅ ReadWriteOnce (RWO)</h5>
+                                    <ul>
+                                        <li>Kann nur von einem Node eingehängt werden</li>
+                                        <li>Beste Leistung (Block-Speicher, z.B. EBS)</li>
+                                        <li>Geeignet für Datenbanken</li>
+                                    </ul>
+                                </div>
+                                <div class="cons">
+                                    <h5>✅ ReadWriteMany (RWX)</h5>
+                                    <ul>
+                                        <li>Kann gleichzeitig von mehreren Nodes eingehängt werden</li>
+                                        <li>Geeignet für gemeinsame Dateisysteme (z.B. NFS, EFS)</li>
+                                        <li>Schlechtere Leistung (Netzwerk-Dateisystem)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p><strong>Praxis-Empfehlung:</strong> Datenbanken: RWO (EBS), gemeinsame Konfiguration: RWX (EFS/NFS).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 5: 配置与 Secrets -->
+            <div class="phase">
+                <!-- 中文版本 -->
+                <div class="lang-zh">
+                    <h2 data-phase="5">配置管理与安全</h2>
+                </div>
+                <!-- 德语版本 -->
+                <div class="lang-de">
+                    <h2 data-phase="5">Konfigurationsverwaltung & Sicherheit</h2>
+                </div>
+
+                <div class="concept">
+                    <!-- 中文版本 -->
+                    <div class="lang-zh">
+                        <h3>ConfigMap 与 Secret <span class="en">(Configuration & Secrets Management)</span></h3>
+                        <p><strong>为什么需要：</strong>将配置与代码分离 (12-Factor App 原则)。</p>
+
+                        <p><strong>核心区别：</strong></p>
+                        <ul>
+                            <li><strong>ConfigMap</strong>：存储非敏感配置 (如配置文件、环境变量)</li>
+                            <li><strong>Secret</strong>：存储敏感信息 (如密码、API Key)，base64 编码 (不是加密！)</li>
+                        </ul>
+
+                        <div class="example">
+                            <strong>💡 实际例子：</strong> 使用 ConfigMap 注入配置
+<pre style="background: #282c34; color: #61dafb; padding: 15px; border-radius: 4px; overflow-x: auto;">
+kubectl create configmap app-config --from-file=app.conf
+</pre>
+                        </div>
+
+                        <div class="trade-off">
+                            <h4>⚖️ 架构取舍：配置注入方式</h4>
+                            <div class="pros-cons">
+                                <div class="pros">
+                                    <h5>✅ 环境变量 (env)</h5>
+                                    <ul>
+                                        <li>简单直接</li>
+                                        <li>适合简单配置 (如 API_URL)</li>
+                                        <li>应用无需修改代码</li>
+                                    </ul>
+                                </div>
+                                <div class="cons">
+                                    <h5>✅ 文件挂载 (volumeMount)</h5>
+                                    <ul>
+                                        <li>支持复杂配置 (如 Nginx.conf)</li>
+                                        <li>支持动态更新</li>
+                                        <li>适合配置文件</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p><strong>实践建议：</strong>简单 K/V 用环境变量，配置文件用挂载。</p>
+                        </div>
+
+                        <div class="practice">
+                            <h4>📝 练习任务</h4>
+                            <ul>
+                                <li>创建 ConfigMap 和 Secret</li>
+                                <li>在 Pod 中使用配置</li>
+                                <li>使用 <code>kubectl edit</code> 修改 ConfigMap，观察应用是否自动更新</li>
+                                <li>集成 AWS Secrets Manager</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- 德语版本 -->
+                    <div class="lang-de">
+                        <h3>ConfigMap & Secret <span class="en">(Configuration & Secrets Management)</span></h3>
+                        <p><strong>Warum benötigt:</strong> Konfiguration von Code trennen (12-Factor App Prinzip).</p>
+
+                        <p><strong>Kernunterschiede:</strong></p>
+                        <ul>
+                            <li><strong>ConfigMap</strong>: Speichert nicht-sensible Konfiguration (z.B. Konfigurationsdateien, Umgebungsvariablen)</li>
+                            <li><strong>Secret</strong>: Speichert sensible Informationen (z.B. Passwörter, API-Keys), base64-kodiert (nicht verschlüsselt!)</li>
+                        </ul>
+
+                        <div class="example">
+                            <strong>💡 Praxis-Beispiel:</strong> ConfigMap zur Konfigurationsinjektion verwenden
+<pre style="background: #282c34; color: #61dafb; padding: 15px; border-radius: 4px; overflow-x: auto;">
+kubectl create configmap app-config --from-file=app.conf
+</pre>
+                        </div>
+
+                        <div class="trade-off">
+                            <h4>⚖️ Architektur-Trade-off: Konfigurationsinjektionsmethode</h4>
+                            <div class="pros-cons">
+                                <div class="pros">
+                                    <h5>✅ Umgebungsvariablen (env)</h5>
+                                    <ul>
+                                        <li>Einfach und direkt</li>
+                                        <li>Geeignet für einfache Konfiguration (z.B. API_URL)</li>
+                                        <li>Anwendung muss Code nicht ändern</li>
+                                    </ul>
+                                </div>
+                                <div class="cons">
+                                    <h5>✅ Dateieinbindung (volumeMount)</h5>
+                                    <ul>
+                                        <li>Unterstützt komplexe Konfiguration (z.B. Nginx.conf)</li>
+                                        <li>Unterstützt dynamische Updates</li>
+                                        <li>Geeignet für Konfigurationsdateien</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p><strong>Praxis-Empfehlung:</strong> Einfache K/V: Umgebungsvariablen, Konfigurationsdateien: Einbindung.</p>
+                        </div>
+
+                        <div class="practice">
+                            <h4>📝 Übungsaufgaben</h4>
+                            <ul>
+                                <li>ConfigMap und Secret erstellen</li>
+                                <li>Konfiguration in Pods verwenden</li>
+                                <li>Mit <code>kubectl edit</code> ConfigMap ändern, beobachten ob Anwendung automatisch aktualisiert</li>
+                                <li>AWS Secrets Manager integrieren</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 6: 高级主题 -->
+            <div class="phase">
+                <!-- 中文版本 -->
+                <div class="lang-zh">
+                    <h2 data-phase="6">高级主题与最佳实践</h2>
+                </div>
+                <!-- 德语版本 -->
+                <div class="lang-de">
+                    <h2 data-phase="6">Fortgeschrittene Themen & Best Practices</h2>
+                </div>
+
+                <div class="concept">
+                    <!-- 中文版本 -->
+                    <div class="lang-zh">
+                        <h3>Helm - K8s 包管理器 <span class="en">(Helm - Package Manager)</span></h3>
+                        <p><strong>为什么需要：</strong>K8s YAML 太多太复杂，Helm 提供模板化和版本管理。</p>
+
+                        <p><strong>核心概念：</strong></p>
+                        <ul>
+                            <li><strong>Chart</strong>：Helm 的包格式 (类似 Debian 的 .deb)</li>
+                            <li><strong>Release</strong>：Chart 的安装实例 (可以装多个版本)</li>
+                            <li><strong>Repository</strong>：Chart 的仓库 (类似 Docker Hub)</li>
+                            <li><strong>Values</strong>：自定义配置 (覆盖默认值)</li>
+                        </ul>
+
+                        <div class="example">
+                            <strong>💡 实际例子：</strong> 使用 Helm 安装 Nginx Ingress Controller
+<pre style="background: #282c34; color: #61dafb; padding: 15px; border-radius: 4px; overflow-x: auto;">
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm install my-ingress ingress-nginx/ingress-nginx
+</pre>
+                        </div>
+
+                        <div class="practice">
+                            <h4>📝 练习任务</h4>
+                            <ul>
+                                <li>安装 Helm (v3+)</li>
+                                <li>搜索并安装 Chart：<code>helm search repo mysql</code></li>
+                                <li>创建自己的 Helm Chart：<code>helm create myapp</code></li>
+                                <li>使用 <code>helm upgrade</code> 和 <code>helm rollback</code> 管理版本</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- 德语版本 -->
+                    <div class="lang-de">
+                        <h3>Helm - K8s-Paketmanager <span class="en">(Helm - Package Manager)</span></h3>
+                        <p><strong>Warum benötigt:</strong> K8s YAML ist zu umfangreich und komplex, Helm bietet Templating und Versionsverwaltung.</p>
+
+                        <p><strong>Kernkonzepte:</strong></p>
+                        <ul>
+                            <li><strong>Chart</strong>: Helm-Paketformat (ähnlich Debian .deb)</li>
+                            <li><strong>Release</strong>: Installierte Instanz eines Charts (mehrere Versionen möglich)</li>
+                            <li><strong>Repository</strong>: Chart-Repository (ähnlich Docker Hub)</li>
+                            <li><strong>Values</strong>: Benutzerdefinierte Konfiguration (überschreibt Standardwerte)</li>
+                        </ul>
+
+                        <div class="example">
+                            <strong>💡 Praxis-Beispiel:</strong> Nginx Ingress Controller mit Helm installieren
+<pre style="background: #282c34; color: #61dafb; padding: 15px; border-radius: 4px; overflow-x: auto;">
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm install my-ingress ingress-nginx/ingress-nginx
+</pre>
+                        </div>
+
+                        <div class="practice">
+                            <h4>📝 Übungsaufgaben</h4>
+                            <ul>
+                                <li>Helm installieren (v3+)</li>
+                                <li>Chart suchen und installieren: <code>helm search repo mysql</code></li>
+                                <li>Eigenes Helm Chart erstellen: <code>helm create myapp</code></li>
+                                <li>Versionen mit <code>helm upgrade</code> und <code>helm rollback</code> verwalten</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept">
+                    <!-- 中文版本 -->
+                    <div class="lang-zh">
+                        <h3>Ingress - 七层路由 <span class="en">(Ingress - L7 Routing)</span></h3>
+                        <p><strong>为什么需要：</strong>Service (LoadBalancer) 每个服务需要一个 LB，太贵！Ingress 提供 HTTP/HTTPS 路由。</p>
+
+                        <div class="architecture">
+                            <h4>🏗️ Ingress 架构 (Ingress Architecture)</h4>
+                            <div class="arch-diagram">
+Internet
+  ↓
+LoadBalancer (AWS ELB) - 1 个，省钱！
+  ↓
+Ingress Controller (Nginx / Traefik)
+  ↓
+Ingress (路由规则)
+  ├── /api/* → api-service (端口 8080)
+  └── /web/* → web-service (端口 80)
+                            </div>
+                        </div>
+
+                        <div class="trade-off">
+                            <h4>⚖️ 架构取舍：Ingress Controller 选择</h4>
+                            <div class="pros-cons">
+                                <div class="pros">
+                                    <h5>✅ Nginx Ingress (最流行)</h5>
+                                    <ul>
+                                        <li>社区成熟，文档丰富</li>
+                                        <li>性能稳定</li>
+                                    </ul>
+                                </div>
+                                <div class="cons">
+                                    <h5>✅ Traefik (现代化)</h5>
+                                    <ul>
+                                        <li>自动服务发现</li>
+                                        <li>内置 Let's Encrypt 支持</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p><strong>实践建议：</strong>新手用 Nginx (资料多)，高级场景用 Traefik (功能强)。</p>
+                        </div>
+                    </div>
+                    <!-- 德语版本 -->
+                    <div class="lang-de">
+                        <h3>Ingress - Layer-7-Routing <span class="en">(Ingress - L7 Routing)</span></h3>
+                        <p><strong>Warum benötigt:</strong> Service (LoadBalancer) benötigt einen LB pro Service, zu teuer! Ingress bietet HTTP/HTTPS-Routing.</p>
+
+                        <div class="architecture">
+                            <h4>🏗️ Ingress-Architektur (Ingress Architecture)</h4>
+                            <div class="arch-diagram">
+Internet
+  ↓
+LoadBalancer (AWS ELB) - 1 Stück, spart Geld!
+  ↓
+Ingress Controller (Nginx / Traefik)
+  ↓
+Ingress (Routing-Regeln)
+  ├── /api/* → api-service (Port 8080)
+  └── /web/* → web-service (Port 80)
+                            </div>
+                        </div>
+
+                        <div class="trade-off">
+                            <h4>⚖️ Architektur-Trade-off: Ingress Controller-Auswahl</h4>
+                            <div class="pros-cons">
+                                <div class="pros">
+                                    <h5>✅ Nginx Ingress (beliebteste)</h5>
+                                    <ul>
+                                        <li>Ausgereifte Community, umfangreiche Dokumentation</li>
+                                        <li>Stabile Leistung</li>
+                                    </ul>
+                                </div>
+                                <div class="cons">
+                                    <h5>✅ Traefik (modern)</h5>
+                                    <ul>
+                                        <li>Automatische Service-Discovery</li>
+                                        <li>Integriertes Let's Encrypt Support</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p><strong>Praxis-Empfehlung:</strong> Anfänger: Nginx (mehr Materialien), Fortgeschrittene: Traefik (mehr Funktionen).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept">
+                    <!-- 中文版本 -->
+                    <div class="lang-zh">
+                        <h3>监控与日志 <span class="en">(Monitoring & Logging)</span></h3>
+                        <p><strong>为什么重要：</strong>分布式系统必须可观测 (Observability)，否则出问题不知道为啥。</p>
+
+                        <div class="architecture">
+                            <h4>🏗️ K8s 可观测性架构 (Observability Stack)</h4>
+                            <div class="arch-diagram">
+Monitoring (指标)
+  ├── Prometheus - 采集指标
+  ├── Grafana - 可视化仪表盘
+  └── AlertManager - 告警
+
+Logging (日志)
+  ├── EFK Stack
+  └── Loki + Promtail + Grafana (轻量级)
+
+Tracing (链路追踪)
+  └── Jaeger - 分布式追踪
+                            </div>
+                        </div>
+
+                        <div class="practice">
+                            <h4>📝 练习任务</h4>
+                            <ul>
+                                <li>安装 Prometheus + Grafana (用 Helm)</li>
+                                <li>导入社区 Dashboard</li>
+                                <li>配置告警规则</li>
+                                <li>集成 Loki 收集日志</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- 德语版本 -->
+                    <div class="lang-de">
+                        <h3>Monitoring & Logging <span class="en">(Monitoring & Logging)</span></h3>
+                        <p><strong>Warum wichtig:</strong> Verteilte Systeme müssen beobachtbar sein (Observability), sonst weiß man bei Problemen nicht warum.</p>
+
+                        <div class="architecture">
+                            <h4>🏗️ K8s Observability-Architektur (Observability Stack)</h4>
+                            <div class="arch-diagram">
+Monitoring (Metriken)
+  ├── Prometheus - Metriken sammeln
+  ├── Grafana - Visualisierungs-Dashboards
+  └── AlertManager - Alarmierung
+
+Logging (Logs)
+  ├── EFK Stack
+  └── Loki + Promtail + Grafana (leichtgewichtig)
+
+Tracing (Distributed Tracing)
+  └── Jaeger - Verteilte Ablaufverfolgung
+                            </div>
+                        </div>
+
+                        <div class="practice">
+                            <h4>📝 Übungsaufgaben</h4>
+                            <ul>
+                                <li>Prometheus + Grafana installieren (mit Helm)</li>
+                                <li>Community Dashboards importieren</li>
+                                <li>Alarmierungsregeln konfigurieren</li>
+                                <li>Loki zur Log-Sammlung integrieren</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept">
+                    <!-- 中文版本 -->
+                    <div class="lang-zh">
+                        <h3>安全最佳实践 <span class="en">(Security Best Practices)</span></h3>
+                        <p><strong>核心原则：</strong>最小权限、纵深防御、持续监控。</p>
+
+                        <p><strong>关键安全措施：</strong></p>
+                        <ul>
+                            <li><strong>RBAC</strong>：基于角色的权限控制</li>
+                            <li><strong>Network Policy</strong>：网络隔离 (类似防火墙规则)</li>
+                            <li><strong>Pod Security Standards</strong>：限制 Pod 特权</li>
+                            <li><strong>Image Scanning</strong>：扫描镜像漏洞</li>
+                            <li><strong>Secrets Encryption</strong>：加密 etcd 中的 Secret</li>
+                        </ul>
+
+                        <div class="example">
+                            <strong>💡 实际例子：</strong> Network Policy 限制访问
+<pre style="background: #282c34; color: #61dafb; padding: 15px; border-radius: 4px; overflow-x: auto;">
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: db-network-policy
+spec:
+  podSelector:
+    matchLabels:
+      app: mysql
+  policyTypes:
+  - Ingress
+</pre>
+                        </div>
+
+                        <div class="trade-off">
+                            <h4>⚖️ 架构取舍：安全 vs 易用性</h4>
+                            <div class="pros-cons">
+                                <div class="pros">
+                                    <h5>✅ 严格安全 (生产必须)</h5>
+                                    <ul>
+                                        <li>启用 RBAC + Network Policy</li>
+                                        <li>镜像签名验证</li>
+                                        <li>定期扫描漏洞</li>
+                                    </ul>
+                                </div>
+                                <div class="cons">
+                                    <h5>❌ 宽松配置 (开发可用)</h5>
+                                    <ul>
+                                        <li>禁用 Network Policy</li>
+                                        <li>使用 latest 标签</li>
+                                        <li>开发速度快，但风险高</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 德语版本 -->
+                    <div class="lang-de">
+                        <h3>Sicherheits-Best-Practices <span class="en">(Security Best Practices)</span></h3>
+                        <p><strong>Kernprinzipien:</strong> Geringste Rechte, Verteidigung in der Tiefe, kontinuierliche Überwachung.</p>
+
+                        <p><strong>Wichtige Sicherheitsmaßnahmen:</strong></p>
+                        <ul>
+                            <li><strong>RBAC</strong>: Rollenbasierte Zugriffskontrolle</li>
+                            <li><strong>Network Policy</strong>: Netzwerkisolation (ähnlich Firewall-Regeln)</li>
+                            <li><strong>Pod Security Standards</strong>: Pod-Privilegien einschränken</li>
+                            <li><strong>Image Scanning</strong>: Image-Schwachstellen scannen</li>
+                            <li><strong>Secrets Encryption</strong>: Secrets in etcd verschlüsseln</li>
+                        </ul>
+
+                        <div class="example">
+                            <strong>💡 Praxis-Beispiel:</strong> Network Policy Zugriff einschränken
+<pre style="background: #282c34; color: #61dafb; padding: 15px; border-radius: 4px; overflow-x: auto;">
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: db-network-policy
+spec:
+  podSelector:
+    matchLabels:
+      app: mysql
+  policyTypes:
+  - Ingress
+</pre>
+                        </div>
+
+                        <div class="trade-off">
+                            <h4>⚖️ Architektur-Trade-off: Sicherheit vs Benutzerfreundlichkeit</h4>
+                            <div class="pros-cons">
+                                <div class="pros">
+                                    <h5>✅ Strenge Sicherheit (Produktion erforderlich)</h5>
+                                    <ul>
+                                        <li>RBAC + Network Policy aktivieren</li>
+                                        <li>Image-Signatur-Verifizierung</li>
+                                        <li>Regelmäßige Schwachstellen-Scans</li>
+                                    </ul>
+                                </div>
+                                <div class="cons">
+                                    <h5>❌ Lockerere Konfiguration (Entwicklung möglich)</h5>
+                                    <ul>
+                                        <li>Network Policy deaktivieren</li>
+                                        <li>latest-Tags verwenden</li>
+                                        <li>Schnellere Entwicklung, aber höheres Risiko</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 7: AWS EKS 实战 -->
+            <div class="phase">
+                <!-- 中文版本 -->
+                <div class="lang-zh">
+                    <h2 data-phase="7">AWS EKS 实战部署</h2>
+                </div>
+                <!-- 德语版本 -->
+                <div class="lang-de">
+                    <h2 data-phase="7">AWS EKS Praxisbereitstellung</h2>
+                </div>
+
+                <div class="concept">
+                    <!-- 中文版本 -->
+                    <div class="lang-zh">
+                        <h3>EKS 集群搭建 <span class="en">(EKS Cluster Setup)</span></h3>
+                        <p><strong>为什么选择 EKS：</strong>AWS 托管的控制平面，高可用且无运维负担。</p>
+
+                        <div class="architecture">
+                            <h4>🏗️ EKS 架构 (EKS Architecture)</h4>
+                            <div class="arch-diagram">
+AWS EKS Cluster
+  ├── Control Plane (AWS 托管)
+  │     ├── API Server (高可用)
+  │     ├── etcd (多可用区备份)
+  │     └── IAM Role
+  └── Worker Nodes
+        ├── Managed Node Groups (推荐)
+        └── Fargate (Serverless)
+                            </div>
+                        </div>
+
+                        <div class="example">
+                            <strong>💡 实际例子：</strong> 使用 eksctl 创建 EKS 集群
+<pre style="background: #282c34; color: #61dafb; padding: 15px; border-radius: 4px; overflow-x: auto;">
+eksctl create cluster \
+  --name my-cluster \
+  --version 1.28 \
+  --region us-east-1 \
+  --nodegroup-name workers \
+  --node-type t3.medium \
+  --nodes 3
+</pre>
+                        </div>
+
+                        <div class="trade-off">
+                            <h4>⚖️ 架构取舍：EKS Node 类型选择</h4>
+                            <div class="pros-cons">
+                                <div class="pros">
+                                    <h5>✅ EC2 (Managed Node Groups)</h5>
+                                    <ul>
+                                        <li>成本低 (长期运行)</li>
+                                        <li>完全控制</li>
+                                        <li>适合稳定负载</li>
+                                    </ul>
+                                </div>
+                                <div class="cons">
+                                    <h5>✅ Fargate (Serverless)</h5>
+                                    <ul>
+                                        <li>无需管理 Node</li>
+                                        <li>按 Pod 计费</li>
+                                        <li>适合波动负载</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="practice">
+                            <h4>📝 练习任务</h4>
+                            <ul>
+                                <li>使用 eksctl 创建 EKS 集群</li>
+                                <li>配置 IRSA (IAM Roles for Service Accounts)</li>
+                                <li>部署应用到 EKS</li>
+                                <li>配置 AWS Load Balancer Controller</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- 德语版本 -->
+                    <div class="lang-de">
+                        <h3>EKS-Cluster-Setup <span class="en">(EKS Cluster Setup)</span></h3>
+                        <p><strong>Warum EKS wählen:</strong> AWS-verwaltete Control Plane, hochverfügbar ohne Betriebsbelastung.</p>
+
+                        <div class="architecture">
+                            <h4>🏗️ EKS-Architektur (EKS Architecture)</h4>
+                            <div class="arch-diagram">
+AWS EKS Cluster
+  ├── Control Plane (AWS verwaltet)
+  │     ├── API Server (hochverfügbar)
+  │     ├── etcd (Multi-AZ-Backup)
+  │     └── IAM Role
+  └── Worker Nodes
+        ├── Managed Node Groups (empfohlen)
+        └── Fargate (Serverless)
+                            </div>
+                        </div>
+
+                        <div class="example">
+                            <strong>💡 Praxis-Beispiel:</strong> EKS-Cluster mit eksctl erstellen
+<pre style="background: #282c34; color: #61dafb; padding: 15px; border-radius: 4px; overflow-x: auto;">
+eksctl create cluster \
+  --name my-cluster \
+  --version 1.28 \
+  --region us-east-1 \
+  --nodegroup-name workers \
+  --node-type t3.medium \
+  --nodes 3
+</pre>
+                        </div>
+
+                        <div class="trade-off">
+                            <h4>⚖️ Architektur-Trade-off: EKS Node-Typ-Auswahl</h4>
+                            <div class="pros-cons">
+                                <div class="pros">
+                                    <h5>✅ EC2 (Managed Node Groups)</h5>
+                                    <ul>
+                                        <li>Niedrigere Kosten (Dauerbetrieb)</li>
+                                        <li>Volle Kontrolle</li>
+                                        <li>Geeignet für stabile Lasten</li>
+                                    </ul>
+                                </div>
+                                <div class="cons">
+                                    <h5>✅ Fargate (Serverless)</h5>
+                                    <ul>
+                                        <li>Keine Node-Verwaltung</li>
+                                        <li> Abrechnung pro Pod</li>
+                                        <li>Geeignet für variable Lasten</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="practice">
+                            <h4>📝 Übungsaufgaben</h4>
+                            <ul>
+                                <li>EKS-Cluster mit eksctl erstellen</li>
+                                <li>IRSA konfigurieren (IAM Roles for Service Accounts)</li>
+                                <li>Anwendung auf EKS bereitstellen</li>
+                                <li>AWS Load Balancer Controller konfigurieren</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept">
+                    <!-- 中文版本 -->
+                    <div class="lang-zh">
+                        <h3>CI/CD 集成 <span class="en">(CI/CD Integration)</span></h3>
+                        <p><strong>为什么重要：</strong>手动部署太慢且容易出错，自动化是云原生的核心。</p>
+
+                        <div class="architecture">
+                            <h4>🏗️ K8s CI/CD 流程 (CI/CD Pipeline)</h4>
+                            <div class="arch-diagram">
+GitHub / GitLab
+  ↓ (git push)
+CI Server (GitHub Actions)
+  ├── 1. 代码检查 (Lint)
+  ├── 2. 单元测试
+  ├── 3. 构建镜像
+  ├── 4. 推送镜像
+  └── 5. 部署到 K8s
+        ↓
+EKS Cluster
+                            </div>
+                        </div>
+
+                        <div class="example">
+                            <strong>💡 实际例子：</strong> GitHub Actions 部署到 EKS
+<pre style="background: #282c34; color: #61dafb; padding: 15px; border-radius: 4px; overflow-x: auto;">
+- name: Deploy to EKS
+  run: |
+    kubectl set image deployment/myapp \
+    myapp=$ECR_REGISTRY/myapp:$IMAGE_TAG
+</pre>
+                        </div>
+
+                        <div class="practice">
+                            <h4>📝 练习任务</h4>
+                            <ul>
+                                <li>创建 GitHub Actions Workflow</li>
+                                <li>使用 Helm 管理 K8s 资源</li>
+                                <li>集成 ArgoCD (GitOps)</li>
+                                <li>配置金丝雀发布 (Canary Release)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- 德语版本 -->
+                    <div class="lang-de">
+                        <h3>CI/CD-Integration <span class="en">(CI/CD Integration)</span></h3>
+                        <p><strong>Warum wichtig:</strong> Manuelle Bereitstellung ist zu langsam und fehleranfällig, Automatisierung ist der Kern von Cloud-Native.</p>
+
+                        <div class="architecture">
+                            <h4>🏗️ K8s CI/CD-Prozess (CI/CD Pipeline)</h4>
+                            <div class="arch-diagram">
+GitHub / GitLab
+  ↓ (git push)
+CI Server (GitHub Actions)
+  ├── 1. Code-Prüfung (Lint)
+  ├── 2. Unit-Tests
+  ├── 3. Image-Build
+  ├── 4. Image-Push
+  └── 5. Auf K8s bereitstellen
+        ↓
+EKS Cluster
+                            </div>
+                        </div>
+
+                        <div class="example">
+                            <strong>💡 Praxis-Beispiel:</strong> GitHub Actions auf EKS bereitstellen
+<pre style="background: #282c34; color: #61dafb; padding: 15px; border-radius: 4px; overflow-x: auto;">
+- name: Deploy to EKS
+  run: |
+    kubectl set image deployment/myapp \
+    myapp=$ECR_REGISTRY/myapp:$IMAGE_TAG
+</pre>
+                        </div>
+
+                        <div class="practice">
+                            <h4>📝 Übungsaufgaben</h4>
+                            <ul>
+                                <li>GitHub Actions Workflow erstellen</li>
+                                <li>Helm zur K8s-Ressourcenverwaltung verwenden</li>
+                                <li>ArgoCD integrieren (GitOps)</li>
+                                <li>Canary-Release konfigurieren</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 8: 生产最佳实践 -->
+            <div class="phase">
+                <!-- 中文版本 -->
+                <div class="lang-zh">
+                    <h2 data-phase="8">生产环境最佳实践</h2>
+                </div>
+                <!-- 德语版本 -->
+                <div class="lang-de">
+                    <h2 data-phase="8">Best Practices für Produktionsumgebungen</h2>
+                </div>
+
+                <div class="concept">
+                    <!-- 中文版本 -->
+                    <div class="lang-zh">
+                        <h3>高可用性设计 <span class="en">(High Availability Design)</span></h3>
+                        <p><strong>核心目标：</strong>系统在任何单点故障下仍然可用 (99.99% SLA)。</p>
+
+                        <div class="architecture">
+                            <h4>🏗️ 高可用架构 (HA Architecture)</h4>
+                            <div class="arch-diagram">
+Multi-AZ Deployment
+  ├── AZ-1a → Worker Nodes (2 台)
+  ├── AZ-1b → Worker Nodes (2 台)
+  └── AZ-1c → Worker Nodes (2 台)
+
++ Pod Anti-Affinity
++ PodDisruptionBudget (PDB)
++ Horizontal Pod Autoscaler (HPA)
+                            </div>
+                        </div>
+
+                        <div class="example">
+                            <strong>💡 实际例子：</strong> Pod Anti-Affinity 配置
+<pre style="background: #282c34; color: #61dafb; padding: 15px; border-radius: 4px; overflow-x: auto;">
+podAntiAffinity:
+  requiredDuringSchedulingIgnoredDuringExecution:
+  - labelSelector:
+      matchExpressions:
+      - key: app
+        operator: In
+        values:
+        - nginx
+    topologyKey: kubernetes.io/hostname
+</pre>
+                        </div>
+                    </div>
+                    <!-- 德语版本 -->
+                    <div class="lang-de">
+                        <h3>Design für Hochverfügbarkeit <span class="en">(High Availability Design)</span></h3>
+                        <p><strong>Kernziel:</strong> System bleibt bei jedem Single-Point-of-Failure verfügbar (99.99% SLA).</p>
+
+                        <div class="architecture">
+                            <h4>🏗️ HA-Architektur (HA Architecture)</h4>
+                            <div class="arch-diagram">
+Multi-AZ Deployment
+  ├── AZ-1a → Worker Nodes (2 Geräte)
+  ├── AZ-1b → Worker Nodes (2 Geräte)
+  └── AZ-1c → Worker Nodes (2 Geräte)
+
++ Pod Anti-Affinity
++ PodDisruptionBudget (PDB)
++ Horizontal Pod Autoscaler (HPA)
+                            </div>
+                        </div>
+
+                        <div class="example">
+                            <strong>💡 Praxis-Beispiel:</strong> Pod Anti-Affinity-Konfiguration
+<pre style="background: #282c34; color: #61dafb; padding: 15px; border-radius: 4px; overflow-x: auto;">
+podAntiAffinity:
+  requiredDuringSchedulingIgnoredDuringExecution:
+  - labelSelector:
+      matchExpressions:
+      - key: app
+        operator: In
+        values:
+        - nginx
+    topologyKey: kubernetes.io/hostname
+</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept">
+                    <!-- 中文版本 -->
+                    <div class="lang-zh">
+                        <h3>成本优化 <span class="en">(Cost Optimization)</span></h3>
+                        <p><strong>为什么重要：</strong>云资源很贵，优化成本 = 提高利润。</p>
+
+                        <p><strong>核心策略：</strong></p>
+                        <ul>
+                            <li><strong>Right Sizing</strong>：选择合适大小的实例</li>
+                            <li><strong>Spot Instances</strong>：使用竞价实例 (便宜 70-90%)</li>
+                            <li><strong>Auto Scaling</strong>：按需自动扩缩容</li>
+                            <li><strong>Namespace Quotas</strong>：限制团队资源使用</li>
+                        </ul>
+
+                        <div class="example">
+                            <strong>💡 实际例子：</strong> 使用 Spot Instance 节省成本
+<pre style="background: #282c34; color: #61dafb; padding: 15px; border-radius: 4px; overflow-x: auto;">
+eksctl create nodegroup \
+  --cluster my-cluster \
+  --name spot-workers \
+  --spot \
+  --instance-prefix spot
+</pre>
+                        </div>
+
+                        <div class="trade-off">
+                            <h4>⚖️ 架构取舍：成本 vs 可靠性</h4>
+                            <div class="pros-cons">
+                                <div class="pros">
+                                    <h5>✅ 省钱方案 (开发/测试)</h5>
+                                    <ul>
+                                        <li>使用 Spot Instance</li>
+                                        <li>单可用区部署</li>
+                                    </ul>
+                                </div>
+                                <div class="cons">
+                                    <h5>✅ 高可靠方案 (生产)</h5>
+                                    <ul>
+                                        <li>On-Demand Instance</li>
+                                        <li>多可用区部署</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 德语版本 -->
+                    <div class="lang-de">
+                        <h3>Kostenoptimierung <span class="en">(Cost Optimization)</span></h3>
+                        <p><strong>Warum wichtig:</strong> Cloud-Ressourcen sind teuer, Kostenoptimierung = Gewinnsteigerung.</p>
+
+                        <p><strong>Kernstrategien:</strong></p>
+                        <ul>
+                            <li><strong>Right Sizing</strong>: Richtige Instanzgröße wählen</li>
+                            <li><strong>Spot Instances</strong>: Spot-Instanzen verwenden (70-90% günstiger)</li>
+                            <li><strong>Auto Scaling</strong>: Bei Bedarf automatisch skalieren</li>
+                            <li><strong>Namespace Quotas</strong>: Team-Ressourcennutzung einschränken</li>
+                        </ul>
+
+                        <div class="example">
+                            <strong>💡 Praxis-Beispiel:</strong> Kosten mit Spot Instances sparen
+<pre style="background: #282c34; color: #61dafb; padding: 15px; border-radius: 4px; overflow-x: auto;">
+eksctl create nodegroup \
+  --cluster my-cluster \
+  --name spot-workers \
+  --spot \
+  --instance-prefix spot
+</pre>
+                        </div>
+
+                        <div class="trade-off">
+                            <h4>⚖️ Architektur-Trade-off: Kosten vs Zuverlässigkeit</h4>
+                            <div class="pros-cons">
+                                <div class="pros">
+                                    <h5>✅ Geldsparende Lösung (Entwicklung/Test)</h5>
+                                    <ul>
+                                        <li>Spot Instances verwenden</li>
+                                        <li>Single-AZ Deployment</li>
+                                    </ul>
+                                </div>
+                                <div class="cons">
+                                    <h5>✅ Hochzuverlässige Lösung (Produktion)</h5>
+                                    <ul>
+                                        <li>On-Demand Instance</li>
+                                        <li>Multi-AZ Deployment</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept">
+                    <!-- 中文版本 -->
+                    <div class="lang-zh">
+                        <h3>灾难恢复 <span class="en">(Disaster Recovery)</span></h3>
+                        <p><strong>核心原则：</strong>备份 etcd，备份应用数据，定期演练恢复流程。</p>
+
+                        <div class="practice">
+                            <h4>📝 灾难恢复清单</h4>
+                            <ul>
+                                <li><strong>etcd 备份</strong>：每天自动备份 etcd 快照到 S3</li>
+                                <li><strong>应用数据备份</strong>：使用 RDS 自动备份，或 Velero</li>
+                                <li><strong>跨区域复制</strong>：关键数据复制到另一个 AWS 区域</li>
+                                <li><strong>恢复演练</strong>：每季度演练一次恢复流程</li>
+                            </ul>
+                        </div>
+
+                        <div class="example">
+                            <strong>💡 实际例子：</strong> 使用 Velero 备份 K8s 资源
+<pre style="background: #282c34; color: #61dafb; padding: 15px; border-radius: 4px; overflow-x: auto;">
+velero backup create my-backup
+velero restore create --from-backup my-backup
+</pre>
+                        </div>
+                    </div>
+                    <!-- 德语版本 -->
+                    <div class="lang-de">
+                        <h3>Katastrophenwiederherstellung <span class="en">(Disaster Recovery)</span></h3>
+                        <p><strong>Kernprinzipien:</strong> etcd sichern, Anwendungsdaten sichern, regelmäßig Wiederherstellungsprozesse üben.</p>
+
+                        <div class="practice">
+                            <h4>📝 Disaster Recovery Checkliste</h4>
+                            <ul>
+                                <li><strong>etcd-Backup</strong>: Täglich automatisch etcd-Snapshots zu S3 sichern</li>
+                                <li><strong>Anwendungsdaten-Backup</strong>: RDS automatische Backups oder Velero verwenden</li>
+                                <li><strong>Cross-Region-Replikation</strong>: Kritische Daten in eine andere AWS-Region replizieren</li>
+                                <li><strong>Wiederherstellungsübungen</strong>: Quartalsweise Wiederherstellungsprozesse üben</li>
+                            </ul>
+                        </div>
+
+                        <div class="example">
+                            <strong>💡 Praxis-Beispiel:</strong> K8s-Ressourcen mit Velero sichern
+<pre style="background: #282c34; color: #61dafb; padding: 15px; border-radius: 4px; overflow-x: auto;">
+velero backup create my-backup
+velero restore create --from-backup my-backup
+</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 学习资源 -->
+            <div class="resources">
+                <!-- 中文版本 -->
+                <div class="lang-zh">
+                    <h4>📚 推荐学习资源</h4>
+                    <ul>
+                        <li><strong>官方文档：</strong><a href="https://kubernetes.io/docs/" target="_blank">Kubernetes Official Docs</a> (最权威)</li>
+                        <li><strong>书籍：</strong>《Kubernetes in Action》(实战经典)、《Kubernetes Patterns》(设计模式)</li>
+                        <li><strong>视频课程：</strong><a href="https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/" target="_blank">CKA 认证课程</a> (Udemy)</li>
+                        <li><strong>实战练习：</strong><a href="https://killercoda.com/" target="_blank">KillerCoda</a> (免费 K8s 实验环境)</li>
+                        <li><strong>AWS 文档：</strong><a href="https://docs.aws.amazon.com/eks/" target="_blank">Amazon EKS User Guide</a></li>
+                    </ul>
+                </div>
+                <!-- 德语版本 -->
+                <div class="lang-de">
+                    <h4>📚 Empfohlene Lernressourcen</h4>
+                    <ul>
+                        <li><strong>Offizielle Dokumentation：</strong><a href="https://kubernetes.io/docs/" target="_blank">Kubernetes Official Docs</a> (maßgeblich)</li>
+                        <li><strong>Bücher：</strong>《Kubernetes in Action》(Praxis-Klassiker), 《Kubernetes Patterns》(Entwurfsmuster)</li>
+                        <li><strong>Video-Kurse：</strong><a href="https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/" target="_blank">CKA-Zertifizierungskurs</a> (Udemy)</li>
+                        <li><strong>Praxis-Übungen：</strong><a href="https://killercoda.com/" target="_blank">KillerCoda</a> (kostenlose K8s-Übungsumgebung)</li>
+                        <li><strong>AWS-Dokumentation：</strong><a href="https://docs.aws.amazon.com/eks/" target="_blank">Amazon EKS User Guide</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 认证路径 -->
+            <div class="resources">
+                <!-- 中文版本 -->
+                <div class="lang-zh">
+                    <h4>🎓 认证路径 (可选)</h4>
+                    <ul>
+                        <li><strong>CKA</strong>：管理员认证 (性价比高)</li>
+                        <li><strong>CKAD</strong>：开发者认证 (适合开发)</li>
+                        <li><strong>CKS</strong>：安全专家认证 (进阶)</li>
+                        <li><strong>AWS Solutions Architect</strong>：AWS 架构师认证</li>
+                    </ul>
+                </div>
+                <!-- 德语版本 -->
+                <div class="lang-de">
+                    <h4>🎓 Zertifizierungspfad (optional)</h4>
+                    <ul>
+                        <li><strong>CKA</strong>: Administrator-Zertifizierung (gutes Preis-Leistungs-Verhältnis)</li>
+                        <li><strong>CKAD</strong>: Entwickler-Zertifizierung (für Entwickler geeignet)</li>
+                        <li><strong>CKS</strong>: Sicherheitsspezialist-Zertifizierung (fortgeschritten)</li>
+                        <li><strong>AWS Solutions Architect</strong>: AWS-Architekten-Zertifizierung</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <!-- 中文版本 -->
+            <div class="lang-zh">
+                <p>📖 学习路线版本：2026 年 5 月</p>
+                <p>💡 建议学习周期：3-6 个月 (每天 1-2 小时)</p>
+                <p>🚀 实践为主，理论为辅 - 多动手，别只看不练！</p>
+            </div>
+            <!-- 德语版本 -->
+            <div class="lang-de">
+                <p>📖 Lernpfad-Version: Mai 2026</p>
+                <p>💡 Empfohlene Lernperiode: 3-6 Monate (1-2 Stunden täglich)</p>
+                <p>🚀 Praxis vor Theorie - Viel动手, nicht nur lesen!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 语言切换功能
+        function toggleLanguage() {
+            document.body.classList.toggle('lang-zh');
+            document.body.classList.toggle('lang-de');
+        }
+    </script>
+</body>
+</html>

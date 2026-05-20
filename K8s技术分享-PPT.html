@@ -23,17 +23,72 @@
         .pros { background: #d4edda; border-left: 4px solid #28a745; padding: 10px; font-size: 0.7em; }
         .cons { background: #f8d7da; border-left: 4px solid #dc3545; padding: 10px; font-size: 0.7em; }
         .example-box { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 15px 0; font-size: 0.7em; text-align: left; }
+        
+        /* 语言切换样式 */
+        body.lang-zh .lang-de { display: none !important; }
+        body.lang-de .lang-zh { display: none !important; }
+        
+        /* 语言切换按钮 */
+        .lang-toggle {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-family: "Courier New", monospace;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        .lang-toggle:hover { background: #764ba2; }
+        
+        /* 返回按钮 */
+        .back-btn {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 1000;
+            background: #333;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-family: "Courier New", monospace;
+            font-size: 0.9em;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .back-btn:hover { background: #555; }
     </style>
 </head>
-<body>
+<body class="lang-zh">
+    <!-- 返回按钮 -->
+    <a href="about.html" class="back-btn"><< 返回</a>
+    
+    <!-- 语言切换按钮 -->
+    <button class="lang-toggle" onclick="toggleLanguage()">DE / 中文</button>
+    
     <div class="reveal">
         <div class="slides">
             <!-- Slide 1: 封面 -->
             <section data-background-gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
-                <h1 style="color: white;">🐳 Kubernetes 技术分享</h1>
-                <h3 style="color: white;">从架构到实战 - K8s & AWS & Docker</h3>
-                <p style="color: white; margin-top: 50px;">演讲人：何一健 (He Yijian)</p>
-                <p style="color: white; font-size: 0.8em;">2026 年 5 月</p>
+                <!-- 中文版本 -->
+                <div class="lang-zh">
+                    <h1 style="color: white;">🐳 Kubernetes 技术分享</h1>
+                    <h3 style="color: white;">从架构到实战 - K8s & AWS & Docker</h3>
+                    <p style="color: white; margin-top: 50px;">演讲人：何一健 (He Yijian)</p>
+                    <p style="color: white; font-size: 0.8em;">2026 年 5 月</p>
+                </div>
+                <!-- 德语版本 -->
+                <div class="lang-de">
+                    <h1 style="color: white;">🐳 Kubernetes Technischer Vortrag</h1>
+                    <h3 style="color: white;">Von Architektur zu Praxis - K8s & AWS & Docker</h3>
+                    <p style="color: white; margin-top: 50px;">Sprecher: He Yijian</p>
+                    <p style="color: white; font-size: 0.8em;">Mai 2026</p>
+                </div>
                 
                 <aside class="notes">
                     <div class="cn-script">
@@ -51,15 +106,30 @@
 
             <!-- Slide 2: 目录 -->
             <section>
-                <h2>📚 分享大纲</h2>
-                <ul style="font-size: 0.9em;">
-                    <li>✅ <strong>K8s 架构核心</strong> - Control Plane & Worker Nodes</li>
-                    <li>✅ <strong>Docker 容器化</strong> - 从镜像到运行时</li>
-                    <li>✅ <strong>AWS EKS 实战</strong> - 托管 K8s 最佳实践</li>
-                    <li>✅ <strong>网络与存储</strong> - Overlay 网络 & 持久化</li>
-                    <li>✅ <strong>架构取舍案例</strong> - 真实场景的决策过程</li>
-                    <li>✅ <strong>生产最佳实践</strong> - 高可用 & 成本优化</li>
-                </ul>
+                <!-- 中文版本 -->
+                <div class="lang-zh">
+                    <h2>📚 分享大纲</h2>
+                    <ul style="font-size: 0.9em;">
+                        <li>✅ <strong>K8s 架构核心</strong> - Control Plane & Worker Nodes</li>
+                        <li>✅ <strong>Docker 容器化</strong> - 从镜像到运行时</li>
+                        <li>✅ <strong>AWS EKS 实战</strong> - 托管 K8s 最佳实践</li>
+                        <li>✅ <strong>网络与存储</strong> - Overlay 网络 & 持久化</li>
+                        <li>✅ <strong>架构取舍案例</strong> - 真实场景的决策过程</li>
+                        <li>✅ <strong>生产最佳实践</strong> - 高可用 & 成本优化</li>
+                    </ul>
+                </div>
+                <!-- 德语版本 -->
+                <div class="lang-de">
+                    <h2>📚 Vortragsgliederung</h2>
+                    <ul style="font-size: 0.9em;">
+                        <li>✅ <strong>K8s Architektur-Kern</strong> - Control Plane & Worker Nodes</li>
+                        <li>✅ <strong>Docker Containerisierung</strong> - Vom Image zur Laufzeit</li>
+                        <li>✅ <strong>AWS EKS Praxis</strong> - Managed K8s Best Practices</li>
+                        <li>✅ <strong>Netzwerk & Speicher</strong> - Overlay-Netzwerk & Persistenz</li>
+                        <li>✅ <strong>Architektur-Trade-offs</strong> - Entscheidungsprozesse in realen Szenarien</li>
+                        <li>✅ <strong>Produktions-Best-Practices</strong> - Hochverfügbarkeit & Kostenoptimierung</li>
+                    </ul>
+                </div>
                 
                 <aside class="notes">
                     <div class="cn-script">
@@ -85,8 +155,10 @@
 
             <!-- Slide 3: K8s 架构 -->
             <section>
-                <h2>🏗️ K8s 架构核心</h2>
-                <div class="arch-box">
+                <!-- 中文版本 -->
+                <div class="lang-zh">
+                    <h2>🏗️ K8s 架构核心</h2>
+                    <div class="arch-box">
 <strong>Control Plane (Master)</strong>
   ├── API Server - 统一入口 (REST API)
   ├── etcd - 分布式键值存储 (集群状态)
@@ -97,8 +169,26 @@
   ├── Kubelet - 管理 Pod 生命周期
   ├── Kube-proxy - 网络代理 (Service)
   └── Container Runtime - 运行容器 (containerd)
+                    </div>
+                    <p style="font-size: 0.8em; margin-top: 20px;"><strong>核心理念：</strong>声明式 API (Declarative API) + 控制循环 (Control Loop)</p>
                 </div>
-                <p style="font-size: 0.8em; margin-top: 20px;"><strong>核心理念：</strong>声明式 API (Declarative API) + 控制循环 (Control Loop)</p>
+                <!-- 德语版本 -->
+                <div class="lang-de">
+                    <h2>🏗️ K8s Architektur-Kern</h2>
+                    <div class="arch-box">
+<strong>Control Plane (Master)</strong>
+  ├── API Server - Zentraler Eingang (REST API)
+  ├── etcd - Verteilter Key-Value-Speicher (Cluster-Status)
+  ├── Scheduler - Plant Pods auf Nodes
+  └── Controller Manager - Hält gewünschten Status aufrecht
+
+<strong>Worker Nodes</strong>
+  ├── Kubelet - Verwaltet Pod-Lebenszyklus
+  ├── Kube-proxy - Netzwerk-Proxy (Service)
+  └── Container Runtime - Führt Container aus (containerd)
+                    </div>
+                    <p style="font-size: 0.8em; margin-top: 20px;"><strong>Kernkonzept:</strong> Deklarative API (Declarative API) + Control Loop</p>
+                </div>
                 
                 <aside class="notes">
                     <div class="cn-script">
@@ -120,9 +210,11 @@
 
             <!-- Slide 4: Docker 容器化 -->
             <section>
-                <h2>🐳 Docker 容器化基础</h2>
-                <div class="example-box">
-                    <strong>💡 实战案例：多阶段构建优化镜像体积</strong>
+                <!-- 中文版本 -->
+                <div class="lang-zh">
+                    <h2>🐳 Docker 容器化基础</h2>
+                    <div class="example-box">
+                        <strong>💡 实战案例：多阶段构建优化镜像体积</strong>
 <pre style="background: #282c34; color: #61dafb; padding: 10px; border-radius: 4px; font-size: 0.7em; text-align: left;">
 # 阶段 1：构建
 FROM node:18 AS builder
@@ -137,23 +229,63 @@ FROM nginx:alpine
 COPY --from=builder /app/dist /usr/share/nginx/html
 EXPOSE 80
 </pre>
-                </div>
-                <div class="pros-cons">
-                    <div class="pros">
-                        <strong>✅ 多阶段构建优势</strong>
-                        <ul style="font-size: 0.7em;">
-                            <li>镜像体积小 (去掉构建工具)</li>
-                            <li>安全性高 (减少攻击面)</li>
-                            <li>适合生产环境</li>
-                        </ul>
                     </div>
-                    <div class="cons">
-                        <strong>❌ 单阶段构建</strong>
-                        <ul style="font-size: 0.7em;">
-                            <li>构建速度快</li>
-                            <li>调试方便</li>
-                            <li>适合开发环境</li>
-                        </ul>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <strong>✅ 多阶段构建优势</strong>
+                            <ul style="font-size: 0.7em;">
+                                <li>镜像体积小 (去掉构建工具)</li>
+                                <li>安全性高 (减少攻击面)</li>
+                                <li>适合生产环境</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <strong>❌ 单阶段构建</strong>
+                            <ul style="font-size: 0.7em;">
+                                <li>构建速度快</li>
+                                <li>调试方便</li>
+                                <li>适合开发环境</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- 德语版本 -->
+                <div class="lang-de">
+                    <h2>🐳 Docker Containerisierung Grundlagen</h2>
+                    <div class="example-box">
+                        <strong>💡 Praxis-Beispiel: Multi-Stage-Build optimiert Image-Größe</strong>
+<pre style="background: #282c34; color: #61dafb; padding: 10px; border-radius: 4px; font-size: 0.7em; text-align: left;">
+# Phase 1: Build
+FROM node:18 AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+# Phase 2: Ausführung (finales Image nur 80MB)
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+EXPOSE 80
+</pre>
+                    </div>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <strong>✅ Vorteile Multi-Stage-Build</strong>
+                            <ul style="font-size: 0.7em;">
+                                <li>Kleine Image-Größe (Build-Tools entfernt)</li>
+                                <li>Hohe Sicherheit (reduzierte Angriffsfläche)</li>
+                                <li>Geeignet für Produktionsumgebung</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <strong>❌ Single-Stage-Build</strong>
+                            <ul style="font-size: 0.7em;">
+                                <li>Schnelleres Build</li>
+                                <li>Einfacheres Debugging</li>
+                                <li>Geeignet für Entwicklungsumgebung</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 
@@ -177,8 +309,10 @@ EXPOSE 80
 
             <!-- Slide 5: AWS EKS -->
             <section>
-                <h2>☁️ AWS EKS 实战</h2>
-                <div class="arch-box">
+                <!-- 中文版本 -->
+                <div class="lang-zh">
+                    <h2>☁️ AWS EKS 实战</h2>
+                    <div class="arch-box">
 <strong>AWS EKS 架构</strong>
 EKS Control Plane (AWS 托管，高可用)
   ├── API Server (跨 AZ 部署)
@@ -189,8 +323,26 @@ Worker Nodes (用户管理)
   ├── Managed Node Groups (推荐)
   │     └── EC2 Instances (按需/Spot)
   └── Fargate (Serverless，无需管理 Node)
+                    </div>
+                    <p style="font-size: 0.8em;"><strong>关键优势：</strong>AWS 负责控制平面高可用，用户专注于应用部署</p>
                 </div>
-                <p style="font-size: 0.8em;"><strong>关键优势：</strong>AWS 负责控制平面高可用，用户专注于应用部署</p>
+                <!-- 德语版本 -->
+                <div class="lang-de">
+                    <h2>☁️ AWS EKS Praxis</h2>
+                    <div class="arch-box">
+<strong>AWS EKS Architektur</strong>
+EKS Control Plane (AWS verwaltet, hochverfügbar)
+  ├── API Server (über AZs bereitgestellt)
+  ├── etcd (Multi-AZ-Backup)
+  └── IAM-Integration (RBAC)
+
+Worker Nodes (benutzerverwaltet)
+  ├── Managed Node Groups (empfohlen)
+  │     └── EC2 Instances (On-Demand/Spot)
+  └── Fargate (Serverless, keine Node-Verwaltung erforderlich)
+                    </div>
+                    <p style="font-size: 0.8em;"><strong>Wichtigster Vorteil:</strong> AWS übernimmt Hochverfügbarkeit der Control Plane, Benutzer konzentrieren sich auf Anwendungsbereitstellung</p>
+                </div>
                 
                 <aside class="notes">
                     <div class="cn-script">
@@ -212,8 +364,10 @@ Worker Nodes (用户管理)
 
             <!-- Slide 6: 网络架构 -->
             <section>
-                <h2>🌐 K8s 网络架构</h2>
-                <div class="arch-box">
+                <!-- 中文版本 -->
+                <div class="lang-zh">
+                    <h2>🌐 K8s 网络架构</h2>
+                    <div class="arch-box">
 <strong>三层网络模型</strong>
 1. Container-to-Container (同一 Pod)
    → localhost 通信 (共享网络命名空间)
@@ -227,6 +381,26 @@ Worker Nodes (用户管理)
    → NodePort (所有 Node 暴露)
    → LoadBalancer (云平台 ELB)
    → Ingress (七层路由，推荐)
+                    </div>
+                </div>
+                <!-- 德语版本 -->
+                <div class="lang-de">
+                    <h2>🌐 K8s Netzwerkarchitektur</h2>
+                    <div class="arch-box">
+<strong>Drei-Ebenen-Netzwerkmodell</strong>
+1. Container-zu-Container (gleicher Pod)
+   → localhost-Kommunikation (geteilter Netzwerknamensraum)
+
+2. Pod-zu-Pod (über Node-Grenzen hinweg)
+   → Overlay-Netzwerk (wie Calico, Flannel)
+   → Jeder Pod hat eigene IP (flaches Netzwerk)
+
+3. Service-zu-External
+   → ClusterIP (innerhalb Cluster)
+   → NodePort (alle Nodes exponiert)
+   → LoadBalancer (Cloud-Plattform ELB)
+   → Ingress (Layer-7-Routing, empfohlen)
+                    </div>
                 </div>
                 
                 <aside class="notes">
@@ -249,29 +423,59 @@ Worker Nodes (用户管理)
 
             <!-- Slide 7: 存储架构 -->
             <section>
-                <h2>💾 持久化存储设计</h2>
-                <div class="pros-cons">
-                    <div class="pros">
-                        <strong>✅ ReadWriteOnce (RWO)</strong>
-                        <ul style="font-size: 0.7em;">
-                            <li>只能被一个 Node 挂载</li>
-                            <li>高性能 (块存储，如 AWS EBS)</li>
-                            <li>适合数据库 (MySQL, MongoDB)</li>
-                            <li>成本较低</li>
-                        </ul>
+                <!-- 中文版本 -->
+                <div class="lang-zh">
+                    <h2>💾 持久化存储设计</h2>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <strong>✅ ReadWriteOnce (RWO)</strong>
+                            <ul style="font-size: 0.7em;">
+                                <li>只能被一个 Node 挂载</li>
+                                <li>高性能 (块存储，如 AWS EBS)</li>
+                                <li>适合数据库 (MySQL, MongoDB)</li>
+                                <li>成本较低</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <strong>✅ ReadWriteMany (RWX)</strong>
+                            <ul style="font-size: 0.7em;">
+                                <li>可以被多个 Node 同时挂载</li>
+                                <li>性能较差 (网络文件系统)</li>
+                                <li>适合共享文件 (NAS, AWS EFS)</li>
+                                <li>成本较高</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="cons">
-                        <strong>✅ ReadWriteMany (RWX)</strong>
-                        <ul style="font-size: 0.7em;">
-                            <li>可以被多个 Node 同时挂载</li>
-                            <li>性能较差 (网络文件系统)</li>
-                            <li>适合共享文件 (NAS, AWS EFS)</li>
-                            <li>成本较高</li>
-                        </ul>
+                    <div class="example-box" style="font-size: 0.7em;">
+                        <strong>💡 实战取舍：</strong>MySQL 用 EBS (RWO)，WordPress 上传目录用 EFS (RWX)
                     </div>
                 </div>
-                <div class="example-box" style="font-size: 0.7em;">
-                    <strong>💡 实战取舍：</strong>MySQL 用 EBS (RWO)，WordPress 上传目录用 EFS (RWX)
+                <!-- 德语版本 -->
+                <div class="lang-de">
+                    <h2>💾 Persistenter Speicher-Design</h2>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <strong>✅ ReadWriteOnce (RWO)</strong>
+                            <ul style="font-size: 0.7em;">
+                                <li>Kann nur von einem Node eingehängt werden</li>
+                                <li>Hohe Leistung (Block-Speicher, wie AWS EBS)</li>
+                                <li>Geeignet für Datenbanken (MySQL, MongoDB)</li>
+                                <li>Niedrigere Kosten</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <strong>✅ ReadWriteMany (RWX)</strong>
+                            <ul style="font-size: 0.7em;">
+                                <li>Kann gleichzeitig von mehreren Nodes eingehängt werden</li>
+                                <li>Schlechtere Leistung (Netzwerk-Dateisystem)</li>
+                                <li>Geeignet für gemeinsame Dateien (NAS, AWS EFS)</li>
+                                <li>Höhere Kosten</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="example-box" style="font-size: 0.7em;">
+                        <strong>💡 Praxis-Trade-off:</strong> MySQL verwendet EBS (RWO), WordPress Upload-Verzeichnis verwendet EFS (RWX)
+                    </div>
                 </div>
                 
                 <aside class="notes">
@@ -296,30 +500,61 @@ Worker Nodes (用户管理)
 
             <!-- Slide 8: 架构取舍案例 1 -->
             <section>
-                <h2>⚖️ 架构取舍案例 1</h2>
-                <h3>Deployment vs StatefulSet</h3>
-                <div class="pros-cons">
-                    <div class="pros">
-                        <strong>✅ Deployment (无状态)</strong>
-                        <ul style="font-size: 0.7em;">
-                            <li>Pod 名称随机 (nginx-xxxx-xxx)</li>
-                            <li>扩缩容快 (无需顺序)</li>
-                            <li>适合 Web 服务、API</li>
-                            <li>滚动更新 (Rolling Update)</li>
-                        </ul>
+                <!-- 中文版本 -->
+                <div class="lang-zh">
+                    <h2>⚖️ 架构取舍案例 1</h2>
+                    <h3>Deployment vs StatefulSet</h3>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <strong>✅ Deployment (无状态)</strong>
+                            <ul style="font-size: 0.7em;">
+                                <li>Pod 名称随机 (nginx-xxxx-xxx)</li>
+                                <li>扩缩容快 (无需顺序)</li>
+                                <li>适合 Web 服务、API</li>
+                                <li>滚动更新 (Rolling Update)</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <strong>✅ StatefulSet (有状态)</strong>
+                            <ul style="font-size: 0.7em;">
+                                <li>Pod 名称固定 (mysql-0, mysql-1)</li>
+                                <li>稳定的网络标识 (Persistent Identity)</li>
+                                <li>适合数据库、消息队列</li>
+                                <li>顺序部署和扩缩容</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="cons">
-                        <strong>✅ StatefulSet (有状态)</strong>
-                        <ul style="font-size: 0.7em;">
-                            <li>Pod 名称固定 (mysql-0, mysql-1)</li>
-                            <li>稳定的网络标识 (Persistent Identity)</li>
-                            <li>适合数据库、消息队列</li>
-                            <li>顺序部署和扩缩容</li>
-                        </ul>
+                    <div class="example-box" style="font-size: 0.7em;">
+                        <strong>💡 决策依据：</strong>99% 的场景用 Deployment，只有需要稳定网络标识（如 MySQL 主从复制）时才用 StatefulSet
                     </div>
                 </div>
-                <div class="example-box" style="font-size: 0.7em;">
-                    <strong>💡 决策依据：</strong>99% 的场景用 Deployment，只有需要稳定网络标识（如 MySQL 主从复制）时才用 StatefulSet
+                <!-- 德语版本 -->
+                <div class="lang-de">
+                    <h2>⚖️ Architektur-Trade-off Fall 1</h2>
+                    <h3>Deployment vs StatefulSet</h3>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <strong>✅ Deployment (zustandslos)</strong>
+                            <ul style="font-size: 0.7em;">
+                                <li>POD-Namen zufällig (nginx-xxxx-xxx)</li>
+                                <li>Schnelle Skalierung (keine Reihenfolge erforderlich)</li>
+                                <li>Geeignet für Web-Services, APIs</li>
+                                <li>Rolling Update</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <strong>✅ StatefulSet (zustandsbehaftet)</strong>
+                            <ul style="font-size: 0.7em;">
+                                <li>Feste POD-Namen (mysql-0, mysql-1)</li>
+                                <li>Stabile Netzwerk-Identität (Persistent Identity)</li>
+                                <li>Geeignet für Datenbanken, Message Queues</li>
+                                <li>Geordnete Bereitstellung und Skalierung</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="example-box" style="font-size: 0.7em;">
+                        <strong>💡 Entscheidungsgrundlage:</strong> 99% der Szenarien verwenden Deployment, nur wenn stabile Netzwerk-Identität erforderlich ist (wie MySQL Master-Slave-Replikation), verwenden Sie StatefulSet
+                    </div>
                 </div>
                 
                 <aside class="notes">
@@ -342,9 +577,11 @@ Worker Nodes (用户管理)
 
             <!-- Slide 9: 架构取舍案例 2 -->
             <section>
-                <h2>⚖️ 架构取舍案例 2</h2>
-                <h3>Service 类型选择</h3>
-                <div class="arch-box">
+                <!-- 中文版本 -->
+                <div class="lang-zh">
+                    <h2>⚖️ 架构取舍案例 2</h2>
+                    <h3>Service 类型选择</h3>
+                    <div class="arch-box">
 <strong>场景：</strong>电商平台需要暴露用户 API 和商家 API
 
 方案 A：每个 Service 一个 LoadBalancer
@@ -358,6 +595,27 @@ Worker Nodes (用户管理)
   │     ├── /user/* → 用户 API Service (ClusterIP)
   │     └── /merchant/* → 商家 API Service (ClusterIP)
   → 总成本：$18/月，1 个公网 IP
+                    </div>
+                </div>
+                <!-- 德语版本 -->
+                <div class="lang-de">
+                    <h2>⚖️ Architektur-Trade-off Fall 2</h2>
+                    <h3>Service-Typ Auswahl</h3>
+                    <div class="arch-box">
+<strong>Szenario:</strong> E-Commerce-Plattform muss Benutzer-API und Händler-API exponieren
+
+Lösung A: Ein LoadBalancer pro Service
+  ├── Benutzer-API → ELB-1 ($18/Monat)
+  ├── Händler-API → ELB-2 ($18/Monat)
+  └── Verwaltungsbackend → ELB-3 ($18/Monat)
+  → Gesamtkosten: $54/Monat, 3 öffentliche IPs
+
+Lösung B: Ein LoadBalancer + Ingress
+  ├── ELB-1 ($18/Monat) → Ingress Controller
+  │     ├── /user/* → Benutzer-API Service (ClusterIP)
+  │     └── /merchant/* → Händler-API Service (ClusterIP)
+  → Gesamtkosten: $18/Monat, 1 öffentliche IP
+                    </div>
                 </div>
                 
                 <aside class="notes">
@@ -382,8 +640,10 @@ Worker Nodes (用户管理)
 
             <!-- Slide 10: 高可用设计 -->
             <section>
-                <h2>🚀 生产高可用设计</h2>
-                <div class="arch-box">
+                <!-- 中文版本 -->
+                <div class="lang-zh">
+                    <h2>🚀 生产高可用设计</h2>
+                    <div class="arch-box">
 <strong>多可用区部署 (Multi-AZ Deployment)</strong>
 AZ-1a (可用区 1)
   └── Worker Nodes (2 台) → Pod 副本 1
@@ -398,6 +658,27 @@ AZ-1c (可用区 3)
   ├── Pod Anti-Affinity (反亲和性)
   ├── PodDisruptionBudget (PDB)
   └── Horizontal Pod Autoscaler (HPA)
+                    </div>
+                </div>
+                <!-- 德语版本 -->
+                <div class="lang-de">
+                    <h2>🚀 Produktions-Design für Hochverfügbarkeit</h2>
+                    <div class="arch-box">
+<strong>Multi-AZ-Bereitstellung (Multi-AZ Deployment)</strong>
+AZ-1a (Verfügbarkeitszone 1)
+  └── Worker Nodes (2 Geräte) → Pod-Replikat 1
+
+AZ-1b (Verfügbarkeitszone 2)
+  └── Worker Nodes (2 Geräte) → Pod-Replikat 2
+
+AZ-1c (Verfügbarkeitszone 3)
+  └── Worker Nodes (2 Geräte) → Pod-Replikat 3
+
+<strong>Wichtige Konfiguration:</strong>
+  ├── Pod Anti-Affinity (Anti-Affinität)
+  ├── PodDisruptionBudget (PDB)
+  └── Horizontal Pod Autoscaler (HPA)
+                    </div>
                 </div>
                 
                 <aside class="notes">
@@ -422,8 +703,10 @@ AZ-1c (可用区 3)
 
             <!-- Slide 11: 监控与可观测性 -->
             <section>
-                <h2>📊 监控与可观测性</h2>
-                <div class="arch-box">
+                <!-- 中文版本 -->
+                <div class="lang-zh">
+                    <h2>📊 监控与可观测性</h2>
+                    <div class="arch-box">
 <strong>可观测性三大支柱</strong>
 1. Metrics (指标) - Prometheus + Grafana
    ├── 采集：Node Exporter, Kube-state-metrics
@@ -437,7 +720,26 @@ AZ-1c (可用区 3)
 
 3. Tracing (链路追踪) - Jaeger
    └── 分布式追踪 (Distributed Tracing)
-</pre>
+                    </div>
+                </div>
+                <!-- 德语版本 -->
+                <div class="lang-de">
+                    <h2>📊 Überwachung & Observability</h2>
+                    <div class="arch-box">
+<strong>Drei Säulen der Observability</strong>
+1. Metrics (Metriken) - Prometheus + Grafana
+   ├── Erfassung: Node Exporter, Kube-state-metrics
+   ├── Speicherung: Prometheus TSDB (lokal) oder Thanos (langfristig)
+   └── Visualisierung: Grafana Dashboards
+
+2. Logging (Logs) - ELK / Loki
+   ├── Erfassung: Fluentd / Promtail
+   ├── Speicherung: Elasticsearch / Loki
+   └── Abfrage: Kibana / Grafana
+
+3. Tracing (Distributed Tracing) - Jaeger
+   └── Distributed Tracing (Verteilte Ablaufverfolgung)
+                    </div>
                 </div>
                 
                 <aside class="notes">
@@ -462,17 +764,35 @@ AZ-1c (可用区 3)
 
             <!-- Slide 12: 安全最佳实践 -->
             <section>
-                <h2>🔒 安全最佳实践</h2>
-                <ul style="font-size: 0.8em;">
-                    <li>✅ <strong>RBAC</strong>：基于角色的权限控制 (最小权限原则)</li>
-                    <li>✅ <strong>Network Policy</strong>：网络隔离 (类似防火墙规则)</li>
-                    <li>✅ <strong>Pod Security Standards</strong>：限制特权容器 (禁止 root)</li>
-                    <li>✅ <strong>Image Scanning</strong>：扫描镜像漏洞 (如 Trivy)</li>
-                    <li>✅ <strong>Secrets Encryption</strong>：加密 etcd 中的 Secret (不是 base64！)</li>
-                    <li>✅ <strong>IRSA</strong>：IAM Roles for Service Accounts (替代硬编码 AK/SK)</li>
-                </ul>
-                <div class="example-box" style="font-size: 0.7em; margin-top: 20px;">
-                    <strong>💡 安全检查清单：</strong>CI/CD 流水线自动扫描镜像漏洞 → 阻断高危漏洞镜像部署
+                <!-- 中文版本 -->
+                <div class="lang-zh">
+                    <h2>🔒 安全最佳实践</h2>
+                    <ul style="font-size: 0.8em;">
+                        <li>✅ <strong>RBAC</strong>：基于角色的权限控制 (最小权限原则)</li>
+                        <li>✅ <strong>Network Policy</strong>：网络隔离 (类似防火墙规则)</li>
+                        <li>✅ <strong>Pod Security Standards</strong>：限制特权容器 (禁止 root)</li>
+                        <li>✅ <strong>Image Scanning</strong>：扫描镜像漏洞 (如 Trivy)</li>
+                        <li>✅ <strong>Secrets Encryption</strong>：加密 etcd 中的 Secret (不是 base64！)</li>
+                        <li>✅ <strong>IRSA</strong>：IAM Roles for Service Accounts (替代硬编码 AK/SK)</li>
+                    </ul>
+                    <div class="example-box" style="font-size: 0.7em; margin-top: 20px;">
+                        <strong>💡 安全检查清单：</strong>CI/CD 流水线自动扫描镜像漏洞 → 阻断高危漏洞镜像部署
+                    </div>
+                </div>
+                <!-- 德语版本 -->
+                <div class="lang-de">
+                    <h2>🔒 Sicherheits-Best-Practices</h2>
+                    <ul style="font-size: 0.8em;">
+                        <li>✅ <strong>RBAC</strong>: Rollengabasierte Zugriffskontrolle (Prinzip der geringsten Rechte)</li>
+                        <li>✅ <strong>Network Policy</strong>: Netzwerkisolation (ähnlich Firewall-Regeln)</li>
+                        <li>✅ <strong>Pod Security Standards</strong>: Einschränkung privilegierter Container (verbot von root)</li>
+                        <li>✅ <strong>Image Scanning</strong>: Scanning von Image-Schwachstellen (wie Trivy)</li>
+                        <li>✅ <strong>Secrets Encryption</strong>: Verschlüsselung von Secrets in etcd (nicht base64!)</li>
+                        <li>✅ <strong>IRSA</strong>: IAM Roles for Service Accounts (Ersatz für hart kodierte AK/SK)</li>
+                    </ul>
+                    <div class="example-box" style="font-size: 0.7em; margin-top: 20px;">
+                        <strong>💡 Sicherheits-Checkliste:</strong> CI/CD-Pipeline scannt Image-Schwachstellen automatisch → Blockierung von Images mit kritischen Schwachstellen
+                    </div>
                 </div>
                 
                 <aside class="notes">
@@ -491,7 +811,7 @@ AZ-1c (可用区 3)
                         Zweitens konfigurieren Sie Network Policy, um Netzwerkisolation zu erreichen. Zum Beispiel können Frontend-Services nur auf Backend-APIs zugreifen, nicht direkt auf die Datenbank.
                         Drittens verwenden Sie Pod Security Standards, um privilegierte Container (privileged: true) zu verbieten und Container-Escapes zu verhindern.
                         Viertens integrieren Sie Image-Scanning-Tools (wie Trivy) in die CI/CD-Pipeline, um die Bereitstellung von Images mit kritischen Schwachstellen automatisch zu blockieren.
-                        Verwenden Sie schließlich AWS IRSA anstelle von hart kodierten AK/SK, um feingranulare Zugriffskontrolle zu erreichen.
+                        Verwenden Sie schließlich AWS IRSA anstelle von hart kodierten AK/SK, um feingranulare Zugriffskontrollen zu erreichen.
                         Durch diese Maßnahmen können wir Sicherheitsrisiken minimieren.
                     </div>
                 </aside>
@@ -499,29 +819,59 @@ AZ-1c (可用区 3)
 
             <!-- Slide 13: 成本优化 -->
             <section>
-                <h2>💰 成本优化策略</h2>
-                <div class="pros-cons">
-                    <div class="pros">
-                        <strong>✅ 节省成本的方案</strong>
-                        <ul style="font-size: 0.7em;">
-                            <li>使用 Spot 实例 (便宜 70-90%)</li>
-                            <li> right-sizing (选择合适大小的实例)</li>
-                            <li>Auto Scaling (按需自动扩缩容)</li>
-                            <li>定时关闭非生产环境</li>
-                        </ul>
+                <!-- 中文版本 -->
+                <div class="lang-zh">
+                    <h2>💰 成本优化策略</h2>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <strong>✅ 节省成本的方案</strong>
+                            <ul style="font-size: 0.7em;">
+                                <li>使用 Spot 实例 (便宜 70-90%)</li>
+                                <li> right-sizing (选择合适大小的实例)</li>
+                                <li>Auto Scaling (按需自动扩缩容)</li>
+                                <li>定时关闭非生产环境</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <strong>❌ 成本高但可靠的方案</strong>
+                            <ul style="font-size: 0.7em;">
+                                <li>On-Demand 实例 (稳定)</li>
+                                <li>过度配置资源 (request > actual)</li>
+                                <li>手动管理 (无 Auto Scaling)</li>
+                                <li>24/7 运行所有环境</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="cons">
-                        <strong>❌ 成本高但可靠的方案</strong>
-                        <ul style="font-size: 0.7em;">
-                            <li>On-Demand 实例 (稳定)</li>
-                            <li>过度配置资源 (request > actual)</li>
-                            <li>手动管理 (无 Auto Scaling)</li>
-                            <li>24/7 运行所有环境</li>
-                        </ul>
+                    <div class="example-box" style="font-size: 0.7em;">
+                        <strong>💡 实际效果：</strong>混合使用 On-Demand (生产) + Spot (开发/测试)，整体成本降低 50%
                     </div>
                 </div>
-                <div class="example-box" style="font-size: 0.7em;">
-                    <strong>💡 实际效果：</strong>混合使用 On-Demand (生产) + Spot (开发/测试)，整体成本降低 50%
+                <!-- 德语版本 -->
+                <div class="lang-de">
+                    <h2>💰 Kostenoptimierungsstrategien</h2>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <strong>✅ Kosteneinsparungslösungen</strong>
+                            <ul style="font-size: 0.7em;">
+                                <li>Verwendung von Spot-Instances (70-90% günstiger)</li>
+                                <li>Right-sizing (Auswahl der richtigen Instanzgröße)</li>
+                                <li>Auto Scaling (automatische Skalierung on-demand)</li>
+                                <li>Zeitgesteuertes Herunterfahren von Nicht-Produktionsumgebungen</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <strong>❌ Teure aber zuverlässige Lösungen</strong>
+                            <ul style="font-size: 0.7em;">
+                                <li>On-Demand-Instances (stabil)</li>
+                                <li>Übermäßige Ressourcenzuweisung (request > actual)</li>
+                                <li>Manuelle Verwaltung (kein Auto Scaling)</li>
+                                <li>24/7-Betrieb aller Umgebungen</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="example-box" style="font-size: 0.7em;">
+                        <strong>💡 Tatsächliche Auswirkungen:</strong> Kombinierte Verwendung von On-Demand (Produktion) + Spot (Entwicklung/Test), Gesamtkostenreduktion um 50%
+                    </div>
                 </div>
                 
                 <aside class="notes">
@@ -546,8 +896,10 @@ AZ-1c (可用区 3)
 
             <!-- Slide 14: CI/CD 集成 -->
             <section>
-                <h2>🔄 CI/CD 自动化部署</h2>
-                <div class="arch-box">
+                <!-- 中文版本 -->
+                <div class="lang-zh">
+                    <h2>🔄 CI/CD 自动化部署</h2>
+                    <div class="arch-box">
 <strong>GitOps 工作流 (ArgoCD)</strong>
 Developer (git push)
   ↓
@@ -560,8 +912,28 @@ CI Pipeline (GitHub Actions)
 
 ArgoCD (监听 Git 变化)
   └── 自动同步 (Auto Sync) → kubectl apply
+                    </div>
+                    <p style="font-size: 0.8em; margin-top: 15px;"><strong>核心优势：</strong>Git 作为唯一真相源 (Single Source of Truth)，回滚只需 git revert</p>
                 </div>
-                <p style="font-size: 0.8em; margin-top: 15px;"><strong>核心优势：</strong>Git 作为唯一真相源 (Single Source of Truth)，回滚只需 git revert</p>
+                <!-- 德语版本 -->
+                <div class="lang-de">
+                    <h2>🔄 CI/CD Automatisierte Bereitstellung</h2>
+                    <div class="arch-box">
+<strong>GitOps Arbeitsablauf (ArgoCD)</strong>
+Developer (git push)
+  ↓
+GitHub / GitLab (Code-Repository)
+  ↓
+CI Pipeline (GitHub Actions)
+  ├── 1. Lint & Unit Test
+  ├── 2. Build & Push Image (ECR)
+  └── 3. Update Helm Chart (values.yaml)
+
+ArgoCD (überwacht Git-Änderungen)
+  └── Automatische Synchronisation (Auto Sync) → kubectl apply
+                    </div>
+                    <p style="font-size: 0.8em; margin-top: 15px;"><strong>Kernvorteil:</strong> Git als Single Source of Truth, Rollback nur mit git revert</p>
+                </div>
                 
                 <aside class="notes">
                     <div class="cn-script">
@@ -585,25 +957,51 @@ ArgoCD (监听 Git 变化)
 
             <!-- Slide 15: 总结 -->
             <section>
-                <h2>📝 总结与展望</h2>
-                <div style="text-align: left; font-size: 0.8em;">
-                    <p><strong>✅ 核心要点回顾：</strong></p>
-                    <ul>
-                        <li>K8s 架构：Control Plane + Worker Nodes，声明式 API</li>
-                        <li>Docker 多阶段构建优化镜像体积和安全性</li>
-                        <li>AWS EKS 托管控制平面，降低运维负担</li>
-                        <li>网络：Ingress + LoadBalancer 节省成本和 IP</li>
-                        <li>存储：RWO vs RWX 根据场景选择</li>
-                        <li>高可用：多 AZ + Pod Anti-Affinity + HPA</li>
-                        <li>成本优化：Spot + Right-sizing + Auto Scaling</li>
-                        <li>GitOps：ArgoCD 实现自动化部署和回滚</li>
-                    </ul>
-                    <p style="margin-top: 20px;"><strong>🚀 下一步学习方向：</strong></p>
-                    <ul>
-                        <li>服务网格 (Service Mesh) - Istio / Linkerd</li>
-                        <li>Serverless K8s - Knative / AWS Fargate</li>
-                        <li>多集群管理 (Multi-cluster) - Rancher / Anthos</li>
-                    </ul>
+                <!-- 中文版本 -->
+                <div class="lang-zh">
+                    <h2>📝 总结与展望</h2>
+                    <div style="text-align: left; font-size: 0.8em;">
+                        <p><strong>✅ 核心要点回顾：</strong></p>
+                        <ul>
+                            <li>K8s 架构：Control Plane + Worker Nodes，声明式 API</li>
+                            <li>Docker 多阶段构建优化镜像体积和安全性</li>
+                            <li>AWS EKS 托管控制平面，降低运维负担</li>
+                            <li>网络：Ingress + LoadBalancer 节省成本和 IP</li>
+                            <li>存储：RWO vs RWX 根据场景选择</li>
+                            <li>高可用：多 AZ + Pod Anti-Affinity + HPA</li>
+                            <li>成本优化：Spot + Right-sizing + Auto Scaling</li>
+                            <li>GitOps：ArgoCD 实现自动化部署和回滚</li>
+                        </ul>
+                        <p style="margin-top: 20px;"><strong>🚀 下一步学习方向：</strong></p>
+                        <ul>
+                            <li>服务网格 (Service Mesh) - Istio / Linkerd</li>
+                            <li>Serverless K8s - Knative / AWS Fargate</li>
+                            <li>多集群管理 (Multi-cluster) - Rancher / Anthos</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- 德语版本 -->
+                <div class="lang-de">
+                    <h2>📝 Zusammenfassung & Ausblick</h2>
+                    <div style="text-align: left; font-size: 0.8em;">
+                        <p><strong>✅ Kernpunkte-Zusammenfassung:</strong></p>
+                        <ul>
+                            <li>K8s Architektur: Control Plane + Worker Nodes, deklarative API</li>
+                            <li>Docker Multi-Stage-Build optimiert Image-Volumen und Sicherheit</li>
+                            <li>AWS EKS verwaltete Control Plane, reduziert Betriebslast</li>
+                            <li>Netzwerk: Ingress + LoadBalancer spart Kosten und IPs</li>
+                            <li>Speicher: RWO vs RWX basierend auf Szenario auswählen</li>
+                            <li>Hochverfügbarkeit: Multi-AZ + Pod Anti-Affinity + HPA</li>
+                            <li>Kostenoptimierung: Spot + Right-sizing + Auto Scaling</li>
+                            <li>GitOps: ArgoCD erreicht automatisierte Bereitstellung und Rollback</li>
+                        </ul>
+                        <p style="margin-top: 20px;"><strong>🚀 Nächste Lernrichtungen:</strong></p>
+                        <ul>
+                            <li>Service Mesh - Istio / Linkerd</li>
+                            <li>Serverless K8s - Knative / AWS Fargate</li>
+                            <li>Multi-Cluster-Verwaltung - Rancher / Anthos</li>
+                        </ul>
+                    </div>
                 </div>
                 
                 <aside class="notes">
@@ -628,14 +1026,28 @@ ArgoCD (监听 Git 变化)
 
             <!-- Slide 16: Q&A -->
             <section data-background-gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
-                <h1 style="color: white;">❓ Q&A</h1>
-                <h3 style="color: white; margin-top: 50px;">感谢聆听！</h3>
-                <p style="color: white; font-size: 0.8em; margin-top: 30px;">
-                    联系方式：<br>
-                    📧 Email: heyijianchina@gmail.com<br>
-                    🐙 GitHub: https://masteryijian.github.io/<br>
-                    🔗 LinkedIn: [你的 LinkedIn]
-                </p>
+                <!-- 中文版本 -->
+                <div class="lang-zh">
+                    <h1 style="color: white;">❓ Q&A</h1>
+                    <h3 style="color: white; margin-top: 50px;">感谢聆听！</h3>
+                    <p style="color: white; font-size: 0.8em; margin-top: 30px;">
+                        联系方式：<br>
+                        📧 Email: heyijianchina@gmail.com<br>
+                        🐙 GitHub: https://masteryijian.github.io/<br>
+                        🔗 LinkedIn: [你的 LinkedIn]
+                    </p>
+                </div>
+                <!-- 德语版本 -->
+                <div class="lang-de">
+                    <h1 style="color: white;">❓ F&A</h1>
+                    <h3 style="color: white; margin-top: 50px;">Vielen Dank für Ihre Aufmerksamkeit!</h3>
+                    <p style="color: white; font-size: 0.8em; margin-top: 30px;">
+                        Kontakt:<br>
+                        📧 Email: heyijianchina@gmail.com<br>
+                        🐙 GitHub: https://masteryijian.github.io/<br>
+                        🔗 LinkedIn: [Ihr LinkedIn]
+                    </p>
+                </div>
                 
                 <aside class="notes">
                     <div class="cn-script">
@@ -655,6 +1067,12 @@ ArgoCD (监听 Git 变化)
 
     <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js"></script>
     <script>
+        // 语言切换功能
+        function toggleLanguage() {
+            document.body.classList.toggle('lang-zh');
+            document.body.classList.toggle('lang-de');
+        }
+        
         Reveal.initialize({
             hash: true,
             slideNumber: true,
