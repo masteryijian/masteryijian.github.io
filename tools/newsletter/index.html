@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Germany Market Signals | OPC</title>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <header class="top">
+        <div>
+          <a class="brand" href="../index.html">GERMANY_MARKET_SIGNALS</a>
+          <p>德国需求信号 + 中国供应链匹配。数据保存在本机浏览器，可下载为 JSON 继续加工。</p>
+        </div>
+        <nav>
+          <a href="../index.html">工作台</a>
+          <a href="../../news.html">行业动态</a>
+          <a href="../../index.html">首页</a>
+        </nav>
+      </header>
+
+      <main class="stack">
+        <section class="hero">
+          <h1>Germany Market Signals</h1>
+          <p>录入德国市场信号，系统会给出机会评分、合规提醒、推荐动作，并生成可复制的周报草稿。这个页面不会发送邮件，适合公开站点先验证流程。</p>
+        </section>
+
+        <section class="grid">
+          <div class="panel stack">
+            <h2>录入市场信号</h2>
+            <div class="form-grid">
+              <label>标题<input id="signalTitle" placeholder="德国热泵安装商交付压力上升"></label>
+              <label>方向<select id="signalSector"><option>工业配件</option><option>储能光伏</option><option>热泵暖通</option><option>养老辅助设备</option><option>美容健康</option><option>关键材料</option></select></label>
+              <label>来源链接<input id="signalUrl" type="url" placeholder="https://..."></label>
+              <label>发布机构<input id="signalPublisher" placeholder="协会、政府、客户或媒体"></label>
+              <label class="wide">摘要<textarea id="signalExcerpt" rows="5" placeholder="写下缺货、增长、价格、政策、客户反馈或你看到的市场现象"></textarea></label>
+            </div>
+            <div class="toolbar">
+              <button id="addSignal" type="button">生成机会</button>
+              <button id="downloadNewsletter" class="secondary" type="button">下载数据</button>
+              <button id="resetNewsletter" class="secondary" type="button">恢复样例</button>
+            </div>
+          </div>
+          <div class="panel stack">
+            <h2>周报草稿</h2>
+            <div class="output" id="weeklyOutput"></div>
+          </div>
+        </section>
+
+        <section class="grid three" id="opportunityGrid"></section>
+      </main>
+
+      <footer>
+        <p>OPC TechBridge | Germany Market Signals | 当前页面只生成机会卡和周报草稿，不自动发送邮件。</p>
+      </footer>
+    </div>
+    <script src="./app.js"></script>
+  </body>
+</html>

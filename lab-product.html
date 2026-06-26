@@ -1,0 +1,768 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ag/AgCl Reference Electrode | Cornerstone Lab</title>
+    <meta
+      name="description"
+      content="Product information for an AgCl electrode with technical details, product specifications and important notes."
+    />
+    <style>
+      :root {
+        --ink: #142132;
+        --muted: #5f6b7a;
+        --line: #d9e3ea;
+        --soft: #f4f8fb;
+        --panel: #ffffff;
+        --navy: #0d2a43;
+        --cyan: #008f98;
+        --green: #2b8a65;
+        --shadow: 0 22px 70px rgba(13, 42, 67, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: #fbfdfe;
+        color: var(--ink);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.55;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .shell {
+        width: min(1180px, calc(100% - 40px));
+        margin: 0 auto;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 22px 0;
+        color: var(--navy);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 750;
+        text-decoration: none;
+        letter-spacing: 0.01em;
+      }
+
+      .mark {
+        width: 34px;
+        height: 34px;
+        border: 2px solid var(--navy);
+        display: grid;
+        place-items: center;
+        color: var(--cyan);
+        font-weight: 800;
+      }
+
+      .topbar nav {
+        display: flex;
+        gap: 22px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .topbar nav a {
+        text-decoration: none;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 0.94fr) minmax(360px, 1.06fr);
+        gap: 48px;
+        align-items: center;
+        padding: 34px 0 56px;
+      }
+
+      .eyebrow {
+        margin: 0 0 14px;
+        color: var(--cyan);
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        max-width: 780px;
+        color: var(--navy);
+        font-size: clamp(38px, 5vw, 66px);
+        line-height: 1.02;
+        letter-spacing: 0;
+      }
+
+      .lead {
+        margin: 22px 0 0;
+        max-width: 640px;
+        color: var(--muted);
+        font-size: 19px;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 30px;
+      }
+
+      .btn {
+        min-height: 46px;
+        padding: 13px 18px;
+        border: 1px solid var(--navy);
+        background: var(--navy);
+        color: #fff;
+        text-decoration: none;
+        font-weight: 750;
+        cursor: pointer;
+      }
+
+      .btn.secondary {
+        background: #fff;
+        color: var(--navy);
+      }
+
+      .btn.ghost {
+        background: transparent;
+        color: var(--navy);
+      }
+
+      .trust {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1px;
+        margin-top: 34px;
+        border: 1px solid var(--line);
+        background: var(--line);
+      }
+
+      .trust div {
+        background: #fff;
+        padding: 18px;
+      }
+
+      .trust strong {
+        display: block;
+        color: var(--navy);
+        font-size: 15px;
+      }
+
+      .trust span {
+        display: block;
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .visual {
+        position: relative;
+        min-height: 520px;
+        overflow: hidden;
+        background:
+          linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.1)),
+          radial-gradient(circle at 18% 14%, rgba(0, 143, 152, 0.18), transparent 28%),
+          linear-gradient(140deg, #eaf2f6, #ffffff 42%, #0d2a43 42%, #0b2136);
+        box-shadow: var(--shadow);
+      }
+
+      .instrument {
+        position: absolute;
+        inset: 12%;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(2px);
+      }
+
+      .electrode {
+        position: absolute;
+        left: 7%;
+        right: 9%;
+        bottom: 21%;
+        height: 78px;
+        transform: rotate(-8deg);
+      }
+
+      .tube {
+        position: absolute;
+        left: 22%;
+        right: 0;
+        top: 23px;
+        height: 28px;
+        border: 2px solid rgba(255, 255, 255, 0.92);
+        border-radius: 20px;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.88), rgba(199, 233, 239, 0.38));
+      }
+
+      .tube:after {
+        content: "";
+        position: absolute;
+        left: 8%;
+        right: 12%;
+        top: 10px;
+        border-top: 1px solid rgba(13, 42, 67, 0.24);
+      }
+
+      .cap {
+        position: absolute;
+        left: 4%;
+        top: 10px;
+        width: 22%;
+        height: 54px;
+        border-radius: 18px;
+        background: repeating-linear-gradient(90deg, #0c69c8, #0c69c8 5px, #1f83df 5px, #1f83df 10px);
+        border: 8px solid #fff;
+        box-shadow: 0 18px 34px rgba(0, 0, 0, 0.18);
+      }
+
+      .cell {
+        position: absolute;
+        right: 13%;
+        top: 18%;
+        width: 170px;
+        height: 238px;
+        border: 3px solid rgba(255, 255, 255, 0.88);
+        border-radius: 12px 12px 28px 28px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.35), rgba(119, 213, 225, 0.18));
+      }
+
+      .cell:before,
+      .cell:after {
+        content: "";
+        position: absolute;
+        top: 42px;
+        width: 14px;
+        height: 120px;
+        background: rgba(255, 255, 255, 0.72);
+        border-radius: 12px;
+      }
+
+      .cell:before {
+        left: 58px;
+      }
+
+      .cell:after {
+        right: 48px;
+      }
+
+      .spec-strip {
+        position: absolute;
+        left: 28px;
+        right: 28px;
+        bottom: 28px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: rgba(255, 255, 255, 0.22);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .spec-strip div {
+        padding: 14px;
+        color: #fff;
+        background: rgba(7, 24, 39, 0.52);
+      }
+
+      .spec-strip b {
+        display: block;
+        font-size: 18px;
+      }
+
+      .spec-strip span {
+        color: #b8dce3;
+        font-size: 12px;
+      }
+
+      .section {
+        padding: 58px 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 28px;
+        align-items: end;
+        margin-bottom: 26px;
+      }
+
+      .section h2 {
+        margin: 0;
+        color: var(--navy);
+        font-size: clamp(28px, 3vw, 42px);
+        line-height: 1.1;
+      }
+
+      .section-head p {
+        margin: 0;
+        max-width: 460px;
+        color: var(--muted);
+      }
+
+      .spec-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+        box-shadow: 0 1px 0 var(--line);
+      }
+
+      .spec-table th,
+      .spec-table td {
+        padding: 18px 20px;
+        border: 1px solid var(--line);
+        text-align: left;
+        vertical-align: top;
+      }
+
+      .spec-table th {
+        width: 30%;
+        color: var(--navy);
+        background: var(--soft);
+        font-weight: 780;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .card {
+        min-height: 190px;
+        padding: 24px;
+        border: 1px solid var(--line);
+        background: #fff;
+      }
+
+      .card .num {
+        color: var(--cyan);
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+      }
+
+      .card h3 {
+        margin: 18px 0 10px;
+        color: var(--navy);
+        font-size: 22px;
+        line-height: 1.2;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .description-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 0.92fr) minmax(320px, 0.6fr);
+        gap: 28px;
+        align-items: stretch;
+      }
+
+      .description-panel {
+        padding: 32px;
+        background: var(--navy);
+        color: #fff;
+      }
+
+      .description-panel h2 {
+        color: #fff;
+      }
+
+      .description-panel p,
+      .description-panel li {
+        color: #c8d8e2;
+      }
+
+      .note-panel {
+        padding: 28px;
+        border: 1px solid #b9dfe1;
+        background: #f3fbfb;
+      }
+
+      .note-panel strong {
+        display: block;
+        color: var(--navy);
+        font-size: 18px;
+      }
+
+      .note-panel p {
+        color: var(--muted);
+      }
+
+      .inquiry-panel {
+        display: grid;
+        grid-template-columns: minmax(0, 0.76fr) minmax(280px, 0.44fr);
+        gap: 28px;
+        align-items: start;
+      }
+
+      .inquiry-form {
+        display: grid;
+        gap: 14px;
+        padding: 26px;
+        border: 1px solid var(--line);
+        background: #fff;
+      }
+
+      .field-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      label {
+        display: grid;
+        gap: 7px;
+        color: var(--navy);
+        font-size: 14px;
+        font-weight: 750;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        border: 1px solid var(--line);
+        background: #fbfdfe;
+        color: var(--ink);
+        font: inherit;
+        padding: 12px;
+      }
+
+      textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      .status-note {
+        min-height: 24px;
+        color: var(--green);
+        font-weight: 750;
+      }
+
+      .download-card {
+        padding: 24px;
+        border: 1px solid var(--line);
+        background: var(--soft);
+      }
+
+      .download-card h3 {
+        margin-top: 0;
+        color: var(--navy);
+      }
+
+      .download-card ul {
+        padding-left: 18px;
+        color: var(--muted);
+      }
+
+      .download-card .actions {
+        margin-top: 18px;
+      }
+
+      footer {
+        padding: 32px 0 46px;
+        color: var(--muted);
+        border-top: 1px solid var(--line);
+      }
+
+      @media (max-width: 900px) {
+        .hero,
+        .description-layout,
+        .inquiry-panel {
+          grid-template-columns: 1fr;
+        }
+
+        .visual {
+          min-height: 420px;
+        }
+
+        .trust,
+        .grid,
+        .spec-strip {
+          grid-template-columns: 1fr;
+        }
+
+        .section-head {
+          display: block;
+        }
+
+        .section-head p {
+          margin-top: 12px;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .shell {
+          width: min(100% - 28px, 1180px);
+        }
+
+        .topbar {
+          align-items: flex-start;
+        }
+
+        .topbar nav {
+          display: none;
+        }
+
+        .visual {
+          min-height: 360px;
+        }
+
+        .cell {
+          right: 6%;
+          width: 122px;
+          height: 190px;
+        }
+
+        .spec-table th,
+        .spec-table td {
+          display: block;
+          width: 100%;
+        }
+
+        .spec-table th {
+          border-bottom: 0;
+        }
+
+        .field-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="shell topbar">
+      <a class="brand" href="./blog/index.html">
+        <span class="mark">C</span>
+        <span>Product Information</span>
+      </a>
+      <nav aria-label="Product navigation">
+        <a href="./blog/index.html">Blog</a>
+        <a href="#details">Technical Details</a>
+        <a href="#description">Product Description</a>
+        <a href="#notes">Important Notes</a>
+        <a href="#inquiry">Inquiry</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="shell hero">
+        <div>
+          <p class="eyebrow">Product Information</p>
+          <h1>AgCl Electrode</h1>
+          <p class="lead">
+            Package includes 1 x AgCl Electrode and 1 x User manual.
+          </p>
+          <div class="actions">
+            <a class="btn" href="#details">Technical Details</a>
+            <a class="btn secondary" href="#notes">Important Notes</a>
+            <a class="btn ghost" href="#inquiry">Request quote</a>
+          </div>
+          <div class="trust" aria-label="Product highlights">
+            <div>
+              <strong>Internal Resistance</strong>
+              <span>&le;10K&Omega;</span>
+            </div>
+            <div>
+              <strong>Standard Potential at 25&deg;C</strong>
+              <span>0.198V</span>
+            </div>
+            <div>
+              <strong>Included components</strong>
+              <span>Silver chloride electrode</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="visual" aria-label="Reference electrode and electrochemical cell illustration">
+          <div class="instrument"></div>
+          <div class="cell"></div>
+          <div class="electrode">
+            <div class="cap"></div>
+            <div class="tube"></div>
+          </div>
+          <div class="spec-strip">
+            <div><b>6 mm</b><span>Diameter</span></div>
+            <div><b>0.198 V</b><span>Potential at 25 °C</span></div>
+            <div><b>&le; 10 k&Omega;</b><span>Internal resistance</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="details">
+        <div class="shell">
+          <div class="section-head">
+            <h2>Technical Details</h2>
+            <p>
+              Product details presented in a cleaner table format.
+            </p>
+          </div>
+          <table class="spec-table">
+            <tbody>
+              <tr>
+                <th>Manufacturer</th>
+                <td>GaossUnion</td>
+              </tr>
+              <tr>
+                <th>Part number</th>
+                <td>1060</td>
+              </tr>
+              <tr>
+                <th>Item Weight</th>
+                <td>1 kg</td>
+              </tr>
+              <tr>
+                <th>Product Dimensions</th>
+                <td>11 x 0.6 x 0.6 cm; 1 kg</td>
+              </tr>
+              <tr>
+                <th>Item model number</th>
+                <td>R1060</td>
+              </tr>
+              <tr>
+                <th>Item Package Quantity</th>
+                <td>1</td>
+              </tr>
+              <tr>
+                <th>Measurement Accuracy</th>
+                <td>not have</td>
+              </tr>
+              <tr>
+                <th>Included components</th>
+                <td>Silver chloride electrode</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section" id="description">
+        <div class="shell">
+          <div class="section-head">
+            <h2>Product description</h2>
+            <p>
+              Original package information and product specifications.
+            </p>
+          </div>
+          <div class="grid">
+            <article class="card">
+              <span class="num">01</span>
+              <h3>Package includes</h3>
+              <p>1 x AgCl Electrode<br />1 x User manual</p>
+            </article>
+            <article class="card">
+              <span class="num">02</span>
+              <h3>Internal Resistance</h3>
+              <p>&le;10K&Omega;</p>
+            </article>
+            <article class="card">
+              <span class="num">03</span>
+              <h3>Standard Potential</h3>
+              <p>0.198V at 25&deg;C</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="notes">
+        <div class="shell description-layout">
+          <div class="description-panel">
+            <p class="eyebrow">Important Notes</p>
+            <h2>Use and filling notes</h2>
+            <ol>
+              <li>Suitable for use in neutral systems.</li>
+              <li>For acidic or alkaline systems, please use an additional salt bridge.</li>
+              <li>Requires filling with saturated potassium chloride solution (KCl solution not included).</li>
+              <li>After filling with saturated KCl solution, some crystallisation may occur. This is normal and does not affect experimental results. A small amount of crystals is fine for normal use.</li>
+              <li>If bubbles appear inside the electrode after filling with saturated KCl solution, do not worry. Simply give the electrode a firm shake or two to move the bubbles toward the metal rod end, then proceed with normal use.</li>
+            </ol>
+          </div>
+          <aside class="note-panel">
+            <strong>Additional Information</strong>
+            <p>
+              ASIN: B0H4QKFSRZ
+              <br />
+              Date First Available: 10 Jun. 2026
+            </p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section" id="inquiry">
+        <div class="shell">
+          <div class="section-head">
+            <h2>Inquiry and product sheet</h2>
+            <p>
+              Save a local inquiry draft, copy key specifications or download the product sheet before sending it to a customer or supplier.
+            </p>
+          </div>
+          <div class="inquiry-panel">
+            <form class="inquiry-form" id="inquiryForm">
+              <div class="field-grid">
+                <label>
+                  Name
+                  <input name="name" autocomplete="name" required />
+                </label>
+                <label>
+                  Email
+                  <input name="email" type="email" autocomplete="email" required />
+                </label>
+              </div>
+              <div class="field-grid">
+                <label>
+                  Quantity
+                  <input name="quantity" type="number" min="1" value="1" />
+                </label>
+                <label>
+                  Application
+                  <input name="application" placeholder="Neutral, acidic or alkaline system" />
+                </label>
+              </div>
+              <label>
+                Message
+                <textarea name="message" placeholder="Add sample type, operating temperature, required documents or delivery notes."></textarea>
+              </label>
+              <button class="btn" type="submit">Save inquiry draft</button>
+              <p class="status-note" id="inquiryStatus" aria-live="polite"></p>
+            </form>
+            <aside class="download-card">
+              <h3>Product actions</h3>
+              <ul>
+                <li>Generate a text product sheet for sharing.</li>
+                <li>Copy core specifications to clipboard.</li>
+                <li>Print or save this page as PDF.</li>
+              </ul>
+              <div class="actions">
+                <button class="btn" type="button" id="downloadSheet">Download sheet</button>
+                <button class="btn secondary" type="button" id="copySpecs">Copy specs</button>
+                <button class="btn secondary" type="button" id="printPage">Print</button>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="shell">
+      Product Information · AgCl Electrode
+    </footer>
+    <script src="./lab-product.js"></script>
+  </body>
+</html>

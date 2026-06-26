@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Markdown 编辑器 | OPC 功能工作台</title>
+    <meta name="description" content="一个浏览器本地运行的简单 Markdown 编辑器，支持实时预览、保存草稿和下载文件。" />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="shell editor-shell">
+      <header class="top">
+        <div>
+          <a class="brand" href="../index.html">OPC_MARKDOWN_EDITOR</a>
+          <p>本地草稿、实时预览、快速导出，用来写报告、邮件草稿和项目笔记。</p>
+        </div>
+        <nav>
+          <a href="../index.html">工作台</a>
+          <a href="../../index.html">首页</a>
+          <a href="../../blog/index.html">博客</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="page-title">
+          <h1>Markdown 编辑器</h1>
+          <p>左侧写 Markdown，右侧即时预览。内容自动保存在当前浏览器里，也可以下载为 .md 文件。</p>
+        </section>
+
+        <section class="editor-actions" aria-label="Markdown 工具栏">
+          <button type="button" data-action="heading">H1</button>
+          <button type="button" data-action="bold">B</button>
+          <button type="button" data-action="italic">I</button>
+          <button type="button" data-action="link">LINK</button>
+          <button type="button" data-action="list">LIST</button>
+          <button type="button" data-action="quote">QUOTE</button>
+          <button type="button" data-action="code">CODE</button>
+          <span class="toolbar-spacer"></span>
+          <button type="button" class="secondary" id="copyHtml">复制 HTML</button>
+          <button type="button" class="secondary" id="downloadMd">下载 .md</button>
+          <button type="button" class="secondary" id="clearDraft">清空</button>
+        </section>
+
+        <section class="editor-grid">
+          <div class="panel editor-panel">
+            <div class="panel-head">
+              <h2>编辑</h2>
+              <span id="saveState">已保存</span>
+            </div>
+            <label for="titleInput">文件名</label>
+            <input id="titleInput" type="text" value="opc-notes" autocomplete="off" />
+            <label for="markdownInput">Markdown</label>
+            <textarea id="markdownInput" spellcheck="true"></textarea>
+          </div>
+
+          <div class="panel preview-panel">
+            <div class="panel-head">
+              <h2>预览</h2>
+              <span id="stats">0 字 | 0 词</span>
+            </div>
+            <article id="preview" class="markdown-preview" aria-live="polite"></article>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <p>Markdown = 轻量标记语言；Vorschau = 预览；draft = 草稿。所有内容只保存在当前浏览器本地。</p>
+      </footer>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>欧盟 CRA 对中国工业硬件出海的实际影响：从证书思维转向生命周期合规</title>
+    <meta name="description" content="分析欧盟 Cyber Resilience Act 在 2026 年进入执行准备期后，对中国自动化、IoT、嵌入式软件和工业硬件企业进入德国/欧洲市场的影响。" />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <div class="article-shell">
+      <header class="topbar">
+        <a class="brand" href="../index.html">YIJIAN_NOTES</a>
+        <nav><a href="../index.html">文章列表</a><a href="../about.html">关于博客</a><a href="../../tools/index.html">工作台</a></nav>
+      </header>
+      <article>
+        <header class="article-head">
+          <div class="meta"><span>2026-06-23</span><span class="tag">Compliance</span><span>7 min</span></div>
+          <h1>欧盟 CRA 对中国工业硬件出海的实际影响：从证书思维转向生命周期合规</h1>
+          <p>CRA 的关键不是多一个证书，而是把网络安全、漏洞响应、软件更新和技术文档变成欧洲市场准入的一部分。</p>
+          <img class="article-cover" src="../assets/engineering-flow.svg" alt="EU CRA industrial product compliance flow" />
+        </header>
+
+        <div class="article-body">
+          <p>2026 年 6 月，欧盟 Cyber Resilience Act 进入一个很实际的阶段。欧委会 CRA 页面在 2026-06-22 更新，实施时间线显示：2026-06-11 起，符合性评估通知机构相关规定开始适用，成员国需要指定 notifying authorities；2026-09-11 起，漏洞和严重事件报告义务开始适用；2027-12-11 起，CRA 全面适用。</p>
+
+          <p>这对中国工业企业的意义很直接：如果产品包含硬件、软件、远程数据处理或联网能力，就不能只按传统 CE、EMC、LVD、机械安全去准备资料。CRA 把网络安全要求放进了产品生命周期，覆盖规划、设计、开发、维护和漏洞处理。</p>
+
+          <h2>哪些企业先受影响</h2>
+          <p>最先需要警觉的不是纯贸易公司，而是做“带数字元素产品”的制造商和品牌方。工业网关、PLC 周边模块、HMI、传感器盒子、边缘计算设备、机器人控制器、BMS/EMS、充电桩控制板、车载或车队管理软件、设备远程维护平台，都可能进入 CRA 讨论范围。</p>
+
+          <p>欧委会对 product with digital elements 的解释包括软件或硬件产品，以及其远程数据处理方案。换句话说，如果一个设备的功能依赖云端配置、远程诊断、App、OTA 或后端服务，企业不能只提交硬件测试报告，还要解释软件和服务如何被安全设计、更新和维护。</p>
+
+          <h2>为什么 2026 年就要开始</h2>
+          <p>很多企业会把 2027-12-11 当成真正截止日期，这个理解太晚。2026-06-11 后，通知机构体系开始成形；2026-09-11 后，报告义务先行适用；标准化交付物也在 2026 年陆续推进。客户、进口商和分销商不会等到最后一天才问问题，他们会提前把 CRA 风险写进采购、试点和售后条款。</p>
+
+          <blockquote>欧洲客户最可能先问的不是“你有没有 CRA 证书”，而是“你的产品分类、技术文档、漏洞响应、更新机制和支持期限能不能解释清楚”。</blockquote>
+
+          <h2>OPC 的实际判断</h2>
+          <p>对准备进入德国市场的中国硬科技企业，我会把 CRA 准备拆成四张清单。</p>
+          <ul>
+            <li>产品分类清单：是否属于 product with digital elements，是否可能落入 important 或 critical 类别。</li>
+            <li>技术文档清单：安全设计、默认配置、接口、依赖组件、SBOM、测试记录、EU Declaration of Conformity 路径。</li>
+            <li>生命周期清单：更新策略、支持期限、漏洞接收渠道、严重事件报告流程、客户通知机制。</li>
+            <li>责任边界清单：制造商、进口商、分销商、本地服务商和最终客户分别承担什么义务。</li>
+          </ul>
+
+          <p>这四张清单比单独找一个认证报价更早、更有用。它们能帮助企业判断产品是否适合先做德国试点，还是应该先补软件工程、售后和合规文档。</p>
+
+          <h2>对 OPC 服务叙事的影响</h2>
+          <p>CRA 很适合 OPC 的一人公司标准化交付逻辑，因为它本质上是把复杂市场准入拆成可重复的资料包、风险清单和交付流程。对客户来说，第一阶段不需要承诺“包过认证”，而是先做 market-entry readiness：产品范围、法规路径、缺口、责任方和下一步验证。</p>
+
+          <p>这也是中德技术桥梁的价值。德国客户重视可追溯、责任边界和文档一致性；中国供应商擅长工程实现和快速迭代。CRA 会惩罚只会卖功能的供应商，但会奖励能把产品生命周期讲清楚的团队。</p>
+
+          <h2>参考来源</h2>
+          <ul>
+            <li><a href="https://digital-strategy.ec.europa.eu/en/policies/cyber-resilience-act" target="_blank" rel="noreferrer">European Commission: Cyber Resilience Act, last update 2026-06-22</a></li>
+            <li><a href="https://digital-strategy.ec.europa.eu/en/factpages/cyber-resilience-act-implementation" target="_blank" rel="noreferrer">European Commission: Cyber Resilience Act implementation timeline</a></li>
+            <li><a href="https://digital-strategy.ec.europa.eu/en/policies/cra-summary" target="_blank" rel="noreferrer">European Commission: Summary of the CRA legal text</a></li>
+            <li><a href="https://eur-lex.europa.eu/eli/reg/2024/2847/oj" target="_blank" rel="noreferrer">Regulation (EU) 2024/2847 on cyber resilience requirements</a></li>
+          </ul>
+        </div>
+        <section class="article-tools" data-current-post="eu-cra-industrial-products.html">
+          <a class="tool-link" href="../index.html">返回列表</a>
+          <button type="button" data-copy-current>复制链接</button>
+          <button type="button" data-save-read>稍后读</button>
+        </section>
+        <section class="related-section" aria-label="继续阅读">
+          <h2>继续阅读</h2>
+          <div class="related-grid" data-related-posts></div>
+        </section>
+      </article>
+      <footer class="footer">Yijian Notes | EU CRA and industrial market entry</footer>
+    </div>
+    <div class="toast" data-toast hidden></div>
+    <script src="../content.js"></script>
+    <script src="../site.js"></script>
+  </body>
+</html>

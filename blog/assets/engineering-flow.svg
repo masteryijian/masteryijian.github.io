@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+  <title id="title">Engineering flow</title>
+  <desc id="desc">A system flow from input to risk control to delivery.</desc>
+  <rect width="960" height="520" fill="#fbfaf6"/>
+  <rect x="90" y="180" width="180" height="130" fill="#fff" stroke="#171717" stroke-width="6"/>
+  <rect x="390" y="180" width="180" height="130" fill="#dce8eb" stroke="#171717" stroke-width="6"/>
+  <rect x="690" y="180" width="180" height="130" fill="#efe1d2" stroke="#171717" stroke-width="6"/>
+  <path d="M285 245h85M585 245h85" stroke="#171717" stroke-width="12"/>
+  <path d="M352 215l38 30-38 30M652 215l38 30-38 30" fill="none" stroke="#171717" stroke-width="10"/>
+  <path d="M130 225h95M130 265h70M430 225h95M430 265h85M730 225h95M730 265h75" stroke="#171717" stroke-width="8"/>
+  <circle cx="480" cy="390" r="42" fill="#235f7a"/>
+  <path d="M480 348v-70" stroke="#171717" stroke-width="8"/>
+</svg>

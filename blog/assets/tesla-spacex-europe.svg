@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+  <title id="title">Tesla and SpaceX Europe signal</title>
+  <desc id="desc">A stylized Europe road map connected to a rocket launch and capital market chart.</desc>
+  <rect width="960" height="520" fill="#fbfaf6"/>
+  <rect x="58" y="64" width="844" height="392" fill="#fff" stroke="#171717" stroke-width="6"/>
+  <path d="M130 330c90-120 180-70 250-165 70-95 185-82 265-18 72 58 120 44 185 6" fill="none" stroke="#235f7a" stroke-width="14" stroke-linecap="square"/>
+  <path d="M142 344h70M314 210h70M520 148h70M724 166h70" stroke="#171717" stroke-width="8"/>
+  <circle cx="180" cy="312" r="24" fill="#8a4f20" stroke="#171717" stroke-width="4"/>
+  <circle cx="382" cy="176" r="24" fill="#8a4f20" stroke="#171717" stroke-width="4"/>
+  <circle cx="588" cy="146" r="24" fill="#8a4f20" stroke="#171717" stroke-width="4"/>
+  <circle cx="772" cy="164" r="24" fill="#8a4f20" stroke="#171717" stroke-width="4"/>
+  <path d="M685 370l38-118 38 118h-76Z" fill="#ece8dc" stroke="#171717" stroke-width="6"/>
+  <path d="M723 252v-74M701 190l22-46 22 46" fill="none" stroke="#171717" stroke-width="8"/>
+  <path d="M170 405h210M170 405l55-40 50 18 70-70 35 25" fill="none" stroke="#171717" stroke-width="8"/>
+  <text x="122" y="118" font-family="Georgia, serif" font-size="44" fill="#171717">FSD EU</text>
+  <text x="660" y="430" font-family="Georgia, serif" font-size="34" fill="#171717">SPCX?</text>
+</svg>

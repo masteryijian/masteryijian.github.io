@@ -1,0 +1,13 @@
+{
+  "name": "ceo-intel-crm",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "vite --host 127.0.0.1",
+    "test": "node --check src/main.js"
+  },
+  "devDependencies": {
+    "vite": "^7.2.4"
+  }
+}

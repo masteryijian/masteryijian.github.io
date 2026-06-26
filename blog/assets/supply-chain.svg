@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+  <title id="title">Supply chain to Germany</title>
+  <desc id="desc">A route diagram connecting factory, documents, pilot and customer.</desc>
+  <rect width="960" height="520" fill="#fbfaf6"/>
+  <rect x="85" y="300" width="170" height="90" fill="#fff" stroke="#171717" stroke-width="6"/>
+  <path d="M110 300v-65l45 65v-65l45 65v-65l45 65" fill="#ece8dc" stroke="#171717" stroke-width="5"/>
+  <rect x="335" y="120" width="170" height="250" fill="#fff" stroke="#171717" stroke-width="6"/>
+  <path d="M365 170h110M365 215h95M365 260h120M365 305h80" stroke="#171717" stroke-width="8"/>
+  <rect x="610" y="190" width="110" height="110" fill="#dce8eb" stroke="#171717" stroke-width="6"/>
+  <rect x="780" y="280" width="110" height="110" fill="#efe1d2" stroke="#171717" stroke-width="6"/>
+  <path d="M255 345c95 0 75-150 160-150M505 245h82M720 245c55 0 40 90 60 90" fill="none" stroke="#235f7a" stroke-width="12"/>
+  <circle cx="420" cy="195" r="16" fill="#8a4f20"/>
+  <circle cx="665" cy="245" r="16" fill="#8a4f20"/>
+  <circle cx="835" cy="335" r="16" fill="#8a4f20"/>
+</svg>

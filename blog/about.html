@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>关于博客 | Yijian Notes</title>
+    <meta name="description" content="Yijian Notes 的写作方向和更新原则。" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="article-shell">
+      <header class="topbar">
+        <a class="brand" href="./index.html">YIJIAN_NOTES</a>
+        <nav>
+          <a href="./index.html">文章</a>
+          <a href="./index.html">博客首页</a>
+          <a href="../lab-product.html">产品页</a>
+        </nav>
+      </header>
+      <main class="article-body">
+        <h1>关于这个博客</h1>
+        <p>这个博客用来沉淀 OPC TechBridge 的实践笔记：中德技术落地、德国市场拜访、自动化工作流、客户资料分析、CRM 和一人公司经营。</p>
+        <p>写作原则很简单：少一点口号，多一点可执行的判断。每篇文章最好能回答一个真实问题，或者变成下一次客户沟通前的一张检查清单。</p>
+        <h2>后续可以继续写的主题</h2>
+        <ul>
+          <li>德国客户拜访前 24 小时检查表。</li>
+          <li>中国供应链进入德国市场的报价结构。</li>
+          <li>OPC 一人公司如何用 CRM 和助理系统减少漏跟进。</li>
+          <li>自动驾驶测试验证经验如何迁移到工业客户项目管理。</li>
+        </ul>
+        <section class="topic-box" aria-label="博客选题收集">
+          <h2>临时记一个选题</h2>
+          <form data-topic-form>
+            <textarea rows="4" placeholder="例如：把客户录音整理成 CRM 跟进任务..."></textarea>
+            <button type="submit">保存选题</button>
+          </form>
+          <ul class="topic-list" data-topic-list></ul>
+        </section>
+      </main>
+      <footer class="footer">Yijian Notes | 持续更新</footer>
+    </div>
+    <div class="toast" data-toast hidden></div>
+    <script src="./content.js"></script>
+    <script src="./site.js"></script>
+  </body>
+</html>

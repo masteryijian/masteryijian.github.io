@@ -1,0 +1,168 @@
+.editor-shell {
+  max-width: 1280px;
+}
+
+.page-title {
+  margin-bottom: 1.25rem;
+}
+
+.editor-actions {
+  border: 1px solid #000;
+  background: #f8f8f8;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.editor-actions button {
+  min-width: 3rem;
+  padding: 0.5rem 0.65rem;
+}
+
+.toolbar-spacer {
+  flex: 1 1 1rem;
+}
+
+.editor-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.editor-panel,
+.preview-panel {
+  min-height: 68vh;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.panel-head {
+  border-bottom: 1px dashed #000;
+  padding-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+}
+
+.panel-head h2 {
+  margin: 0;
+}
+
+.panel-head span {
+  color: #333;
+  font-size: 0.9rem;
+  text-align: right;
+}
+
+#markdownInput {
+  flex: 1;
+  min-height: 480px;
+  resize: vertical;
+  line-height: 1.55;
+  tab-size: 2;
+}
+
+.markdown-preview {
+  flex: 1;
+  overflow: auto;
+  background: #fff;
+  border: 1px solid #000;
+  padding: 1.25rem;
+  min-height: 480px;
+}
+
+.markdown-preview > *:first-child {
+  margin-top: 0;
+}
+
+.markdown-preview h1,
+.markdown-preview h2,
+.markdown-preview h3 {
+  line-height: 1.2;
+  margin: 1.2rem 0 0.65rem;
+}
+
+.markdown-preview h1 {
+  border-bottom: 3px double #000;
+  padding-bottom: 0.35rem;
+  font-size: 1.8rem;
+}
+
+.markdown-preview h2 {
+  border-bottom: 1px solid #000;
+  padding-bottom: 0.25rem;
+  font-size: 1.35rem;
+}
+
+.markdown-preview p,
+.markdown-preview ul,
+.markdown-preview ol,
+.markdown-preview blockquote,
+.markdown-preview pre {
+  margin: 0.75rem 0;
+}
+
+.markdown-preview ul,
+.markdown-preview ol {
+  padding-left: 1.5rem;
+}
+
+.markdown-preview blockquote {
+  border-left: 4px solid #000;
+  background: #fff6c7;
+  padding: 0.45rem 0.75rem;
+}
+
+.markdown-preview code {
+  background: #f1f1f1;
+  border: 1px solid #000;
+  padding: 0.05rem 0.25rem;
+}
+
+.markdown-preview pre {
+  background: #f1f1f1;
+  border: 1px solid #000;
+  padding: 0.9rem;
+  overflow: auto;
+}
+
+.markdown-preview pre code {
+  border: 0;
+  padding: 0;
+}
+
+.markdown-preview table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.9rem 0;
+}
+
+.markdown-preview th,
+.markdown-preview td {
+  border: 1px solid #000;
+  padding: 0.45rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+@media (max-width: 900px) {
+  .editor-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .editor-panel,
+  .preview-panel {
+    min-height: auto;
+  }
+
+  #markdownInput,
+  .markdown-preview {
+    min-height: 360px;
+  }
+}

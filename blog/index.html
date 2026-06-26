@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Yijian Notes | OPC Blog</title>
+    <meta name="description" content="何一建关于中德技术落地、OPC 一人公司、德国市场拜访和自动化工作流的博客。" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="./index.html">YIJIAN_NOTES</a>
+        <nav aria-label="Blog navigation">
+          <a href="./index.html">博客首页</a>
+          <a href="./about.html">关于博客</a>
+          <a href="../lab-product.html">产品页</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="intro">
+          <div>
+            <h1>把跨境技术落地写成可复用的笔记</h1>
+            <p>
+              这里记录中德自动化、客户拜访、合规资料、OPC 一人公司和业务自动化的实践。文章不追求热闹，重点是能在下一次客户沟通里直接用上。
+            </p>
+          </div>
+          <aside class="visual-note">
+            <img src="./assets/opc-notes.svg" alt="OPC notes visual" />
+            <div>
+              <strong>最新主题：广西企业出海与东盟交付能力</strong>
+              <span>从机电、新能源、跨境电商到西部陆海新通道。</span>
+            </div>
+          </aside>
+        </section>
+
+        <section class="controls" aria-label="文章筛选">
+          <input id="search" type="search" placeholder="搜索：OPC、德国市场、自动化、客户拜访..." />
+          <div class="filters">
+            <button class="active" type="button" data-category="All">全部</button>
+            <button type="button" data-category="OPC">OPC</button>
+            <button type="button" data-category="Market">德国市场</button>
+            <button type="button" data-category="Engineering">工程</button>
+            <button type="button" data-category="Sales">销售</button>
+          </div>
+          <div class="utility-actions">
+            <button id="clearSearch" type="button">清空筛选</button>
+            <button id="shareBlog" type="button">分享博客</button>
+          </div>
+        </section>
+
+        <section class="post-grid" id="postGrid" aria-label="文章列表"></section>
+      </main>
+
+      <footer class="footer">
+        <p>Yijian Notes | OPC TechBridge | 文章为个人实践笔记，不构成法律、税务或签证建议。</p>
+      </footer>
+    </div>
+    <script src="./content.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

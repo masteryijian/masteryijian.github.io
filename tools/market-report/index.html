@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>德国市场拜访评估系统</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">DE</div>
+          <div>
+            <h1>德国市场拜访评估</h1>
+            <p>资料抽取、市场验证、合规评估、报价生成</p>
+          </div>
+        </div>
+
+        <nav class="nav">
+          <a href="../index.html">返回工作台</a>
+          <a href="#upload" class="active">资料上传</a>
+          <a href="#profile">项目档案</a>
+          <a href="#progress">处理进度</a>
+          <a href="#report">报告下载</a>
+        </nav>
+
+        <div class="status-box">
+          <span class="status-dot" id="systemDot"></span>
+          <div>
+            <strong id="systemStatus">等待资料</strong>
+            <small id="systemHint">上传文件后开始生成评估</small>
+          </div>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <section class="topbar">
+          <div>
+            <p class="eyebrow">Germany Market Entry Desk</p>
+            <h2>把产品资料变成可拜访、可报价、可落地的客户报告</h2>
+          </div>
+          <button class="primary-action" id="runBtn" type="button">开始评估</button>
+        </section>
+
+        <section class="grid two-columns">
+          <div class="panel" id="upload">
+            <div class="panel-heading">
+              <h3>上传资料</h3>
+              <span>PDF / Word / 图片 / 表格</span>
+            </div>
+            <label class="dropzone" id="dropzone">
+              <input
+                id="fileInput"
+                type="file"
+                multiple
+                accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.webp,.xlsx,.xls,.csv,.txt,.md"
+              />
+              <span class="upload-icon">+</span>
+              <strong>拖拽文件到这里，或点击选择</strong>
+              <small>发布版直接在浏览器读取 TXT、CSV、Excel、DOCX、PDF 文本；图片和扫描件会记录文件信息，并提示补充 OCR 文本。</small>
+            </label>
+            <div class="file-list" id="fileList">
+              <p class="empty-state">还没有上传资料。</p>
+            </div>
+          </div>
+
+          <div class="panel" id="profile">
+            <div class="panel-heading">
+              <h3>项目档案</h3>
+              <span>用于生成报告和报价</span>
+            </div>
+            <form class="profile-form" id="profileForm">
+              <label>
+                客户名称
+                <input name="customer" placeholder="例如：Muster GmbH" />
+              </label>
+              <label>
+                产品名称
+                <input name="product" placeholder="例如：智能传感器 / 工业设备 / 消费品" />
+              </label>
+              <label>
+                产品类别
+                <select name="category">
+                  <option value="工业设备">工业设备</option>
+                  <option value="电子电器">电子电器</option>
+                  <option value="软件 / 数据产品">软件 / 数据产品</option>
+                  <option value="医疗 / 健康">医疗 / 健康</option>
+                  <option value="消费品">消费品</option>
+                  <option value="其他">其他</option>
+                </select>
+              </label>
+              <label>
+                目标行业
+                <input name="industry" placeholder="例如：汽车、物流、制造、能源、零售" />
+              </label>
+              <label>
+                预计单件成本 EUR
+                <input name="unitCost" type="number" min="0" step="0.01" placeholder="0.00" />
+              </label>
+              <label>
+                预计月销量
+                <input name="monthlyVolume" type="number" min="0" step="1" placeholder="100" />
+              </label>
+              <label class="wide">
+                重点关注
+                <textarea
+                  name="focus"
+                  rows="4"
+                  placeholder="例如：数据安全、GDPR、CE、仓储、售后维修、代理模式、报价条款"
+                ></textarea>
+              </label>
+            </form>
+          </div>
+        </section>
+
+        <section class="grid progress-layout" id="progress">
+          <div class="panel">
+            <div class="panel-heading">
+              <h3>处理进度</h3>
+              <span id="overallPercent">0%</span>
+            </div>
+            <div class="progress-bar">
+              <div id="progressFill"></div>
+            </div>
+            <ol class="steps" id="steps">
+              <li data-step="0"><span></span>资料接收与分类</li>
+              <li data-step="1"><span></span>文本抽取与信息建档</li>
+              <li data-step="2"><span></span>德国市场数据验证</li>
+              <li data-step="3"><span></span>合规与数据安全检查</li>
+              <li data-step="4"><span></span>落地模式与成本估算</li>
+              <li data-step="5"><span></span>报告与报价生成</li>
+            </ol>
+          </div>
+
+          <div class="panel">
+            <div class="panel-heading">
+              <h3>处理日志</h3>
+              <button class="text-action" id="clearLogBtn" type="button">清空</button>
+            </div>
+            <div class="activity-log" id="activityLog">
+              <p>等待开始。</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel report-panel" id="report">
+          <div class="panel-heading">
+            <h3>报告预览与下载</h3>
+            <div class="download-actions">
+              <button class="secondary-action" id="downloadReportBtn" type="button" disabled>下载报告 Markdown</button>
+              <button class="secondary-action" id="downloadJsonBtn" type="button" disabled>下载项目 JSON</button>
+              <button class="secondary-action" id="syncWorkspaceBtn" type="button" disabled>同步到 CRM / 助理</button>
+              <button class="secondary-action" id="copyCodexBtn" type="button" disabled>复制给 Codex 分析</button>
+            </div>
+          </div>
+          <div class="report-preview" id="reportPreview">
+            <p>完成评估后，这里会显示报告预览。</p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js?v=20260527c"></script>
+  </body>
+</html>

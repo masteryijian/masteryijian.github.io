@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>私人业务助理 | OPC</title>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <header class="top">
+        <div>
+          <a class="brand" href="../index.html">PERSONAL_BUSINESS_ASSISTANT</a>
+          <p>待办、日程、花销、客户沟通、录音纪要、报告状态和 CRM 同步。</p>
+        </div>
+        <nav>
+          <a href="../index.html">工作台</a>
+          <a href="../../index.html">首页</a>
+        </nav>
+      </header>
+
+      <main class="stack">
+        <section class="page-title">
+          <h1>私人业务助理</h1>
+          <p>数据保存在本机浏览器 localStorage，并同步到本地 CRM 数据池。不会自动发送 WhatsApp、微信或邮件，只生成可确认的草稿和更新建议。</p>
+        </section>
+
+        <section class="tabs" aria-label="Assistant sections">
+          <button class="active" data-tab="brief" type="button">每日简报</button>
+          <button data-tab="schedule" type="button">日程安排</button>
+          <button data-tab="tasks" type="button">待办</button>
+          <button data-tab="contacts" type="button">联系人</button>
+          <button data-tab="reports" type="button">报告</button>
+          <button data-tab="expenses" type="button">花销上报</button>
+          <button data-tab="conversations" type="button">客户沟通</button>
+          <button data-tab="drafts" type="button">消息草稿</button>
+        </section>
+
+        <section class="grid">
+          <div class="panel stack" id="formPanel"></div>
+          <div class="panel stack">
+            <h2 id="listTitle">今日简报</h2>
+            <div class="output" id="assistantOutput"></div>
+            <div class="toolbar">
+              <button id="downloadAssistant" type="button">下载 JSON</button>
+              <button id="syncCrm" class="secondary" type="button">同步到 CRM</button>
+              <button id="resetAssistant" class="secondary" type="button">恢复样例数据</button>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <p>OPC TechBridge | 私人业务助理 | 本地浏览器数据可与 CRM 工作台同步。</p>
+      </footer>
+    </div>
+    <script src="./app.js?v=20260527b"></script>
+  </body>
+</html>

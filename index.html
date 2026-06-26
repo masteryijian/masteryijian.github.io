@@ -13,6 +13,7 @@
         :root {
             --bg: #ffffff;
             --text: #000000;
+            --link: #0000ee;
             --border: #000000;
         }
 
@@ -61,7 +62,7 @@
             font-weight: bold;
         }
 
-        nav a { color: #000; text-decoration: underline; text-transform: uppercase; font-size: 0.85rem; }
+        nav a { color: var(--link); text-decoration: underline; text-transform: uppercase; font-size: 0.85rem; }
 
         .btn-lang {
             background: #000;
@@ -96,6 +97,8 @@
             cursor: pointer;
             text-transform: uppercase;
             font-family: inherit;
+            display: inline-block;
+            text-decoration: none;
         }
         .cta-btn:hover { background: #fff; color: #000; }
 
@@ -154,6 +157,7 @@
                 <a href="index.html" class="lang-zh">首页</a><a href="index.html" class="lang-de">Startseite</a>
                 <a href="about.html" class="lang-zh">深度履历</a><a href="about.html" class="lang-de">Portfolio</a>
                 <a href="news.html" class="lang-zh">行业动态</a><a href="news.html" class="lang-de">Trends</a>
+                <a href="tools/index.html" class="lang-zh">功能工作台</a><a href="tools/index.html" class="lang-de">Workbench</a>
             </nav>
             <button class="btn-lang" onclick="toggleLanguage()">[切换语言 / TOGGLE_LANG]</button>
         </header>
@@ -168,17 +172,9 @@
                     <h1>Technisches Projektmanagement: China & Deutschland</h1>
                     <p style="margin: 1.5rem 0;">Effiziente Schnittstelle für Automatisierung, autonomes Fahren und digitale Transformation. Chinesische Dynamik trifft deutsche Präzision.</p>
                 </div>
-                <button class="cta-btn" onclick="openCalendly(event)">
+                <a class="cta-btn" href="https://calendly.com/heyijian" onclick="openCalendly(event)">
                     >> 执行效率评估预约 / BOOK_SESSION <<
-                </button>
-            </section>
-
-            <section id="latest" style="border: 2px solid #000; padding: 1.5rem; margin-bottom: 2rem; background: #fafafa;">
-                <h2 class="lang-zh">📰 最新调研报告</h2>
-                <h2 class="lang-de">📰 Aktuelle Studie</h2>
-                <h3><a href="news/german-hardtech-2026.html" style="color: #000; text-decoration: underline;"><span class="lang-zh">德国硬科技市场调研报告：中国硬科技产品引入德国市场机会分析</span><span class="lang-de">Marktstudie: Chancen für chinesische Hard-Tech-Produkte in Deutschland</span></a></h3>
-                <p class="lang-zh">2026-05-16 | 新能源电池、光伏储能、充电桩、工业机器人等八大领域全景分析。点击阅读全文 →</p>
-                <p class="lang-de">2026-05-16 | Analyse von acht Segmenten inkl. Batterien, PV, Ladeinfrastruktur, Roboter. Vollbericht lesen →</p>
+                </a>
             </section>
 
             <div class="sub-nav">
@@ -193,6 +189,12 @@
                     <h3 class="lang-de">📈 Markttrends ➔</h3>
                     <p class="lang-zh">中德自动化市场深度观察。</p>
                     <p class="lang-de">Wöchentliche Analysen zur industriellen Transformation.</p>
+                </a>
+                <a href="tools/index.html" class="nav-card">
+                    <h3 class="lang-zh">🧰 OPC 功能工作台 ➔</h3>
+                    <h3 class="lang-de">🧰 OPC Workbench ➔</h3>
+                    <p class="lang-zh">客户评估、CRM、技工桥接、业务助理、Newsletter。</p>
+                    <p class="lang-de">Market report, CRM, talent bridge, assistant and newsletter.</p>
                 </a>
             </div>
 
@@ -223,22 +225,40 @@
                             <li>代表国内企业维护德国一线关系（如汉诺威工博会）。</li>
                             <li>进度通过共享日历实时同步。</li>
                             <li>费用仅为传统外派或全职BD成本的 30%-50%。</li>
+                            <li>配套 <a href="tools/crm/index.html">CEO 情报 CRM</a> 与 <a href="tools/assistant/index.html">私人业务助理</a> 管理跟进。</li>
                         </ul>
                         <ul class="lang-de">
                             <li>Business Execution: Repräsentanz auf Messen und proaktive Kommunikation.</li>
                             <li>Transparenz: Live-Synchronisierung via Shared Calendar.</li>
+                            <li>Unterstützt durch CRM- und Assistant-Workflows.</li>
                         </ul>
                     </div>
                     <div class="box">
-                        <h3 class="lang-zh">⚖️ 落地合规性调研与对接</h3>
-                        <h3 class="lang-de">Compliance & Consulting</h3>
+                        <h3 class="lang-zh">⚖️ 中国工业产品/设备进入德国和 EU 市场的技术合规与落地服务</h3>
+                        <h3 class="lang-de">EU Market Access & Technical Compliance for Chinese Industrial Products</h3>
                         <ul class="lang-zh">
-                            <li>协助调研 CE、VDE 等认证门槛。</li>
-                            <li>联动专业税务师处理双重征税 (DBA) 及合规文件。</li>
+                            <li>我帮助中国工业产品/设备进入德国和 EU 市场，处理技术合规、文件、认证协调和本地服务落地。</li>
+                            <li>重点产品：工业设备、机械、半自动设备；电气控制柜、工业电源、电机、传感器；工业 IoT、网关、控制器、边缘设备；自动化零部件、机器人周边、测试设备；B2B 工具、实验室/生产辅助设备。</li>
+                            <li>联动专业税务师、认证机构与德国本地服务方，处理 DBA、贸易、售后与合规文件衔接。</li>
+                            <li>使用 <a href="tools/market-report/index.html">德国市场拜访评估系统</a> 把客户资料、拜访记录和市场反馈转成可执行报告。</li>
                         </ul>
                         <ul class="lang-de">
-                            <li>Market Access: Beratung zu CE-, VDE-Zertifizierungen.</li>
-                            <li>Rechtliches: Kooperation mit Spezialisten für DBA-Compliance.</li>
+                            <li>Ich unterstütze chinesische Industrieprodukte und Anlagen beim Markteintritt in Deutschland und der EU: technische Compliance, Dokumentation, Zertifizierungskoordination und lokale Serviceprozesse.</li>
+                            <li>Fokusprodukte: Industrieanlagen, Maschinen und teilautomatisierte Anlagen; Schaltschränke, industrielle Stromversorgungen, Motoren und Sensoren; Industrie-IoT, Gateways, Controller und Edge-Geräte; Automationskomponenten, Roboterperipherie und Prüftechnik; B2B-Werkzeuge sowie Labor- und Produktionshilfsmittel.</li>
+                            <li>Umsetzung: Koordination mit Steuerberatern, Prüfstellen und lokalen Servicepartnern für DBA-, Handels-, After-Sales- und Compliance-Dokumente.</li>
+                            <li>Erste Kunden- und Marktberichte entstehen im <a href="tools/market-report/index.html">Market-Entry-Desk</a>.</li>
+                        </ul>
+                    </div>
+                    <div class="box">
+                        <h3 class="lang-zh">🧩 项目型机会验证</h3>
+                        <h3 class="lang-de">Project Opportunity Validation</h3>
+                        <ul class="lang-zh">
+                            <li><a href="tools/ausbildung/index.html">中德技工桥接计划</a>：验证德国项目制技工需求。</li>
+                            <li><a href="tools/newsletter/index.html">Germany Market Signals</a>：沉淀市场信号、订阅线索与周报草稿。</li>
+                        </ul>
+                        <ul class="lang-de">
+                            <li>Fachkräftebrücke: Validierung konkreter Projektbedarfe.</li>
+                            <li>Market Signals: Chancen, Newsletter und Lieferketten-Matching.</li>
                         </ul>
                     </div>
                 </div>
@@ -291,7 +311,12 @@
         }
         function openCalendly(event) {
             event.preventDefault(); 
-            Calendly.initPopupWidget({ url: 'https://calendly.com/yijian' });
+            const calendlyUrl = 'https://calendly.com/heyijian';
+            if (window.Calendly) {
+                Calendly.initPopupWidget({ url: calendlyUrl });
+            } else {
+                window.open(calendlyUrl, '_blank', 'noopener');
+            }
         }
     </script>
 </body>
