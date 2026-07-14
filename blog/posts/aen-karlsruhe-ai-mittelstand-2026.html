@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AEN Karlsruhe 2026 AI Mittelstand 活动复盘：AI 落地先做治理，再谈效率</title>
+    <meta name="description" content="基于 AEN 2026-07-14 Karlsruhe 活动议程与现场记录，整理德国中小企业在 AI 培训、数据保护、RAG、AI Agent 和工程分析落地中的真实门槛。" />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <div class="article-shell">
+      <header class="topbar">
+        <a class="brand" href="../index.html">YIJIAN_NOTES</a>
+        <nav><a href="../index.html">文章列表</a><a href="../about.html">关于博客</a><a href="../../tools/index.html">工作台</a></nav>
+      </header>
+      <article>
+        <header class="article-head">
+          <div class="meta"><span>2026-07-14</span><span class="tag">AI Governance</span><span>9 min</span></div>
+          <h1>AEN Karlsruhe 2026 AI Mittelstand 活动复盘：AI 落地先做治理，再谈效率</h1>
+          <p>德国中小企业不是不想用 AI，而是不确定哪些数据能用、谁负责、如何培训员工，以及怎样把 AI 安全接进业务流程。</p>
+          <img class="article-cover" src="../assets/engineering-flow.svg" alt="AI governance and engineering workflow" />
+        </header>
+
+        <div class="article-body">
+          <p>2026 年 7 月 14 日，AEN Automotive Engineering Network 在 FUX Karlsruhe 举办 “Innovation und Transformation Mittelstand - mittels KI”。官方议程给出的主题是 “Warum Mitglied in einem Netzwerk werden - Lösungen von Mitgliedern für Mitglieder”，时间为 09:00 到 13:00，地点是 Alter Schlachthof 33, 76131 Karlsruhe。</p>
+
+          <p>这不是一场单纯讨论“哪个模型更强”的活动。结合 AEN 官方议程、LinkedIn 预告和现场记录来看，德国 Mittelstand 真正在意的是四件事：AI 素养和培训、Datenschutz 和数据边界、AI 风险与网络安全、企业知识如何通过 RAG 和工程数据工具进入真实流程。</p>
+
+          <blockquote>我的判断：对欧洲企业来说，Datenschutz、AI Governance 和员工培训不是 AI 落地后的附加问题，而是企业敢不敢使用 AI 的前提。</blockquote>
+
+          <h2>官方议程给出的四个信号</h2>
+          <p>AEN 的 PDF 议程列出了四个 Fachimpulse，基本覆盖了德国中小企业 2026 年最现实的 AI 落地问题。</p>
+          <ul>
+            <li>09:30 - 10:00：Nicholas Williams, WilliamsSystem，主题是 AI-Schulungen、ChatGPT、Prompting、Datenschutz 和 KI-Verordnung。</li>
+            <li>10:00 - 10:30：Leonard Frank 和 Julian Hansmann, MTNI GmbH，主题是 “Dotcom 2.0?”，核心是 Risikokompetenz、安全风险和风险管理。</li>
+            <li>11:00 - 11:30：Johannes Grenzemann, MasterModel UG，主题是 “Frag deine Firmen-Doku!”，讲 RAG、Sprach-KI 和企业文档知识。</li>
+            <li>11:30 - 12:00：Sierk Schmalzriedt 和 Dr Johannes Riesterer, Fluffy Systems GmbH，主题是 Engineering、wissenschaftliches Rechnen、Datenanalyse 和 KI-Assistenz。</li>
+          </ul>
+
+          <p>这个组合很有代表性：培训解决“人会不会用”，风险管理解决“企业敢不敢用”，RAG 解决“内部知识能不能被调用”，工程分析解决“AI 能不能进入研发、测试、仿真和生产数据”。</p>
+
+          <h2>AI 培训已经不是软性倡议</h2>
+          <p>现场讨论中的第一个重点是 AI-Schulung。很多员工已经在使用 ChatGPT、Copilot 或类似工具，但企业内部往往没有明确的工具白名单、数据输入边界、人工复核规则和培训记录。这会形成 Shadow AI：员工在用，企业却不知道怎么管。</p>
+
+          <p>欧委会 AI literacy Q&A 明确指出，AI Act 第 4 条要求 AI 系统的 providers 和 deployers 采取措施，确保员工以及代表其使用 AI 系统的人具备足够 AI 素养。该义务已于 2025-02-02 开始适用，监督和执法规则从 2026-08 起适用。</p>
+
+          <p>因此，企业 AI 培训不应只讲提示词技巧，而应至少覆盖：</p>
+          <ul>
+            <li>企业正在使用哪些 AI 工具，哪些工具被允许，哪些不被允许。</li>
+            <li>客户数据、HR 数据、生产数据、技术图纸和商业秘密能否输入外部 AI。</li>
+            <li>AI 结果什么时候必须人工复核，如何记录复核责任。</li>
+            <li>哪些场景可能进入 AI Act 高风险分类。</li>
+            <li>如何保留培训记录、内部指南和版本更新。</li>
+          </ul>
+
+          <h2>HR 是最容易踩线的场景之一</h2>
+          <p>现场 notes 里有一个很实际的问题：HR 能不能用 AI 分析简历、筛选申请人或评价候选人？答案不能简单写成可以或不可以。</p>
+
+          <p>AI Act Annex III 将就业、员工管理和自雇准入中的若干 AI 用途列为高风险，包括招聘或筛选自然人、定向招聘广告、分析和过滤申请、评价候选人，以及对晋升、终止劳动关系、任务分配、绩效监控和行为评价产生影响的系统。</p>
+
+          <p>所以，AI 可以帮助 HR 整理材料、改善文字、准备面试问题或做行政辅助；但如果 AI 直接给候选人评分、过滤简历、决定面试机会或影响晋升和绩效，就需要按高风险逻辑重新评估。</p>
+
+          <h2>AI Agent 把风险从“回答错误”升级为“操作错误”</h2>
+          <p>第二场 MTNI 的主题是风险能力。现场讨论很有价值的一点是：传统 Chatbot 主要输出文字，而 AI Agent 可以访问邮件、文件、数据库、CRM、ERP 或生产系统。风险不再只是“说错话”，而是可能误删数据、误发邮件、泄露文件、执行错误支付或触发错误业务流程。</p>
+
+          <p>这解释了为什么德国企业不会只看模型能力。企业真正需要的是 Guardrails：权限隔离、数据分类、审计记录、Human in the loop、敏感操作确认、异常检测和定期测试。没有这些基础，AI 越强，企业越不敢大规模放开。</p>
+
+          <h2>RAG 的价值在于“有来源的企业知识”</h2>
+          <p>第三场关于 RAG 和 Sprach-KI 的主题非常贴近工业企业。AEN 议程里列举了 Servicedoku、CE-Akten、8D-Berichte、Wartungshistorie、E-Mails 和 Konstruktionsrichtlinien。这些正是德国工业企业最宝贵、也最难被检索的知识资产。</p>
+
+          <p>RAG 的关键不是把所有资料丢给大模型，而是把企业文档切分、索引、检索、重排，再把可追溯来源交给模型生成答案。对售后、测试、CE 文件、维修记录和客户拜访来说，真正重要的是回答后面能附依据，而不是看起来很流畅。</p>
+
+          <p>这也对应 OPC 工作台未来的方向：客户拜访录音、产品资料、CE 文件、售后记录和 CRM 跟进不应该散落在不同地方，而应该被整理成可检索、可引用、可复盘的企业资料包。</p>
+
+          <h2>工程 AI 的入口是数据分析，不是聊天</h2>
+          <p>第四场 Fluffy Systems 的主题补上了现场 notes 中容易被忽略的一块：Engineering。官方摘要提到，工程数据来自 Simulationen、Sensoren、Fertigung、Prüfständen 和 digitale Zwillinge；DashSet 试图把 Data Science、High-Performance Computing 和 KI-Assistenz 连接起来，让大数据处理、分析、解释和可视化更容易进入工程决策。</p>
+
+          <p>这对中国工业技术企业也很重要。德国客户不会只为“AI 聊天入口”付费，他们更愿意为能减少开发时间、降低测试成本、解释传感器数据、提升仿真和试验效率的工具付费。</p>
+
+          <h2>对中国出海企业的实际启示</h2>
+          <p>如果中国企业想把 AI、工业软件、工业 IoT、自动化设备或企业知识库方案带到德国，第一批材料不应只是 Demo 和价格表，而应包含：</p>
+          <ul>
+            <li>AI 使用边界：哪些数据会进入模型，哪些不会。</li>
+            <li>部署方式：云端、本地、混合部署，是否支持客户内网或私有化。</li>
+            <li>权限模型：谁能访问哪些文件、客户记录、项目数据和系统接口。</li>
+            <li>来源追溯：RAG 回答能否显示引用来源、文件版本和更新时间。</li>
+            <li>人工复核：哪些输出只是建议，哪些流程必须由人确认。</li>
+            <li>培训记录：客户员工如何获得 AI literacy、工具使用和风险边界培训。</li>
+            <li>高风险排查：是否涉及招聘、员工评价、安全组件、关键基础设施或生产控制。</li>
+          </ul>
+
+          <p>OPC 的机会在这里：帮助中国技术公司把“AI 能力”翻译成德国客户能接受的 AI-Readiness package，包括数据分类、合规路径、技术文档、试点范围、培训材料、风险清单和本地客户反馈。</p>
+
+          <h2>参考来源</h2>
+          <ul>
+            <li><a href="https://ae-network.de/news/" target="_blank" rel="noreferrer">AEN News: 14.07.2026 Innovation und Transformation Mittelstand - mittels KI</a></li>
+            <li><a href="https://ae-network.de/transformation-mittelstand/" target="_blank" rel="noreferrer">AEN Transformation Mittelstand</a></li>
+            <li><a href="https://ae-network.de/wp-content/uploads/2026/06/Flyer-KI-14.07.-Transformation-Mittelstand_03.pdf" target="_blank" rel="noreferrer">AEN Agenda PDF, Flyer KI 14.07. Transformation Mittelstand</a></li>
+            <li><a href="https://de.linkedin.com/posts/ae-network_ki-activity-7470006857953361920-SFib" target="_blank" rel="noreferrer">AEN LinkedIn preview for the 14 July 2026 event</a></li>
+            <li><a href="https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai" target="_blank" rel="noreferrer">European Commission: AI Act overview</a></li>
+            <li><a href="https://digital-strategy.ec.europa.eu/en/faqs/ai-literacy-questions-answers" target="_blank" rel="noreferrer">European Commission: AI Literacy Questions & Answers</a></li>
+            <li><a href="https://digital-strategy.ec.europa.eu/en/policies/repository-ai-literacy-practices" target="_blank" rel="noreferrer">European Commission: Repository of AI literacy practices</a></li>
+            <li><a href="https://artificialintelligenceact.eu/annex/3/" target="_blank" rel="noreferrer">EU AI Act Annex III: High-risk AI systems, employment and worker management</a></li>
+          </ul>
+
+          <p><strong>关键词学习：</strong> KI-Kompetenz = AI literacy / AI 素养；Risikokompetenz = risk competence / 风险能力；Quellenbeleg = source citation / 来源依据；Mittelstand = 德国中小及中坚企业群体。</p>
+        </div>
+        <section class="article-tools" data-current-post="aen-karlsruhe-ai-mittelstand-2026.html">
+          <a class="tool-link" href="../index.html">返回列表</a>
+          <button type="button" data-copy-current>复制链接</button>
+          <button type="button" data-save-read>稍后读</button>
+        </section>
+        <section class="related-section" aria-label="继续阅读">
+          <h2>继续阅读</h2>
+          <div class="related-grid" data-related-posts></div>
+        </section>
+      </article>
+      <footer class="footer">Yijian Notes | AI governance for Mittelstand</footer>
+    </div>
+    <div class="toast" data-toast hidden></div>
+    <script src="../content.js"></script>
+    <script src="../site.js"></script>
+  </body>
+</html>

@@ -1,5 +1,23 @@
 window.blogPosts = [
   {
+    title: "AEN Karlsruhe 2026 AI Mittelstand 活动复盘：AI 落地先做治理，再谈效率",
+    date: "2026-07-14",
+    category: "AI Governance",
+    read: "9 min",
+    href: "./posts/aen-karlsruhe-ai-mittelstand-2026.html",
+    image: "./assets/engineering-flow.svg",
+    summary: "基于 AEN Karlsruhe 活动议程和现场记录，整理德国中小企业在 AI 培训、Datenschutz、RAG、AI Agent 和工程数据分析中的真实落地门槛。"
+  },
+  {
+    title: "中国硬科技企业进入德国前，如何判断外资审查风险",
+    date: "2026-06-29",
+    category: "Compliance",
+    read: "8 min",
+    href: "./posts/eu-foreign-investment-screening-2026.html",
+    image: "./assets/supply-chain.svg",
+    summary: "从欧盟新外资审查条例出发，梳理中国企业并购、参股、合资和德国落地前应准备的控制权、技术与供应链资料。"
+  },
+  {
     title: "欧盟 CRA 对中国工业硬件出海的实际影响：从证书思维转向生命周期合规",
     date: "2026-06-23",
     category: "Compliance",

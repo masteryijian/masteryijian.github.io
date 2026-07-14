@@ -16,6 +16,8 @@ const entrypoints = [
   "tools/markdown/index.html",
   "blog/index.html",
   "blog/about.html",
+  "blog/posts/aen-karlsruhe-ai-mittelstand-2026.html",
+  "blog/posts/eu-foreign-investment-screening-2026.html",
   "blog/posts/eu-cra-industrial-products.html",
   "blog/posts/guangxi-enterprises-global-asean.html",
   "blog/posts/tesla-fsd-europe-spacex-ipo.html",
