@@ -1,12 +1,12 @@
 window.blogPosts = [
   {
-    title: "HWK Karlsruhe 创业 Seminar 复盘：电气方向华人创业最容易混淆的手续",
+    title: "HWK Karlsruhe 路线图：Elektrotechnik 背景如何走向 Elektroniker Externenprüfung",
     date: "2026-07-16",
     category: "Handwerk",
     read: "6 min",
     href: "./posts/hwk-karlsruhe-gruendung-elektrotechnik.html",
     image: "./assets/hwk-elektro-path.svg",
-    summary: "从 HWK Karlsruhe 创业课出发，梳理 Gewerbeanmeldung、Handwerksrolle、ZAB、Anerkennung 和 Ausnahmebewilligung 的区别。"
+    summary: "以 Elektroniker/in - Energie- und Gebäudetechnik 为目标，梳理 HWK 预审、正规 Elektrofachbetrieb 实践、Berichtsheft/Tätigkeitsnachweis 和 Externenprüfung。"
   },
   {
     title: "AEN Karlsruhe 2026 AI Mittelstand 活动复盘：AI 落地先做治理，再谈效率",
