@@ -110,6 +110,21 @@
           <button type="button" data-copy-current>复制链接</button>
           <button type="button" data-save-read>稍后读</button>
         </section>
+        <section class="article-subscribe" aria-label="订阅更新">
+          <h2>喜欢这篇文章？订阅后续更新</h2>
+          <p>留下邮箱，新文章、行业动向和德国市场机会更新后，我会优先通知你。</p>
+          <form data-subscribe-form name="opc-subscribe" method="POST" data-netlify="true" netlify-honeypot="company">
+            <input type="hidden" name="form-name" value="opc-subscribe">
+            <input type="text" name="company" tabindex="-1" autocomplete="off" hidden>
+            <input name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+            <button type="submit">订阅</button>
+            <label class="subscribe-consent">
+              <input name="consent" type="checkbox" data-subscribe-consent required>
+              <span>我同意接收 OPC TechBridge 的更新邮件，可随时邮件退订。</span>
+            </label>
+          </form>
+          <p class="subscribe-status" data-subscribe-status role="status" aria-live="polite"></p>
+        </section>
         <section class="related-section" aria-label="继续阅读">
           <h2>继续阅读</h2>
           <div class="related-grid" data-related-posts></div>
@@ -120,5 +135,6 @@
     <div class="toast" data-toast hidden></div>
     <script src="../content.js"></script>
     <script src="../site.js"></script>
+    <script src="../../assets/subscribe.js"></script>
   </body>
 </html>

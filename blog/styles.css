@@ -283,6 +283,60 @@ button {
   border-bottom: 1px solid var(--line);
 }
 
+.article-subscribe {
+  margin: 26px 0 8px;
+  border: 1px solid var(--line);
+  background: var(--white);
+  padding: 22px;
+}
+
+.article-subscribe h2 {
+  font-size: 26px;
+  margin: 0 0 8px;
+}
+
+.article-subscribe p {
+  color: var(--muted);
+  margin: 0;
+}
+
+.article-subscribe form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.article-subscribe input[type="email"] {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  padding: 11px 12px;
+}
+
+.article-subscribe button {
+  border: 1px solid var(--line);
+  background: var(--ink);
+  color: var(--white);
+  padding: 11px 14px;
+}
+
+.subscribe-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.subscribe-status {
+  min-height: 1.4rem;
+  margin-top: 10px;
+  font-weight: 700;
+}
+
 .tool-link,
 .related-card {
   color: var(--ink);
@@ -381,7 +435,8 @@ button {
   .intro,
   .controls,
   .post-grid,
-  .related-grid {
+  .related-grid,
+  .article-subscribe form {
     grid-template-columns: 1fr;
   }
 
