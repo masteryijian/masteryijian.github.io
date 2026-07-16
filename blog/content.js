@@ -5,7 +5,7 @@ window.blogPosts = [
     category: "Handwerk",
     read: "6 min",
     href: "./posts/hwk-karlsruhe-gruendung-elektrotechnik.html",
-    image: "./assets/engineering-flow.svg",
+    image: "./assets/hwk-elektro-path.svg",
     summary: "从 HWK Karlsruhe 创业课出发，梳理 Gewerbeanmeldung、Handwerksrolle、ZAB、Anerkennung 和 Ausnahmebewilligung 的区别。"
   },
   {
@@ -14,7 +14,7 @@ window.blogPosts = [
     category: "AI Governance",
     read: "9 min",
     href: "./posts/aen-karlsruhe-ai-mittelstand-2026.html",
-    image: "./assets/engineering-flow.svg",
+    image: "./assets/ai-governance.svg",
     summary: "基于 AEN Karlsruhe 活动议程和现场记录，整理德国中小企业在 AI 培训、Datenschutz、RAG、AI Agent 和工程数据分析中的真实落地门槛。"
   },
   {
@@ -23,7 +23,7 @@ window.blogPosts = [
     category: "Compliance",
     read: "8 min",
     href: "./posts/eu-foreign-investment-screening-2026.html",
-    image: "./assets/supply-chain.svg",
+    image: "./assets/investment-screening.svg",
     summary: "从欧盟新外资审查条例出发，梳理中国企业并购、参股、合资和德国落地前应准备的控制权、技术与供应链资料。"
   },
   {
@@ -32,7 +32,7 @@ window.blogPosts = [
     category: "Compliance",
     read: "7 min",
     href: "./posts/eu-cra-industrial-products.html",
-    image: "./assets/engineering-flow.svg",
+    image: "./assets/cra-cyber-compliance.svg",
     summary: "从 CRA 2026 年执行节点出发，梳理工业硬件、嵌入式软件和 IoT 产品进入德国/欧洲市场前要补的合规资料。"
   },
   {

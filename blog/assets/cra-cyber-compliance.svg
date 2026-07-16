@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+  <title id="title">CRA cybersecurity compliance</title>
+  <desc id="desc">A connected industrial device protected by a compliance shield.</desc>
+  <rect width="960" height="520" fill="#fbfaf6"/>
+  <rect x="110" y="155" width="245" height="210" fill="#fff" stroke="#171717" stroke-width="7"/>
+  <path d="M150 205h165M150 255h120M150 305h150" stroke="#171717" stroke-width="9"/>
+  <circle cx="265" cy="410" r="36" fill="#efe1d2" stroke="#171717" stroke-width="7"/>
+  <circle cx="640" cy="255" r="138" fill="#dce8eb" stroke="#171717" stroke-width="8"/>
+  <path d="M640 115l105 43v88c0 72-38 119-105 154-67-35-105-82-105-154v-88z" fill="#fff" stroke="#171717" stroke-width="8"/>
+  <path d="M600 253l28 29 58-75" fill="none" stroke="#235f7a" stroke-width="11"/>
+  <path d="M355 260h120M438 222l37 38-37 38" fill="none" stroke="#171717" stroke-width="10"/>
+  <circle cx="775" cy="105" r="18" fill="#8a4f20"/>
+  <circle cx="824" cy="165" r="18" fill="#8a4f20"/>
+  <path d="M654 115l117-10M746 164h60" stroke="#8a4f20" stroke-width="7"/>
+</svg>

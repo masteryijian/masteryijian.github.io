@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+  <title id="title">EU investment screening</title>
+  <desc id="desc">Ownership layers, control rights and a magnifying glass for investment screening.</desc>
+  <rect width="960" height="520" fill="#fbfaf6"/>
+  <rect x="92" y="120" width="180" height="95" fill="#fff" stroke="#171717" stroke-width="7"/>
+  <rect x="92" y="300" width="180" height="95" fill="#efe1d2" stroke="#171717" stroke-width="7"/>
+  <rect x="382" y="210" width="180" height="95" fill="#dce8eb" stroke="#171717" stroke-width="7"/>
+  <path d="M272 168h85M272 348h85M357 168v180M357 258h25" fill="none" stroke="#171717" stroke-width="9"/>
+  <path d="M125 160h110M125 195h78M125 340h110M125 375h78M415 250h110M415 282h78" stroke="#171717" stroke-width="8"/>
+  <circle cx="710" cy="245" r="95" fill="#fff" stroke="#171717" stroke-width="9"/>
+  <path d="M776 312l92 92" stroke="#171717" stroke-width="16"/>
+  <path d="M666 244h86M709 201v86" stroke="#235f7a" stroke-width="10"/>
+  <circle cx="472" cy="258" r="14" fill="#8a4f20"/>
+</svg>

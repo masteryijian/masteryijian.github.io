@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+  <title id="title">HWK electrical qualification path</title>
+  <desc id="desc">A certificate, electrical symbol and signed practice record for HWK qualification.</desc>
+  <rect width="960" height="520" fill="#fbfaf6"/>
+  <rect x="86" y="96" width="300" height="340" fill="#fff" stroke="#171717" stroke-width="7"/>
+  <path d="M132 160h210M132 205h165M132 250h185M132 295h135" stroke="#171717" stroke-width="9"/>
+  <circle cx="292" cy="350" r="43" fill="#dce8eb" stroke="#171717" stroke-width="7"/>
+  <path d="M270 350l17 18 35-43" fill="none" stroke="#235f7a" stroke-width="9"/>
+  <path d="M515 95h150l-64 138h112L468 430l76-150H438z" fill="#efe1d2" stroke="#171717" stroke-width="8"/>
+  <rect x="620" y="300" width="250" height="92" fill="#fff" stroke="#171717" stroke-width="7"/>
+  <path d="M650 342c50-34 86 34 136-2 22-16 38-18 61-9" fill="none" stroke="#8a4f20" stroke-width="8"/>
+  <path d="M650 372h180" stroke="#171717" stroke-width="7"/>
+</svg>

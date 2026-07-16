@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+  <title id="title">AI governance for Mittelstand</title>
+  <desc id="desc">AI node, data controls, human review and source evidence.</desc>
+  <rect width="960" height="520" fill="#fbfaf6"/>
+  <circle cx="480" cy="260" r="92" fill="#dce8eb" stroke="#171717" stroke-width="8"/>
+  <path d="M435 245h90M435 280h90M480 205v110" stroke="#171717" stroke-width="8"/>
+  <circle cx="260" cy="135" r="56" fill="#fff" stroke="#171717" stroke-width="7"/>
+  <path d="M237 135h46M260 112v46" stroke="#235f7a" stroke-width="8"/>
+  <rect x="650" y="90" width="190" height="112" fill="#fff" stroke="#171717" stroke-width="7"/>
+  <path d="M684 130h120M684 164h85" stroke="#171717" stroke-width="8"/>
+  <rect x="155" y="320" width="218" height="105" fill="#efe1d2" stroke="#171717" stroke-width="7"/>
+  <path d="M190 356h148M190 392h105" stroke="#171717" stroke-width="8"/>
+  <path d="M360 156l55 55M598 210l70-48M365 350l55-45M595 313l78 55" stroke="#171717" stroke-width="9"/>
+  <circle cx="730" cy="374" r="48" fill="#235f7a"/>
+  <path d="M705 374l17 18 35-43" fill="none" stroke="#fff" stroke-width="8"/>
+</svg>
