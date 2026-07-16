@@ -127,6 +127,55 @@
 
         .nav-card:hover { background: #000; color: #fff; }
 
+        .subscribe-panel {
+            border: 2px solid #000;
+            padding: 1.5rem;
+            background: #f7f7f7;
+        }
+
+        .subscribe-form {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .subscribe-form input[type="email"] {
+            width: 100%;
+            border: 1px solid #000;
+            padding: 12px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .subscribe-form button {
+            border: 1px solid #000;
+            background: #000;
+            color: #fff;
+            padding: 12px 18px;
+            font-family: inherit;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .subscribe-form button:hover { background: #fff; color: #000; }
+
+        .subscribe-consent {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            grid-column: 1 / -1;
+            margin-top: 0.8rem;
+            font-size: 0.85rem;
+        }
+
+        .subscribe-status {
+            min-height: 1.4rem;
+            margin-top: 0.8rem;
+            font-weight: bold;
+        }
+
         /* 页脚 */
         footer {
             margin-top: 5rem;
@@ -141,6 +190,7 @@
         @media (max-width: 600px) {
             .main-wrapper { padding: 1rem; border-width: 1px; }
             .grid, .sub-nav, .impressum-grid { grid-template-columns: 1fr; }
+            .subscribe-form { grid-template-columns: 1fr; }
             h1 { font-size: 1.3rem; }
         }
 
@@ -197,6 +247,28 @@
                     <p class="lang-de">Market report, CRM, talent bridge, assistant and newsletter.</p>
                 </a>
             </div>
+
+            <section id="subscribe" class="subscribe-panel">
+                <h2 class="lang-zh">订阅最新更新</h2>
+                <h2 class="lang-de">Updates abonnieren</h2>
+                <p class="lang-zh">留下邮箱，后续有新的中德市场观察、合规路线、工作台功能更新时，可以第一时间收到通知。</p>
+                <p class="lang-de">E-Mail eintragen und neue Marktbeobachtungen, Compliance-Notizen und Workbench-Updates direkt erhalten.</p>
+                <form class="subscribe-form" data-subscribe-form name="opc-subscribe" method="POST" data-netlify="true" netlify-honeypot="company">
+                    <input type="hidden" name="form-name" value="opc-subscribe">
+                    <input type="text" name="company" tabindex="-1" autocomplete="off" hidden>
+                    <label class="lang-zh" for="homeSubscribeEmail">邮箱</label>
+                    <label class="lang-de" for="homeSubscribeEmail">E-Mail</label>
+                    <input id="homeSubscribeEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+                    <button type="submit" class="lang-zh">订阅</button>
+                    <button type="submit" class="lang-de">Abonnieren</button>
+                    <label class="subscribe-consent">
+                        <input name="consent" type="checkbox" data-subscribe-consent required>
+                        <span class="lang-zh">我同意接收 OPC TechBridge 的更新邮件，可随时邮件退订。</span>
+                        <span class="lang-de">Ich stimme zu, Updates von OPC TechBridge zu erhalten. Abmeldung ist jederzeit per E-Mail möglich.</span>
+                    </label>
+                </form>
+                <p class="subscribe-status" data-subscribe-status role="status" aria-live="polite"></p>
+            </section>
 
             <section id="about">
                 <h2 class="lang-zh">一人公司 (OPC) 交付模式</h2>
@@ -319,5 +391,6 @@
             }
         }
     </script>
+    <script src="assets/subscribe.js"></script>
 </body>
 </html>

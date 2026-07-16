@@ -21,13 +21,20 @@
         .post p { margin: 0.6rem 0; }
         .read-more { display: inline-block; margin-top: 0.4rem; font-weight: bold; color: #0000ee; text-decoration: underline; }
         .source-line { font-size: 0.85rem; color: #333; }
+        .subscribe-panel { border: 2px solid #000; padding: 1rem; margin-bottom: 2rem; background: #f7f7f7; }
+        .subscribe-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.7rem; margin-top: 0.8rem; }
+        .subscribe-form input[type="email"] { width: 100%; border: 1px solid #000; padding: 10px; font-family: inherit; font-size: 1rem; }
+        .subscribe-form button { border: 1px solid #000; background: #000; color: #fff; padding: 10px 16px; font-family: inherit; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+        .subscribe-form button:hover { background: #fff; color: #000; }
+        .subscribe-consent { display: flex; align-items: flex-start; gap: 0.5rem; grid-column: 1 / -1; font-size: 0.85rem; }
+        .subscribe-status { min-height: 1.4rem; margin-top: 0.7rem; font-weight: bold; }
         
         .back-link { display: inline-block; margin-top: 3rem; text-decoration: underline; font-weight: bold; color: #000; }
 
         body.lang-zh .lang-de { display: none !important; }
         body.lang-de .lang-zh { display: none !important; }
 
-        @media (max-width: 600px) { .container { padding: 1rem; } }
+        @media (max-width: 600px) { .container { padding: 1rem; } .subscribe-form { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body class="lang-zh">
@@ -41,6 +48,26 @@
             <h1 class="lang-de">MARKTBEOBACHTUNG</h1>
             <p style="font-style: italic; margin-top: 10px;">Weekly Update: Monday 09:00 CET</p>
         </header>
+
+        <section class="subscribe-panel" id="subscribe">
+            <h2 class="lang-zh">订阅行业动态</h2>
+            <h2 class="lang-de">Marktupdates abonnieren</h2>
+            <p class="lang-zh">留下邮箱，新文章、行业动向和德国市场机会更新后，可以第一时间收到通知。</p>
+            <p class="lang-de">E-Mail eintragen und neue Artikel, Markttrends und Deutschland-Chancen direkt erhalten.</p>
+            <form class="subscribe-form" data-subscribe-form name="opc-subscribe" method="POST" data-netlify="true" netlify-honeypot="company">
+                <input type="hidden" name="form-name" value="opc-subscribe">
+                <input type="text" name="company" tabindex="-1" autocomplete="off" hidden>
+                <input name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+                <button type="submit" class="lang-zh">订阅</button>
+                <button type="submit" class="lang-de">Abonnieren</button>
+                <label class="subscribe-consent">
+                    <input name="consent" type="checkbox" data-subscribe-consent required>
+                    <span class="lang-zh">我同意接收 OPC TechBridge 的更新邮件，可随时邮件退订。</span>
+                    <span class="lang-de">Ich stimme zu, Updates von OPC TechBridge zu erhalten. Abmeldung ist jederzeit per E-Mail möglich.</span>
+                </label>
+            </form>
+            <p class="subscribe-status" data-subscribe-status role="status" aria-live="polite"></p>
+        </section>
 
         <div class="post">
             <span class="date">[2026-07-16]</span>
@@ -130,5 +157,6 @@
         <a href="index.html" class="back-link lang-zh"><< 返回首页</a>
         <a href="index.html" class="back-link lang-de"><< ZURÜCK ZUR STARTSEITE</a>
     </div>
+    <script src="assets/subscribe.js"></script>
 </body>
 </html>
