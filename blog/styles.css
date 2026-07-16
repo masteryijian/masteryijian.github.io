@@ -290,6 +290,31 @@ button {
   padding: 22px;
 }
 
+.subscribe-lang-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.subscribe-lang-switch button {
+  border: 1px solid var(--line);
+  background: var(--white);
+  color: var(--ink);
+  padding: 5px 10px;
+}
+
+.subscribe-lang-switch button.active {
+  background: var(--ink);
+  color: var(--white);
+}
+
+.article-subscribe[data-lang="zh"] .sub-lang:not(.sub-zh),
+.article-subscribe[data-lang="en"] .sub-lang:not(.sub-en),
+.article-subscribe[data-lang="de"] .sub-lang:not(.sub-de) {
+  display: none !important;
+}
+
 .article-subscribe h2 {
   font-size: 26px;
   margin: 0 0 8px;

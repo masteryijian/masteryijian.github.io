@@ -176,6 +176,33 @@
             font-weight: bold;
         }
 
+        .subscribe-lang-switch {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.9rem;
+        }
+
+        .subscribe-lang-switch button {
+            border: 1px solid #000;
+            background: #fff;
+            color: #000;
+            padding: 4px 9px;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .subscribe-lang-switch button.active {
+            background: #000;
+            color: #fff;
+        }
+
+        .subscribe-panel[data-lang="zh"] .sub-lang:not(.sub-zh),
+        .subscribe-panel[data-lang="en"] .sub-lang:not(.sub-en),
+        .subscribe-panel[data-lang="de"] .sub-lang:not(.sub-de) {
+            display: none !important;
+        }
+
         /* 页脚 */
         footer {
             margin-top: 5rem;
@@ -248,23 +275,33 @@
                 </a>
             </div>
 
-            <section id="subscribe" class="subscribe-panel">
-                <h2 class="lang-zh">订阅最新更新</h2>
-                <h2 class="lang-de">Updates abonnieren</h2>
-                <p class="lang-zh">留下邮箱，后续有新的中德市场观察、合规路线、工作台功能更新时，可以第一时间收到通知。</p>
-                <p class="lang-de">E-Mail eintragen und neue Marktbeobachtungen, Compliance-Notizen und Workbench-Updates direkt erhalten.</p>
+            <section id="subscribe" class="subscribe-panel" data-lang="zh">
+                <div class="subscribe-lang-switch" aria-label="Subscription language">
+                    <button type="button" class="active" data-subscribe-lang="zh" aria-pressed="true">中文</button>
+                    <button type="button" data-subscribe-lang="en" aria-pressed="false">EN</button>
+                    <button type="button" data-subscribe-lang="de" aria-pressed="false">DE</button>
+                </div>
+                <h2 class="sub-lang sub-zh">订阅最新更新</h2>
+                <h2 class="sub-lang sub-en">Subscribe to Updates</h2>
+                <h2 class="sub-lang sub-de">Updates abonnieren</h2>
+                <p class="sub-lang sub-zh">留下邮箱，后续有新的中德市场观察、合规路线、工作台功能更新时，可以第一时间收到通知。</p>
+                <p class="sub-lang sub-en">Leave your email to receive new China-Germany market notes, compliance routes and workbench updates as soon as they are published.</p>
+                <p class="sub-lang sub-de">E-Mail eintragen und neue Marktbeobachtungen, Compliance-Notizen und Workbench-Updates direkt erhalten.</p>
                 <form class="subscribe-form" data-subscribe-form name="opc-subscribe" method="POST" data-netlify="true" netlify-honeypot="company">
                     <input type="hidden" name="form-name" value="opc-subscribe">
                     <input type="text" name="company" tabindex="-1" autocomplete="off" hidden>
-                    <label class="lang-zh" for="homeSubscribeEmail">邮箱</label>
-                    <label class="lang-de" for="homeSubscribeEmail">E-Mail</label>
+                    <label class="sub-lang sub-zh" for="homeSubscribeEmail">邮箱</label>
+                    <label class="sub-lang sub-en" for="homeSubscribeEmail">Email</label>
+                    <label class="sub-lang sub-de" for="homeSubscribeEmail">E-Mail</label>
                     <input id="homeSubscribeEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
-                    <button type="submit" class="lang-zh">订阅</button>
-                    <button type="submit" class="lang-de">Abonnieren</button>
+                    <button type="submit" class="sub-lang sub-zh">订阅</button>
+                    <button type="submit" class="sub-lang sub-en">Subscribe</button>
+                    <button type="submit" class="sub-lang sub-de">Abonnieren</button>
                     <label class="subscribe-consent">
                         <input name="consent" type="checkbox" data-subscribe-consent required>
-                        <span class="lang-zh">我同意接收 OPC TechBridge 的更新邮件，可随时邮件退订。</span>
-                        <span class="lang-de">Ich stimme zu, Updates von OPC TechBridge zu erhalten. Abmeldung ist jederzeit per E-Mail möglich.</span>
+                        <span class="sub-lang sub-zh">我同意接收 OPC TechBridge 的更新邮件，可随时邮件退订。</span>
+                        <span class="sub-lang sub-en">I agree to receive OPC TechBridge update emails and can unsubscribe by email at any time.</span>
+                        <span class="sub-lang sub-de">Ich stimme zu, Updates von OPC TechBridge zu erhalten. Abmeldung ist jederzeit per E-Mail möglich.</span>
                     </label>
                 </form>
                 <p class="subscribe-status" data-subscribe-status role="status" aria-live="polite"></p>

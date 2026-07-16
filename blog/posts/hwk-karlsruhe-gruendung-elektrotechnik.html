@@ -138,17 +138,30 @@
           <button type="button" data-copy-current>复制链接</button>
           <button type="button" data-save-read>稍后读</button>
         </section>
-        <section class="article-subscribe" aria-label="订阅更新">
-          <h2>喜欢这篇文章？订阅后续更新</h2>
-          <p>留下邮箱，新文章、行业动向和德国市场机会更新后，我会优先通知你。</p>
+        <section class="article-subscribe" aria-label="订阅更新" data-lang="zh">
+          <div class="subscribe-lang-switch" aria-label="Subscription language">
+            <button type="button" class="active" data-subscribe-lang="zh" aria-pressed="true">中文</button>
+            <button type="button" data-subscribe-lang="en" aria-pressed="false">EN</button>
+            <button type="button" data-subscribe-lang="de" aria-pressed="false">DE</button>
+          </div>
+          <h2 class="sub-lang sub-zh">喜欢这篇文章？订阅后续更新</h2>
+          <h2 class="sub-lang sub-en">Like this article? Subscribe for future updates</h2>
+          <h2 class="sub-lang sub-de">Gefällt Ihnen dieser Beitrag? Updates abonnieren</h2>
+          <p class="sub-lang sub-zh">留下邮箱，新文章、行业动向和德国市场机会更新后，我会优先通知你。</p>
+          <p class="sub-lang sub-en">Leave your email to receive new articles, market trends and Germany opportunity updates as soon as they are published.</p>
+          <p class="sub-lang sub-de">E-Mail eintragen und neue Artikel, Markttrends und Deutschland-Chancen direkt erhalten.</p>
           <form data-subscribe-form name="opc-subscribe" method="POST" data-netlify="true" netlify-honeypot="company">
             <input type="hidden" name="form-name" value="opc-subscribe">
             <input type="text" name="company" tabindex="-1" autocomplete="off" hidden>
             <input name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
-            <button type="submit">订阅</button>
+            <button type="submit" class="sub-lang sub-zh">订阅</button>
+            <button type="submit" class="sub-lang sub-en">Subscribe</button>
+            <button type="submit" class="sub-lang sub-de">Abonnieren</button>
             <label class="subscribe-consent">
               <input name="consent" type="checkbox" data-subscribe-consent required>
-              <span>我同意接收 OPC TechBridge 的更新邮件，可随时邮件退订。</span>
+              <span class="sub-lang sub-zh">我同意接收 OPC TechBridge 的更新邮件，可随时邮件退订。</span>
+              <span class="sub-lang sub-en">I agree to receive OPC TechBridge update emails and can unsubscribe by email at any time.</span>
+              <span class="sub-lang sub-de">Ich stimme zu, Updates von OPC TechBridge zu erhalten. Abmeldung ist jederzeit per E-Mail möglich.</span>
             </label>
           </form>
           <p class="subscribe-status" data-subscribe-status role="status" aria-live="polite"></p>
