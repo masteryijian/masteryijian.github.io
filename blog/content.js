@@ -1,5 +1,14 @@
 window.blogPosts = [
   {
+    title: "HWK Karlsruhe 创业 Seminar 复盘：电气方向华人创业最容易混淆的手续",
+    date: "2026-07-16",
+    category: "Handwerk",
+    read: "6 min",
+    href: "./posts/hwk-karlsruhe-gruendung-elektrotechnik.html",
+    image: "./assets/engineering-flow.svg",
+    summary: "从 HWK Karlsruhe 创业课出发，梳理 Gewerbeanmeldung、Handwerksrolle、ZAB、Anerkennung 和 Ausnahmebewilligung 的区别。"
+  },
+  {
     title: "AEN Karlsruhe 2026 AI Mittelstand 活动复盘：AI 落地先做治理，再谈效率",
     date: "2026-07-14",
     category: "AI Governance",

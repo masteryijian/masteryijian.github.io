@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const entrypoints = [
+  "lab-product.html",
   "index.html",
   "about.html",
   "news.html",
@@ -16,6 +17,7 @@ const entrypoints = [
   "tools/markdown/index.html",
   "blog/index.html",
   "blog/about.html",
+  "blog/posts/hwk-karlsruhe-gruendung-elektrotechnik.html",
   "blog/posts/aen-karlsruhe-ai-mittelstand-2026.html",
   "blog/posts/eu-foreign-investment-screening-2026.html",
   "blog/posts/eu-cra-industrial-products.html",
