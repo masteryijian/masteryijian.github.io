@@ -298,6 +298,31 @@ button {
   padding: 2px 5px;
 }
 
+.article-body .table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  margin: 1.25rem 0 1.75rem;
+}
+
+.article-body table {
+  width: 100%;
+  min-width: 680px;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.article-body th,
+.article-body td {
+  border: 1px solid var(--border);
+  padding: 0.7rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.article-body th {
+  background: var(--soft);
+}
+
 .article-tools {
   display: flex;
   flex-wrap: wrap;
