@@ -18,13 +18,31 @@
       </header>
       <article>
         <header class="article-head">
+          <div class="article-language-switch" data-article-lang-switch aria-label="文章语言 / Article language / Artikelsprache">
+            <button type="button" class="active" data-article-lang="zh" aria-pressed="true">中文</button>
+            <button type="button" data-article-lang="en" aria-pressed="false">EN</button>
+            <button type="button" data-article-lang="de" aria-pressed="false">DE</button>
+          </div>
+          <div data-article-content="zh">
           <div class="meta"><span>2026-07-18</span><span class="tag">Engineering</span><span>8 min</span></div>
           <h1>Vibe Coding 不是放手：如何让 AI 按我们的意图开发软件</h1>
           <p>AI 可以把自然语言变成代码，但可靠的软件仍然需要人定义目标、边界、权限和验收标准。</p>
+          </div>
+          <div data-article-content="en" hidden>
+            <div class="meta"><span>2026-07-18</span><span class="tag">Engineering</span><span>8 min</span></div>
+            <h1>Vibe Coding Is Not Letting Go: How to Keep AI Software Development Aligned with Our Intent</h1>
+            <p>AI can turn natural language into code, but reliable software still requires people to define goals, boundaries, permissions, and acceptance criteria.</p>
+          </div>
+          <div data-article-content="de" hidden>
+            <div class="meta"><span>2026-07-18</span><span class="tag">Engineering</span><span>8 Min.</span></div>
+            <h1>Vibe Coding heißt nicht loslassen: Wie KI-Softwareentwicklung unserer Absicht folgt</h1>
+            <p>KI kann natürliche Sprache in Code verwandeln. Zuverlässige Software braucht aber weiterhin Menschen, die Ziele, Grenzen, Berechtigungen und Abnahmekriterien festlegen.</p>
+          </div>
           <img class="article-cover" src="../assets/vibe-coding-architecture.svg" alt="传统软件开发与受控 AI 软件开发的结构对比" />
         </header>
 
         <div class="article-body">
+          <div data-article-content="zh">
           <p>2025 年 2 月，Andrej Karpathy 用 “vibe coding” 描述一种新的编程体验：用自然语言告诉 AI 想要什么，运行结果，再继续用语言推动修改，甚至不再逐行关注代码。这个词很快流行起来，因为它准确捕捉到一个变化：软件开发正在从“手动输入语法”转向“表达意图并管理执行”。</p>
 
           <blockquote>但要先区分两件事：原始意义上的 Vibe Coding 更接近快速、随性的原型开发；生产级软件需要的是可控的意图驱动开发。</blockquote>
@@ -121,6 +139,171 @@
           </ul>
 
           <p class="vc-note"><strong>关键词：</strong>意图驱动开发 = intent-driven development / intentionsgetriebene Entwicklung；编排层 = orchestration layer / Orchestrierungsebene；最小权限 = least privilege / Prinzip der geringsten Rechte；验收标准 = acceptance criteria / Abnahmekriterien。</p>
+          </div>
+
+          <div data-article-content="en" hidden>
+            <p>In February 2025, Andrej Karpathy used “vibe coding” to describe a new programming experience: tell AI what you want in natural language, run the result, and continue steering with words—sometimes without examining the code line by line. The term spread quickly because it captured a real shift: software development is moving from manually entering syntax to expressing intent and managing execution.</p>
+
+            <blockquote>Two ideas must be separated: Vibe Coding in its original sense is closer to fast, improvisational prototyping; production software requires controlled, intent-driven development.</blockquote>
+
+            <p>For a disposable weekend tool, “look at the result—prompt again—run again” may be enough. When software handles customer data, payments, production processes, or long-term maintenance, intuition alone is insufficient. The faster AI generates, the more important clear orchestration and quality gates become.</p>
+
+            <div class="vc-label">01 · Two development models</div>
+            <h2>What actually changes between traditional and AI development?</h2>
+            <div class="vc-compare">
+              <section class="vc-card"><h3>Traditional software development</h3><p>People understand requirements and also design, code, debug, and maintain the system. The main bottleneck is translating business intent into precise syntax, layer by layer.</p></section>
+              <section class="vc-card accent"><h3>AI software development</h3><p>People own goals, boundaries, trade-offs, and acceptance; AI performs reasoning, generation, and execution. The bottleneck shifts to whether intent is clear and results are verifiable.</p></section>
+            </div>
+            <div class="vc-flow" aria-label="Traditional software development flow">
+              <div class="vc-step"><strong>Requirements</strong><span>What problem to solve</span></div><div class="vc-arrow">→</div>
+              <div class="vc-step"><strong>Design</strong><span>Modules, interfaces, data flow</span></div><div class="vc-arrow">→</div>
+              <div class="vc-step"><strong>Code</strong><span>Implement the logic</span></div><div class="vc-arrow">→</div>
+              <div class="vc-step"><strong>Test</strong><span>Prove expected behavior</span></div><div class="vc-arrow">→</div>
+              <div class="vc-step"><strong>Release</strong><span>Deploy, monitor, maintain</span></div>
+            </div>
+            <p>AI does not eliminate these stages. It changes the division of labor between them: people no longer have to perform every translation manually, but they must still decide how the system should behave and what evidence proves that it is correct.</p>
+
+            <div class="vc-label">02 · AI system architecture</div>
+            <h2>A complete AI development system is more than a model</h2>
+            <div class="vc-stack">
+              <div class="vc-layer"><strong>Orchestration · Rules</strong><span>Specifications, task order, file scope, permissions, test requirements, and human approval points.</span></div>
+              <div class="vc-layer"><strong>Cognition · Brain</strong><span>Understand natural language, analyze the codebase, compare options, generate code, and explain results.</span></div>
+              <div class="vc-layer"><strong>Execution · Hands</strong><span>Read and modify files, run tests, use the terminal or external tools, and produce inspectable changes.</span></div>
+              <div class="vc-layer"><strong>Verification · Dashboard</strong><span>Automated tests, code review, real-environment checks, logs, rollback, and final human acceptance.</span></div>
+            </div>
+            <p>Model capability matters, but the model is not the whole system. Without orchestration, AI can be locally right and globally wrong. Without verification, “done” is merely the model's own opinion.</p>
+
+            <div class="vc-label">03 · Managing AI</div>
+            <h2>Four control gates that keep AI aligned with our intent</h2>
+            <div class="vc-grid">
+              <section class="vc-card"><h3>Specify first</h3><p>Define goals, non-goals, interfaces, data flows, constraints, and acceptance criteria. GitHub's Spec Kit likewise treats specifications as the core driver of an AI workflow.</p></section>
+              <section class="vc-card"><h3>Explore before editing</h3><p>Inspect the current state, submit a plan, and execute only after approval. Exploration should be read-only by default to reduce accidental edits and scope expansion.</p></section>
+              <section class="vc-card"><h3>Test before implementation</h3><p>Turn expected behavior into tests first, then implement only what is needed to satisfy them. Tests are objective gates that AI cannot talk its way around.</p></section>
+            </div>
+            <div class="vc-gate"><strong>Permission gate</strong>Grant only the minimum access required for the current task. Permission to read documents does not imply permission to delete files; permission to draft does not imply permission to publish.</div>
+            <div class="vc-gate"><strong>Memory gate</strong>Keep core rules short and persistent, load project documents when relevant, and retrieve full history when needed. Good memory is not maximum memory—it is the right context for the current task.</div>
+            <div class="vc-gate"><strong>Verification gate</strong>High-impact actions require human approval. OWASP guidance for AI agents likewise emphasizes least privilege, human approval, output validation, monitoring, and auditable logs.</div>
+
+            <div class="vc-label">04 · Common failures</div>
+            <h2>The most dangerous failures are not obvious errors</h2>
+            <div class="vc-risk-grid">
+              <section class="vc-card"><h3>Requirement drift</h3><p>The feature becomes polished while gradually moving away from the original goal. Countermeasure: restate goals and non-goals every round.</p></section>
+              <section class="vc-card"><h3>Local fixes</h3><p>One bug disappears while an underlying interface or another feature breaks. Countermeasure: constrain the change scope and run regression tests.</p></section>
+              <section class="vc-card"><h3>False completion</h3><p>Running code is not necessarily deployable, maintainable, or secure. Countermeasure: judge with acceptance criteria and real-environment evidence.</p></section>
+              <section class="vc-card"><h3>Context degradation</h3><p>In long conversations, AI forgets architecture rules and earlier decisions. Countermeasure: concise persistent rules, on-demand documents, and searchable records.</p></section>
+              <section class="vc-card"><h3>Excessive permissions</h3><p>Tools can access files, networks, or production systems that the task does not require. Countermeasure: least privilege, confirmation for sensitive actions, and rollback.</p></section>
+              <section class="vc-card"><h3>Misplaced responsibility</h3><p>The team treats “the AI says it is done” as delivery. Countermeasure: people define correctness and remain responsible for the final outcome.</p></section>
+            </div>
+
+            <div class="vc-label">05 · OPC example</div>
+            <h2>Adding a customer inquiry form to the OPC website</h2>
+            <div class="vc-example">
+              <div class="vc-bad"><strong>Unstructured prompt:</strong> “Build me a nice customer inquiry form.”<br />The result may look finished, while fields, data destination, privacy consent, spam protection, and error handling remain undefined.</div>
+              <div class="vc-good"><strong>Controlled intent:</strong> “Provide an inquiry channel for B2B customers; do not create user accounts; collect only the minimum data needed for follow-up; include privacy consent, anti-spam controls, failure messages, and a verifiable submission record.”</div>
+              <ol class="vc-checks">
+                <li><strong>Define:</strong> Set goals, non-goals, fields, data storage, and GDPR boundaries.</li>
+                <li><strong>Plan:</strong> AI first reads the current site structure and lists files to change, risks, and tests.</li>
+                <li><strong>Test first:</strong> Cover required fields, email format, spam protection, retries, privacy consent, and mobile display.</li>
+                <li><strong>Execute:</strong> Modify only approved files, commit in small steps, and keep every step reversible.</li>
+                <li><strong>Accept:</strong> Automated tests pass, a human submits a real inquiry, and logs contain no unnecessary sensitive data.</li>
+              </ol>
+            </div>
+            <blockquote>The delivery standard is not “AI finished writing,” but evidence that the software matches our intent.</blockquote>
+
+            <h2>The programmer's role has not disappeared—it has moved upward</h2>
+            <p>In the AI era, syntax proficiency remains useful, but it is no longer the only core skill. More important capabilities are turning vague needs into clear specifications, identifying system boundaries, designing verification, balancing speed and risk, and stopping AI when necessary.</p>
+            <p>The future software developer therefore looks like a combination of architect, product owner, and conductor. AI supplies productivity; people supply direction, judgment, and responsibility.</p>
+
+            <h2>Sources</h2>
+            <ul class="vc-sources">
+              <li><a href="https://x.com/karpathy/status/1886192184808149383" target="_blank" rel="noreferrer">Andrej Karpathy's original “vibe coding” post, 2 February 2025</a></li>
+              <li><a href="https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/" target="_blank" rel="noreferrer">GitHub Blog: Spec-driven development with AI</a></li>
+              <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html" target="_blank" rel="noreferrer">OWASP Cheat Sheet: AI Agent Security</a></li>
+            </ul>
+            <p class="vc-note"><strong>Key terms:</strong> intent-driven development; orchestration layer; least privilege; acceptance criteria.</p>
+          </div>
+
+          <div data-article-content="de" hidden>
+            <p>Im Februar 2025 beschrieb Andrej Karpathy mit „Vibe Coding“ eine neue Programmiererfahrung: Man erklärt der KI in natürlicher Sprache, was man möchte, führt das Ergebnis aus und steuert die nächsten Änderungen wieder mit Worten – teilweise ohne den Code Zeile für Zeile zu prüfen. Der Begriff verbreitete sich schnell, weil er einen echten Wandel erfasst: Softwareentwicklung bewegt sich von der manuellen Eingabe von Syntax hin zum Formulieren von Absichten und zum Steuern der Ausführung.</p>
+
+            <blockquote>Zwei Dinge müssen getrennt werden: Vibe Coding im ursprünglichen Sinn ähnelt schnellem, improvisiertem Prototyping; produktive Software braucht kontrollierte, intentionsgetriebene Entwicklung.</blockquote>
+
+            <p>Für ein einmaliges Wochenendprojekt kann „Ergebnis ansehen – erneut prompten – wieder ausführen“ genügen. Sobald Software Kundendaten, Zahlungen, Produktionsabläufe oder langfristige Wartung betrifft, reicht Gefühl allein nicht aus. Je schneller KI erzeugt, desto wichtiger werden klare Orchestrierung und Qualitätsprüfungen.</p>
+
+            <div class="vc-label">01 · Zwei Entwicklungsmodelle</div>
+            <h2>Was ändert sich zwischen klassischer und KI-gestützter Entwicklung?</h2>
+            <div class="vc-compare">
+              <section class="vc-card"><h3>Klassische Softwareentwicklung</h3><p>Menschen verstehen die Anforderungen und übernehmen zugleich Entwurf, Programmierung, Fehlersuche und Wartung. Der Engpass liegt in der schrittweisen Übersetzung der Geschäftsabsicht in präzise Syntax.</p></section>
+              <section class="vc-card accent"><h3>KI-Softwareentwicklung</h3><p>Menschen verantworten Ziele, Grenzen, Abwägungen und Abnahme; KI übernimmt Analyse, Generierung und Ausführung. Der Engpass verlagert sich auf klare Absichten und überprüfbare Ergebnisse.</p></section>
+            </div>
+            <div class="vc-flow" aria-label="Klassischer Softwareentwicklungsprozess">
+              <div class="vc-step"><strong>Anforderung</strong><span>Welches Problem lösen?</span></div><div class="vc-arrow">→</div>
+              <div class="vc-step"><strong>Entwurf</strong><span>Module, Schnittstellen, Datenfluss</span></div><div class="vc-arrow">→</div>
+              <div class="vc-step"><strong>Code</strong><span>Logik umsetzen</span></div><div class="vc-arrow">→</div>
+              <div class="vc-step"><strong>Test</strong><span>Erwartetes Verhalten belegen</span></div><div class="vc-arrow">→</div>
+              <div class="vc-step"><strong>Release</strong><span>Bereitstellen, überwachen, warten</span></div>
+            </div>
+            <p>KI schafft diese Phasen nicht ab. Sie verändert die Arbeitsteilung: Menschen müssen nicht mehr jede Übersetzung selbst ausführen, müssen aber weiterhin festlegen, wie das System funktionieren soll und welche Nachweise seine Korrektheit belegen.</p>
+
+            <div class="vc-label">02 · KI-Systemarchitektur</div>
+            <h2>Ein vollständiges KI-Entwicklungssystem ist mehr als ein Modell</h2>
+            <div class="vc-stack">
+              <div class="vc-layer"><strong>Orchestrierung · Regeln</strong><span>Spezifikation, Aufgabenreihenfolge, Dateiumfang, Berechtigungen, Testanforderungen und menschliche Freigabepunkte.</span></div>
+              <div class="vc-layer"><strong>Kognition · Gehirn</strong><span>Natürliche Sprache verstehen, Codebasis analysieren, Optionen vergleichen, Code erzeugen und Ergebnisse erklären.</span></div>
+              <div class="vc-layer"><strong>Ausführung · Hände</strong><span>Dateien lesen und ändern, Tests ausführen, Terminal oder externe Werkzeuge nutzen und prüfbare Änderungen erzeugen.</span></div>
+              <div class="vc-layer"><strong>Verifikation · Instrumente</strong><span>Automatisierte Tests, Code-Review, Prüfung in realer Umgebung, Protokolle, Rollback und abschließende menschliche Abnahme.</span></div>
+            </div>
+            <p>Die Leistungsfähigkeit des Modells ist wichtig, aber das Modell ist nicht das ganze System. Ohne Orchestrierung kann KI lokal richtig und insgesamt falsch liegen. Ohne Verifikation ist „fertig“ nur die Einschätzung des Modells.</p>
+
+            <div class="vc-label">03 · KI steuern</div>
+            <h2>Vier Kontrolltore halten die KI auf unsere Absicht ausgerichtet</h2>
+            <div class="vc-grid">
+              <section class="vc-card"><h3>Zuerst spezifizieren</h3><p>Ziele, Nicht-Ziele, Schnittstellen, Datenflüsse, Einschränkungen und Abnahmekriterien festlegen. Auch GitHubs Spec Kit behandelt die Spezifikation als Kern eines KI-Workflows.</p></section>
+              <section class="vc-card"><h3>Vor dem Ändern erkunden</h3><p>Zuerst den Ist-Zustand untersuchen, dann einen Plan vorlegen und erst nach Freigabe ausführen. Die Erkundung sollte standardmäßig nur lesend erfolgen.</p></section>
+              <section class="vc-card"><h3>Vor der Implementierung testen</h3><p>Erwartetes Verhalten zuerst in Tests fassen und anschließend nur das Nötige implementieren. Tests sind objektive Tore, die KI nicht sprachlich umgehen kann.</p></section>
+            </div>
+            <div class="vc-gate"><strong>Berechtigungstor</strong>Nur die für die aktuelle Aufgabe minimal nötigen Rechte freigeben. Leserecht bedeutet kein Löschrecht; ein Entwurf darf nicht automatisch veröffentlicht werden.</div>
+            <div class="vc-gate"><strong>Gedächtnistor</strong>Kernregeln kurz und dauerhaft halten, Projektdokumente bei Bedarf laden und die vollständige Historie gezielt durchsuchen. Gutes Gedächtnis bedeutet nicht möglichst viel, sondern den richtigen Kontext.</div>
+            <div class="vc-gate"><strong>Verifikationstor</strong>Folgenreiche Aktionen benötigen menschliche Freigabe. Auch OWASP empfiehlt für KI-Agenten minimale Rechte, menschliche Genehmigung, Ausgabevalidierung, Überwachung und revisionsfähige Protokolle.</div>
+
+            <div class="vc-label">04 · Typische Fehler</div>
+            <h2>Die gefährlichsten Fehler sind nicht die offensichtlichen</h2>
+            <div class="vc-risk-grid">
+              <section class="vc-card"><h3>Anforderungsdrift</h3><p>Die Funktion wird immer ausgereifter, entfernt sich aber schrittweise vom ursprünglichen Ziel. Gegenmaßnahme: Ziele und Nicht-Ziele in jeder Runde wiederholen.</p></section>
+              <section class="vc-card"><h3>Lokale Reparatur</h3><p>Ein Fehler verschwindet, während eine zugrunde liegende Schnittstelle oder andere Funktion beschädigt wird. Gegenmaßnahme: Änderungsumfang begrenzen und Regressionstests ausführen.</p></section>
+              <section class="vc-card"><h3>Scheinfertigstellung</h3><p>Lauffähiger Code ist nicht automatisch bereitstellbar, wartbar oder sicher. Gegenmaßnahme: Abnahmekriterien und Nachweise aus realer Umgebung verwenden.</p></section>
+              <section class="vc-card"><h3>Kontextverlust</h3><p>In langen Dialogen vergisst die KI Architekturregeln und frühere Entscheidungen. Gegenmaßnahme: kurze Dauerregeln, Dokumente bei Bedarf und durchsuchbare Aufzeichnungen.</p></section>
+              <section class="vc-card"><h3>Übermäßige Rechte</h3><p>Werkzeuge können auf Dateien, Netzwerke oder Produktionssysteme zugreifen, die für die Aufgabe nicht nötig sind. Gegenmaßnahme: geringste Rechte, Bestätigung sensibler Aktionen und Rollback.</p></section>
+              <section class="vc-card"><h3>Falsche Verantwortung</h3><p>Das Team behandelt „die KI sagt, sie sei fertig“ als Lieferung. Gegenmaßnahme: Menschen definieren Korrektheit und tragen die Verantwortung für das Ergebnis.</p></section>
+            </div>
+
+            <div class="vc-label">05 · OPC-Beispiel</div>
+            <h2>Ein Kundenanfrageformular für die OPC-Website</h2>
+            <div class="vc-example">
+              <div class="vc-bad"><strong>Unstrukturierter Prompt:</strong> „Erstelle mir ein schönes Kundenanfrageformular.“<br />Das Ergebnis kann fertig aussehen, obwohl Felder, Datenziel, Datenschutzeinwilligung, Spam-Schutz und Fehlerbehandlung ungeklärt bleiben.</div>
+              <div class="vc-good"><strong>Kontrollierte Absicht:</strong> „Einen Anfragekanal für B2B-Kunden bereitstellen; keine Benutzerkonten anlegen; nur die für die Nachverfolgung minimal nötigen Daten erfassen; Datenschutzeinwilligung, Spam-Schutz, Fehlermeldungen und einen überprüfbaren Übermittlungsnachweis vorsehen.“</div>
+              <ol class="vc-checks">
+                <li><strong>Definieren:</strong> Ziele, Nicht-Ziele, Felder, Datenspeicherort und DSGVO-Grenzen festlegen.</li>
+                <li><strong>Planen:</strong> Die KI liest zuerst die bestehende Website-Struktur und nennt Dateien, Risiken und Tests.</li>
+                <li><strong>Zuerst testen:</strong> Pflichtfelder, E-Mail-Format, Spam-Schutz, Wiederholungsversuche, Einwilligung und mobile Darstellung abdecken.</li>
+                <li><strong>Ausführen:</strong> Nur freigegebene Dateien ändern, in kleinen Schritten committen und jeden Schritt rückgängig machen können.</li>
+                <li><strong>Abnehmen:</strong> Automatische Tests bestehen, ein Mensch sendet eine echte Anfrage und die Protokolle enthalten keine unnötigen sensiblen Daten.</li>
+              </ol>
+            </div>
+            <blockquote>Der Lieferstandard lautet nicht „Die KI ist mit dem Schreiben fertig“, sondern: Nachweise zeigen, dass die Software unserer Absicht entspricht.</blockquote>
+
+            <h2>Die Rolle des Programmierers verschwindet nicht – sie verlagert sich nach oben</h2>
+            <p>Im KI-Zeitalter bleibt Syntaxkenntnis nützlich, ist aber nicht mehr die einzige Kernkompetenz. Wichtiger werden die Übersetzung unklarer Anforderungen in klare Spezifikationen, das Erkennen von Systemgrenzen, die Gestaltung der Verifikation, das Abwägen von Tempo und Risiko sowie das Stoppen der KI, wenn es nötig ist.</p>
+            <p>Der zukünftige Softwareentwickler ähnelt daher einer Kombination aus Architekt, Product Owner und Dirigent. KI liefert Produktivität; Menschen liefern Richtung, Urteil und Verantwortung.</p>
+
+            <h2>Quellen</h2>
+            <ul class="vc-sources">
+              <li><a href="https://x.com/karpathy/status/1886192184808149383" target="_blank" rel="noreferrer">Andrej Karpathys ursprünglicher Beitrag zu „Vibe Coding“, 2. Februar 2025</a></li>
+              <li><a href="https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/" target="_blank" rel="noreferrer">GitHub Blog: Spec-driven development with AI</a></li>
+              <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html" target="_blank" rel="noreferrer">OWASP Cheat Sheet: AI Agent Security</a></li>
+            </ul>
+            <p class="vc-note"><strong>Schlüsselbegriffe:</strong> intentionsgetriebene Entwicklung; Orchestrierungsebene; Prinzip der geringsten Rechte; Abnahmekriterien.</p>
+          </div>
         </div>
 
         <section class="article-tools" data-current-post="vibe-coding-intent-driven-development.html">
@@ -163,6 +346,7 @@
     <div class="toast" data-toast hidden></div>
     <script src="../content.js"></script>
     <script src="../site.js"></script>
+    <script src="../article-language.js"></script>
     <script src="../../assets/subscribe.js"></script>
   </body>
 </html>
