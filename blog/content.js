@@ -1,5 +1,14 @@
 window.blogPosts = [
   {
+    title: "Vibe Coding 不是放手：如何让 AI 按我们的意图开发软件",
+    date: "2026-07-18",
+    category: "Engineering",
+    read: "8 min",
+    href: "./posts/vibe-coding-intent-driven-development.html",
+    image: "./assets/vibe-coding-architecture.svg",
+    summary: "对比传统研发与 AI 意图驱动开发，用规格、权限、测试、记忆和人工验收把 AI 从代码生成器变成可控的执行系统。"
+  },
+  {
     title: "ASMAX 欧洲市场进入判断：先验证，再谈代理与库存",
     date: "2026-07-18",
     category: "Market Entry",

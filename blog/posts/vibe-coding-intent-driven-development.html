@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Vibe Coding 不是放手：如何让 AI 按我们的意图开发软件</title>
+    <meta name="description" content="从传统软件研发到 AI 意图驱动开发：用规格、权限、测试、记忆和人工验收管理 AI，并以 OPC 客户询盘表单为例说明可控工作流。" />
+    <link rel="stylesheet" href="../styles.css" />
+    <style>
+      .vc-label{display:inline-flex;align-items:center;gap:8px;margin:28px 0 10px;color:#0d6b63;font-size:14px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.vc-label::before{content:"";width:28px;height:3px;background:#e56b47}.vc-compare,.vc-grid,.vc-risk-grid{display:grid;gap:14px;margin:22px 0}.vc-compare{grid-template-columns:repeat(2,minmax(0,1fr))}.vc-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.vc-risk-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.vc-card{border:1px solid var(--line);background:#fff;padding:20px;border-radius:4px}.vc-card h3{font-size:21px;margin:0 0 8px}.vc-card p{font-size:16px;margin:0;color:var(--muted)}.vc-card.accent{background:#17302f;border-color:#17302f}.vc-card.accent h3,.vc-card.accent p{color:#fff}.vc-flow{display:flex;align-items:stretch;gap:8px;margin:24px 0;overflow-x:auto;padding-bottom:8px}.vc-step{min-width:132px;flex:1;border:1px solid var(--line);background:#fff;padding:16px 12px;text-align:center}.vc-step strong{display:block;color:#0d6b63;font-size:18px;margin-bottom:6px}.vc-step span{display:block;color:var(--muted);font-size:14px;line-height:1.45}.vc-arrow{display:grid;place-items:center;color:#e56b47;font-size:25px;font-weight:800}.vc-stack{display:grid;gap:10px;margin:24px 0}.vc-layer{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:center;border:1px solid var(--line);background:#fff;padding:16px 18px}.vc-layer strong{color:#0d6b63}.vc-layer:first-child{background:#f7e5dc}.vc-gate{border-left:5px solid #e56b47;background:#f7f3ea;padding:16px 18px;margin:12px 0}.vc-gate strong{display:block;margin-bottom:4px}.vc-example{border:2px solid #17302f;margin:28px 0;padding:22px}.vc-bad{border-left:5px solid #b64a3c;background:#f6e6e1;padding:16px 18px;margin:14px 0}.vc-good{border-left:5px solid #0d6b63;background:#e4efeb;padding:16px 18px;margin:14px 0}.vc-checks{counter-reset:check;list-style:none;padding:0}.vc-checks li{counter-increment:check;position:relative;padding:12px 12px 12px 48px;border-bottom:1px solid var(--line)}.vc-checks li::before{content:counter(check);position:absolute;left:6px;top:10px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#17302f;color:#fff;font-size:13px;font-weight:800}.vc-note{font-size:15px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px}.vc-sources a{word-break:break-word}@media(max-width:720px){.vc-compare,.vc-grid,.vc-risk-grid{grid-template-columns:1fr}.vc-layer{grid-template-columns:1fr}.vc-flow{align-items:stretch}.vc-arrow{min-width:24px}.vc-step{min-width:155px}}
+    </style>
+  </head>
+  <body>
+    <div class="article-shell">
+      <header class="topbar">
+        <a class="brand" href="../index.html">YIJIAN_NOTES</a>
+        <nav><a href="../index.html">文章列表</a><a href="../about.html">关于博客</a><a href="../../lab-product.html">产品页</a></nav>
+      </header>
+      <article>
+        <header class="article-head">
+          <div class="meta"><span>2026-07-18</span><span class="tag">Engineering</span><span>8 min</span></div>
+          <h1>Vibe Coding 不是放手：如何让 AI 按我们的意图开发软件</h1>
+          <p>AI 可以把自然语言变成代码，但可靠的软件仍然需要人定义目标、边界、权限和验收标准。</p>
+          <img class="article-cover" src="../assets/vibe-coding-architecture.svg" alt="传统软件开发与受控 AI 软件开发的结构对比" />
+        </header>
+
+        <div class="article-body">
+          <p>2025 年 2 月，Andrej Karpathy 用 “vibe coding” 描述一种新的编程体验：用自然语言告诉 AI 想要什么，运行结果，再继续用语言推动修改，甚至不再逐行关注代码。这个词很快流行起来，因为它准确捕捉到一个变化：软件开发正在从“手动输入语法”转向“表达意图并管理执行”。</p>
+
+          <blockquote>但要先区分两件事：原始意义上的 Vibe Coding 更接近快速、随性的原型开发；生产级软件需要的是可控的意图驱动开发。</blockquote>
+
+          <p>如果只是周末做一个一次性小工具，“看效果—继续提示—再运行”可能已经足够。如果软件要处理客户数据、支付、生产流程或长期维护，单靠感觉就不够。AI 生成速度越快，越需要清晰的编排和质量门禁。</p>
+
+          <div class="vc-label">01 · 两种研发框架</div>
+          <h2>传统开发与 AI 开发，究竟哪里不同？</h2>
+
+          <div class="vc-compare">
+            <section class="vc-card">
+              <h3>传统软件研发</h3>
+              <p>人既负责理解需求，也负责设计、编码、调试和维护。主要瓶颈是把业务意图逐层翻译成精确语法。</p>
+            </section>
+            <section class="vc-card accent">
+              <h3>AI 软件开发</h3>
+              <p>人负责目标、边界、取舍和验收；AI 负责推理、生成与执行。主要瓶颈转为：意图是否清楚，结果是否可验证。</p>
+            </section>
+          </div>
+
+          <div class="vc-flow" aria-label="传统软件开发流程">
+            <div class="vc-step"><strong>需求</strong><span>解决什么问题</span></div><div class="vc-arrow">→</div>
+            <div class="vc-step"><strong>设计</strong><span>模块、接口、数据流</span></div><div class="vc-arrow">→</div>
+            <div class="vc-step"><strong>编码</strong><span>人工实现逻辑</span></div><div class="vc-arrow">→</div>
+            <div class="vc-step"><strong>测试</strong><span>证明符合预期</span></div><div class="vc-arrow">→</div>
+            <div class="vc-step"><strong>发布</strong><span>部署、监控、维护</span></div>
+          </div>
+
+          <p>AI 并没有取消这些阶段。它改变的是阶段之间的分工：人不必亲手完成每次转换，但仍要决定系统应该怎样工作，以及用什么证据证明它确实正确。</p>
+
+          <div class="vc-label">02 · AI 系统架构</div>
+          <h2>完整的 AI 开发系统，不只有一个大模型</h2>
+
+          <div class="vc-stack">
+            <div class="vc-layer"><strong>编排层 · 规矩</strong><span>规格文档、任务顺序、文件范围、权限、测试要求和人工确认点。</span></div>
+            <div class="vc-layer"><strong>认知层 · 大脑</strong><span>理解自然语言、分析代码库、比较方案、生成代码和解释结果。</span></div>
+            <div class="vc-layer"><strong>执行层 · 手脚</strong><span>读取和修改文件、运行测试、调用终端或外部工具、形成可检查的改动。</span></div>
+            <div class="vc-layer"><strong>验证层 · 仪表盘</strong><span>自动测试、代码审查、真实环境检查、日志、回滚和最终人工验收。</span></div>
+          </div>
+
+          <p>模型强弱当然重要，但模型不是整个系统。没有编排层，AI 容易“局部做对、整体做错”；没有验证层，所谓完成只是模型自己的判断。</p>
+
+          <div class="vc-label">03 · 管理 AI</div>
+          <h2>四道控制门：让 AI 按我们的意图工作</h2>
+
+          <div class="vc-grid">
+            <section class="vc-card"><h3>先写清楚</h3><p>目标、非目标、接口、数据流、限制条件和验收标准。GitHub 的 Spec Kit 也把规格视为驱动 AI 工作流的核心。</p></section>
+            <section class="vc-card"><h3>先看后改</h3><p>先探索现状，再提交计划，获得确认后才执行。探索阶段默认只读，降低误改和范围扩张。</p></section>
+            <section class="vc-card"><h3>先测后写</h3><p>先把预期行为变成测试，再实现刚好满足要求的改动。测试是 AI 无法靠语言绕过的客观门禁。</p></section>
+          </div>
+
+          <div class="vc-gate"><strong>权限门</strong>只开放完成当前任务所需的最小权限。读取资料不等于可以删除文件；生成草稿不等于可以直接发布。</div>
+          <div class="vc-gate"><strong>记忆门</strong>核心规则保持短小、常驻；项目文档按需加载；完整历史通过检索获取。记忆不是越长越好，而是要让当前任务得到正确上下文。</div>
+          <div class="vc-gate"><strong>验证门</strong>高影响操作必须有人确认。OWASP 对 AI Agent 的建议同样强调最小权限、人类审批、输出验证、监控和可审计日志。</div>
+
+          <div class="vc-label">04 · 常见错误</div>
+          <h2>AI 软件开发最危险的，不是明显报错</h2>
+
+          <div class="vc-risk-grid">
+            <section class="vc-card"><h3>需求漂移</h3><p>功能做得很完整，却逐轮偏离原始目标。对策：每轮重述目标与非目标。</p></section>
+            <section class="vc-card"><h3>局部修复</h3><p>一个 Bug 消失了，底层接口或其他功能却被破坏。对策：限制修改范围并运行回归测试。</p></section>
+            <section class="vc-card"><h3>虚假完成</h3><p>代码能运行，不代表可部署、可维护或安全。对策：用验收清单和真实环境结果判断。</p></section>
+            <section class="vc-card"><h3>上下文退化</h3><p>对话变长后，AI 忘记架构规则和历史决定。对策：短常驻规则、按需文档和可检索记录。</p></section>
+            <section class="vc-card"><h3>过度权限</h3><p>工具能访问不必要的文件、网络或生产系统。对策：最小权限、敏感操作确认和回滚。</p></section>
+            <section class="vc-card"><h3>责任错位</h3><p>团队把“AI 说完成了”当成交付。对策：人定义什么算正确，并对最终结果负责。</p></section>
+          </div>
+
+          <div class="vc-label">05 · OPC 实例</div>
+          <h2>给 OPC 官网新增一个客户询盘表单</h2>
+
+          <div class="vc-example">
+            <div class="vc-bad"><strong>随性提示：</strong>“帮我做一个漂亮的客户询盘表单。”<br />可能得到一个看起来完整的页面，但字段、数据去向、隐私同意、防刷和错误处理都没有定义。</div>
+            <div class="vc-good"><strong>受控意图：</strong>“为 B2B 客户提供询盘入口；不建立用户账户；只收集跟进所需的最少数据；必须有隐私同意、反垃圾机制、失败提示和可验证的提交记录。”</div>
+            <ol class="vc-checks">
+              <li><strong>定义：</strong>写清目标、非目标、字段、数据保存位置和 GDPR 边界。</li>
+              <li><strong>规划：</strong>AI 先读取现有网站结构，列出要改的文件、风险和测试方案。</li>
+              <li><strong>先测：</strong>覆盖必填项、邮箱格式、防刷、失败重试、隐私同意和移动端显示。</li>
+              <li><strong>执行：</strong>只修改批准的文件，小步提交，每一步都可回滚。</li>
+              <li><strong>验收：</strong>自动测试通过，人工实际提交，确认日志不含不必要的敏感信息。</li>
+            </ol>
+          </div>
+
+          <blockquote>交付标准不是“AI 已经写完”，而是证据表明软件符合我们的意图。</blockquote>
+
+          <h2>程序员的角色没有消失，只是上移了</h2>
+          <p>AI 时代，语法熟练度仍有价值，但不再是唯一的核心。更重要的能力是：把模糊需求变成清晰规格，识别系统边界，设计验证方法，在速度与风险之间做取舍，并在必要时叫停 AI。</p>
+          <p>因此，未来的软件开发者更像架构师、产品负责人和总指挥的结合体。AI 提供生产力，人提供方向、判断与责任。</p>
+
+          <h2>参考来源</h2>
+          <ul class="vc-sources">
+            <li><a href="https://x.com/karpathy/status/1886192184808149383" target="_blank" rel="noreferrer">Andrej Karpathy：提出 “vibe coding” 的原始帖子，2025-02-02</a></li>
+            <li><a href="https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/" target="_blank" rel="noreferrer">GitHub Blog：Spec-driven development with AI</a></li>
+            <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html" target="_blank" rel="noreferrer">OWASP Cheat Sheet：AI Agent Security</a></li>
+          </ul>
+
+          <p class="vc-note"><strong>关键词：</strong>意图驱动开发 = intent-driven development / intentionsgetriebene Entwicklung；编排层 = orchestration layer / Orchestrierungsebene；最小权限 = least privilege / Prinzip der geringsten Rechte；验收标准 = acceptance criteria / Abnahmekriterien。</p>
+        </div>
+
+        <section class="article-tools" data-current-post="vibe-coding-intent-driven-development.html">
+          <a class="tool-link" href="../index.html">返回列表</a>
+          <button type="button" data-copy-current>复制链接</button>
+          <button type="button" data-save-read>稍后读</button>
+        </section>
+        <section class="article-subscribe" aria-label="订阅更新" data-lang="zh">
+          <div class="subscribe-lang-switch" aria-label="Subscription language">
+            <button type="button" class="active" data-subscribe-lang="zh" aria-pressed="true">中文</button>
+            <button type="button" data-subscribe-lang="en" aria-pressed="false">EN</button>
+            <button type="button" data-subscribe-lang="de" aria-pressed="false">DE</button>
+          </div>
+          <h2 class="sub-lang sub-zh">喜欢这篇文章？订阅后续更新</h2>
+          <h2 class="sub-lang sub-en">Like this article? Subscribe for future updates</h2>
+          <h2 class="sub-lang sub-de">Gefällt Ihnen dieser Beitrag? Updates abonnieren</h2>
+          <p class="sub-lang sub-zh">留下邮箱，新文章、行业动向和德国市场机会更新后，我会优先通知你。</p>
+          <p class="sub-lang sub-en">Leave your email to receive new articles, market trends and Germany opportunity updates as soon as they are published.</p>
+          <p class="sub-lang sub-de">E-Mail eintragen und neue Artikel, Markttrends und Deutschland-Chancen direkt erhalten.</p>
+          <form data-subscribe-form name="opc-subscribe" method="POST" data-netlify="true" netlify-honeypot="company">
+            <input type="hidden" name="form-name" value="opc-subscribe">
+            <input type="text" name="company" tabindex="-1" autocomplete="off" hidden>
+            <input name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+            <button type="submit" class="sub-lang sub-zh">订阅</button>
+            <button type="submit" class="sub-lang sub-en">Subscribe</button>
+            <button type="submit" class="sub-lang sub-de">Abonnieren</button>
+            <label class="subscribe-consent">
+              <input name="consent" type="checkbox" data-subscribe-consent required>
+              <span class="sub-lang sub-zh">我同意接收 OPC TechBridge 的更新邮件，可随时邮件退订。</span>
+              <span class="sub-lang sub-en">I agree to receive OPC TechBridge update emails and can unsubscribe by email at any time.</span>
+              <span class="sub-lang sub-de">Ich stimme zu, Updates von OPC TechBridge zu erhalten. Abmeldung ist jederzeit per E-Mail möglich.</span>
+            </label>
+          </form>
+          <p class="subscribe-status" data-subscribe-status role="status" aria-live="polite"></p>
+        </section>
+        <section class="related-section" aria-label="继续阅读"><h2>继续阅读</h2><div class="related-grid" data-related-posts></div></section>
+      </article>
+      <footer class="footer">Yijian Notes | Intent-driven development</footer>
+    </div>
+    <div class="toast" data-toast hidden></div>
+    <script src="../content.js"></script>
+    <script src="../site.js"></script>
+    <script src="../../assets/subscribe.js"></script>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" role="img" aria-labelledby="title desc">
+  <title id="title">Vibe Coding 与可控 AI 软件开发架构</title>
+  <desc id="desc">左侧是传统需求到代码的线性流程，右侧是人类意图、编排层、认知层、执行层和验证闭环。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f4f1e9}.ink{fill:#17302f}.muted{fill:#65716d}.teal{fill:#0d6b63}.orange{fill:#e56b47}.white{fill:#fff}.soft{fill:#e4efeb}.warm{fill:#f7e5dc}.line{stroke:#bac8c3;stroke-width:2}.arrow{stroke:#e56b47;stroke-width:4;fill:none;marker-end:url(#a)}
+      .h{font:700 34px -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif}.t{font:700 22px -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif}.b{font:500 17px -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif}.s{font:600 14px -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;letter-spacing:.08em}
+    </style>
+    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0l10 5-10 5z" fill="#e56b47"/></marker>
+  </defs>
+  <rect class="bg" width="1200" height="600" rx="28"/>
+  <text class="s orange" x="64" y="62">FROM CODE-FIRST TO INTENT-DRIVEN</text>
+  <text class="h ink" x="64" y="108">人不再逐行搬砖，而是定义目标、边界与验收</text>
+
+  <rect class="white line" x="64" y="160" width="430" height="352" rx="22"/>
+  <text class="t ink" x="94" y="205">传统开发：线性翻译</text>
+  <g transform="translate(94 244)">
+    <rect class="warm" width="92" height="64" rx="14"/><text class="b ink" x="46" y="39" text-anchor="middle">需求</text>
+    <path class="arrow" d="M102 32h42"/>
+    <rect class="warm" x="154" width="92" height="64" rx="14"/><text class="b ink" x="200" y="39" text-anchor="middle">设计</text>
+    <path class="arrow" d="M256 32h42"/>
+    <rect class="orange" x="308" width="92" height="64" rx="14"/><text class="b white" x="354" y="39" text-anchor="middle">编码</text>
+  </g>
+  <g transform="translate(94 348)">
+    <rect class="soft" width="142" height="64" rx="14"/><text class="b ink" x="71" y="39" text-anchor="middle">测试</text>
+    <path class="arrow" d="M152 32h72"/>
+    <rect class="soft" x="234" width="166" height="64" rx="14"/><text class="b ink" x="317" y="39" text-anchor="middle">发布与维护</text>
+  </g>
+  <text class="b muted" x="94" y="468">人同时负责理解、设计、编码和纠错</text>
+
+  <rect class="white line" x="536" y="160" width="600" height="352" rx="22"/>
+  <text class="t ink" x="566" y="205">AI 开发：受控反馈闭环</text>
+  <rect class="orange" x="566" y="238" width="126" height="94" rx="16"/><text class="t white" x="629" y="275" text-anchor="middle">人类</text><text class="b white" x="629" y="304" text-anchor="middle">意图与验收</text>
+  <path class="arrow" d="M704 285h58"/>
+  <rect class="warm" x="774" y="228" width="322" height="66" rx="14"/><text class="t ink" x="800" y="268">编排层</text><text class="b muted" x="912" y="268">规则 · 权限 · 记忆</text>
+  <rect class="soft" x="774" y="312" width="322" height="66" rx="14"/><text class="t teal" x="800" y="352">认知层</text><text class="b muted" x="912" y="352">理解 · 推理 · 生成</text>
+  <rect class="white line" x="774" y="396" width="322" height="66" rx="14"/><text class="t ink" x="800" y="436">执行层</text><text class="b muted" x="912" y="436">读写 · 运行 · 调用</text>
+  <path d="M1096 428c42 0 42-166 0-166" fill="none" stroke="#0d6b63" stroke-width="4" marker-end="url(#a)"/>
+  <text class="s teal" x="1044" y="486" text-anchor="end">TEST · REVIEW · ROLLBACK</text>
+  <text class="b muted" x="566" y="480">AI 执行，人负责“什么算正确”</text>
+  <rect class="ink" x="64" y="542" width="1072" height="4" rx="2"/>
+</svg>
