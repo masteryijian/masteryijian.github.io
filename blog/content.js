@@ -1,5 +1,14 @@
 window.blogPosts = [
   {
+    title: "ASMAX 欧洲市场进入判断：先验证，再谈代理与库存",
+    date: "2026-07-18",
+    category: "Market Entry",
+    read: "10 min",
+    href: "./posts/asmax-europe-market-entry-2026.html",
+    image: "./assets/supply-chain.svg",
+    summary: "以德国渠道价格、产品线、App 反馈、单位经济性、欧盟合规与专利风险为依据，给出 ASMAX 进入 DACH 市场的产品优先级和 30/60/90 天验证方案。"
+  },
+  {
     title: "在 Stadtklinikum Karlsruhe 生孩子：新手爸妈德中行动教程",
     date: "2026-07-17",
     category: "Karlsruhe Life",

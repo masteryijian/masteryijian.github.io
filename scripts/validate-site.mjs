@@ -17,6 +17,7 @@ const entrypoints = [
   "tools/markdown/index.html",
   "blog/index.html",
   "blog/about.html",
+  "blog/posts/asmax-europe-market-entry-2026.html",
   "blog/posts/geburt-stadtklinikum-karlsruhe-eltern-guide.html",
   "blog/posts/hwk-karlsruhe-gruendung-elektrotechnik.html",
   "blog/posts/aen-karlsruhe-ai-mittelstand-2026.html",
