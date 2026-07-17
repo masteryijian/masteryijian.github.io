@@ -1,5 +1,14 @@
 window.blogPosts = [
   {
+    title: "在 Stadtklinikum Karlsruhe 生孩子：新手爸妈德中行动教程",
+    date: "2026-07-17",
+    category: "Karlsruhe Life",
+    read: "10 min",
+    href: "./posts/geburt-stadtklinikum-karlsruhe-eltern-guide.html",
+    image: "./assets/karlsruhe-birth-guide.svg",
+    summary: "结合医院官方资料与 2026-07-16 Infoabend 现场问答，整理何时电话联系、怎样到院、家庭房、节假日保障、产后住院与出生登记。"
+  },
+  {
     title: "HWK Karlsruhe 路线图：Elektrotechnik 背景如何走向 Elektroniker Externenprüfung",
     date: "2026-07-16",
     category: "Handwerk",

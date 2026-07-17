@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Geburt im Klinikum Karlsruhe – Ablauf für werdende Eltern</title>
+  <desc id="desc">Vier Schritte: Kreißsaal anrufen, Haus S anfahren, Geburt und Bonding, Wochenbett und Familienzimmer.</desc>
+  <rect width="1200" height="630" fill="#f5f0e5"/>
+  <rect x="38" y="38" width="1124" height="554" rx="22" fill="#fffdf8" stroke="#202020" stroke-width="4"/>
+  <text x="82" y="112" font-family="Georgia, serif" font-size="48" font-weight="700" fill="#171717">Geburt im Klinikum Karlsruhe</text>
+  <text x="84" y="154" font-family="Arial, sans-serif" font-size="22" fill="#5f625d">Der praktische Ablauf für werdende Eltern · 新手爸妈行动路线</text>
+  <line x1="160" y1="344" x2="1040" y2="344" stroke="#235f7a" stroke-width="9" stroke-linecap="round"/>
+  <g font-family="Arial, sans-serif" text-anchor="middle">
+    <circle cx="165" cy="344" r="58" fill="#235f7a"/>
+    <text x="165" y="354" font-size="35" font-weight="700" fill="#fff">1</text>
+    <text x="165" y="438" font-size="25" font-weight="700" fill="#171717">Anrufen</text>
+    <text x="165" y="474" font-size="20" fill="#5f625d">Kreißsaal 24/7</text>
+    <text x="165" y="505" font-size="20" fill="#5f625d">0721 974-2440</text>
+
+    <circle cx="455" cy="344" r="58" fill="#8a4f20"/>
+    <text x="455" y="354" font-size="35" font-weight="700" fill="#fff">2</text>
+    <text x="455" y="438" font-size="25" font-weight="700" fill="#171717">Kommen</text>
+    <text x="455" y="474" font-size="20" fill="#5f625d">Haus S</text>
+    <text x="455" y="505" font-size="20" fill="#5f625d">Moltkestraße 90</text>
+
+    <circle cx="745" cy="344" r="58" fill="#235f7a"/>
+    <text x="745" y="354" font-size="35" font-weight="700" fill="#fff">3</text>
+    <text x="745" y="438" font-size="25" font-weight="700" fill="#171717">Gebären</text>
+    <text x="745" y="474" font-size="20" fill="#5f625d">Begleitperson</text>
+    <text x="745" y="505" font-size="20" fill="#5f625d">Bonding · PDA · Lachgas</text>
+
+    <circle cx="1035" cy="344" r="58" fill="#8a4f20"/>
+    <text x="1035" y="354" font-size="35" font-weight="700" fill="#fff">4</text>
+    <text x="1035" y="438" font-size="25" font-weight="700" fill="#171717">Ankommen</text>
+    <text x="1035" y="474" font-size="20" fill="#5f625d">Rooming-in</text>
+    <text x="1035" y="505" font-size="20" fill="#5f625d">Familienzimmer*</text>
+  </g>
+  <text x="82" y="560" font-family="Arial, sans-serif" font-size="18" fill="#5f625d">* nach Verfügbarkeit; keine Vorreservierung · 视空房情况，不能提前预订</text>
+</svg>
