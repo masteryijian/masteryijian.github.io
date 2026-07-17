@@ -15,13 +15,31 @@
       </header>
       <article>
         <header class="article-head">
+          <div class="article-language-switch" data-article-lang-switch aria-label="文章语言 / Article language / Artikelsprache">
+            <button type="button" class="active" data-article-lang="zh" aria-pressed="true">中文</button>
+            <button type="button" data-article-lang="en" aria-pressed="false">EN</button>
+            <button type="button" data-article-lang="de" aria-pressed="false">DE</button>
+          </div>
+          <div data-article-content="zh">
           <div class="meta"><span>2026-07-14</span><span class="tag">AI Governance</span><span>9 min</span></div>
           <h1>AEN Karlsruhe 2026 AI Mittelstand 活动复盘：AI 落地先做治理，再谈效率</h1>
           <p>德国中小企业不是不想用 AI，而是不确定哪些数据能用、谁负责、如何培训员工，以及怎样把 AI 安全接进业务流程。</p>
+          </div>
+          <div data-article-content="en" hidden>
+          <div class="meta"><span>2026-07-14</span><span class="tag">AI Governance</span><span>9 min</span></div>
+          <h1>AEN Karlsruhe 2026 Review: AI Governance Before Efficiency in the Mittelstand</h1>
+          <p>It’s not that German small and medium-sized enterprises don’t want to use AI, but they are not sure which data can be used, who is responsible, how to train employees, and how to safely integrate AI into business processes.</p>
+          </div>
+          <div data-article-content="de" hidden>
+          <div class="meta"><span>2026-07-14</span><span class="tag">AI Governance</span><span>9 min</span></div>
+          <h1>AEN Karlsruhe 2026: Erst KI-Governance, dann Effizienz im Mittelstand</h1>
+          <p>Es ist nicht so, dass der deutsche Mittelstand KI nicht nutzen möchte, aber er ist sich nicht sicher, welche Daten genutzt werden können, wer dafür verantwortlich ist, wie man Mitarbeiter schult und wie man KI sicher in Geschäftsprozesse integriert.</p>
+          </div>
           <img class="article-cover" src="../assets/ai-governance.svg" alt="AI governance, data controls and human review" />
         </header>
 
         <div class="article-body">
+          <div data-article-content="zh">
           <p>2026 年 7 月 14 日，AEN Automotive Engineering Network 在 FUX Karlsruhe 举办 “Innovation und Transformation Mittelstand - mittels KI”。官方议程给出的主题是 “Warum Mitglied in einem Netzwerk werden - Lösungen von Mitgliedern für Mitglieder”，时间为 09:00 到 13:00，地点是 Alter Schlachthof 33, 76131 Karlsruhe。</p>
 
           <p>这不是一场单纯讨论“哪个模型更强”的活动。结合 AEN 官方议程、LinkedIn 预告和现场记录来看，德国 Mittelstand 真正在意的是四件事：AI 素养和培训、Datenschutz 和数据边界、AI 风险与网络安全、企业知识如何通过 RAG 和工程数据工具进入真实流程。</p>
@@ -105,6 +123,175 @@
 
           <p><strong>关键词学习：</strong> KI-Kompetenz = AI literacy / AI 素养；Risikokompetenz = risk competence / 风险能力；Quellenbeleg = source citation / 来源依据；Mittelstand = 德国中小及中坚企业群体。</p>
         </div>
+          <div data-article-content="en" hidden>
+          <p>On July 14, 2026, the AEN Automotive Engineering Network held the "Innovation und Transformation Mittelstand - mittels KI" at FUX Karlsruhe. The official agenda gives the topic "Warum Mitglied in einem Netzwerk werden - Lösungen von Mitgliedern für Mitglieder" from 09:00 to 13:00 at Alter Schlachthof 33, 76131 Karlsruhe.</p>
+
+          <p>This is not a simple discussion of "which model is stronger". Judging from the AEN official agenda, LinkedIn previews and field notes, the German Mittelstand really cares about four things: AI literacy and training, Datenschutz and data boundaries, AI risks and cybersecurity, and how enterprise knowledge enters real processes through RAG and engineering data tools.</p>
+
+          <blockquote>My judgment: For European companies, Datenschutz, AI Governance and employee training are not additional issues after the implementation of AI, but the prerequisite for companies to dare to use AI.</blockquote>
+
+          <h2>Four signals given by the official agenda</h2>
+          <p>AEN’s PDF agenda lists four Fachimpulse, which basically covers the most realistic AI implementation issues for German small and medium-sized enterprises in 2026.</p>
+          <ul>
+            <li>09:30 - 10:00: Nicholas Williams, WilliamsSystem, on AI-Schulungen, ChatGPT, Prompting, Datenschutz and KI-Verordnung.</li>
+            <li>10:00 - 10:30: Leonard Frank and Julian Hansmann, MTNI GmbH, on the topic "Dotcom 2.0?" focusing on Risikokompetenz, security risks and risk management.</li>
+            <li>11:00 - 11:30: Johannes Grenzemann, MasterModel UG, on "Frag deine Firmen-Doku!" on RAG, Sprach-KI and enterprise documentation.</li>
+            <li>11:30 - 12:00: Sierk Schmalzriedt and Dr Johannes Riesterer, Fluffy Systems GmbH, on the topics Engineering, wissenschaftliches Rechnen, Datenanalyse and KI-Assistenz.</li>
+          </ul>
+
+          <p>This combination is very representative: training solves "can people use it", risk management solves "does the company dare to use it", RAG solves "can internal knowledge be used", and engineering analysis solves "can AI enter R&amp;D, testing, simulation and production data".</p>
+
+          <h2>AI training is no longer a soft initiative</h2>
+          <p>The first focus during the live discussion was AI-Schulung. Many employees are already using ChatGPT, Copilot, or similar tools, but there are often no clear tool whitelists, data entry boundaries, manual review rules, and training records within the enterprise. This creates Shadow AI: employees are using it, but the company doesn’t know how to manage it.</p>
+
+          <p>The European Commission’s AI literacy Q&amp;A clearly states that Article 4 of the AI ​​Act requires providers and deployers of AI systems to take measures to ensure that employees and those who use AI systems on their behalf have sufficient AI literacy. This obligation already applies from 2025-02-02 and the supervision and enforcement rules apply from 2026-08.</p>
+
+          <p>Therefore, enterprise AI training should not only cover prompt word skills, but should at least cover:</p>
+          <ul>
+            <li>Which AI tools are being used by businesses, which tools are allowed and which are not.</li>
+            <li>Can customer data, HR data, production data, technical drawings and trade secrets be fed into external AI.</li>
+            <li>When do AI results have to be manually reviewed, and how to record review responsibilities.</li>
+            <li>What scenarios might fall into the AI ​​Act’s high-risk classification.</li>
+            <li>How to keep training records, internal guidance and version updates.</li>
+          </ul>
+
+          <h2>HR is one of the easiest situations to step on the line</h2>
+          <p>There is a very practical question in the on-site notes: Can HR use AI to analyze resumes, screen applicants or evaluate candidates? The answer cannot simply be written as yes or no.</p>
+
+          <p>Annex III of the AI ​​Act classifies several uses of AI in employment, employee management and admission to self-employment as high risk, including recruiting or screening natural persons, targeting job advertisements, analyzing and filtering applications, evaluating candidates, and systems that have an impact on promotions, terminations, task assignments, performance monitoring and behavioral evaluations.</p>
+
+          <p>Therefore, AI can help HR organize materials, improve writing, prepare interview questions, or provide administrative assistance; but if AI directly scores candidates, filters resumes, determines interview opportunities, or affects promotions and performance, it needs to be re-evaluated based on high-risk logic.</p>
+
+          <h2>AI Agent upgrades the risk from "wrong answers" to "wrong operations"</h2>
+          <p>The theme of the second MTNI session was risk capabilities. A valuable aspect of the live discussion is that traditional Chatbots primarily output text, while AI Agents can access emails, files, databases, CRM, ERP, or production systems. The risk is no longer just "saying the wrong thing", but the possibility of accidentally deleting data, sending emails by mistake, leaking files, performing wrong payments or triggering wrong business processes.</p>
+
+          <p>This explains why German companies don’t just look at model capabilities. What enterprises really need is Guardrails: permission isolation, data classification, audit logging, Human in the loop, confirmation of sensitive operations, anomaly detection and regular testing. Without these foundations, the stronger AI becomes, the less companies will dare to release it on a large scale.</p>
+
+          <h2>The value of RAG lies in “sourced corporate knowledge”</h2>
+          <p>The theme of the third session on RAG and Sprach-KI is very close to industrial companies. The AEN agenda lists Servicedoku, CE-Akten, 8D-Berichte, Wartungshistorie, E-Mails and Konstruktionsrichtlinien. These are the most valuable and difficult-to-retrieve intellectual assets of German industrial enterprises.</p>
+
+          <p>The key to RAG is not to throw all the data to a large model, but to segment, index, retrieve, and rearrange enterprise documents, and then give the traceable sources to the model to generate answers. For after-sales, testing, CE documents, maintenance records and customer visits, what is really important is that the answer can be followed by evidence, not that it looks smooth.</p>
+
+          <p>This also corresponds to the future direction of the OPC workbench: customer visit recordings, product information, CE files, after-sales records and CRM follow-up should not be scattered in different places, but should be organized into searchable, referenceable, and repeatable enterprise information packages.</p>
+
+          <h2>The entrance to engineering AI is data analysis, not chatting</h2>
+          <p>The theme of the fourth session, Fluffy Systems, made up for an easily overlooked part of the live notes: Engineering. The official summary mentioned that engineering data comes from Simulationen, Sensoren, Fertigung, Prüfständen and digitale Zwillinge; DashSet attempts to connect Data Science, High-Performance Computing and KI-Assistenz to make big data processing, analysis, interpretation and visualization easier to enter engineering decision-making.</p>
+
+          <p>This is also important for Chinese industrial technology companies. German customers will not pay just for the "AI chat portal", they are more willing to pay for tools that can reduce development time, reduce test costs, interpret sensor data, and improve simulation and experiment efficiency.</p>
+
+          <h2>Practical inspiration for Chinese overseas companies</h2>
+          <p>If a Chinese company wants to bring AI, industrial software, industrial IoT, automation equipment or enterprise knowledge base solutions to Germany, the first batch of materials should not just be demos and price lists, but should include:</p>
+          <ul>
+            <li>AI usage boundaries: What data goes into the model and what doesn’t.</li>
+            <li>Deployment method: cloud, local, hybrid deployment, whether to support customer intranet or privatization.</li>
+            <li>Permissions model: who can access which files, customer records, project data, and system interfaces.</li>
+            <li>Source traceability: RAG answers whether it is possible to display the citation source, file version and update time.</li>
+            <li>Human review: Which outputs are just suggestions and which processes must be confirmed by humans.</li>
+            <li>Training records: How client employees receive training in AI literacy, tool usage, and risk boundaries.</li>
+            <li>High risk screening: whether it involves recruitment, employee evaluation, security components, critical infrastructure or production controls.</li>
+          </ul>
+
+          <p>The opportunity for OPC is here: help Chinese technology companies translate "AI capabilities" into an AI-Readiness package acceptable to German customers, including data classification, compliance paths, technical documentation, pilot scope, training materials, risk lists and local customer feedback.</p>
+
+          <h2>Reference sources</h2>
+          <ul>
+            <li><a href="https://ae-network.de/news/" target="_blank" rel="noreferrer">AEN News: 14.07.2026 Innovation und Transformation Mittelstand - mittels KI</a></li>
+            <li><a href="https://ae-network.de/transformation-mittelstand/" target="_blank" rel="noreferrer">AEN Transformation Mittelstand</a></li>
+            <li><a href="https://ae-network.de/wp-content/uploads/2026/06/Flyer-KI-14.07.-Transformation-Mittelstand_03.pdf" target="_blank" rel="noreferrer">AEN Agenda PDF, Flyer KI 14.07. Transformation Mittelstand</a></li>
+            <li><a href="https://de.linkedin.com/posts/ae-network_ki-activity-7470006857953361920-SFib" target="_blank" rel="noreferrer">AEN LinkedIn preview for the 14 July 2026 event</a></li>
+            <li><a href="https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai" target="_blank" rel="noreferrer">European Commission: AI Act overview</a></li>
+            <li><a href="https://digital-strategy.ec.europa.eu/en/faqs/ai-literacy-questions-answers" target="_blank" rel="noreferrer">European Commission: AI Literacy Questions & Answers</a></li>
+            <li><a href="https://digital-strategy.ec.europa.eu/en/policies/repository-ai-literacy-practices" target="_blank" rel="noreferrer">European Commission: Repository of AI literacy practices</a></li>
+            <li><a href="https://artificialintelligenceact.eu/annex/3/" target="_blank" rel="noreferrer">EU AI Act Annex III: High-risk AI systems, employment and worker management</a></li>
+          </ul>
+
+          <p><strong>Keyword learning:</strong> KI-Kompetenz = AI literacy; Risikokompetenz = risk competence; Quellenbeleg = source citation; Mittelstand = German small, medium and medium-sized enterprise groups.</p>
+        </div>
+          <div data-article-content="de" hidden>
+          <p>Am 14. Juli 2026 veranstaltete das AEN Automotive Engineering Network die Veranstaltung „Innovation und Transformation Mittelstand – mittels KI“ bei FUX Karlsruhe. Die offizielle Agenda steht unter dem Thema „Warum Mitglied in einem Netzwerk werden – Lösungen von Mitgliedern für Mitglieder“ von 09:00 bis 13:00 Uhr im Alten Schlachthof 33, 76131 Karlsruhe.</p>
+
+          <p>Dies ist keine einfache Diskussion darüber, welches Modell stärker ist. Der offiziellen AEN-Agenda, LinkedIn-Vorschauen und Feldnotizen zufolge liegen dem deutschen Mittelstand vier Dinge am Herzen: KI-Kenntnisse und -Training, Datenschutz und Datengrenzen, KI-Risiken und Cybersicherheit sowie die Art und Weise, wie Unternehmenswissen durch RAG und technische Datentools in reale Prozesse einfließt.</p>
+
+          <blockquote>Mein Urteil: Für europäische Unternehmen sind Datenschutz, KI-Governance und Mitarbeiterschulung keine zusätzlichen Themen nach der Implementierung von KI, sondern die Voraussetzung dafür, dass Unternehmen den Einsatz von KI wagen.</blockquote>
+
+          <h2>Vier Signale der offiziellen Tagesordnung</h2>
+          <p>Die PDF-Agenda des AEN listet vier Fachimpulse auf, die im Wesentlichen die realistischsten KI-Implementierungsthemen für den deutschen Mittelstand im Jahr 2026 abdecken.</p>
+          <ul>
+            <li>09:30 - 10:00: Nicholas Williams, WilliamsSystem, zu AI-Schulungen, ChatGPT, Prompting, Datenschutz und KI-Verordnung.</li>
+            <li>10:00 - 10:30: Leonard Frank und Julian Hansmann, MTNI GmbH, zum Thema „Dotcom 2.0?“ Schwerpunkte sind Risikokompetenz, Sicherheitsrisiken und Risikomanagement.</li>
+            <li>11:00 - 11:30: Johannes Grenzemann, MasterModel UG, zu „Frag deine Firmen-Doku!“ zu RAG, Sprach-KI und Unternehmensdokumentation.</li>
+            <li>11:30 - 12:00 Uhr: Sierk Schmalzriedt und Dr. Johannes Riesterer, Fluffy Systems GmbH, zu den Themen Engineering, wissenschaftliches Rechnen, Datenanalyse und KI-Assistenz.</li>
+          </ul>
+
+          <p>Diese Kombination ist sehr repräsentativ: Beim Training geht es um die Frage „Können die Leute es nutzen“, beim Risikomanagement geht es um die Frage „Wut sich das Unternehmen zu, es zu nutzen“, bei der RAG geht es um die Frage „Kann internes Wissen genutzt werden“ und bei der technischen Analyse geht es um die Frage „Kann KI in F&amp;E-, Test-, Simulations- und Produktionsdaten eintreten“.</p>
+
+          <h2>KI-Training ist keine sanfte Initiative mehr</h2>
+          <p>Der erste Schwerpunkt während der Live-Diskussion war die KI-Schulung. Viele Mitarbeiter verwenden bereits ChatGPT, Copilot oder ähnliche Tools, aber es gibt oft keine klaren Whitelists für Tools, Grenzen für die Dateneingabe, manuelle Überprüfungsregeln und Schulungsaufzeichnungen im Unternehmen. Dadurch entsteht Schatten-KI: Mitarbeiter nutzen sie, aber das Unternehmen weiß nicht, wie man damit umgeht.</p>
+
+          <p>In den Fragen und Antworten der Europäischen Kommission zur KI-Kompetenz heißt es eindeutig, dass Artikel 4 des KI-Gesetzes von Anbietern und Betreibern von KI-Systemen verlangt, Maßnahmen zu ergreifen, um sicherzustellen, dass Mitarbeiter und diejenigen, die KI-Systeme in ihrem Namen nutzen, über ausreichende KI-Kompetenz verfügen. Diese Verpflichtung gilt bereits ab dem 02.02.2025 und die Aufsichts- und Durchsetzungsvorschriften gelten ab dem 08.02.2026.</p>
+
+          <p>Daher sollte die KI-Schulung für Unternehmen nicht nur schnelle Wortfähigkeiten abdecken, sondern zumindest Folgendes abdecken:</p>
+          <ul>
+            <li>Welche KI-Tools werden von Unternehmen genutzt, welche Tools sind erlaubt und welche nicht.</li>
+            <li>Können Kundendaten, Personaldaten, Produktionsdaten, technische Zeichnungen und Geschäftsgeheimnisse in externe KI eingespeist werden?</li>
+            <li>Wann müssen KI-Ergebnisse manuell überprüft werden und wie werden die Prüfverantwortlichkeiten erfasst?</li>
+            <li>Welche Szenarien könnten in die Hochrisikoklassifizierung des KI-Gesetzes fallen?</li>
+            <li>So führen Sie Schulungsaufzeichnungen, interne Anleitungen und Versionsaktualisierungen durch.</li>
+          </ul>
+
+          <h2>Die Personalabteilung ist eine der einfachsten Situationen, in denen man aufs Spiel gesetzt werden kann</h2>
+          <p>In den Vor-Ort-Notizen gibt es eine ganz praktische Frage: Kann die Personalabteilung KI nutzen, um Lebensläufe zu analysieren, Bewerber zu prüfen oder Kandidaten zu bewerten? Die Antwort kann nicht einfach als Ja oder Nein geschrieben werden.</p>
+
+          <p>Anhang III des KI-Gesetzes stuft mehrere Einsatzmöglichkeiten von KI in der Beschäftigung, Mitarbeiterführung und Zulassung zur Selbstständigkeit als risikoreich ein, darunter die Rekrutierung oder Überprüfung natürlicher Personen, die gezielte Ausrichtung von Stellenanzeigen, die Analyse und Filterung von Bewerbungen, die Bewertung von Kandidaten sowie Systeme, die Auswirkungen auf Beförderungen, Kündigungen, Aufgabenzuweisungen, Leistungsüberwachung und Verhaltensbewertungen haben.</p>
+
+          <p>Daher kann KI der Personalabteilung dabei helfen, Materialien zu organisieren, das Schreiben zu verbessern, Interviewfragen vorzubereiten oder administrative Unterstützung zu leisten. Aber wenn KI Kandidaten direkt bewertet, Lebensläufe filtert, Vorstellungsgesprächsmöglichkeiten bestimmt oder Beförderungen und Leistung beeinflusst, muss sie auf der Grundlage einer Hochrisikologik neu bewertet werden.</p>
+
+          <h2>AI Agent erhöht das Risiko von „falschen Antworten“ auf „falsche Operationen“</h2>
+          <p>Das Thema der zweiten MTNI-Sitzung war Risikofähigkeit. Ein wertvoller Aspekt der Live-Diskussion besteht darin, dass herkömmliche Chatbots hauptsächlich Text ausgeben, während KI-Agenten auf E-Mails, Dateien, Datenbanken, CRM-, ERP- oder Produktionssysteme zugreifen können. Das Risiko besteht nicht mehr nur darin, „das Falsche zu sagen“, sondern in der Möglichkeit, versehentlich Daten zu löschen, versehentlich E-Mails zu versenden, Dateien preiszugeben, falsche Zahlungen durchzuführen oder falsche Geschäftsprozesse auszulösen.</p>
+
+          <p>Dies erklärt, warum deutsche Unternehmen nicht nur auf die Fähigkeiten von Modellen achten. Was Unternehmen wirklich brauchen, sind Leitplanken: Berechtigungsisolierung, Datenklassifizierung, Audit-Protokollierung, Human-in-the-Loop, Bestätigung sensibler Vorgänge, Anomalieerkennung und regelmäßige Tests. Ohne diese Grundlagen gilt: Je stärker die KI wird, desto weniger Unternehmen werden es wagen, sie in großem Maßstab einzuführen.</p>
+
+          <h2>Der Wert von RAG liegt im „quellenbasierten Unternehmenswissen“</h2>
+          <p>Das Thema der dritten Sitzung zu RAG und Sprach-KI ist sehr industrienah. Die AEN-Agenda listet Servicedoku, CE-Akten, 8D-Berichte, Wartungshistorie, E-Mails und Konstruktionsrichtlinien auf. Dabei handelt es sich um die wertvollsten und am schwersten zu beschaffenden geistigen Vermögenswerte deutscher Industrieunternehmen.</p>
+
+          <p>Der Schlüssel zu RAG besteht nicht darin, alle Daten in ein großes Modell zu übertragen, sondern darin, Unternehmensdokumente zu segmentieren, zu indizieren, abzurufen und neu anzuordnen und dann die nachverfolgbaren Quellen dem Modell zu übergeben, um Antworten zu generieren. Bei Kundendienst, Tests, CE-Dokumenten, Wartungsaufzeichnungen und Kundenbesuchen ist es wirklich wichtig, dass der Antwort Beweise folgen können, und nicht, dass sie reibungslos aussieht.</p>
+
+          <p>Dies entspricht auch der zukünftigen Ausrichtung der OPC-Workbench: Kundenbesuchsaufzeichnungen, Produktinformationen, CE-Dateien, After-Sales-Aufzeichnungen und CRM-Follow-up sollten nicht an verschiedenen Orten verstreut sein, sondern in durchsuchbaren, referenzierbaren und wiederholbaren Unternehmensinformationspaketen organisiert werden.</p>
+
+          <h2>Der Einstieg in die technische KI ist die Datenanalyse, nicht das Chatten</h2>
+          <p>Das Thema der vierten Sitzung, Fluffy Systems, machte einen leicht übersehenen Teil der Live-Mitschnitte wett: Engineering. In der offiziellen Zusammenfassung wurde erwähnt, dass die technischen Daten von Simulationen, Sensoren, Fertigung, Prüfständen und digitalen Zwillingen stammen; DashSet versucht, Data Science, High-Performance Computing und KI-Assistenz zu verbinden, um die Verarbeitung, Analyse, Interpretation und Visualisierung großer Datenmengen einfacher in die technische Entscheidungsfindung einzubeziehen.</p>
+
+          <p>Dies ist auch für chinesische Industrietechnologieunternehmen wichtig. Deutsche Kunden zahlen nicht nur für das „KI-Chat-Portal“, sondern eher für Tools, die die Entwicklungszeit verkürzen, Testkosten senken, Sensordaten interpretieren und die Effizienz von Simulationen und Experimenten verbessern können.</p>
+
+          <h2>Praktische Inspiration für chinesische Unternehmen im Ausland</h2>
+          <p>Wenn ein chinesisches Unternehmen KI, Industriesoftware, industrielles IoT, Automatisierungsgeräte oder Enterprise-Wissensdatenbanklösungen nach Deutschland bringen möchte, sollte die erste Materialcharge nicht nur aus Demos und Preislisten bestehen, sondern Folgendes umfassen:</p>
+          <ul>
+            <li>Grenzen der KI-Nutzung: Welche Daten gehen in das Modell ein und welche nicht.</li>
+            <li>Bereitstellungsmethode: Cloud, lokal, Hybridbereitstellung, ob zur Unterstützung des Kunden-Intranets oder der Privatisierung.</li>
+            <li>Berechtigungsmodell: Wer darf auf welche Dateien, Kundendatensätze, Projektdaten und Systemschnittstellen zugreifen?</li>
+            <li>Quellenrückverfolgbarkeit: RAG antwortet, ob eine Anzeige der Zitierquelle, der Dateiversion und des Aktualisierungszeitpunkts möglich ist.</li>
+            <li>Menschliche Überprüfung: Welche Ergebnisse sind nur Vorschläge und welche Prozesse müssen von Menschen bestätigt werden.</li>
+            <li>Schulungsaufzeichnungen: Wie Kundenmitarbeiter Schulungen zu KI-Kenntnissen, Werkzeugnutzung und Risikogrenzen erhalten.</li>
+            <li>Hochrisiko-Screening: ob es um Personalbeschaffung, Mitarbeiterbeurteilung, Sicherheitskomponenten, kritische Infrastruktur oder Produktionskontrollen geht.</li>
+          </ul>
+
+          <p>Die Chance für OPC liegt hier: Helfen Sie chinesischen Technologieunternehmen, „KI-Fähigkeiten“ in ein für deutsche Kunden akzeptables KI-Bereitschaftspaket zu übersetzen, einschließlich Datenklassifizierung, Compliance-Pfaden, technischer Dokumentation, Pilotumfang, Schulungsmaterialien, Risikolisten und lokalem Kundenfeedback.</p>
+
+          <h2>Referenzquellen</h2>
+          <ul>
+            <li><a href="https://ae-network.de/news/" target="_blank" rel="noreferrer">AEN News: 14.07.2026 Innovation und Transformation Mittelstand - mittels KI</a></li>
+            <li><a href="https://ae-network.de/transformation-mittelstand/" target="_blank" rel="noreferrer">AEN Transformation Mittelstand</a></li>
+            <li><a href="https://ae-network.de/wp-content/uploads/2026/06/Flyer-KI-14.07.-Transformation-Mittelstand_03.pdf" target="_blank" rel="noreferrer">AEN Agenda PDF, Flyer KI 14.07. Transformation Mittelstand</a></li>
+            <li><a href="https://de.linkedin.com/posts/ae-network_ki-activity-7470006857953361920-SFib" target="_blank" rel="noreferrer">AEN LinkedIn preview for the 14 July 2026 event</a></li>
+            <li><a href="https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai" target="_blank" rel="noreferrer">European Commission: AI Act overview</a></li>
+            <li><a href="https://digital-strategy.ec.europa.eu/en/faqs/ai-literacy-questions-answers" target="_blank" rel="noreferrer">European Commission: AI Literacy Questions & Answers</a></li>
+            <li><a href="https://digital-strategy.ec.europa.eu/en/policies/repository-ai-literacy-practices" target="_blank" rel="noreferrer">European Commission: Repository of AI literacy practices</a></li>
+            <li><a href="https://artificialintelligenceact.eu/annex/3/" target="_blank" rel="noreferrer">EU AI Act Annex III: High-risk AI systems, employment and worker management</a></li>
+          </ul>
+
+          <p><strong>Keyword-Lernen:</strong> KI-Kompetenz = KI-Kompetenz; Risikokompetenz = Risikokompetenz; Quellenbeleg = Quellenangabe; Mittelstand = deutsche kleine, mittlere und mittelständische Unternehmensgruppen.</p>
+        </div>
+        </div>
         <section class="article-tools" data-current-post="aen-karlsruhe-ai-mittelstand-2026.html">
           <a class="tool-link" href="../index.html">返回列表</a>
           <button type="button" data-copy-current>复制链接</button>
@@ -148,6 +335,7 @@
     <div class="toast" data-toast hidden></div>
     <script src="../content.js"></script>
     <script src="../site.js"></script>
+    <script src="../article-language.js"></script>
     <script src="../../assets/subscribe.js"></script>
   </body>
 </html>

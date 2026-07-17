@@ -15,13 +15,31 @@
       </header>
       <article>
         <header class="article-head">
+          <div class="article-language-switch" data-article-lang-switch aria-label="文章语言 / Article language / Artikelsprache">
+            <button type="button" class="active" data-article-lang="zh" aria-pressed="true">中文</button>
+            <button type="button" data-article-lang="en" aria-pressed="false">EN</button>
+            <button type="button" data-article-lang="de" aria-pressed="false">DE</button>
+          </div>
+          <div data-article-content="zh">
           <div class="meta"><span>2026-06-23</span><span class="tag">Compliance</span><span>7 min</span></div>
           <h1>欧盟 CRA 对中国工业硬件出海的实际影响：从证书思维转向生命周期合规</h1>
           <p>CRA 的关键不是多一个证书，而是把网络安全、漏洞响应、软件更新和技术文档变成欧洲市场准入的一部分。</p>
+          </div>
+          <div data-article-content="en" hidden>
+          <div class="meta"><span>2026-06-23</span><span class="tag">Compliance</span><span>7 min</span></div>
+          <h1>What the EU CRA Means for Chinese Industrial Hardware: From Certificates to Lifecycle Compliance</h1>
+          <p>The key to CRA is not just one more certificate, but making cybersecurity, vulnerability response, software updates and technical documentation part of European market access.</p>
+          </div>
+          <div data-article-content="de" hidden>
+          <div class="meta"><span>2026-06-23</span><span class="tag">Compliance</span><span>7 min</span></div>
+          <h1>Was der EU CRA für chinesische Industriehardware bedeutet: Von Zertifikaten zur Lifecycle-Compliance</h1>
+          <p>Der Schlüssel zu CRA liegt nicht nur in einem weiteren Zertifikat, sondern darin, Cybersicherheit, Schwachstellenreaktion, Software-Updates und technische Dokumentation zu einem Teil des europäischen Marktzugangs zu machen.</p>
+          </div>
           <img class="article-cover" src="../assets/cra-cyber-compliance.svg" alt="EU CRA cybersecurity compliance for connected industrial products" />
         </header>
 
         <div class="article-body">
+          <div data-article-content="zh">
           <p>2026 年 6 月，欧盟 Cyber Resilience Act 进入一个很实际的阶段。欧委会 CRA 页面在 2026-06-22 更新，实施时间线显示：2026-06-11 起，符合性评估通知机构相关规定开始适用，成员国需要指定 notifying authorities；2026-09-11 起，漏洞和严重事件报告义务开始适用；2027-12-11 起，CRA 全面适用。</p>
 
           <p>这对中国工业企业的意义很直接：如果产品包含硬件、软件、远程数据处理或联网能力，就不能只按传统 CE、EMC、LVD、机械安全去准备资料。CRA 把网络安全要求放进了产品生命周期，覆盖规划、设计、开发、维护和漏洞处理。</p>
@@ -59,6 +77,85 @@
             <li><a href="https://digital-strategy.ec.europa.eu/en/policies/cra-summary" target="_blank" rel="noreferrer">European Commission: Summary of the CRA legal text</a></li>
             <li><a href="https://eur-lex.europa.eu/eli/reg/2024/2847/oj" target="_blank" rel="noreferrer">Regulation (EU) 2024/2847 on cyber resilience requirements</a></li>
           </ul>
+        </div>
+          <div data-article-content="en" hidden>
+          <p>In June 2026, the EU Cyber ​​Resilience Act entered a very practical stage. The European Commission's CRA page was updated on 2026-06-22, and the implementation timeline shows: From 2026-06-11, the relevant provisions of the conformity assessment notification agency will apply, and member states need to designate notifying authorities; from 2026-09-11, vulnerability and serious incident reporting obligations will begin to apply; from 2027-12-11, the CRA will be fully applicable.</p>
+
+          <p>The significance of this to Chinese industrial enterprises is straightforward: if the product contains hardware, software, remote data processing or networking capabilities, you cannot prepare information based solely on traditional CE, EMC, LVD, and machinery safety. CRA puts cybersecurity requirements into the product life cycle, covering planning, design, development, maintenance and vulnerability handling.</p>
+
+          <h2>Which companies will be affected first?</h2>
+          <p>The first thing to be wary of is not pure trading companies, but manufacturers and brands that make “products with digital elements.” Industrial gateways, PLC peripheral modules, HMI, sensor boxes, edge computing devices, robot controllers, BMS/EMS, charging pile control boards, vehicle or fleet management software, and equipment remote maintenance platforms may all enter the scope of CRA discussions.</p>
+
+          <p>The European Commission’s interpretation of product with digital elements includes software or hardware products, as well as their remote data processing solutions. In other words, if a device’s functionality relies on cloud configuration, remote diagnostics, apps, OTA, or back-end services, companies can’t just submit a hardware test report, but also explain how the software and services are securely designed, updated, and maintained.</p>
+
+          <h2>Why it starts in 2026</h2>
+          <p>Many companies will regard 2027-12-11 as the real deadline. This understanding is too late. After 2026-06-11, the notification agency system will begin to take shape; after 2026-09-11, reporting obligations will apply first; standardized deliverables will also be gradually advanced in 2026. Customers, importers and distributors won’t wait until the last day to ask questions, they will have CRA risks written into procurement, pilot and after-sales terms in advance.</p>
+
+          <blockquote>The first thing European customers are most likely to ask is not "Do you have a CRA certificate?" but "Can you explain clearly your product classification, technical documentation, vulnerability response, update mechanism, and support period?"</blockquote>
+
+          <h2>OPC practical judgment</h2>
+          <p>For Chinese hard technology companies preparing to enter the German market, I will break down CRA preparations into four lists.</p>
+          <ul>
+            <li>Product classification list: whether it is a product with digital elements, whether it may fall into the important or critical category.</li>
+            <li>Technical documentation list: security design, default configuration, interfaces, dependent components, SBOM, test records, EU Declaration of Conformity path.</li>
+            <li>Life cycle checklist: update policy, support period, vulnerability reception channels, critical incident reporting process, customer notification mechanism.</li>
+            <li>Responsibility boundary list: What obligations do manufacturers, importers, distributors, local service providers and end customers have respectively.</li>
+          </ul>
+
+          <p>These four lists are earlier and more useful than finding a certified quote alone. They can help companies determine whether a product is suitable for trial in Germany first, or whether software engineering, after-sales and compliance documents should be supplemented first.</p>
+
+          <h2>Impact on OPC Service Narrative</h2>
+          <p>CRA is a good fit for OPC’s one-person firm standardized delivery logic because it essentially breaks down complex market access into repeatable packages, risk checklists and delivery processes. For customers, there is no need to commit to "certification included" in the first stage, but to do market-entry readiness first: product scope, regulatory path, gaps, responsible party and next-step verification.</p>
+
+          <p>This is also the value of the Sino-German technical bridge. German customers value traceability, responsibility boundaries and document consistency; Chinese suppliers are good at engineering implementation and rapid iteration. CRA will punish suppliers who only sell features, but will reward teams that can clearly explain the product life cycle.</p>
+
+          <h2>Reference sources</h2>
+          <ul>
+            <li><a href="https://digital-strategy.ec.europa.eu/en/policies/cyber-resilience-act" target="_blank" rel="noreferrer">European Commission: Cyber Resilience Act, last update 2026-06-22</a></li>
+            <li><a href="https://digital-strategy.ec.europa.eu/en/factpages/cyber-resilience-act-implementation" target="_blank" rel="noreferrer">European Commission: Cyber Resilience Act implementation timeline</a></li>
+            <li><a href="https://digital-strategy.ec.europa.eu/en/policies/cra-summary" target="_blank" rel="noreferrer">European Commission: Summary of the CRA legal text</a></li>
+            <li><a href="https://eur-lex.europa.eu/eli/reg/2024/2847/oj" target="_blank" rel="noreferrer">Regulation (EU) 2024/2847 on cyber resilience requirements</a></li>
+          </ul>
+        </div>
+          <div data-article-content="de" hidden>
+          <p>Im Juni 2026 trat das EU-Cyber-Resilienzgesetz in die Praxisphase ein. Die CRA-Seite der Europäischen Kommission wurde am 22.06.2026 aktualisiert, und der Zeitplan für die Umsetzung zeigt: Ab dem 11.06.2026 gelten die relevanten Bestimmungen der Notifizierungsstelle für Konformitätsbewertungen, und die Mitgliedstaaten müssen notifizierende Behörden benennen; Ab dem 11.09.2026 gelten die Meldepflichten für Schwachstellen und schwerwiegende Vorfälle. Ab dem 11.12.2027 wird die CRA in vollem Umfang anwendbar sein.</p>
+
+          <p>Die Bedeutung, die dies für chinesische Industrieunternehmen hat, liegt auf der Hand: Wenn das Produkt Hardware, Software, Datenfernverarbeitung oder Netzwerkfunktionen enthält, können Sie keine Informationen erstellen, die ausschließlich auf traditioneller CE, EMV, LVD und Maschinensicherheit basieren. CRA integriert Cybersicherheitsanforderungen in den Produktlebenszyklus und umfasst Planung, Design, Entwicklung, Wartung und Schwachstellenbehandlung.</p>
+
+          <h2>Welche Unternehmen werden zuerst betroffen sein?</h2>
+          <p>Das Erste, vor dem man vorsichtig sein sollte, sind nicht reine Handelsunternehmen, sondern Hersteller und Marken, die „Produkte mit digitalen Elementen“ herstellen. Industrie-Gateways, SPS-Peripheriemodule, HMI, Sensorboxen, Edge-Computing-Geräte, Robotersteuerungen, BMS/EMS, Ladesäulen-Steuerplatinen, Fahrzeug- oder Flottenmanagementsoftware und Geräte-Fernwartungsplattformen können alle Gegenstand der CRA-Diskussionen sein.</p>
+
+          <p>Die Interpretation der Europäischen Kommission zu Produkten mit digitalen Elementen umfasst Software- oder Hardwareprodukte sowie deren Lösungen zur Datenfernverarbeitung. Mit anderen Worten: Wenn die Funktionalität eines Geräts auf Cloud-Konfiguration, Ferndiagnose, Apps, OTA oder Back-End-Diensten beruht, können Unternehmen nicht nur einen Hardware-Testbericht einreichen, sondern auch erklären, wie die Software und Dienste sicher gestaltet, aktualisiert und gewartet werden.</p>
+
+          <h2>Warum es 2026 losgeht</h2>
+          <p>Viele Unternehmen werden den 11.12.2027 als den eigentlichen Stichtag betrachten. Dieses Verständnis kommt zu spät. Nach dem 11.06.2026 wird das Meldestellensystem Gestalt annehmen; nach dem 11.09.2026 gelten zunächst Meldepflichten; Standardisierte Liefergegenstände werden im Jahr 2026 ebenfalls schrittweise weiterentwickelt. Kunden, Importeure und Händler werden nicht bis zum letzten Tag warten, um Fragen zu stellen, sondern CRA-Risiken werden im Voraus in die Beschaffungs-, Pilot- und After-Sales-Bedingungen aufgenommen.</p>
+
+          <blockquote>Die erste Frage, die europäische Kunden am wahrscheinlichsten stellen, ist nicht: „Haben Sie ein CRA-Zertifikat?“ sondern „Können Sie Ihre Produktklassifizierung, technische Dokumentation, Schwachstellenreaktion, Aktualisierungsmechanismus und Supportzeitraum klar erläutern?“</blockquote>
+
+          <h2>OPC praktisches Urteil</h2>
+          <p>Für chinesische Hard-Tech-Unternehmen, die sich auf den Eintritt in den deutschen Markt vorbereiten, werde ich die CRA-Vorbereitungen in vier Listen unterteilen.</p>
+          <ul>
+            <li>Produktklassifizierungsliste: ob es sich um ein Produkt mit digitalen Elementen handelt, ob es in die Kategorie „wichtig“ oder „kritisch“ fällt.</li>
+            <li>Liste der technischen Dokumentation: Sicherheitsdesign, Standardkonfiguration, Schnittstellen, abhängige Komponenten, SBOM, Testaufzeichnungen, Pfad zur EU-Konformitätserklärung.</li>
+            <li>Checkliste für den Lebenszyklus: Update-Richtlinie, Supportzeitraum, Empfangskanäle für Schwachstellen, Prozess zur Meldung kritischer Vorfälle, Mechanismus zur Kundenbenachrichtigung.</li>
+            <li>Liste der Verantwortungsgrenzen: Welche Pflichten haben Hersteller, Importeure, Händler, lokale Dienstleister und Endkunden?</li>
+          </ul>
+
+          <p>Diese vier Listen sind früher und nützlicher als die alleinige Suche nach einem zertifizierten Angebot. Sie können Unternehmen dabei helfen, festzustellen, ob ein Produkt zunächst für den Test in Deutschland geeignet ist oder ob zunächst Software-Engineering-, After-Sales- und Compliance-Dokumente ergänzt werden sollten.</p>
+
+          <h2>Auswirkungen auf die OPC-Service-Erzählung</h2>
+          <p>CRA passt gut zur standardisierten Lieferlogik eines Ein-Personen-Unternehmens von OPC, da es den komplexen Marktzugang im Wesentlichen in wiederholbare Pakete, Risikochecklisten und Lieferprozesse unterteilt. Für Kunden ist es nicht erforderlich, sich in der ersten Phase auf eine „Zertifizierung inklusive“ festzulegen, sondern zunächst die Markteintrittsreife sicherzustellen: Produktumfang, regulatorischer Weg, Lücken, verantwortliche Partei und Verifizierung im nächsten Schritt.</p>
+
+          <p>Darin besteht auch der Wert der chinesisch-deutschen technischen Brücke. Deutsche Kunden legen Wert auf Rückverfolgbarkeit, Verantwortungsgrenzen und Dokumentenkonsistenz; Chinesische Zulieferer sind gut in der technischen Umsetzung und schnellen Iteration. CRA bestraft Lieferanten, die nur Funktionen verkaufen, belohnt jedoch Teams, die den Produktlebenszyklus klar erklären können.</p>
+
+          <h2>Referenzquellen</h2>
+          <ul>
+            <li><a href="https://digital-strategy.ec.europa.eu/en/policies/cyber-resilience-act" target="_blank" rel="noreferrer">European Commission: Cyber Resilience Act, last update 2026-06-22</a></li>
+            <li><a href="https://digital-strategy.ec.europa.eu/en/factpages/cyber-resilience-act-implementation" target="_blank" rel="noreferrer">European Commission: Cyber Resilience Act implementation timeline</a></li>
+            <li><a href="https://digital-strategy.ec.europa.eu/en/policies/cra-summary" target="_blank" rel="noreferrer">European Commission: Summary of the CRA legal text</a></li>
+            <li><a href="https://eur-lex.europa.eu/eli/reg/2024/2847/oj" target="_blank" rel="noreferrer">Regulation (EU) 2024/2847 on cyber resilience requirements</a></li>
+          </ul>
+        </div>
         </div>
         <section class="article-tools" data-current-post="eu-cra-industrial-products.html">
           <a class="tool-link" href="../index.html">返回列表</a>
@@ -103,6 +200,7 @@
     <div class="toast" data-toast hidden></div>
     <script src="../content.js"></script>
     <script src="../site.js"></script>
+    <script src="../article-language.js"></script>
     <script src="../../assets/subscribe.js"></script>
   </body>
 </html>

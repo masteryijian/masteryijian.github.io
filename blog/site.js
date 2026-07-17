@@ -11,10 +11,20 @@
     }, 2200);
   }
 
+  function currentLanguage() {
+    return document.documentElement.lang.startsWith("de") ? "de" : document.documentElement.lang.startsWith("en") ? "en" : "zh";
+  }
+
+  const uiMessages = {
+    zh: { copied: "已复制", copyPrompt: "复制当前链接", saved: "已保存", savedToast: "已保存到本机稍后读" },
+    en: { copied: "Copied", copyPrompt: "Copy this link", saved: "Saved", savedToast: "Saved to your local reading list" },
+    de: { copied: "Kopiert", copyPrompt: "Diesen Link kopieren", saved: "Gespeichert", savedToast: "In der lokalen Leseliste gespeichert" }
+  };
+
   async function copyText(text, fallbackMessage) {
     try {
       await navigator.clipboard.writeText(text);
-      showToast("已复制");
+      showToast(uiMessages[currentLanguage()].copied);
     } catch {
       window.prompt(fallbackMessage, text);
     }
@@ -22,7 +32,7 @@
 
   document.querySelectorAll("[data-copy-current]").forEach((button) => {
     button.addEventListener("click", () => {
-      copyText(window.location.href, "复制当前链接");
+      copyText(window.location.href, uiMessages[currentLanguage()].copyPrompt);
     });
   });
 
@@ -33,9 +43,9 @@
       const saved = new Set(JSON.parse(localStorage.getItem("savedPosts") || "[]"));
       saved.add(current);
       localStorage.setItem("savedPosts", JSON.stringify(Array.from(saved)));
-      button.textContent = "已保存";
+      button.textContent = uiMessages[currentLanguage()].saved;
       button.disabled = true;
-      showToast("已保存到本机稍后读");
+      showToast(uiMessages[currentLanguage()].savedToast);
     });
   });
 

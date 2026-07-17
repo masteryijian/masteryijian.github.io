@@ -232,6 +232,30 @@ button {
   border-bottom: 2px solid var(--line);
 }
 
+.article-language-switch {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.article-language-switch button {
+  min-width: 46px;
+  border: 1px solid var(--line);
+  background: var(--white);
+  color: var(--ink);
+  padding: 7px 11px;
+}
+
+.article-language-switch button.active {
+  background: var(--ink);
+  color: var(--white);
+}
+
+[data-article-content][hidden] {
+  display: none !important;
+}
+
 .article-head h1 {
   font-size: clamp(34px, 6vw, 66px);
   line-height: 1.04;

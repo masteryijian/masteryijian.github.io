@@ -15,12 +15,30 @@
       </header>
       <article>
         <header class="article-head">
+          <div class="article-language-switch" data-article-lang-switch aria-label="文章语言 / Article language / Artikelsprache">
+            <button type="button" class="active" data-article-lang="zh" aria-pressed="true">中文</button>
+            <button type="button" data-article-lang="en" aria-pressed="false">EN</button>
+            <button type="button" data-article-lang="de" aria-pressed="false">DE</button>
+          </div>
+          <div data-article-content="zh">
           <div class="meta"><span>2026-06-12</span><span class="tag">Engineering</span><span>5 min</span></div>
           <h1>自动化背景如何转成跨境业务优势</h1>
           <p>工程背景不是一个装饰性的可信度标签，它可以变成一种具体的工作方法。</p>
+          </div>
+          <div data-article-content="en" hidden>
+          <div class="meta"><span>2026-06-12</span><span class="tag">Engineering</span><span>5 min</span></div>
+          <h1>How an Automation Background Becomes a Cross-Border Business Advantage</h1>
+          <p>An engineering background is not a cosmetic label of credibility, it can be turned into a concrete approach to work.</p>
+          </div>
+          <div data-article-content="de" hidden>
+          <div class="meta"><span>2026-06-12</span><span class="tag">Engineering</span><span>5 min</span></div>
+          <h1>Wie Automatisierungserfahrung zum Vorteil im internationalen Geschäft wird</h1>
+          <p>Ein technischer Hintergrund ist kein kosmetisches Etikett für Glaubwürdigkeit, sondern kann in eine konkrete Arbeitsweise umgewandelt werden.</p>
+          </div>
           <img class="article-cover" src="../assets/engineering-flow.svg" alt="Engineering flow visual" />
         </header>
         <div class="article-body">
+          <div data-article-content="zh">
           <p>自动化训练首先教人看系统：输入是什么，输出是什么，中间有哪些约束，哪里可能失效。跨境业务也是系统，只是变量从传感器、PLC、接口，换成客户、资料、合规、报价和信任。</p>
           <h2>拆接口</h2>
           <p>中国供应商和德国客户经常不是没有需求，而是接口不匹配。一边说“我们什么都能做”，另一边问“这个型号的认证和售后边界是什么”。工程化表达能把模糊能力拆成接口。</p>
@@ -28,6 +46,25 @@
           <p>自动化项目里，风险不是等出问题再讨论，而是在设计阶段就被标出来。跨境业务也是一样：认证、数据、税务、交付、语言和责任边界，都需要提前进入清单。</p>
           <h2>留记录</h2>
           <p>项目管理最怕信息只存在某个人脑子里。拜访纪要、CRM、任务、报告状态和花销记录，本质上都是系统日志。日志越清楚，后续复盘越有效。</p>
+        </div>
+          <div data-article-content="en" hidden>
+          <p>Automated training first teaches people to look at the system: what is the input, what is the output, what are the constraints in between, and where it may fail. Cross-border business is also a system, but the variables are changed from sensors, PLC, and interfaces to customers, data, compliance, quotations, and trust.</p>
+          <h2>Disassemble the interface</h2>
+          <p>Chinese suppliers and German customers often have mismatched interfaces rather than lack of demand. While saying "We can do everything", the other side asked "What are the boundaries of certification and after-sales for this model". Engineering expression can break down fuzzy capabilities into interfaces.</p>
+          <h2>Control risks</h2>
+          <p>In automation projects, risks are not discussed until problems arise, but are marked out during the design phase. The same goes for cross-border business: certification, data, tax, delivery, language and responsibility boundaries all need to be entered into the list in advance.</p>
+          <h2>keep records</h2>
+          <p>Project management is most afraid that information only exists in one person's head. Visit minutes, CRM, tasks, report status, and expense records are essentially system logs. The clearer the log, the more effective subsequent review will be.</p>
+        </div>
+          <div data-article-content="de" hidden>
+          <p>Durch automatisiertes Training lernen die Menschen zunächst, sich das System anzusehen: Was ist der Input, was ist der Output, welche Einschränkungen gibt es dazwischen und wo kann es scheitern? Auch grenzüberschreitendes Geschäft ist ein System, aber die Variablen ändern sich von Sensoren, SPS und Schnittstellen zu Kunden, Daten, Compliance, Angeboten und Vertrauen.</p>
+          <h2>Zerlegen Sie die Schnittstelle</h2>
+          <p>Chinesische Zulieferer und deutsche Kunden verfügen oft eher über nicht übereinstimmende Schnittstellen als über mangelnde Nachfrage. Während sie sagten: „Wir können alles“, fragte die andere Seite: „Was sind die Grenzen der Zertifizierung und des Kundendienstes für dieses Modell?“ Technischer Ausdruck kann Fuzzy-Funktionen in Schnittstellen aufteilen.</p>
+          <h2>Kontrollieren Sie Risiken</h2>
+          <p>In Automatisierungsprojekten werden Risiken nicht erst bei Problemen besprochen, sondern bereits in der Entwurfsphase markiert. Das Gleiche gilt für grenzüberschreitende Geschäfte: Zertifizierung, Daten, Steuern, Lieferung, Sprache und Zuständigkeitsgrenzen müssen vorab in die Liste eingetragen werden.</p>
+          <h2>Aufzeichnungen führen</h2>
+          <p>Das Projektmanagement hat am meisten Angst davor, dass Informationen nur im Kopf einer Person existieren. Besuchsprotokolle, CRM, Aufgaben, Berichtsstatus und Spesenaufzeichnungen sind im Wesentlichen Systemprotokolle. Je klarer das Protokoll, desto effektiver ist die spätere Überprüfung.</p>
+        </div>
         </div>
         <section class="article-tools" data-current-post="automation-to-business.html">
           <a class="tool-link" href="../index.html">返回列表</a>
@@ -72,6 +109,7 @@
     <div class="toast" data-toast hidden></div>
     <script src="../content.js"></script>
     <script src="../site.js"></script>
+    <script src="../article-language.js"></script>
     <script src="../../assets/subscribe.js"></script>
   </body>
 </html>

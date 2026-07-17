@@ -15,12 +15,30 @@
       </header>
       <article>
         <header class="article-head">
+          <div class="article-language-switch" data-article-lang-switch aria-label="文章语言 / Article language / Artikelsprache">
+            <button type="button" class="active" data-article-lang="zh" aria-pressed="true">中文</button>
+            <button type="button" data-article-lang="en" aria-pressed="false">EN</button>
+            <button type="button" data-article-lang="de" aria-pressed="false">DE</button>
+          </div>
+          <div data-article-content="zh">
           <div class="meta"><span>2026-06-12</span><span class="tag">Sales</span><span>8 min</span></div>
           <h1>写给中国供应链：不要一开始就谈代理</h1>
           <p>德国客户和渠道伙伴真正先买的不是代理关系，而是确定性。</p>
+          </div>
+          <div data-article-content="en" hidden>
+          <div class="meta"><span>2026-06-12</span><span class="tag">Sales</span><span>8 min</span></div>
+          <h1>For Chinese Suppliers Entering Germany: Do Not Start with a Distributor Agreement</h1>
+          <p>What German customers and channel partners really buy first is not the agency relationship, but certainty.</p>
+          </div>
+          <div data-article-content="de" hidden>
+          <div class="meta"><span>2026-06-12</span><span class="tag">Sales</span><span>8 min</span></div>
+          <h1>Markteintritt chinesischer Lieferanten: Nicht sofort über Vertriebspartnerschaften sprechen</h1>
+          <p>Was deutsche Kunden und Vertriebspartner wirklich zuerst kaufen, ist nicht die Agenturbeziehung, sondern Gewissheit.</p>
+          </div>
           <img class="article-cover" src="../assets/supply-chain.svg" alt="Supply chain visual" />
         </header>
         <div class="article-body">
+          <div data-article-content="zh">
           <p>很多中国供应链企业进入德国市场时，第一反应是找代理。这个想法不奇怪，但顺序常常错了。没有验证资料、合规、售后和客户场景之前，代理也不知道该如何卖。</p>
           <h2>先验证客户问题</h2>
           <p>客户为什么现在要换供应商？是价格、交期、质量、备件、政策，还是现有方案无法满足新需求？如果这个问题不清楚，代理话术只会越来越空。</p>
@@ -29,6 +47,27 @@
           <h2>最后谈渠道结构</h2>
           <p>直销、代理、经销、仓储、本地售后，每种结构都对应不同成本和责任。最好的渠道不是头衔最好听的，而是能把客户问题闭环的。</p>
           <blockquote>先做小试点，再谈大代理。先让客户相信一个具体项目，再让市场相信一个长期关系。</blockquote>
+        </div>
+          <div data-article-content="en" hidden>
+          <p>When many Chinese supply chain companies enter the German market, their first reaction is to find an agent. This idea is not surprising, but the order is often wrong. Without verification information, compliance, after-sales and customer scenarios, agents don’t know how to sell.</p>
+          <h2>Verify customer issues first</h2>
+          <p>Why are customers switching suppliers now? Is it price, delivery time, quality, spare parts, policies, or is the existing solution unable to meet new needs? If this question is not clear, agency talk will only become more and more empty.</p>
+          <h2>Revalidate product evidence</h2>
+          <p>German customers need to see not only product pictures, but also parameters, test reports, certification status, installation conditions, German information, warranty terms and service response methods.</p>
+          <h2>Finally, let’s talk about channel structure</h2>
+          <p>Direct sales, agency, distribution, warehousing, local after-sales, each structure corresponds to different costs and responsibilities. The best channel is not the one with the prettiest title, but the one that can close the loop on customer issues.</p>
+          <blockquote>Let’s do a small pilot first, and then talk about a big agency. Let customers believe in a specific project first, and then let the market believe in a long-term relationship.</blockquote>
+        </div>
+          <div data-article-content="de" hidden>
+          <p>Wenn viele chinesische Supply-Chain-Unternehmen in den deutschen Markt eintreten, besteht ihre erste Reaktion darin, einen Agenten zu finden. Diese Idee ist nicht überraschend, aber die Reihenfolge ist oft falsch. Ohne Verifizierungsinformationen, Compliance, Kundendienst und Kundenszenarien wissen Agenten nicht, wie sie verkaufen sollen.</p>
+          <h2>Überprüfen Sie zuerst die Probleme des Kunden</h2>
+          <p>Warum wechseln Kunden jetzt den Lieferanten? Liegt es an Preis, Lieferzeit, Qualität, Ersatzteilen, Richtlinien oder ist die bestehende Lösung nicht in der Lage, neue Anforderungen zu erfüllen? Wenn diese Frage nicht klar ist, werden die Gespräche über Agenturen immer leerer.</p>
+          <h2>Produktnachweise erneut validieren</h2>
+          <p>Deutsche Kunden müssen nicht nur Produktbilder sehen, sondern auch Parameter, Testberichte, Zertifizierungsstatus, Installationsbedingungen, deutsche Informationen, Garantiebedingungen und Service-Reaktionsmethoden.</p>
+          <h2>Lassen Sie uns abschließend über die Kanalstruktur sprechen</h2>
+          <p>Direktvertrieb, Agentur, Vertrieb, Lagerhaltung, lokaler Kundendienst – jede Struktur hat unterschiedliche Kosten und Verantwortlichkeiten. Der beste Kanal ist nicht der mit dem schönsten Titel, sondern derjenige, der den Kreis bei Kundenproblemen schließen kann.</p>
+          <blockquote>Lassen Sie uns zunächst ein kleines Pilotprojekt durchführen und dann über eine große Agentur sprechen. Lassen Sie die Kunden zuerst an ein bestimmtes Projekt glauben und lassen Sie dann den Markt an eine langfristige Beziehung glauben.</blockquote>
+        </div>
         </div>
         <section class="article-tools" data-current-post="china-supply-chain-germany.html">
           <a class="tool-link" href="../index.html">返回列表</a>
@@ -73,6 +112,7 @@
     <div class="toast" data-toast hidden></div>
     <script src="../content.js"></script>
     <script src="../site.js"></script>
+    <script src="../article-language.js"></script>
     <script src="../../assets/subscribe.js"></script>
   </body>
 </html>
