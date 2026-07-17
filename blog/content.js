@@ -9,13 +9,13 @@ window.blogPosts = [
     summary: "从 Mac、iPhone、iPad 与 Apple Watch 的分工出发，总结 VAD 前滚缓存、逐级本地队列、责任转移、可观测性和本地 AI 的关键设计。"
   },
   {
-    title: "我给丽丽做了一个血糖 App：技术最终要照顾一个具体的人",
+    title: "把关心写进代码：我为丽丽做血糖 App 的一次实践",
     date: "2026-07-18",
     category: "Engineering",
-    read: "7 min",
+    read: "8 min",
     href: "./posts/lili-glucose-app-design-retrospective.html",
     image: "./assets/lili-glucose-app.svg",
-    summary: "它不是一个创业点子，而是丈夫为有妊娠糖尿病的太太做的小工具：少点几下、少记错一次，也让看似冰冷的技术有了温度。"
+    summary: "妊娠糖尿病让日常生活多了一套必须遵守的数字秩序。我能做的，是把记录的负担接过来一点，让技术成为一种克制、可靠而具体的照顾。"
   },
   {
     title: "Vibe Coding 不是放手：如何让 AI 按我们的意图开发软件",
