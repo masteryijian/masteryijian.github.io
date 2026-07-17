@@ -1,12 +1,12 @@
 window.blogPosts = [
   {
-    title: "丽丽血糖 App：从真实家庭需求到可用的健康记录工具",
+    title: "我给丽丽做了一个血糖 App：技术最终要照顾一个具体的人",
     date: "2026-07-18",
     category: "Engineering",
     read: "7 min",
     href: "./posts/lili-glucose-app-design-retrospective.html",
     image: "./assets/lili-glucose-app.svg",
-    summary: "总结一款妊娠糖尿病记录 App 的设计取舍：低负担输入、人工确认、可靠时间、本地隐私、iOS 15 兼容，以及从真实设备反馈中迭代。"
+    summary: "它不是一个创业点子，而是丈夫为有妊娠糖尿病的太太做的小工具：少点几下、少记错一次，也让看似冰冷的技术有了温度。"
   },
   {
     title: "Vibe Coding 不是放手：如何让 AI 按我们的意图开发软件",

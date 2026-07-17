@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>丽丽血糖 App：从真实家庭需求到可用的健康记录工具</title>
-    <meta name="description" content="总结丽丽血糖 App 的需求、设计原则、iOS 15 兼容改造、语音与 OCR 输入、本地隐私及下一步方向。" />
+    <title>我给丽丽做了一个血糖 App：技术最终要照顾一个具体的人</title>
+    <meta name="description" content="丈夫为有妊娠糖尿病的太太开发血糖记录 App 的故事：从生活中的小麻烦，到 iOS 15 兼容、语音与 OCR、本地隐私和一周报告。" />
     <link rel="stylesheet" href="../styles.css" />
   </head>
   <body>
@@ -22,69 +22,69 @@
           </div>
           <div data-article-content="zh">
             <div class="meta"><span>2026-07-18</span><span class="tag">Engineering</span><span>7 min</span></div>
-            <h1>丽丽血糖 App：从真实家庭需求到可用的健康记录工具</h1>
-            <p>一个丈夫为有妊娠糖尿病的太太开发的小工具，如何在真实设备、真实习惯和健康数据准确性之间找到平衡。</p>
+            <h1>我给丽丽做了一个血糖 App：技术最终要照顾一个具体的人</h1>
+            <p>它不是一个创业点子，也不是为了证明我会写代码。只是因为怀孕以后，她每天要测好几次血糖，而我想让这件事轻松一点。</p>
           </div>
           <div data-article-content="en" hidden>
             <div class="meta"><span>2026-07-18</span><span class="tag">Engineering</span><span>7 min</span></div>
-            <h1>Lili Glucose App: From a Real Family Need to a Usable Health Log</h1>
-            <p>How a small app built for a spouse with gestational diabetes balanced real devices, daily habits, privacy and data accuracy.</p>
+            <h1>I Built Lili a Glucose App: Technology Should Care for a Real Person</h1>
+            <p>It was not a startup idea or a coding showcase. It began with a simple wish: make several daily measurements a little easier for my pregnant wife.</p>
           </div>
           <div data-article-content="de" hidden>
             <div class="meta"><span>18.07.2026</span><span class="tag">Engineering</span><span>7 Min.</span></div>
-            <h1>Lilis Blutzucker-App: Vom Familienbedarf zum nutzbaren Gesundheitstagebuch</h1>
-            <p>Wie eine App für die Ehefrau mit Schwangerschaftsdiabetes reale Geräte, Alltag, Datenschutz und Datenqualität zusammenbringt.</p>
+            <h1>Ich habe für Lili eine Blutzucker-App gebaut: Technik soll einem Menschen helfen</h1>
+            <p>Keine Start-up-Idee und kein Technik-Schaufenster. Ich wollte meiner schwangeren Frau die täglichen Messungen einfach ein wenig leichter machen.</p>
           </div>
           <img class="article-cover" src="../assets/lili-glucose-app.svg" alt="丽丽血糖 App 的记录、趋势、语音、拍照和本地隐私设计" />
         </header>
 
         <div class="article-body">
           <div data-article-content="zh">
-            <blockquote><strong>核心不是功能多，而是每天愿意用。</strong> 这款 App 的目标，是让丽丽用尽可能少的操作留下准确、连续、可以与医生沟通的血糖和运动记录。</blockquote>
+            <p>怀孕以后，丽丽每天要测好几次血糖。</p>
+            <p>空腹一次，早餐后一次，午餐后一次，晚餐后还要再来一次。测量本身并不复杂：扎手指，等几秒，看数字。麻烦的是后面那一连串小事——记住这是哪一餐、看一眼时间、打开备忘录、找对位置、输入数值。累的时候，任何多出来的一步都可能变成“等一下再记”，然后就忘了。</p>
+            <p>我开始想：能不能给她做一个很简单的 App？不是医院系统，也不是什么宏大的健康平台。它只需要在她测完血糖时，安安静静地接住那个数字。</p>
 
-            <h2>需求来自最具体的日常困难</h2>
-            <p>妊娠糖尿病往往需要每天记录空腹及多次餐后血糖。真正的摩擦不在测量本身，而在测完以后容易忘、纸张难整理、手机备忘录没有统一结构，医生也很难从零散数字中看出趋势。因此产品只保留一个主操作：<strong>记录血糖</strong>。</p>
-            <p>手动、语音和拍照三种入口服务于不同场景，但最终都生成同一种记录：数值、单位、测量场景、实际测量时间、输入方式和备注。输入方式可以灵活，数据结构不能混乱。</p>
+            <blockquote><strong>这款 App 最重要的指标，不是功能有多少，而是丽丽累的时候，还愿不愿意打开它。</strong></blockquote>
 
-            <h2>四个决定让数据真正可用</h2>
-            <ol>
-              <li><strong>区分 measuredAt 与 createdAt：</strong>记录实际测量时间，而不是语音或 OCR 处理结束的时间；用户也可以修正“十分钟前测的”数据。</li>
-              <li><strong>所有自动识别都要确认：</strong>血糖仪屏幕可能同时出现数值、日期和时间。语音和 OCR 只预填表单，不直接写入健康记录。</li>
-              <li><strong>判断必须带场景：</strong>单独的 120 mg/dL 没有充分语境。空腹、餐前、餐后 1 小时和餐后 2 小时需要分别记录。</li>
-              <li><strong>目标值可以调整：</strong>低血糖阈值和各场景上限由使用者按医生要求设置，颜色只帮助观察，不替代医疗判断。</li>
-            </ol>
+            <h2>第一版很像程序员，后来才开始像丽丽的 App</h2>
+            <p>程序员很容易从功能出发：数据模型、输入框、页面、图表。可真正使用的人不会这样想。她想的是：“我刚测完，能不能马上记下来？”</p>
+            <p>所以首页最后只保留了一个最醒目的动作：<strong>记录血糖</strong>。进去以后，可以手动输入，也可以直接说“早餐后两小时，一百二十”，或者拍一下血糖仪屏幕。三条路看起来不同，最后都会回到同一张确认表：多少、什么时候测的、空腹还是餐后、要不要补一句今天吃了什么。</p>
+            <p>首页还放上了她熟悉的照片。它不提供任何医学价值，却让这个 App 从一件冷冰冰的工具，变成了“这是给我的”。有时候，愿意长期使用，靠的正是这种看似不重要的小地方。</p>
 
-            <h2>从“现代框架”退回“真实可运行”</h2>
-            <p>第一版采用 SwiftData、NavigationStack 和 Apple Charts，开发方便，却要求较新的系统。目标手机实际运行 <strong>iOS 15.8.7</strong>，而首版 Deployment Target 是 iOS 17.0，无法安装。随后项目经历两次兼容改造：</p>
-            <ul>
-              <li>SwiftData 改为 <code>Codable + UserDefaults</code>；</li>
-              <li>NavigationStack 改为 NavigationView；</li>
-              <li>Apple Charts 改为自定义 SwiftUI Path 图表；</li>
-              <li>清理 iOS 16 以上才可用的修饰符和 API。</li>
-            </ul>
-            <p>这次返工留下了最重要的工程经验：在选框架以前，先确认手机型号、最低系统、血糖仪单位、使用习惯和医生要求。技术先进不等于产品可用。</p>
+            <h2>语音和拍照很方便，但不能替她做最后决定</h2>
+            <p>血糖仪屏幕上不只有血糖。它可能同时显示 120、10:32 和 07-17。OCR 如果很自信地把“32”当成血糖，自动化反而制造了更难发现的错误。</p>
+            <p>于是我给语音和拍照都留了一道“笨”步骤：<strong>识别后先填进表单，丽丽看一眼，再保存。</strong></p>
+            <p>少点一下当然更快，但健康数据里，方便不能排在准确前面。这个确认动作不是技术做不到，而是产品有意不替使用者做主。</p>
 
-            <h2>单位错误会污染整条链路</h2>
-            <p>项目最初按 mmol/L 设计，后来确认血糖仪显示 95、120、140 这类 mg/dL 数值。单位变化不仅影响标签，还会改变输入范围、语音解析、OCR 筛选、图表纵轴、阈值判断和导出格式。最终默认单位改为 mg/dL，输入范围设为 20–600 mg/dL。</p>
+            <h2>一个数字，离开时间和场景就不再会说话</h2>
+            <p>单独看到“120 mg/dL”，我们很难知道它意味着什么。它是空腹，还是早餐后两小时？是刚测的，还是十分钟前测完、现在才想起来记录？</p>
+            <p>所以 App 同时保存两个时间：<code>measuredAt</code> 是真正测量的时刻，<code>createdAt</code> 是写入 App 的时刻。它还会把空腹、餐前、餐后 1 小时和餐后 2 小时分开。数值终于不再孤零零，而是有了上下文。</p>
+            <p>红、绿、蓝三种颜色也是同一个道理：它们只是帮助丽丽快速看出趋势。目标范围可以按医生的要求调整，App 不假装自己比医生更懂她的身体。</p>
 
-            <h2>隐私和提醒都选择“本地优先”</h2>
-            <p>血糖与运动记录保存在手机本地，不要求账户，不上传服务器，离线也可以使用。每日运动提醒通过 iPhone 本地通知完成。这样降低了系统成本和隐私暴露面，也更适合一个家庭内部使用的工具。</p>
-            <p>App 明确说明：它用于记录和观察，不用于诊断，也不提供药物调整建议。</p>
+            <h2>最贵的一课：我做的 App，她的手机装不上</h2>
+            <p>第一版用了 SwiftData、NavigationStack 和 Apple Charts。代码很新，写起来也顺手。然后到了真正安装的那一步，手机给出了最直接的回答：不行。</p>
+            <p>丽丽的 iPhone 运行的是 <strong>iOS 15.8.7</strong>，第一版却把最低版本设成了 iOS 17。为了让它真的出现在她手机上，我把 SwiftData 换成 <code>Codable + UserDefaults</code>，NavigationStack 换成 NavigationView，Apple Charts 换成自己画的 SwiftUI Path，连一些不起眼的字体写法也要重新处理。</p>
+            <p>从技术上看，这是一次兼容性重构。从生活里看，结论只有一句：</p>
+            <blockquote><strong>跑在最新模拟器里的 App，不如跑在丽丽手里的 App。</strong></blockquote>
 
-            <h2>从 v1.0 到 v1.4.1：每次迭代都由真实问题推动</h2>
-            <ul>
-              <li><strong>v1.0：</strong>手动输入、自动时间、测量场景、当天记录、运动提醒和本地保存。</li>
-              <li><strong>v1.2：</strong>完成 iOS 15 兼容；随后修复旧系统字体 API。</li>
-              <li><strong>v1.3：</strong>改用 mg/dL，加入中文语音、相机及相册 OCR，并记录输入来源。</li>
-              <li><strong>v1.4：</strong>加入个性化欢迎图、7/14/30 天趋势、红绿蓝状态和可调目标。</li>
-              <li><strong>v1.4.1：</strong>合并重复的 AppStore，把血糖、运动、提醒和目标设置集中到唯一状态源。</li>
-            </ul>
+            <h2>还有一次，单位也弄错了</h2>
+            <p>最初我按 mmol/L 来设计，后来才确认她的血糖仪显示的是 95、120、140 这样的 mg/dL。看起来只是换一个标签，实际上输入范围、语音识别、OCR 数字筛选、图表纵轴、颜色判断和以后导出的报告都要一起改。</p>
+            <p>这件事让我记住：健康软件里，一个单位不是界面装饰。它是数据的意义本身。</p>
 
-            <h2>下一步最值得做什么</h2>
-            <p>比继续增加装饰性功能更有价值的，是生成一周报告：按天列出空腹和餐后数据、超标次数、平均值、趋势、运动和备注，方便就诊时直接查看。CSV/PDF 导出、漏测提醒、医生查看模式、iCloud 备份、Face ID 和中德双语可以在这个基础上继续扩展。</p>
+            <h2>我不想让她的血糖数据到处旅行</h2>
+            <p>这个 App 不需要注册账号，也不把血糖和运动记录上传服务器。数据留在手机里，没有网络照样能记；运动提醒也由 iPhone 本地完成。</p>
+            <p>云端账户会带来同步和备份的便利，但也会多出服务器、权限、泄露风险和维护责任。对于现在这个只服务一个家庭的工具，“本地优先”不是功能不够，而是边界刚刚好。</p>
 
-            <blockquote>好的家庭软件不是把所有可能性都做进去，而是理解一个具体的人，让她在疲惫的时候仍然可以轻松完成最重要的动作。</blockquote>
-            <p><strong>说明：</strong>本文是产品设计与开发复盘，不构成医疗建议。血糖目标、运动安排和治疗决定应以负责诊疗的医生意见为准。</p>
+            <h2>版本号背后，其实都是生活给出的修改意见</h2>
+            <p>从 v1.0 到 v1.4.1，App 慢慢有了手动记录、语音、拍照、运动提醒、7/14/30 天趋势、可调整目标值和个性化欢迎页。中间也遇到过签名不被手机信任、旧系统 API 报错，以及两个 AppStore 重复定义的问题。</p>
+            <p>这些版本并不是一张预先画好的路线图。很多时候，是装到手机上以后才发现：“这里还要多点一下”“这个单位不对”“这个功能她根本用不了”。真实使用者比任何需求文档都诚实。</p>
+
+            <h2>下一步，不是再加一个漂亮页面</h2>
+            <p>我最想做的是一份一周血糖报告。把每天的空腹和餐后数值、超标次数、趋势、运动和备注整理好，复诊时不用再临时翻找一串记录。</p>
+            <p>以后也可以有 CSV/PDF 导出、漏测提醒、Face ID、备份和中德双语。但它们都应该回答同一个问题：<strong>这会不会让丽丽的生活轻松一点？</strong></p>
+
+            <blockquote>写到最后我才明白，这个项目真正特别的地方，不是语音、OCR 或自定义图表。它只是把一句很普通的“我来帮你记”，认真地写成了一个可以每天使用的 App。</blockquote>
+            <p><strong>说明：</strong>这是一篇家庭工具的设计与开发记录，不构成医疗建议。血糖目标、运动安排和治疗决定，应以负责诊疗的医生意见为准。</p>
           </div>
 
           <div data-article-content="en" hidden>
