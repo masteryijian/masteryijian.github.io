@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>丽丽血糖 App：从真实家庭需求到可用的健康记录工具</title>
+    <meta name="description" content="总结丽丽血糖 App 的需求、设计原则、iOS 15 兼容改造、语音与 OCR 输入、本地隐私及下一步方向。" />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <div class="article-shell">
+      <header class="topbar">
+        <a class="brand" href="../index.html">YIJIAN_NOTES</a>
+        <nav><a href="../index.html">文章列表</a><a href="../about.html">关于博客</a><a href="../../lab-product.html">产品页</a></nav>
+      </header>
+      <article>
+        <header class="article-head">
+          <div class="article-language-switch" data-article-lang-switch aria-label="文章语言 / Article language / Artikelsprache">
+            <button type="button" class="active" data-article-lang="zh" aria-pressed="true">中文</button>
+            <button type="button" data-article-lang="en" aria-pressed="false">EN</button>
+            <button type="button" data-article-lang="de" aria-pressed="false">DE</button>
+          </div>
+          <div data-article-content="zh">
+            <div class="meta"><span>2026-07-18</span><span class="tag">Engineering</span><span>7 min</span></div>
+            <h1>丽丽血糖 App：从真实家庭需求到可用的健康记录工具</h1>
+            <p>一个丈夫为有妊娠糖尿病的太太开发的小工具，如何在真实设备、真实习惯和健康数据准确性之间找到平衡。</p>
+          </div>
+          <div data-article-content="en" hidden>
+            <div class="meta"><span>2026-07-18</span><span class="tag">Engineering</span><span>7 min</span></div>
+            <h1>Lili Glucose App: From a Real Family Need to a Usable Health Log</h1>
+            <p>How a small app built for a spouse with gestational diabetes balanced real devices, daily habits, privacy and data accuracy.</p>
+          </div>
+          <div data-article-content="de" hidden>
+            <div class="meta"><span>18.07.2026</span><span class="tag">Engineering</span><span>7 Min.</span></div>
+            <h1>Lilis Blutzucker-App: Vom Familienbedarf zum nutzbaren Gesundheitstagebuch</h1>
+            <p>Wie eine App für die Ehefrau mit Schwangerschaftsdiabetes reale Geräte, Alltag, Datenschutz und Datenqualität zusammenbringt.</p>
+          </div>
+          <img class="article-cover" src="../assets/lili-glucose-app.svg" alt="丽丽血糖 App 的记录、趋势、语音、拍照和本地隐私设计" />
+        </header>
+
+        <div class="article-body">
+          <div data-article-content="zh">
+            <blockquote><strong>核心不是功能多，而是每天愿意用。</strong> 这款 App 的目标，是让丽丽用尽可能少的操作留下准确、连续、可以与医生沟通的血糖和运动记录。</blockquote>
+
+            <h2>需求来自最具体的日常困难</h2>
+            <p>妊娠糖尿病往往需要每天记录空腹及多次餐后血糖。真正的摩擦不在测量本身，而在测完以后容易忘、纸张难整理、手机备忘录没有统一结构，医生也很难从零散数字中看出趋势。因此产品只保留一个主操作：<strong>记录血糖</strong>。</p>
+            <p>手动、语音和拍照三种入口服务于不同场景，但最终都生成同一种记录：数值、单位、测量场景、实际测量时间、输入方式和备注。输入方式可以灵活，数据结构不能混乱。</p>
+
+            <h2>四个决定让数据真正可用</h2>
+            <ol>
+              <li><strong>区分 measuredAt 与 createdAt：</strong>记录实际测量时间，而不是语音或 OCR 处理结束的时间；用户也可以修正“十分钟前测的”数据。</li>
+              <li><strong>所有自动识别都要确认：</strong>血糖仪屏幕可能同时出现数值、日期和时间。语音和 OCR 只预填表单，不直接写入健康记录。</li>
+              <li><strong>判断必须带场景：</strong>单独的 120 mg/dL 没有充分语境。空腹、餐前、餐后 1 小时和餐后 2 小时需要分别记录。</li>
+              <li><strong>目标值可以调整：</strong>低血糖阈值和各场景上限由使用者按医生要求设置，颜色只帮助观察，不替代医疗判断。</li>
+            </ol>
+
+            <h2>从“现代框架”退回“真实可运行”</h2>
+            <p>第一版采用 SwiftData、NavigationStack 和 Apple Charts，开发方便，却要求较新的系统。目标手机实际运行 <strong>iOS 15.8.7</strong>，而首版 Deployment Target 是 iOS 17.0，无法安装。随后项目经历两次兼容改造：</p>
+            <ul>
+              <li>SwiftData 改为 <code>Codable + UserDefaults</code>；</li>
+              <li>NavigationStack 改为 NavigationView；</li>
+              <li>Apple Charts 改为自定义 SwiftUI Path 图表；</li>
+              <li>清理 iOS 16 以上才可用的修饰符和 API。</li>
+            </ul>
+            <p>这次返工留下了最重要的工程经验：在选框架以前，先确认手机型号、最低系统、血糖仪单位、使用习惯和医生要求。技术先进不等于产品可用。</p>
+
+            <h2>单位错误会污染整条链路</h2>
+            <p>项目最初按 mmol/L 设计，后来确认血糖仪显示 95、120、140 这类 mg/dL 数值。单位变化不仅影响标签，还会改变输入范围、语音解析、OCR 筛选、图表纵轴、阈值判断和导出格式。最终默认单位改为 mg/dL，输入范围设为 20–600 mg/dL。</p>
+
+            <h2>隐私和提醒都选择“本地优先”</h2>
+            <p>血糖与运动记录保存在手机本地，不要求账户，不上传服务器，离线也可以使用。每日运动提醒通过 iPhone 本地通知完成。这样降低了系统成本和隐私暴露面，也更适合一个家庭内部使用的工具。</p>
+            <p>App 明确说明：它用于记录和观察，不用于诊断，也不提供药物调整建议。</p>
+
+            <h2>从 v1.0 到 v1.4.1：每次迭代都由真实问题推动</h2>
+            <ul>
+              <li><strong>v1.0：</strong>手动输入、自动时间、测量场景、当天记录、运动提醒和本地保存。</li>
+              <li><strong>v1.2：</strong>完成 iOS 15 兼容；随后修复旧系统字体 API。</li>
+              <li><strong>v1.3：</strong>改用 mg/dL，加入中文语音、相机及相册 OCR，并记录输入来源。</li>
+              <li><strong>v1.4：</strong>加入个性化欢迎图、7/14/30 天趋势、红绿蓝状态和可调目标。</li>
+              <li><strong>v1.4.1：</strong>合并重复的 AppStore，把血糖、运动、提醒和目标设置集中到唯一状态源。</li>
+            </ul>
+
+            <h2>下一步最值得做什么</h2>
+            <p>比继续增加装饰性功能更有价值的，是生成一周报告：按天列出空腹和餐后数据、超标次数、平均值、趋势、运动和备注，方便就诊时直接查看。CSV/PDF 导出、漏测提醒、医生查看模式、iCloud 备份、Face ID 和中德双语可以在这个基础上继续扩展。</p>
+
+            <blockquote>好的家庭软件不是把所有可能性都做进去，而是理解一个具体的人，让她在疲惫的时候仍然可以轻松完成最重要的动作。</blockquote>
+            <p><strong>说明：</strong>本文是产品设计与开发复盘，不构成医疗建议。血糖目标、运动安排和治疗决定应以负责诊疗的医生意见为准。</p>
+          </div>
+
+          <div data-article-content="en" hidden>
+            <blockquote><strong>The core metric is not feature count, but daily use.</strong> The app reduces the effort required to create accurate, continuous glucose and activity records that can support a conversation with a clinician.</blockquote>
+            <h2>A concrete everyday problem</h2>
+            <p>Gestational diabetes can require fasting and several post-meal measurements every day. The friction comes after measuring: paper gets lost, notes lack structure, and isolated numbers reveal little about trends. The app therefore centres on one action: record glucose.</p>
+            <p>Manual, voice and camera entry all produce the same record: value, unit, meal context, actual measurement time, input method and note. Flexible input must still lead to consistent data.</p>
+            <h2>Four design decisions</h2>
+            <ol>
+              <li>Keep the actual measurement time separate from the save time.</li>
+              <li>Use voice and OCR to prefill, never to save health data without confirmation.</li>
+              <li>Interpret a value only together with fasting, pre-meal or post-meal context.</li>
+              <li>Allow targets to follow the clinician's instructions; colour is a visual aid, not a diagnosis.</li>
+            </ol>
+            <h2>Compatibility changed the architecture</h2>
+            <p>The first build used SwiftData, NavigationStack and Apple Charts, but the real phone ran iOS 15.8.7. Supporting it required Codable with UserDefaults, NavigationView, a custom SwiftUI Path chart and removal of newer APIs. The lesson was simple: confirm the target device, operating system, meter unit, habits and clinical requirements before selecting the framework.</p>
+            <h2>Units and privacy are system decisions</h2>
+            <p>Changing from mmol/L to the meter's actual mg/dL format affected validation, speech parsing, OCR filtering, chart axes, thresholds and export. Data and activity reminders remain local to the phone, with no account or server required.</p>
+            <h2>What the iterations delivered</h2>
+            <p>Versions 1.0 through 1.4.1 added reliable manual records, iOS 15 support, voice and OCR input, 7/14/30-day trends, adjustable targets, activity reminders and a single shared state store. The most useful next step is a one-week report for clinical appointments, followed by CSV/PDF export, missed-measurement reminders and optional protected backup.</p>
+            <p><strong>Note:</strong> This is a product-development retrospective, not medical advice. Glucose targets, activity and treatment decisions belong with the responsible clinician.</p>
+          </div>
+
+          <div data-article-content="de" hidden>
+            <blockquote><strong>Entscheidend ist nicht die Funktionszahl, sondern die tägliche Nutzung.</strong> Die App soll mit wenigen Schritten genaue und fortlaufende Blutzucker- und Bewegungsdaten für das Arztgespräch festhalten.</blockquote>
+            <h2>Ein konkretes Alltagsproblem</h2>
+            <p>Bei Schwangerschaftsdiabetes sind häufig Nüchtern- und mehrere postprandiale Messungen nötig. Die Reibung entsteht nach der Messung: Papier geht verloren, Notizen sind uneinheitlich und Einzelwerte zeigen keinen Verlauf. Deshalb steht eine Aktion im Mittelpunkt: Blutzucker erfassen.</p>
+            <p>Manuelle Eingabe, Sprache und Kamera erzeugen denselben Datensatz mit Wert, Einheit, Mahlzeitenbezug, tatsächlichem Messzeitpunkt, Eingabemethode und Notiz.</p>
+            <h2>Vier Designentscheidungen</h2>
+            <ol>
+              <li>Messzeitpunkt und Speicherzeitpunkt getrennt halten.</li>
+              <li>Sprache und OCR dürfen nur vorausfüllen; vor dem Speichern wird bestätigt.</li>
+              <li>Werte nur zusammen mit Nüchtern-, Prä- oder Postprandial-Kontext beurteilen.</li>
+              <li>Zielwerte nach ärztlicher Vorgabe anpassen; Farben sind Orientierung, keine Diagnose.</li>
+            </ol>
+            <h2>Kompatibilität änderte die Architektur</h2>
+            <p>Die erste Version nutzte SwiftData, NavigationStack und Apple Charts. Das reale Gerät lief jedoch mit iOS 15.8.7. Deshalb wurden Codable und UserDefaults, NavigationView und ein eigener SwiftUI-Path-Graph eingesetzt. Die wichtigste Lehre: Gerät, Betriebssystem, Maßeinheit, Nutzungsgewohnheiten und ärztliche Anforderungen vor der Framework-Wahl klären.</p>
+            <h2>Einheit und Datenschutz betreffen das ganze System</h2>
+            <p>Der Wechsel von mmol/L auf die tatsächliche Anzeige in mg/dL veränderte Validierung, Spracherkennung, OCR-Filter, Diagrammachsen, Grenzwerte und Export. Daten und Bewegungserinnerungen bleiben lokal auf dem iPhone; Konto und Server sind nicht erforderlich.</p>
+            <h2>Ergebnis und nächster Schritt</h2>
+            <p>Die Versionen 1.0 bis 1.4.1 lieferten manuelle Erfassung, iOS-15-Unterstützung, Sprache und OCR, 7-/14-/30-Tage-Verläufe, anpassbare Ziele, Bewegungserinnerungen und einen zentralen AppStore. Der nächste sinnvolle Schritt ist ein Wochenbericht für Arzttermine, danach CSV/PDF-Export, Erinnerung an fehlende Messungen und optional geschützte Sicherung.</p>
+            <p><strong>Hinweis:</strong> Dies ist ein Entwicklungsrückblick und keine medizinische Beratung. Zielwerte, Bewegung und Therapie sind mit dem behandelnden Arzt abzustimmen.</p>
+          </div>
+        </div>
+
+        <section class="article-tools" data-current-post="lili-glucose-app-design-retrospective.html">
+          <a class="tool-link" href="../index.html">返回列表</a>
+          <button type="button" data-copy-current>复制链接</button>
+          <button type="button" data-save-read>稍后读</button>
+        </section>
+        <section class="article-subscribe" aria-label="订阅更新" data-lang="zh">
+          <div class="subscribe-lang-switch" aria-label="Subscription language">
+            <button type="button" class="active" data-subscribe-lang="zh" aria-pressed="true">中文</button>
+            <button type="button" data-subscribe-lang="en" aria-pressed="false">EN</button>
+            <button type="button" data-subscribe-lang="de" aria-pressed="false">DE</button>
+          </div>
+          <h2 class="sub-lang sub-zh">喜欢这篇文章？订阅后续更新</h2><h2 class="sub-lang sub-en">Like this article? Subscribe for future updates</h2><h2 class="sub-lang sub-de">Gefällt Ihnen dieser Beitrag? Updates abonnieren</h2>
+          <p class="sub-lang sub-zh">留下邮箱，新文章、行业动向和德国市场机会更新后，我会优先通知你。</p><p class="sub-lang sub-en">Leave your email to receive new articles and market updates.</p><p class="sub-lang sub-de">E-Mail eintragen und neue Artikel sowie Marktupdates erhalten.</p>
+          <form data-subscribe-form name="opc-subscribe" method="POST" data-netlify="true" netlify-honeypot="company">
+            <input type="hidden" name="form-name" value="opc-subscribe"><input type="text" name="company" tabindex="-1" autocomplete="off" hidden>
+            <input name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+            <button type="submit" class="sub-lang sub-zh">订阅</button><button type="submit" class="sub-lang sub-en">Subscribe</button><button type="submit" class="sub-lang sub-de">Abonnieren</button>
+            <label class="subscribe-consent"><input name="consent" type="checkbox" data-subscribe-consent required><span class="sub-lang sub-zh">我同意接收 OPC TechBridge 的更新邮件，可随时邮件退订。</span><span class="sub-lang sub-en">I agree to receive OPC TechBridge updates and can unsubscribe by email.</span><span class="sub-lang sub-de">Ich stimme OPC-TechBridge-Updates zu. Abmeldung ist per E-Mail möglich.</span></label>
+          </form>
+          <p class="subscribe-status" data-subscribe-status role="status" aria-live="polite"></p>
+        </section>
+        <section class="related-section" aria-label="继续阅读"><h2>继续阅读</h2><div class="related-grid" data-related-posts></div></section>
+      </article>
+      <footer class="footer">Yijian Notes | Family-first health app design</footer>
+    </div>
+    <div class="toast" data-toast hidden></div>
+    <script src="../content.js"></script><script src="../site.js"></script><script src="../article-language.js"></script><script src="../../assets/subscribe.js"></script>
+  </body>
+</html>
