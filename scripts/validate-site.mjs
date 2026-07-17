@@ -17,6 +17,7 @@ const entrypoints = [
   "tools/markdown/index.html",
   "blog/index.html",
   "blog/about.html",
+  "blog/posts/voice-collector-local-first-architecture.html",
   "blog/posts/lili-glucose-app-design-retrospective.html",
   "blog/posts/asmax-europe-market-entry-2026.html",
   "blog/posts/geburt-stadtklinikum-karlsruhe-eltern-guide.html",

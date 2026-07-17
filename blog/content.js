@@ -1,5 +1,14 @@
 window.blogPosts = [
   {
+    title: "Voice Collector：真正难的不是录音，而是让每台设备可靠地接力",
+    date: "2026-07-18",
+    category: "Engineering",
+    read: "8 min",
+    href: "./posts/voice-collector-local-first-architecture.html",
+    image: "./assets/voice-collector-architecture.svg",
+    summary: "从 Mac、iPhone、iPad 与 Apple Watch 的分工出发，总结 VAD 前滚缓存、逐级本地队列、责任转移、可观测性和本地 AI 的关键设计。"
+  },
+  {
     title: "我给丽丽做了一个血糖 App：技术最终要照顾一个具体的人",
     date: "2026-07-18",
     category: "Engineering",

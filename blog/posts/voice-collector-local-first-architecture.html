@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Voice Collector：真正难的不是录音，而是让每台设备可靠地接力</title>
+    <meta name="description" content="总结 Voice Collector 跨 Mac、iPhone、iPad 与 Apple Watch 的本地优先架构、VAD、逐级队列、责任转移和可观测性设计。" />
+    <link rel="stylesheet" href="../styles.css" />
+    <style>
+      .vc-principles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:24px 0}.vc-principle{border-top:4px solid #e56b47;background:#f7f3ea;padding:16px 12px}.vc-principle strong{display:block;color:#0d6b63;margin-bottom:6px}.vc-path{display:flex;align-items:center;gap:8px;margin:24px 0;overflow-x:auto}.vc-node{min-width:150px;flex:1;border:1px solid var(--line);background:#fff;padding:16px;text-align:center}.vc-node strong{display:block;color:#0d6b63}.vc-arrow{color:#e56b47;font-size:24px;font-weight:800}.vc-callout{border-left:5px solid #0d6b63;background:#e4efeb;padding:17px 19px;margin:22px 0}.vc-table{width:100%;border-collapse:collapse;margin:20px 0}.vc-table th,.vc-table td{border-bottom:1px solid var(--line);padding:12px;text-align:left;vertical-align:top}.vc-table th{color:#0d6b63}.vc-status{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:20px 0}.vc-status div{background:#17302f;color:#fff;padding:16px}.vc-status strong{color:#8fd2c7}@media(max-width:760px){.vc-principles{grid-template-columns:1fr 1fr}.vc-status{grid-template-columns:1fr}.vc-table{font-size:14px}.vc-path{align-items:stretch}.vc-node{min-width:145px}}
+    </style>
+  </head>
+  <body>
+    <div class="article-shell">
+      <header class="topbar">
+        <a class="brand" href="../index.html">YIJIAN_NOTES</a>
+        <nav><a href="../index.html">文章列表</a><a href="../about.html">关于博客</a><a href="../../lab-product.html">产品页</a></nav>
+      </header>
+      <article>
+        <header class="article-head">
+          <div class="article-language-switch" data-article-lang-switch aria-label="文章语言 / Article language / Artikelsprache">
+            <button type="button" class="active" data-article-lang="zh" aria-pressed="true">中文</button>
+            <button type="button" data-article-lang="en" aria-pressed="false">EN</button>
+            <button type="button" data-article-lang="de" aria-pressed="false">DE</button>
+          </div>
+          <div data-article-content="zh">
+            <div class="meta"><span>2026-07-18</span><span class="tag">Engineering</span><span>8 min</span></div>
+            <h1>Voice Collector：真正难的不是录音，而是让每台设备可靠地接力</h1>
+            <p>一套跨 Mac、iPhone、iPad 和 Apple Watch 的本地语音采集系统，最有价值的不是“全天监听”，而是知道谁该录、谁该保管、何时交接，以及失败后如何自动恢复。</p>
+          </div>
+          <div data-article-content="en" hidden>
+            <div class="meta"><span>2026-07-18</span><span class="tag">Engineering</span><span>8 min</span></div>
+            <h1>Voice Collector: Recording Is Easy; Reliable Handoffs Are Hard</h1>
+            <p>A local-first voice system across Mac, iPhone, iPad and Apple Watch must decide who records, who holds each file and when responsibility can safely move.</p>
+          </div>
+          <div data-article-content="de" hidden>
+            <div class="meta"><span>18.07.2026</span><span class="tag">Engineering</span><span>8 Min.</span></div>
+            <h1>Voice Collector: Nicht die Aufnahme, sondern die zuverlässige Übergabe ist schwierig</h1>
+            <p>Ein lokales Sprachsystem für Mac, iPhone, iPad und Apple Watch muss klären, wer aufnimmt, wer Dateien verwahrt und wann Verantwortung sicher übergeht.</p>
+          </div>
+          <img class="article-cover" src="../assets/voice-collector-architecture.svg" alt="Voice Collector 架构：Watch 经 iPhone 把录音交给 Mac 本地处理" />
+        </header>
+
+        <div class="article-body">
+          <div data-article-content="zh">
+            <blockquote><strong>这不是录音机，而是一条可靠的数据责任链。</strong> 系统允许传输晚几分钟，但不接受因为断网、休眠或某个服务崩溃而轻易丢掉原始语音。</blockquote>
+
+            <h2>先把“可靠”和“智能”分开</h2>
+            <p>设计稿最清醒的决定，是把系统拆成两层。第一层只负责采集、VAD、分段、保存、传输、排队、转写与监控；第二层才做总结、待办提取、语义检索、日记与 Assistant。顺序必须是：<strong>可靠采集 → 准确转写 → 组织文本 → AI 理解</strong>。</p>
+            <p>这看起来克制，却决定了项目能否长期使用。时间戳混乱、文件丢失或录音不完整时，任何大模型都只是在更漂亮地处理坏数据。</p>
+
+            <h2>设备不平等，架构反而更合理</h2>
+            <table class="vc-table">
+              <thead><tr><th>设备</th><th>最合适的职责</th><th>刻意不做什么</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Mac</strong></td><td>长期采集、最终存储、Whisper 转写、SQLite、Web 管理</td><td>不依赖云端完成核心流程</td></tr>
+                <tr><td><strong>iPhone / iPad</strong></td><td>外出采集、离线排队、接收 Watch 文件、上传 Mac</td><td>不假设 iOS 会允许无条件后台启动麦克风</td></tr>
+                <tr><td><strong>Apple Watch</strong></td><td>快速启动、临时补充采集、低成本 VAD</td><td>不承担全天录音和复杂网络上传</td></tr>
+              </tbody>
+            </table>
+            <p>最有意思的不是“四端都能录”，而是每台设备只承担它最擅长的部分：<strong>Watch 负责开始，iPhone 负责移动中继，Mac 负责长期保存和处理。</strong></p>
+
+            <h2>可靠性的核心：责任必须逐级转移</h2>
+            <div class="vc-path" aria-label="录音文件责任转移流程">
+              <div class="vc-node"><strong>Watch</strong><span>本地保存</span></div><div class="vc-arrow">→</div>
+              <div class="vc-node"><strong>iPhone</strong><span>确认接收并排队</span></div><div class="vc-arrow">→</div>
+              <div class="vc-node"><strong>Mac</strong><span>确认上传并归档</span></div><div class="vc-arrow">→</div>
+              <div class="vc-node"><strong>Whisper</strong><span>异步转写</span></div>
+            </div>
+            <p>原则不是“立即上传”，而是 <strong>Store first, send later</strong>：先落盘，再进入队列；只有收到下一节点的成功确认，当前节点才删除本地副本。Watch 未收到 iPhone 确认前继续保管，iPhone 未收到 Mac 确认前继续保管，转写失败也不影响 Mac 上的原始音频。</p>
+            <div class="vc-callout"><strong>一个很好的判断：</strong>实时连接失败，不等于可靠传输失败。Watch 的 <code>sendMessage</code> 适合 Ping 和即时接力；<code>transferFile</code> 与 <code>transferUserInfo</code> 适合最终送达。UI 应分别显示“实时不可达”和“后台已排队”。</div>
+
+            <h2>VAD 的两个细节，比“用了 VAD”更重要</h2>
+            <ol>
+              <li><strong>约 0.5 秒 Pre-roll：</strong>系统持续保留短暂内存缓存。VAD 确认人声后，把确认前的半秒一起写入，避免一句话从第二个字开始。</li>
+              <li><strong>动态阈值：</strong>启动时用约 2 秒估算环境噪声，触发值可设为 <code>noiseFloor + 10 dB</code>，并限制在约 −48 到 −25 dB，避免安静房间漏掉轻声、嘈杂街道把噪声全当成人声。</li>
+            </ol>
+            <p>算法也不必统一：Watch 用轻量能量 VAD 节省电量，Mac 可以用更准确的 Silero VAD。<strong>一致的目标，不要求一致的实现。</strong></p>
+
+            <h2>20% 接力设计，本质是一个安全状态机</h2>
+            <p>Watch 电量到 20% 时请求 iPhone 接力，但不能请求发出后立刻停止。只有 iPhone 明确确认已经开始，Watch 才交棒；如果迟迟无法接力并降到 10%，Watch 安全结束当前文件、加入本地队列，优先避免关机造成文件损坏。</p>
+            <p>这里真正值得复用的不是 20% 和 10% 这两个数字，而是规则：<strong>先确认接替者已工作，再释放当前责任。</strong></p>
+
+            <h2>进程活着，不等于系统健康</h2>
+            <p>Mac 端将 Collector、Transcriber、Web 和 Supervisor 逻辑解耦：Whisper 崩溃不应停止录音，Web 异常不应中断采集，慢转写也不应阻塞 VAD。SQLite 只存路径、来源、时间、状态、文本、错误和重试次数，音频仍是普通文件，备份与迁移都比较简单。</p>
+            <div class="vc-status">
+              <div><strong>不能只看</strong><br />进程是否存在</div>
+              <div><strong>还要看</strong><br />最近心跳、最近保存、最近转写、队列、失败数、磁盘和麦克风状态</div>
+            </div>
+
+            <h2>本地优先不是口号，而是成本与边界设计</h2>
+            <p>Mac 同时承担数据中心、转写服务器和管理后台，原始音频不必上传第三方，也没有持续的云服务器与语音 API 费用。家庭局域网上传只用 Bearer Token 做轻量认证；若未来需要远程访问，优先考虑 Tailscale、WireGuard 或家庭 VPN，而不是直接暴露 Mac 端口。</p>
+            <p>这套方案并非没有代价：Mac 是中心节点，iPhone 是 Watch 的中继依赖，本地设备也必须自行完成加密、备份、保留期限和删除策略。<strong>Local First 意味着控制权回到用户，也意味着运维责任回到用户。</strong></p>
+
+            <h2>最值得保留的五条原则</h2>
+            <div class="vc-principles">
+              <div class="vc-principle"><strong>Local First</strong><span>原始数据优先留在自己的设备。</span></div>
+              <div class="vc-principle"><strong>Store First</strong><span>先保存，确认后才删除。</span></div>
+              <div class="vc-principle"><strong>Device-aware</strong><span>按设备能力分配职责。</span></div>
+              <div class="vc-principle"><strong>Loosely Coupled</strong><span>单点故障不拖垮整条链。</span></div>
+              <div class="vc-principle"><strong>Observable</strong><span>随时说清数据在哪里。</span></div>
+            </div>
+            <blockquote>Voice Collector 最好的设计，不是“无处不在地录”，而是让每一段语音从产生到转写都有明确负责人、可恢复路径和可见状态。</blockquote>
+            <p><strong>说明：</strong>本文基于 Voice Collector 整体设计稿提炼，描述的是架构方案与工程取舍，不代表相关功能已经全部实现。持续语音采集还应遵守所在地法律，并在涉及他人时取得适当同意。</p>
+          </div>
+
+          <div data-article-content="en" hidden>
+            <blockquote><strong>This is not merely a recorder; it is a chain of custody for voice data.</strong> A transfer may arrive late, but an offline device, sleeping app or failed service should not silently destroy the original recording.</blockquote>
+            <h2>Reliability before intelligence</h2>
+            <p>The system deliberately separates capture infrastructure from AI understanding. VAD, segmentation, local storage, queues, transfer, transcription and monitoring come first. Summaries, tasks, semantic search and an assistant only become useful after the underlying audio and timestamps are trustworthy.</p>
+            <h2>Give each device a different job</h2>
+            <p>Mac is the powered data centre for storage, SQLite, Whisper and the web interface. iPhone and iPad capture on the move and relay queued files. Apple Watch is the fast entry point, using a lightweight VAD instead of pretending to be an all-day server.</p>
+            <h2>Transfer responsibility, not just bytes</h2>
+            <p>Every recording is saved locally before transmission. Watch keeps it until iPhone acknowledges receipt; iPhone keeps it until Mac acknowledges upload; Mac keeps the original even when transcription fails. Immediate messaging and background delivery are separate states, so “not reachable now” does not mean “cannot deliver later”.</p>
+            <h2>Small audio details matter</h2>
+            <p>A roughly 0.5-second pre-roll prevents the first syllable from being cut off. A two-second noise calibration can set a dynamic trigger near noise floor plus 10 dB, bounded to a practical range. Watch may use energy VAD for battery life while Mac uses a stronger model.</p>
+            <h2>Health means evidence, not a running process</h2>
+            <p>Collector, Transcriber, Web and Supervisor are logically separated so one failure does not halt capture. The dashboard should expose last heartbeat, last saved clip, last successful transcript, queue depth, failures, disk use and microphone state.</p>
+            <h2>The trade-off</h2>
+            <p>Local processing reduces cloud cost and exposure of sensitive audio, but the user also owns encryption, backup, retention and deletion. Remote access should prefer a private network rather than an exposed Mac port.</p>
+            <p><strong>Design principles:</strong> Local First, Store First, Device-aware, Loosely Coupled and Observable.</p>
+            <p><strong>Note:</strong> This article distils an architecture proposal, not a claim that every feature has already been implemented. Continuous voice capture must follow local law and appropriate consent requirements.</p>
+          </div>
+
+          <div data-article-content="de" hidden>
+            <blockquote><strong>Das System ist keine bloße Aufnahme-App, sondern eine Verantwortungskette für Sprachdaten.</strong> Eine Übertragung darf später ankommen; die Originalaufnahme darf aber nicht wegen Offlinebetrieb, Ruhezustand oder Dienstausfall verschwinden.</blockquote>
+            <h2>Zuverlässigkeit vor Intelligenz</h2>
+            <p>Erfassung, VAD, Segmentierung, lokale Speicherung, Warteschlangen, Übertragung, Transkription und Monitoring bilden zuerst die Infrastruktur. Zusammenfassungen, Aufgaben, semantische Suche und Assistent folgen erst, wenn Audio und Zeitstempel verlässlich sind.</p>
+            <h2>Jedes Gerät erhält eine andere Aufgabe</h2>
+            <p>Der Mac ist das lokale Rechenzentrum für Speicherung, SQLite, Whisper und Weboberfläche. iPhone und iPad erfassen unterwegs und leiten Dateien weiter. Die Apple Watch ist der schnelle Einstieg und nutzt ein sparsames VAD, statt als Dauer-Server zu arbeiten.</p>
+            <h2>Verantwortung statt nur Bytes übertragen</h2>
+            <p>Jede Aufnahme wird vor dem Senden lokal gespeichert. Die Watch behält sie bis zur Bestätigung des iPhones; das iPhone bis zur Bestätigung des Macs. Ein Transkriptionsfehler löscht das Original nicht. „Jetzt nicht erreichbar“ und „später nicht zustellbar“ sind unterschiedliche Zustände.</p>
+            <h2>Kleine Audiodetails mit großer Wirkung</h2>
+            <p>Ein Pre-roll von ungefähr 0,5 Sekunden schützt den Satzanfang. Eine etwa zweisekündige Geräuschkalibrierung ermöglicht eine dynamische Schwelle nahe Grundrauschen plus 10 dB. Die Watch kann ein sparsames Energie-VAD nutzen, der Mac ein genaueres Modell.</p>
+            <h2>Gesundheit braucht Messwerte</h2>
+            <p>Collector, Transcriber, Web und Supervisor sind logisch getrennt. Das Dashboard zeigt nicht nur Prozesse, sondern letzten Heartbeat, letzte Speicherung und Transkription, Warteschlangen, Fehler, Speicherplatz und Mikrofonstatus.</p>
+            <h2>Der Preis von Local First</h2>
+            <p>Lokale Verarbeitung senkt Cloudkosten und hält sensible Audiodaten aus Drittanbieterdiensten heraus. Gleichzeitig übernimmt der Nutzer Verantwortung für Verschlüsselung, Sicherung, Aufbewahrung und Löschung. Für Fernzugriff ist ein privates Netz sinnvoller als ein offen erreichbarer Mac-Port.</p>
+            <p><strong>Leitprinzipien:</strong> Local First, Store First, gerätegerecht, lose gekoppelt und beobachtbar.</p>
+            <p><strong>Hinweis:</strong> Der Beitrag fasst einen Architekturentwurf zusammen und behauptet nicht, dass sämtliche Funktionen bereits umgesetzt sind. Dauerhafte Sprachaufnahmen müssen lokales Recht und angemessene Einwilligung berücksichtigen.</p>
+          </div>
+        </div>
+
+        <section class="article-tools" data-current-post="voice-collector-local-first-architecture.html">
+          <a class="tool-link" href="../index.html">返回列表</a>
+          <button type="button" data-copy-current>复制链接</button>
+          <button type="button" data-save-read>稍后读</button>
+        </section>
+        <section class="article-subscribe" aria-label="订阅更新" data-lang="zh">
+          <div class="subscribe-lang-switch" aria-label="Subscription language">
+            <button type="button" class="active" data-subscribe-lang="zh" aria-pressed="true">中文</button><button type="button" data-subscribe-lang="en" aria-pressed="false">EN</button><button type="button" data-subscribe-lang="de" aria-pressed="false">DE</button>
+          </div>
+          <h2 class="sub-lang sub-zh">喜欢这篇文章？订阅后续更新</h2><h2 class="sub-lang sub-en">Like this article? Subscribe for future updates</h2><h2 class="sub-lang sub-de">Gefällt Ihnen dieser Beitrag? Updates abonnieren</h2>
+          <p class="sub-lang sub-zh">留下邮箱，新文章、行业动向和德国市场机会更新后，我会优先通知你。</p><p class="sub-lang sub-en">Leave your email to receive new articles and market updates.</p><p class="sub-lang sub-de">E-Mail eintragen und neue Artikel sowie Marktupdates erhalten.</p>
+          <form data-subscribe-form name="opc-subscribe" method="POST" data-netlify="true" netlify-honeypot="company">
+            <input type="hidden" name="form-name" value="opc-subscribe"><input type="text" name="company" tabindex="-1" autocomplete="off" hidden>
+            <input name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+            <button type="submit" class="sub-lang sub-zh">订阅</button><button type="submit" class="sub-lang sub-en">Subscribe</button><button type="submit" class="sub-lang sub-de">Abonnieren</button>
+            <label class="subscribe-consent"><input name="consent" type="checkbox" data-subscribe-consent required><span class="sub-lang sub-zh">我同意接收 OPC TechBridge 的更新邮件，可随时邮件退订。</span><span class="sub-lang sub-en">I agree to receive OPC TechBridge updates and can unsubscribe by email.</span><span class="sub-lang sub-de">Ich stimme OPC-TechBridge-Updates zu. Abmeldung ist per E-Mail möglich.</span></label>
+          </form>
+          <p class="subscribe-status" data-subscribe-status role="status" aria-live="polite"></p>
+        </section>
+        <section class="related-section" aria-label="继续阅读"><h2>继续阅读</h2><div class="related-grid" data-related-posts></div></section>
+      </article>
+      <footer class="footer">Yijian Notes | Local-first voice systems</footer>
+    </div>
+    <div class="toast" data-toast hidden></div>
+    <script src="../content.js"></script><script src="../site.js"></script><script src="../article-language.js"></script><script src="../../assets/subscribe.js"></script>
+  </body>
+</html>
