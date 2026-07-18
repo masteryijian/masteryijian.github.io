@@ -1,5 +1,14 @@
 window.blogPosts = [
   {
+    title: "FDE 面试准备：不是会调用模型，而是能把结果交付给客户",
+    date: "2026-07-18",
+    category: "Career",
+    read: "12 min",
+    href: "./posts/fde-interview-preparation-roadmap.html",
+    image: "./assets/fde-interview-roadmap.svg",
+    summary: "结合 Superlinear 对 Cresta Head of FDE 的访谈与手写笔记，按 P0/P1/P2 拆解 Python、测试、Agent、部署、客户沟通和产品化能力，并给出四周训练计划与面试证据清单。"
+  },
+  {
     title: "Voice Collector：真正难的不是录音，而是让每台设备可靠地接力",
     date: "2026-07-18",
     category: "Engineering",

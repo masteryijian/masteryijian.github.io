@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FDE 面试准备：不是会调用模型，而是能把结果交付给客户</title>
+    <meta name="description" content="结合 Superlinear 的 FDE 访谈与面试手记，按优先级拆解 Python、测试、AI Agent、部署、客户沟通与产品化能力，并给出四周准备计划。" />
+    <link rel="stylesheet" href="../styles.css" />
+    <style>
+      .fde-callout{border-left:5px solid #0d6b63;background:#e4efeb;padding:18px 20px;margin:22px 0}.fde-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:22px 0}.fde-card{border-top:5px solid #0d6b63;background:#f7f3ea;padding:18px}.fde-card.p0{border-color:#d95832}.fde-card.p1{border-color:#d39a2c}.fde-card.p2{border-color:#6b918b}.fde-card strong{display:block;color:#173f3b;font-size:18px;margin-bottom:8px}.fde-table{width:100%;border-collapse:collapse;margin:20px 0}.fde-table th,.fde-table td{border-bottom:1px solid var(--line);padding:12px;text-align:left;vertical-align:top}.fde-table th{color:#0d6b63}.fde-week{display:grid;grid-template-columns:110px 1fr 1fr;gap:0;margin:14px 0;border:1px solid var(--line)}.fde-week>div{padding:14px;border-right:1px solid var(--line)}.fde-week>div:last-child{border-right:0}.fde-week .label{background:#173f3b;color:#fff;font-weight:800}.fde-score{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:18px 0}.fde-score div{padding:15px;background:#f7f3ea}.fde-score strong{color:#d95832}.source-note{font-size:14px;color:#64706e}@media(max-width:760px){.fde-grid,.fde-score{grid-template-columns:1fr}.fde-week{grid-template-columns:1fr}.fde-week>div{border-right:0;border-bottom:1px solid var(--line)}.fde-table{font-size:14px}}
+    </style>
+  </head>
+  <body>
+    <div class="article-shell">
+      <header class="topbar">
+        <a class="brand" href="../index.html">YIJIAN_NOTES</a>
+        <nav><a href="../index.html">文章列表</a><a href="../about.html">关于博客</a><a href="../../lab-product.html">产品页</a></nav>
+      </header>
+      <article>
+        <header class="article-head">
+          <div class="article-language-switch" data-article-lang-switch aria-label="文章语言 / Article language / Artikelsprache">
+            <button type="button" class="active" data-article-lang="zh" aria-pressed="true">中文</button>
+            <button type="button" data-article-lang="en" aria-pressed="false">EN</button>
+            <button type="button" data-article-lang="de" aria-pressed="false">DE</button>
+          </div>
+          <div data-article-content="zh">
+            <div class="meta"><span>2026-07-18</span><span class="tag">Career</span><span>12 min</span></div>
+            <h1>FDE 面试准备：不是会调用模型，而是能把结果交付给客户</h1>
+            <p>Forward Deployed Engineer 的竞争力，不是工具清单更长，而是能在模糊需求、概率性 AI 和企业约束之间，理解问题、做出系统、部署上线，并对结果负责。</p>
+          </div>
+          <div data-article-content="en" hidden>
+            <div class="meta"><span>2026-07-18</span><span class="tag">Career</span><span>12 min</span></div>
+            <h1>Preparing for an FDE Interview: Deliver Outcomes, Not Just Model Calls</h1>
+            <p>An FDE turns ambiguous business needs and probabilistic AI into a deployed, measurable and trusted system.</p>
+          </div>
+          <div data-article-content="de" hidden>
+            <div class="meta"><span>18.07.2026</span><span class="tag">Karriere</span><span>12 Min.</span></div>
+            <h1>Vorbereitung auf ein FDE-Interview: Ergebnisse liefern statt nur Modelle aufzurufen</h1>
+            <p>Ein FDE verwandelt unklare Geschäftsanforderungen und probabilistische KI in ein eingesetztes, messbares und vertrauenswürdiges System.</p>
+          </div>
+          <img class="article-cover" src="../assets/fde-interview-roadmap.svg" alt="FDE 面试准备路线图：工程、Agent、交付与客户结果" />
+        </header>
+
+        <div class="article-body">
+          <div data-article-content="zh">
+            <blockquote><strong>最短定义：</strong>FDE 不是驻场写代码的人，也不是会讲技术的顾问；他是一个贴近客户、仍然保持工程深度，并把现场经验反哺产品的 outcome owner（结果负责人）。</blockquote>
+
+            <p>这份准备路线综合了两类材料：一是 Superlinear Academy 对 Cresta Head of FDE Jove Zhong 的访谈；二是两页面试准备手记。访谈明确提到 Cresta 会保留<strong>不用 AI 写简单 Python</strong>的环节，并观察命名、流程、测试与分层意识；手记进一步列出 Unit Test、End-to-End Test、REST API、Microservice、UI、CLI、Docker、RAG、Voice/Multimedia、咨询沟通和客户信任。</p>
+            <div class="fde-callout"><strong>结论先行：</strong>如果准备时间有限，先做四件事：写干净的 Python、做一个带评测的真实 Agent、把它部署出来、练习用两三点说明客户结果。LeetCode 和“熟悉某个 AI 编程工具”都不能替代这四项。</div>
+
+            <h2>一、技能优先级：P0 决定能否录用，P1 决定是否像 FDE</h2>
+            <div class="fde-grid">
+              <div class="fde-card p0"><strong>P0｜必须掌握</strong><span>Python 工程基础；Unit/E2E 测试；Agent、RAG、Tool Call、Guardrail、Eval；REST 与部署；需求澄清和客户沟通。</span></div>
+              <div class="fde-card p1"><strong>P1｜重要加分</strong><span>微服务、UI/CLI、Docker、可观测性；把客户定制抽象成模板或平台能力；失败复盘、谈判与建立信任。</span></div>
+              <div class="fde-card p2"><strong>P2｜补齐即可</strong><span>中等难度算法题、特定框架语法、漂亮但没有真实用户的 Demo，以及“会用 Claude Code/Codex/Cursor”这类工具标签。</span></div>
+            </div>
+
+            <table class="fde-table">
+              <thead><tr><th>能力</th><th>面试官真正要看什么</th><th>你要拿出的证据</th></tr></thead>
+              <tbody>
+                <tr><td><strong>P0｜工程基础</strong></td><td>无 AI 时仍能把逻辑写对；命名、拆分、异常、边界和安全意识可靠</td><td>一段可现场解释的 Python；Unit Test；一次 bug 根因与修复</td></tr>
+                <tr><td><strong>P0｜AI 系统</strong></td><td>不只调用模型，而是处理检索、工具、幻觉、延迟、失败和人工接管</td><td>一个有 Eval 数据、失败样本和 fallback 的 Agent</td></tr>
+                <tr><td><strong>P0｜端到端交付</strong></td><td>能从 API 到界面、容器、日志与运行手册把系统交给别人使用</td><td>公开或现场可运行的部署；架构图；README；演示脚本</td></tr>
+                <tr><td><strong>P0｜客户结果</strong></td><td>能发现真实问题、设成功指标、控制信息粒度并推动多方行动</td><td>一段从模糊需求到量化结果的 STAR 故事</td></tr>
+                <tr><td><strong>P1｜产品化</strong></td><td>知道何时临时定制，何时修平台、做模板或沉淀最佳实践</td><td>一个“第一次手工、第二次复用”的例子</td></tr>
+                <tr><td><strong>P1｜信任</strong></td><td>不夸大能力；能说不；出错后透明、快速地恢复客户关系</td><td>失败、lesson learned 与后续机制改变</td></tr>
+              </tbody>
+            </table>
+
+            <h2>二、P0-1：Python 不是算法表演，而是工程素养测试</h2>
+            <p>访谈把这一点说得很具体：简单 Python 环节不是为了找竞赛选手，而是确认候选人有没有基本的 engineer awareness。准备时按下面顺序练：</p>
+            <ol>
+              <li><strong>先复述输入、输出和边界：</strong>空值、重复值、超时、外部依赖失败分别如何处理。</li>
+              <li><strong>拆纯函数与副作用：</strong>业务判断、I/O、模型调用和持久化不要揉在一起。</li>
+              <li><strong>先写三类测试：</strong>正常路径、边界条件、失败路径；能解释为什么这些 case 足够重要。</li>
+              <li><strong>补安全边界：</strong>认证、授权和关键业务规则必须在服务端成立，不能因为前端 DOM 或状态被改动就绕过。</li>
+              <li><strong>最后谈复杂度：</strong>说明时间/空间成本即可，不必为了“高级”而过度设计。</li>
+            </ol>
+            <p><strong>训练细点：</strong>每天 30–45 分钟做一个小题，禁止 AI 自动补全；完成后再用 AI 做 code review。重点题型是数据清洗、聚合、队列、缓存、重试与 API 响应转换，而不是堆大量 Hard LeetCode。</p>
+
+            <h2>三、P0-2：必须做过“会失败”的 Agent</h2>
+            <p>“我会用 Cursor”已经像“我会打字”一样，不构成区分度。真正的 Agent 证据至少包含：</p>
+            <ul>
+              <li><strong>Grounding：</strong>RAG 的文档切分、检索、引用与无答案处理。</li>
+              <li><strong>Action：</strong>Tool Call 具备 schema 校验、幂等、权限和超时。</li>
+              <li><strong>Control：</strong>Guardrail、业务 SOP、敏感动作确认与人工 escalation。</li>
+              <li><strong>Evaluation：</strong>固定测试集、任务成功率、错误分类、延迟和成本，而不是只展示“看起来不错”的对话。</li>
+              <li><strong>Recovery：</strong>模型、API 或知识库失败时的 fallback、重试与可见状态。</li>
+            </ul>
+            <p>如果做 Voice 或多模态输入，还要解释 VAD、ASR、噪声、打断、低延迟和 consent。访谈中的提醒尤其重要：企业客服通常做到受 SOP、知识库和工具约束的 workflow 就够了；不是越 agentic 越好。</p>
+
+            <h2>四、P0-3：用一个项目证明完整交付链</h2>
+            <p>最适合面试的作品不是十个 Notebook，而是一个小而完整的客户项目。例如：<strong>企业售后 Agent</strong>，能够检索产品文档、查询订单、创建工单，并在退款、身份不明或低置信度时转人工。</p>
+            <ol>
+              <li><strong>Understand：</strong>写一页 problem brief，列用户、当前流程、约束和成功指标。</li>
+              <li><strong>Build：</strong>Python 服务 + RAG + 两个工具调用 + guardrail + 20–50 条 Eval。</li>
+              <li><strong>Expose：</strong>REST API；一个简单 UI 或 CLI；清晰错误信息。</li>
+              <li><strong>Deploy：</strong>Docker 化，设置环境变量、健康检查、日志和回滚说明。</li>
+              <li><strong>Measure：</strong>报告任务完成率、错误率、P95 延迟、单次成本和人工接管率。</li>
+              <li><strong>Productize：</strong>把客户专属 prompt、连接器和策略拆开，说明哪些可复用成 template/asset，哪些必须保留为定制。</li>
+            </ol>
+            <div class="fde-callout"><strong>演示标准：</strong>不要只演示成功。主动展示一个检索不到、一个工具超时、一个高风险动作，并说明系统如何降级、记录和转人工。这比“零错误”的录屏更像生产工程。</div>
+
+            <h2>五、P0-4：客户沟通考的是粒度、判断和 ego</h2>
+            <p>FDE 需要咨询能力，但目标不是变成咨询公司。访谈给出的几个面试信号很实用：</p>
+            <ul>
+              <li><strong>先问 business outcome：</strong>谁的哪个动作要改变？当前基线是什么？失败的代价是什么？</li>
+              <li><strong>一次只讲两三点：</strong>六到十分钟不停回答一个问题，是无法控制信息粒度的警报。</li>
+              <li><strong>区分需求与方案：</strong>客户说“要聊天机器人”，真实需求可能是缩短等待、减少转接或提高预约转化。</li>
+              <li><strong>没有强 ego：</strong>方案是谁提出的不重要；有证据时改变方向，把事情做成更重要。</li>
+              <li><strong>敢于说不：</strong>对没有 ROI、无法评测、风险边界不清的需求，提出较小且可验证的替代方案。</li>
+            </ul>
+
+            <h2>六、四周准备计划：每周必须产生可展示结果</h2>
+            <div class="fde-week"><div class="label">第 1 周<br />工程底座</div><div><strong>训练</strong><br />5 个 Python 小题；每题先写测试；复习 HTTP、认证、异常、数据分层。</div><div><strong>交付物</strong><br />一个带 Unit/E2E Test 的小服务；能够在 10 分钟内解释设计与边界。</div></div>
+            <div class="fde-week"><div class="label">第 2 周<br />Agent 核心</div><div><strong>训练</strong><br />RAG、2 个 Tool Call、结构化输出、权限、超时、fallback；建立 Eval 集。</div><div><strong>交付物</strong><br />20–50 条测试样本；基线成功率、主要错误类型、延迟与成本。</div></div>
+            <div class="fde-week"><div class="label">第 3 周<br />部署与产品化</div><div><strong>训练</strong><br />REST、UI/CLI、Docker、日志、健康检查；把客户特例与通用能力分开。</div><div><strong>交付物</strong><br />可访问 Demo、架构图、README、3 个失败场景与恢复路径。</div></div>
+            <div class="fde-week"><div class="label">第 4 周<br />面试模拟</div><div><strong>训练</strong><br />Python 白板、系统设计、客户 discovery、失败复盘；每个回答先给结论和 2–3 点。</div><div><strong>交付物</strong><br />90 秒自我介绍；5 个 STAR 故事；15 分钟项目 Demo；两次完整模拟。</div></div>
+
+            <p><strong>每天 90 分钟模板：</strong>35 分钟无 AI 编码，35 分钟项目推进，20 分钟口头讲解或复盘。周末用 2–3 小时做一次从需求澄清到演示的完整 rehearsal（演练）。</p>
+
+            <h2>七、面试前自评分：没有证据就不算掌握</h2>
+            <div class="fde-score">
+              <div><strong>0 分｜只听过</strong><br />能解释名词，但没有运行结果。</div>
+              <div><strong>1 分｜做出来</strong><br />有 Demo，但没有测试、指标或失败复盘。</div>
+              <div><strong>2 分｜可交付</strong><br />有部署、Eval、故障处理、客户指标和清楚的取舍。</div>
+            </div>
+            <p>给以下六项分别打 0–2 分：Python、测试、Agent、部署、客户沟通、产品化。<strong>总分低于 8：</strong>继续补项目证据；<strong>8–10：</strong>开始投递并同步模拟；<strong>11–12：</strong>把重点转到目标公司的产品、行业场景和客户问题。</p>
+
+            <h2>八、最后准备的五个回答</h2>
+            <ol>
+              <li>一个你从模糊需求中找到真实问题，并定义成功指标的案例。</li>
+              <li>一个 Agent 在真实输入下失败，你如何分类、评测和修复。</li>
+              <li>一个你选择临时定制，之后又抽象回平台的案例。</li>
+              <li>一次你说错、承诺过早或判断失误，如何赢回信任。</li>
+              <li>一个你与客户或同事意见不同，最终放下 ego、用证据推进的案例。</li>
+            </ol>
+            <blockquote>FDE 面试的终点不是证明“我什么都懂”，而是让对方相信：把一个重要但模糊的客户目标交给你，你能找到正确问题，做出可靠系统，并让它在现实里持续工作。</blockquote>
+
+            <h2>资料来源与边界</h2>
+            <p class="source-note">主要来源：<a href="https://www.superlinear.academy/c/main/fde" target="_blank" rel="noopener noreferrer">Superlinear Academy｜AI Agent 时代的 FDE：把模型能力落到真实业务里</a>（访问于 2026-07-18）；补充对照：<a href="https://superlinear.eu/insights/articles/what-is-a-forward-deployed-engineer-and-why-the-role-matters-more-than-ever" target="_blank" rel="noopener noreferrer">Superlinear｜What is a Forward Deployed Engineer and why the role matters more than ever?</a>（2026-04-07）。Python 无 AI 环节、工程素养、Agent 实践、经验与沟通信号来自访谈；四周计划、项目规格和评分门槛是本文据此设计的准备方案，不代表 Cresta 或其他公司的固定面试流程。手写字迹中无法可靠辨认的数字与词句未作为事实采用。</p>
+          </div>
+
+          <div data-article-content="en" hidden>
+            <blockquote><strong>Short definition:</strong> an FDE is a customer-close engineer who owns outcomes and feeds field learning back into the product.</blockquote>
+            <h2>Priority order</h2>
+            <p><strong>P0:</strong> clean Python without AI assistance, unit and end-to-end testing, production-oriented agents, APIs and deployment, plus customer discovery and concise communication. <strong>P1:</strong> observability, microservices, UI/CLI, Docker, productising repeated customer work, failure reviews and trust. <strong>P2:</strong> advanced algorithm drills and tool-brand familiarity.</p>
+            <h2>What evidence should you bring?</h2>
+            <ul>
+              <li>A small Python service with explicit boundaries, failure handling and tests.</li>
+              <li>An agent using RAG and tools with guardrails, a fixed evaluation set, latency/cost measurements and human escalation.</li>
+              <li>A deployed demo with REST API, UI or CLI, Docker, logs, health checks and recovery notes.</li>
+              <li>Five short stories covering ambiguity, failure, customer conflict, productisation and trust.</li>
+            </ul>
+            <h2>A four-week plan</h2>
+            <ol>
+              <li><strong>Week 1 — engineering:</strong> five no-AI Python exercises and a tested service.</li>
+              <li><strong>Week 2 — agent:</strong> RAG, two tool calls, guardrails and 20–50 evaluation cases.</li>
+              <li><strong>Week 3 — delivery:</strong> deploy the service, expose status and demonstrate three controlled failures.</li>
+              <li><strong>Week 4 — interview:</strong> coding, system design, customer discovery, five STAR stories and two full mock interviews.</li>
+            </ol>
+            <p>Use a 0–2 score for Python, testing, agent engineering, deployment, customer communication and productisation. Zero means vocabulary only; one means a demo; two means deployed evidence, measurements, failure handling and explicit trade-offs. Start applying around 8/12 while continuing mock interviews.</p>
+            <p><strong>Core interview habit:</strong> lead with the conclusion, give two or three relevant points, ask for feedback and avoid ego. The goal is not to prove that you know everything; it is to show that an ambiguous customer outcome can safely be entrusted to you.</p>
+            <p class="source-note">Sources: <a href="https://www.superlinear.academy/c/main/fde" target="_blank" rel="noopener noreferrer">Superlinear Academy FDE interview</a>, accessed 18 July 2026; and <a href="https://superlinear.eu/insights/articles/what-is-a-forward-deployed-engineer-and-why-the-role-matters-more-than-ever" target="_blank" rel="noopener noreferrer">Superlinear's public FDE article</a>, 7 April 2026. The four-week plan and score thresholds are this article's preparation framework, not a published Cresta interview process.</p>
+          </div>
+
+          <div data-article-content="de" hidden>
+            <blockquote><strong>Kurzdefinition:</strong> Ein FDE ist ein kundennaher Engineer, der Ergebnisse verantwortet und Erfahrungen aus Projekten in das Produkt zurückführt.</blockquote>
+            <h2>Prioritäten</h2>
+            <p><strong>P0:</strong> sauberes Python ohne KI-Hilfe, Unit- und End-to-End-Tests, produktionsnahe Agents, APIs und Deployment sowie Kundengespräch und präzise Kommunikation. <strong>P1:</strong> Observability, Microservices, UI/CLI, Docker, Produktisierung wiederkehrender Kundenarbeit, Fehleranalyse und Vertrauen. <strong>P2:</strong> schwere Algorithmusaufgaben und reine Toolkenntnisse.</p>
+            <h2>Welche Nachweise zählen?</h2>
+            <ul>
+              <li>Ein kleiner Python-Service mit klaren Grenzen, Fehlerbehandlung und Tests.</li>
+              <li>Ein Agent mit RAG, Tools, Guardrails, festem Evaluationssatz, Messwerten und Übergabe an Menschen.</li>
+              <li>Eine laufende Demo mit REST API, UI oder CLI, Docker, Logs, Health Checks und Wiederherstellung.</li>
+              <li>Fünf kurze Beispiele zu Unklarheit, Fehlern, Konflikten, Produktisierung und Vertrauen.</li>
+            </ul>
+            <h2>Vier-Wochen-Plan</h2>
+            <ol>
+              <li><strong>Woche 1 — Engineering:</strong> fünf Python-Aufgaben ohne KI und ein getesteter Service.</li>
+              <li><strong>Woche 2 — Agent:</strong> RAG, zwei Tool Calls, Guardrails und 20–50 Evaluationsfälle.</li>
+              <li><strong>Woche 3 — Auslieferung:</strong> Deployment, sichtbarer Systemstatus und drei kontrollierte Fehlerszenarien.</li>
+              <li><strong>Woche 4 — Interview:</strong> Coding, System Design, Discovery, fünf STAR-Beispiele und zwei vollständige Simulationen.</li>
+            </ol>
+            <p>Bewerte Python, Tests, Agent Engineering, Deployment, Kundenkommunikation und Produktisierung jeweils mit 0–2. Null bedeutet nur Begriffe; eins bedeutet Demo; zwei bedeutet Deployment, Messwerte, Fehlerbehandlung und klare Abwägungen. Ab etwa 8/12 Punkten kann die Bewerbung parallel zur weiteren Übung beginnen.</p>
+            <p><strong>Kommunikationsregel:</strong> Ergebnis zuerst, zwei oder drei relevante Punkte, Feedback einholen und Ego zurückstellen. Entscheidend ist, ob man dir ein wichtiges, aber unklares Kundenziel anvertrauen kann.</p>
+            <p class="source-note">Quellen: <a href="https://www.superlinear.academy/c/main/fde" target="_blank" rel="noopener noreferrer">Superlinear Academy FDE-Interview</a>, abgerufen am 18.07.2026; sowie <a href="https://superlinear.eu/insights/articles/what-is-a-forward-deployed-engineer-and-why-the-role-matters-more-than-ever" target="_blank" rel="noopener noreferrer">öffentlicher Superlinear-FDE-Beitrag</a> vom 07.04.2026. Der Vier-Wochen-Plan und die Punktgrenzen sind ein daraus entwickelter Vorbereitungsrahmen und kein veröffentlichter Cresta-Prozess.</p>
+          </div>
+        </div>
+
+        <section class="article-tools" data-current-post="fde-interview-preparation-roadmap.html">
+          <a class="tool-link" href="../index.html">返回列表</a>
+          <button type="button" data-copy-current>复制链接</button>
+          <button type="button" data-save-read>稍后读</button>
+        </section>
+        <section class="article-subscribe" aria-label="订阅更新" data-lang="zh">
+          <div class="subscribe-lang-switch" aria-label="Subscription language">
+            <button type="button" class="active" data-subscribe-lang="zh" aria-pressed="true">中文</button><button type="button" data-subscribe-lang="en" aria-pressed="false">EN</button><button type="button" data-subscribe-lang="de" aria-pressed="false">DE</button>
+          </div>
+          <h2 class="sub-lang sub-zh">喜欢这篇文章？订阅后续更新</h2><h2 class="sub-lang sub-en">Like this article? Subscribe for future updates</h2><h2 class="sub-lang sub-de">Gefällt Ihnen dieser Beitrag? Updates abonnieren</h2>
+          <p class="sub-lang sub-zh">留下邮箱，新文章、行业动向和德国市场机会更新后，我会优先通知你。</p><p class="sub-lang sub-en">Leave your email to receive new articles and market updates.</p><p class="sub-lang sub-de">E-Mail eintragen und neue Artikel sowie Marktupdates erhalten.</p>
+          <form data-subscribe-form name="opc-subscribe" method="POST" data-netlify="true" netlify-honeypot="company">
+            <input type="hidden" name="form-name" value="opc-subscribe"><input type="text" name="company" tabindex="-1" autocomplete="off" hidden>
+            <input name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+            <button type="submit" class="sub-lang sub-zh">订阅</button><button type="submit" class="sub-lang sub-en">Subscribe</button><button type="submit" class="sub-lang sub-de">Abonnieren</button>
+            <label class="subscribe-consent"><input name="consent" type="checkbox" data-subscribe-consent required><span class="sub-lang sub-zh">我同意接收 OPC TechBridge 的更新邮件，可随时邮件退订。</span><span class="sub-lang sub-en">I agree to receive OPC TechBridge updates and can unsubscribe by email.</span><span class="sub-lang sub-de">Ich stimme OPC-TechBridge-Updates zu. Abmeldung ist per E-Mail möglich.</span></label>
+          </form>
+          <p class="subscribe-status" data-subscribe-status role="status" aria-live="polite"></p>
+        </section>
+        <section class="related-section" aria-label="继续阅读"><h2>继续阅读</h2><div class="related-grid" data-related-posts></div></section>
+      </article>
+      <footer class="footer">Yijian Notes | Engineering that reaches the customer</footer>
+    </div>
+    <div class="toast" data-toast hidden></div>
+    <script src="../content.js"></script><script src="../site.js"></script><script src="../article-language.js"></script><script src="../../assets/subscribe.js"></script>
+  </body>
+</html>
