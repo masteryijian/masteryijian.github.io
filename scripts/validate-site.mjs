@@ -17,6 +17,7 @@ const entrypoints = [
   "tools/markdown/index.html",
   "blog/index.html",
   "blog/about.html",
+  "blog/posts/hwk-elektro-gruendung-direkteintragung.html",
   "blog/posts/fde-interview-preparation-roadmap.html",
   "blog/posts/voice-collector-local-first-architecture.html",
   "blog/posts/lili-glucose-app-design-retrospective.html",

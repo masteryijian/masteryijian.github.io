@@ -1,5 +1,14 @@
 window.blogPosts = [
   {
+    title: "HWK 创业路线图（二）：电气工程师如何不重做 Ausbildung 进入 Elektrotechniker-Handwerk",
+    date: "2026-07-22",
+    category: "Handwerk",
+    read: "10 min",
+    href: "./posts/hwk-elektro-gruendung-direkteintragung.html",
+    image: "./assets/hwk-elektro-gruendung-roadmap.jpg",
+    summary: "结合 HWK 顾问回复和官方规则，梳理 § 7 Abs. 2 工程师直登 Handwerksrolle、Bauamt 地址核实、Businessplan、Gewerbeanmeldung、Installateurverzeichnis 与 TREI 的正确顺序。"
+  },
+  {
     title: "FDE 面试准备：不是会调用模型，而是能把结果交付给客户",
     date: "2026-07-18",
     category: "Career",
