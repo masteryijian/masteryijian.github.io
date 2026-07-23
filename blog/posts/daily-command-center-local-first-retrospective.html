@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>把一天做成可恢复的系统：Daily Command Center 开发复盘</title>
+    <meta name="description" content="复盘一个本地优先个人工作系统的框架优势、真实开发成本、收益与代价，以及测试、迁移和固定点审查带来的工程经验。" />
+    <link rel="stylesheet" href="../styles.css" />
+    <style>
+      .dcc-lead{font-size:1.14em}.dcc-facts,.dcc-grid{display:grid;gap:14px;margin:24px 0}.dcc-facts{grid-template-columns:repeat(5,minmax(0,1fr))}.dcc-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.dcc-fact,.dcc-card{border:1px solid var(--line);background:#fff;padding:18px}.dcc-fact strong{display:block;color:#0d6b63;font-size:28px;line-height:1}.dcc-fact span{display:block;margin-top:8px;color:var(--muted);font-size:14px}.dcc-card h3{margin:0 0 8px;font-size:21px}.dcc-card p{margin:0;color:var(--muted)}.dcc-flow{display:flex;gap:8px;align-items:stretch;margin:26px 0;overflow-x:auto;padding-bottom:8px}.dcc-step{min-width:150px;flex:1;padding:17px;border:1px solid var(--line);background:#fff}.dcc-step strong{display:block;color:#0d6b63}.dcc-step span{display:block;margin-top:6px;color:var(--muted);font-size:14px}.dcc-arrow{display:grid;place-items:center;color:#e56b47;font-size:24px}.dcc-balance{width:100%;border-collapse:collapse;margin:22px 0}.dcc-balance th,.dcc-balance td{padding:13px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.dcc-balance th{color:#0d6b63}.dcc-callout{margin:24px 0;padding:18px 20px;border-left:5px solid #e56b47;background:#f7f3ea}.dcc-cost{margin:22px 0;padding:20px;background:#17302f;color:#fff}.dcc-cost strong{color:#8fd2c7}.dcc-note{color:var(--muted);font-size:15px;border-top:1px solid var(--line);padding-top:18px}@media(max-width:760px){.dcc-facts{grid-template-columns:1fr 1fr}.dcc-grid{grid-template-columns:1fr}.dcc-flow{align-items:stretch}.dcc-arrow{min-width:24px}.dcc-balance{font-size:14px}}@media(max-width:480px){.dcc-facts{grid-template-columns:1fr}}
+    </style>
+  </head>
+  <body>
+    <div class="article-shell">
+      <header class="topbar">
+        <a class="brand" href="../index.html">YIJIAN_NOTES</a>
+        <nav><a href="../index.html">文章列表</a><a href="../about.html">关于博客</a><a href="../../lab-product.html">产品页</a></nav>
+      </header>
+      <article>
+        <header class="article-head">
+          <div class="article-language-switch" data-article-lang-switch aria-label="文章语言 / Article language / Artikelsprache">
+            <button type="button" class="active" data-article-lang="zh" aria-pressed="true">中文</button>
+            <button type="button" data-article-lang="en" aria-pressed="false">EN</button>
+            <button type="button" data-article-lang="de" aria-pressed="false">DE</button>
+          </div>
+          <div data-article-content="zh">
+            <div class="meta"><span>2026-07-23</span><span class="tag">Engineering</span><span>11 min</span></div>
+            <h1>把一天做成可恢复的系统：Daily Command Center 开发复盘</h1>
+            <p>我原本只是想在出门前看清什么最重要。真正开始开发后，问题却变成了：如何让任务、时间和判断在刷新、重启、迁移与错误之后仍然可信？</p>
+          </div>
+          <div data-article-content="en" hidden>
+            <div class="meta"><span>2026-07-23</span><span class="tag">Engineering</span><span>8 min</span></div>
+            <h1>Making a Day Recoverable: A Daily Command Center Retrospective</h1>
+            <p>I initially wanted to see what mattered before leaving home. The real engineering question became how tasks, time and decisions could remain trustworthy after reloads, restarts, migrations and mistakes.</p>
+          </div>
+          <div data-article-content="de" hidden>
+            <div class="meta"><span>23.07.2026</span><span class="tag">Engineering</span><span>8 Min.</span></div>
+            <h1>Einen Tag wiederherstellbar machen: Rückblick auf das Daily Command Center</h1>
+            <p>Am Anfang wollte ich nur vor dem Weggehen erkennen, was wirklich wichtig war. Die eigentliche Entwicklungsfrage lautete bald: Wie bleiben Aufgaben, Zeit und Entscheidungen nach Neuladen, Neustart, Migration und Fehlern vertrauenswürdig?</p>
+          </div>
+          <img class="article-cover" src="../assets/daily-command-center-architecture.svg" alt="Daily Command Center 从 Check-in 经 Focus 到 Daily Close，并由 SQLite 事件账本和恢复点支撑" />
+        </header>
+
+        <div class="article-body">
+          <div data-article-content="zh">
+            <p class="dcc-lead">这次开发最有意思的地方，是“个人效率工具”最终没有被做成一个更漂亮的待办清单。它被做成了一套小型的、本地优先的工作状态系统：早晨承诺，白天只专注一个任务，结束时留下证据，晚上关闭这一天。</p>
+
+            <div class="dcc-facts">
+              <div class="dcc-fact"><strong>10</strong><span>个功能与修复提交</span></div>
+              <div class="dcc-fact"><strong>35</strong><span>项自动化测试</span></div>
+              <div class="dcc-fact"><strong>7,580</strong><span>新增代码与测试行</span></div>
+              <div class="dcc-fact"><strong>14</strong><span>个旧任务安全迁移</span></div>
+              <div class="dcc-fact"><strong>Schema 7</strong><span>最终数据库版本</span></div>
+            </div>
+
+            <h2>一、框架性的优势：把任务列表变成状态机</h2>
+            <div class="dcc-flow" aria-label="每日工作状态">
+              <div class="dcc-step"><strong>Check-in</strong><span>容量、最多三个结果、所有遗留任务的去向</span></div><div class="dcc-arrow">→</div>
+              <div class="dcc-step"><strong>Focus</strong><span>唯一进行中任务、唯一计时器、明确的下一步</span></div><div class="dcc-arrow">→</div>
+              <div class="dcc-step"><strong>Checkout</strong><span>实际产出、剩余估时、偏差原因和下次动作</span></div><div class="dcc-arrow">→</div>
+              <div class="dcc-step"><strong>Daily Close</strong><span>关闭开放会话，生成不可变日快照</span></div>
+            </div>
+            <p>这种框架的第一项优势是<strong>减少上下文切换</strong>。页面不问“你拥有哪些任务”，而是问“你现在处于哪一个工作状态”。最多三个 Daily Outcomes 不是为了限制野心，而是让容量成为真实约束。</p>
+            <p>第二项优势是<strong>所有数字都可解释</strong>。Initial Estimate 不会被后续修改覆盖；暂停、恢复、Checkout 和 Time Adjustment 都成为追加事实。现在显示的用时不是一个孤立数字，而可以沿历史回答“它为什么是这个数字”。</p>
+            <p>第三项优势是<strong>未来可迁移</strong>。UI 不直接操纵表，而是调用带 UUID、幂等键、版本和 Actor Context 的语义命令。今天后端是本机 SQLite，未来转为在线数据库和登录用户时，不必推翻任务语言。</p>
+            <p>第四项优势是<strong>本地优先的安全边界</strong>。正式服务只监听 <code>127.0.0.1</code>；外部网页不能随意向 loopback 写任务；来源刷新不会在页面请求里读取本地平台。便利性被刻意让位给可控性。</p>
+
+            <h2>二、成本：真正昂贵的是可靠性，不是页面</h2>
+            <div class="dcc-cost">
+              <p><strong>可观测的核心实现窗口：</strong>从第一个运行时提交到最终迁移修复约 75 分钟；包含后续可读性调整约 86 分钟。这个数字不包括此前的需求澄清、原型讨论和规格设计，因此不能当作完整人时。</p>
+              <p><strong>可量化的工程量：</strong>10 个提交、35 项测试、22 个变更文件、约 7,580 行新增代码与测试。实际模型/API 金额没有可靠账单数据，所以本文不虚构货币成本。</p>
+            </div>
+            <p>页面本身并不昂贵。昂贵的是：第二个浏览器标签页不能启动第二个计时器；旧数据库升级失败不能破坏原库；旧版开放计时必须能恢复；跨午夜片段只能按当天重叠部分计入快照；重复点击不能制造第二条事实。</p>
+            <p>安全和迁移代码让系统显著变大。对于一个人使用的工具，这很容易被批评为过度工程。但如果它长期承担时间分析，错误数据会持续训练出错误判断。此时“简单但会悄悄错”比“稍复杂但可解释”更贵。</p>
+
+            <h2>三、好处与不好处</h2>
+            <table class="dcc-balance">
+              <thead><tr><th>得到的好处</th><th>付出的代价</th></tr></thead>
+              <tbody>
+                <tr><td>刷新、浏览器和服务重启后可恢复</td><td>需要事件、版本、会话片段和恢复命令</td></tr>
+                <tr><td>预计与实际差异可长期分析</td><td>不能直接覆盖错误数据，只能追加修正</td></tr>
+                <tr><td>旧任务得到保留并进入新流程</td><td>迁移逻辑成为必须长期维护的产品功能</td></tr>
+                <tr><td>本地数据不向互联网暴露</td><td>手机暂时不能直接通过局域网访问</td></tr>
+                <tr><td>未来上线时已有稳定领域接口</td><td>初版代码量大于普通 CRUD 待办应用</td></tr>
+                <tr><td>一天可以明确关闭，不把工作带到夜里</td><td>Daily Close 要求用户诚实填写证据和下一步</td></tr>
+              </tbody>
+            </table>
+            <p>还有一项明确的未完成：Gmail、日历、iCloud Notes、Voice Collector、Books 和浏览历史的可信自动同步仍属于后续阶段。初版完成的是手动任务与每日工作闭环，不应把“接口已经规划”描述成“平台已经实时接通”。</p>
+
+            <h2>四、开发经历：测试全绿以后，问题才真正出现</h2>
+            <p>第一个可用版本有 28 项测试，而且真实 Chrome 在 390 × 844 下没有横向溢出。看起来已经可以安装。但两条并行审查发现：旧任务系统和新语义账本仍能分别启动计时，因此“只能有一个计时器”的约束并不是全局的；Daily Snapshot 还可能重复计算跨日任务的历史时间。</p>
+            <p>修复后，复审又发现更窄的升级路径：旧开放计时被迁成不确定片段后，如果只关闭新片段而不退休旧表记录，所有新计时仍会被永久阻止。再往后一层，是已经运行过 schema 6 的用户可能跳过新增迁移。最终数据库升级到 schema 7，并为这些历史状态增加了精确测试。</p>
+            <div class="dcc-callout"><strong>这次最重要的经验：</strong>一个 invariant 必须跨越所有旧接口、迁移状态和恢复路径成立。只在新表里加唯一索引，并不能证明整个产品只有一个计时器。</div>
+            <p>最后，所有工程门禁通过后，我仍然说了一句：“字太小，我看不清。”这不是小问题，而是最诚实的验收。系统通过了计时、恢复、迁移和手机宽度测试，却没有一开始覆盖大量 9–12px 的辅助文字。最终正文和任务提高到 18px，小标签提高到 15px，按钮提高到 17px/48px。</p>
+            <p>这提醒我：<strong>自动化测试负责证明系统没有背叛规则，人的身体负责证明产品是否真的能用。</strong>二者缺一不可。</p>
+
+            <h2>五、如果重新做一次，我会保留什么、减少什么？</h2>
+            <div class="dcc-grid">
+              <section class="dcc-card"><h3>一定保留：先定义日循环</h3><p>Check-in、Focus、Checkout、Daily Close 是产品骨架。没有骨架，接入再多平台也只是制造更大的收件箱。</p></section>
+              <section class="dcc-card"><h3>一定保留：追加式历史</h3><p>估时学习依赖原始事实。覆盖旧数字会让长期分析失去意义。</p></section>
+              <section class="dcc-card"><h3>更早处理：旧数据迁移</h3><p>迁移不是上线前的清理工作，而是从第一张领域图开始就必须进入验收的用户路径。</p></section>
+              <section class="dcc-card"><h3>更早处理：人体可读性</h3><p>除像素门槛外，应在第一轮原型就以真实距离、真实光线和疲劳状态阅读所有辅助文字。</p></section>
+              <section class="dcc-card"><h3>减少：过早连接所有来源</h3><p>邮件、日历和 Notes 只有在核心状态机稳定后才值得接入，否则自动化只会加速噪音进入系统。</p></section>
+              <section class="dcc-card"><h3>减少：用“测试通过”代替完成</h3><p>测试、双轨审查、真实服务、迁移后数据对账和人的视觉体验应共同构成交付证据。</p></section>
+            </div>
+
+            <h2>结论：个人软件也需要一条可信的责任链</h2>
+            <p>Daily Command Center 的价值不在于它比 Reminders 多几个按钮，而在于它试图建立一条责任链：早晨我承诺什么，现在我做什么，时间去了哪里，结束时留下了什么，明天从哪里继续。</p>
+            <p>框架给了这条责任链稳定的形状；事件账本让它可以解释；本地优先让它保持私密；固定点审查阻止“看起来完成”成为真正交付。代价是更多代码、更慢的第一版和更严格的使用纪律。但如果目标是长期认识自己的时间，而不是短暂获得掌控感，这个代价是值得的。</p>
+
+            <p class="dcc-note"><strong>关键词：</strong>状态机 = state machine / Zustandsautomat；追加式账本 = append-only ledger / unveränderliches Ereignisprotokoll；幂等 = idempotency / Idempotenz；恢复点 = recovery point / Wiederherstellungspunkt；固定点审查 = fixed-point review / Fixpunktprüfung。</p>
+          </div>
+
+          <div data-article-content="en" hidden>
+            <p>I did not want another attractive to-do list. I wanted a system that could answer four questions: What did I commit to? What am I doing now? Where did the time go? Where should I continue tomorrow?</p>
+            <h2>The framework</h2>
+            <p>The product is organized as a state machine: Check-in limits the day to three outcomes; Focus permits one in-progress task and one running timer; Checkout records output, remaining estimate and the next action; Daily Close produces an immutable snapshot. An append-only ledger preserves starts, pauses, resumptions, checkouts and corrections instead of overwriting history.</p>
+            <p>Semantic commands use stable IDs, idempotency keys and optimistic versions. SQLite is the local authority today, but the domain boundary can later support authentication and an online database without redefining what “start”, “pause” or “checkout” means.</p>
+            <h2>The observable cost</h2>
+            <p>The core implementation commits span about 75 minutes; including the later readability correction, about 86 minutes. This excludes earlier discovery, prototypes and specification work, so it is not total labour. The result involved 10 commits, 35 automated tests, 22 changed files and roughly 7,580 added lines of code and tests. No reliable model/API billing record was available, so no monetary cost is invented.</p>
+            <p>The expensive work was not the interface. It was enforcing one timer across old and new systems, preserving a database during failed migration, recovering an uncertain legacy segment, splitting work across midnight, and making retries create one fact rather than two.</p>
+            <h2>Benefits and disadvantages</h2>
+            <p>The system survives reloads and service restarts, explains estimate gaps, preserves old tasks and keeps personal data on the Mac. In exchange, it has more code than a CRUD task app, requires disciplined checkout, temporarily gives up unauthenticated phone access and must maintain migration logic as a permanent product feature.</p>
+            <p>Automatic trusted synchronization with mail, calendars, Notes, Voice Collector, Books and browser history is not finished. The initial version completes the manual daily loop; it does not pretend that planned connectors are already live.</p>
+            <h2>What the development taught me</h2>
+            <p>Twenty-eight green tests did not reveal that old and new ledgers could each run a timer. Review did. Later review found a schema-6 upgrade edge that could keep an old timer open forever. The final version reached schema 7 and 35 tests.</p>
+            <p>Then the human acceptance test found something simpler: much of the secondary text was too small. The system passed recovery and mobile-width gates, yet it was uncomfortable to read. Body and task text moved to 18px, labels to 15px and controls to 17px with 48px targets.</p>
+            <blockquote>Automation proves that software respects its rules. A human body proves that the product is actually usable.</blockquote>
+            <h2>Conclusion</h2>
+            <p>The framework's value is a trustworthy chain of responsibility across a day. It costs more code, a slower first release and stricter habits. For long-term learning about one's own time, that cost is more honest than a simpler tool that silently corrupts its history.</p>
+          </div>
+
+          <div data-article-content="de" hidden>
+            <p>Ich wollte keine weitere schöne Aufgabenliste. Das System sollte vier Fragen beantworten: Wozu habe ich mich verpflichtet? Woran arbeite ich jetzt? Wohin ging die Zeit? Wo mache ich morgen weiter?</p>
+            <h2>Das Framework</h2>
+            <p>Das Produkt ist als Zustandsautomat aufgebaut: Check-in begrenzt den Tag auf drei Ergebnisse; Focus erlaubt genau eine laufende Aufgabe und einen Timer; Checkout dokumentiert Ergebnis, Restschätzung und nächsten Schritt; Daily Close erzeugt einen unveränderlichen Tages-Snapshot. Ein append-only Ereignisprotokoll bewahrt Start, Pause, Fortsetzung, Checkout und Korrektur.</p>
+            <p>Semantische Befehle verwenden stabile IDs, Idempotenzschlüssel und optimistische Versionen. Heute ist SQLite die lokale Autorität. Später kann dieselbe Domänengrenze Anmeldung und Online-Datenbank tragen, ohne „Start“, „Pause“ oder „Checkout“ neu zu definieren.</p>
+            <h2>Der messbare Aufwand</h2>
+            <p>Zwischen dem ersten Laufzeit-Commit und der letzten Migrationskorrektur lagen ungefähr 75 Minuten; mit der späteren Lesbarkeitskorrektur etwa 86 Minuten. Frühere Klärung, Prototypen und Spezifikation sind darin nicht enthalten. Das Ergebnis umfasst 10 Commits, 35 automatisierte Tests, 22 geänderte Dateien und ungefähr 7.580 neue Code- und Testzeilen. Für Modell- oder API-Kosten lag keine verlässliche Abrechnung vor.</p>
+            <p>Teuer war nicht die Oberfläche. Teuer waren ein global eindeutiger Timer, sichere Migration, Wiederherstellung unsicherer Alt-Segmente, Zeitaufteilung über Mitternacht und idempotente Wiederholungen.</p>
+            <h2>Vorteile und Nachteile</h2>
+            <p>Das System übersteht Browser- und Dienstneustarts, erklärt Schätzabweichungen, übernimmt alte Aufgaben und hält persönliche Daten auf dem Mac. Dafür ist es größer als eine CRUD-App, verlangt konsequentes Checkout, verzichtet vorerst auf ungeschützten Smartphone-Zugriff und muss Migration dauerhaft als Produktfunktion pflegen.</p>
+            <p>Die vertrauenswürdige automatische Synchronisierung mit E-Mail, Kalender, Notes, Voice Collector, Books und Browser-Historie ist noch nicht abgeschlossen. Die erste Version liefert den manuellen Tageskreislauf und behauptet nicht, dass geplante Konnektoren bereits live sind.</p>
+            <h2>Die wichtigste Erfahrung</h2>
+            <p>28 grüne Tests übersahen, dass altes und neues System jeweils einen Timer starten konnten. Reviews fanden diesen Fehler und später einen engen Schema-6-Migrationsfall. Die finale Version erreichte Schema 7 und 35 Tests.</p>
+            <p>Danach zeigte die menschliche Abnahme ein einfacheres Problem: Hilfstexte waren zu klein. Obwohl Wiederherstellung und mobile Breite geprüft waren, war die Seite anstrengend zu lesen. Text und Aufgaben wurden auf 18px, Labels auf 15px und Bedienelemente auf 17px mit 48px Höhe vergrößert.</p>
+            <blockquote>Automatisierung beweist, dass Software ihre Regeln einhält. Der menschliche Körper beweist, dass das Produkt tatsächlich benutzbar ist.</blockquote>
+            <h2>Fazit</h2>
+            <p>Der eigentliche Wert ist eine vertrauenswürdige Verantwortungskette durch den Tag. Sie kostet mehr Code, einen langsameren ersten Release und strengere Gewohnheiten. Für langfristiges Lernen über die eigene Zeit ist dieser Preis ehrlicher als ein einfacheres Werkzeug, das seine Geschichte unbemerkt verfälscht.</p>
+          </div>
+        </div>
+
+        <section class="article-tools" data-current-post="daily-command-center-local-first-retrospective.html">
+          <a class="tool-link" href="../index.html">返回列表</a>
+          <button type="button" data-copy-current>复制链接</button>
+          <button type="button" data-save-read>稍后读</button>
+        </section>
+        <section class="article-subscribe" aria-label="订阅更新" data-lang="zh">
+          <div class="subscribe-lang-switch" aria-label="Subscription language">
+            <button type="button" class="active" data-subscribe-lang="zh" aria-pressed="true">中文</button><button type="button" data-subscribe-lang="en" aria-pressed="false">EN</button><button type="button" data-subscribe-lang="de" aria-pressed="false">DE</button>
+          </div>
+          <h2 class="sub-lang sub-zh">喜欢这篇文章？订阅后续更新</h2><h2 class="sub-lang sub-en">Like this article? Subscribe for future updates</h2><h2 class="sub-lang sub-de">Gefällt Ihnen dieser Beitrag? Updates abonnieren</h2>
+          <p class="sub-lang sub-zh">留下邮箱，新文章和实践更新后，我会优先通知你。</p><p class="sub-lang sub-en">Leave your email to receive new articles and project updates.</p><p class="sub-lang sub-de">E-Mail eintragen und neue Artikel sowie Projektupdates erhalten.</p>
+          <form data-subscribe-form name="opc-subscribe" method="POST" data-netlify="true" netlify-honeypot="company">
+            <input type="hidden" name="form-name" value="opc-subscribe"><input type="text" name="company" tabindex="-1" autocomplete="off" hidden>
+            <input name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+            <button type="submit" class="sub-lang sub-zh">订阅</button><button type="submit" class="sub-lang sub-en">Subscribe</button><button type="submit" class="sub-lang sub-de">Abonnieren</button>
+            <label class="subscribe-consent"><input name="consent" type="checkbox" data-subscribe-consent required><span class="sub-lang sub-zh">我同意接收 OPC TechBridge 的更新邮件，可随时邮件退订。</span><span class="sub-lang sub-en">I agree to receive OPC TechBridge updates and can unsubscribe by email.</span><span class="sub-lang sub-de">Ich stimme OPC-TechBridge-Updates zu. Abmeldung ist per E-Mail möglich.</span></label>
+          </form>
+          <p class="subscribe-status" data-subscribe-status role="status" aria-live="polite"></p>
+        </section>
+        <section class="related-section" aria-label="继续阅读"><h2>继续阅读</h2><div class="related-grid" data-related-posts></div></section>
+      </article>
+      <footer class="footer">Yijian Notes | Local-first personal systems</footer>
+    </div>
+    <div class="toast" data-toast hidden></div>
+    <script src="../content.js"></script><script src="../site.js"></script><script src="../article-language.js"></script><script src="../../assets/subscribe.js"></script>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Daily Command Center architecture</title>
+  <desc id="desc">Check-in, Focus, Checkout and Daily Close supported by a local event ledger and recovery point.</desc>
+  <rect width="1200" height="630" fill="#f5f0e5"/>
+  <rect x="50" y="48" width="1100" height="534" rx="20" fill="#17302f"/>
+  <text x="92" y="112" fill="#8fd2c7" font-family="Arial,sans-serif" font-size="23" font-weight="700" letter-spacing="3">LOCAL-FIRST PERSONAL SYSTEM</text>
+  <text x="92" y="170" fill="#ffffff" font-family="Georgia,serif" font-size="46">A day that can be explained and recovered</text>
+  <g font-family="Arial,sans-serif">
+    <g transform="translate(92 235)">
+      <rect width="210" height="126" rx="14" fill="#fff"/>
+      <text x="24" y="42" fill="#0d6b63" font-size="22" font-weight="700">01 · CHECK-IN</text>
+      <text x="24" y="77" fill="#505955" font-size="17">Capacity</text>
+      <text x="24" y="103" fill="#505955" font-size="17">Three outcomes</text>
+    </g>
+    <text x="324" y="305" fill="#e56b47" font-size="34">→</text>
+    <g transform="translate(370 235)">
+      <rect width="210" height="126" rx="14" fill="#fff"/>
+      <text x="24" y="42" fill="#0d6b63" font-size="22" font-weight="700">02 · FOCUS</text>
+      <text x="24" y="77" fill="#505955" font-size="17">One task</text>
+      <text x="24" y="103" fill="#505955" font-size="17">One timer</text>
+    </g>
+    <text x="602" y="305" fill="#e56b47" font-size="34">→</text>
+    <g transform="translate(648 235)">
+      <rect width="210" height="126" rx="14" fill="#fff"/>
+      <text x="24" y="42" fill="#0d6b63" font-size="22" font-weight="700">03 · CHECKOUT</text>
+      <text x="24" y="77" fill="#505955" font-size="17">Evidence</text>
+      <text x="24" y="103" fill="#505955" font-size="17">Next action</text>
+    </g>
+    <text x="880" y="305" fill="#e56b47" font-size="34">→</text>
+    <g transform="translate(926 235)">
+      <rect width="182" height="126" rx="14" fill="#fff"/>
+      <text x="21" y="42" fill="#0d6b63" font-size="20" font-weight="700">04 · CLOSE</text>
+      <text x="21" y="77" fill="#505955" font-size="17">Snapshot</text>
+      <text x="21" y="103" fill="#505955" font-size="17">Let work end</text>
+    </g>
+    <rect x="92" y="416" width="1016" height="105" rx="14" fill="#22423f"/>
+    <circle cx="139" cy="468" r="22" fill="#e56b47"/>
+    <path d="M130 468h18M139 459v18" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+    <text x="178" y="458" fill="#8fd2c7" font-size="19" font-weight="700">APPEND-ONLY LEDGER · SQLITE · SCHEMA 7</text>
+    <text x="178" y="490" fill="#fff" font-size="18">Immutable facts · idempotent commands · migration recovery point</text>
+  </g>
+  <text x="92" y="556" fill="#b9c9c5" font-family="Arial,sans-serif" font-size="16">YIJIAN_NOTES · 2026</text>
+</svg>

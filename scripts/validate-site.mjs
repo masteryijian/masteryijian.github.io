@@ -18,6 +18,7 @@ const entrypoints = [
   "blog/index.html",
   "blog/about.html",
   "blog/posts/hwk-elektro-gruendung-direkteintragung.html",
+  "blog/posts/daily-command-center-local-first-retrospective.html",
   "blog/posts/fde-interview-preparation-roadmap.html",
   "blog/posts/voice-collector-local-first-architecture.html",
   "blog/posts/lili-glucose-app-design-retrospective.html",

@@ -1,5 +1,14 @@
 window.blogPosts = [
   {
+    title: "把一天做成可恢复的系统：Daily Command Center 开发复盘",
+    date: "2026-07-23",
+    category: "Engineering",
+    read: "11 min",
+    href: "./posts/daily-command-center-local-first-retrospective.html",
+    image: "./assets/daily-command-center-architecture.svg",
+    summary: "从 Check-in、Focus、Checkout 和 Daily Close 的状态机出发，复盘 10 个提交、35 项测试和多轮固定点审查背后的框架优势、真实成本、收益、代价与迁移经验。"
+  },
+  {
     title: "HWK 创业路线图（二）：电气工程师如何不重做 Ausbildung 进入 Elektrotechniker-Handwerk",
     date: "2026-07-22",
     category: "Handwerk",
