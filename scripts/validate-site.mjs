@@ -22,6 +22,7 @@ const entrypoints = [
   "blog/posts/fde-interview-preparation-roadmap.html",
   "blog/posts/voice-collector-local-first-architecture.html",
   "blog/posts/lili-glucose-app-design-retrospective.html",
+  "blog/posts/if-i-die-spouse-protection-guide.html",
   "blog/posts/asmax-europe-market-entry-2026.html",
   "blog/posts/geburt-stadtklinikum-karlsruhe-eltern-guide.html",
   "blog/posts/hwk-karlsruhe-gruendung-elektrotechnik.html",

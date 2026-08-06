@@ -1,5 +1,14 @@
 window.blogPosts = [
   {
+    title: "如果我先走：三地生活里的配偶保护清单",
+    date: "2026-08-06",
+    category: "Life",
+    read: "12 min",
+    href: "./posts/if-i-die-spouse-protection-guide.html",
+    image: "./assets/legacy-planning.svg",
+    summary: "在德国、美国、中国三地生活的家庭，如果一方去世，另一半如何保住身份、钱、医保与继续生活的能力：受益人、遗嘱、遗属福利、死亡文件夹与 30/90/365 天行动清单。"
+  },
+  {
     title: "把一天做成可恢复的系统：Daily Command Center 开发复盘",
     date: "2026-07-23",
     category: "Engineering",

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f6f4ef"/>
+  <rect x="80" y="70" width="1040" height="490" rx="28" fill="#1f2937"/>
+  <circle cx="180" cy="205" r="70" fill="none" stroke="#e2b45c" stroke-width="8"/>
+  <line x1="180" y1="180" x2="180" y2="245" stroke="#e2b45c" stroke-width="8" stroke-linecap="round"/>
+  <line x1="155" y1="205" x2="205" y2="205" stroke="#e2b45c" stroke-width="8" stroke-linecap="round"/>
+  <path d="M620 230 L520 305 L585 305 L540 380 L640 305 L575 305 Z" fill="#e2b45c"/>
+  <text x="620" y="450" text-anchor="middle" fill="#f6f4ef" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="44" font-weight="700">如果我先走</text>
+  <text x="620" y="505" text-anchor="middle" fill="#c9d2dd" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="24">身后保障与配偶保护 · 德国 / 美国 / 中国</text>
+</svg>
