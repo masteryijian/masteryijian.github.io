@@ -1,0 +1,38 @@
+
+.book-intro { display: flex; gap: 28px; align-items: flex-start; margin: 30px 0 42px; }
+.book-intro img.book-cover { width: 210px; border-radius: 8px; box-shadow: 0 12px 30px rgba(0,0,0,.18); }
+.book-intro h1 { font-size: 40px; margin: 0 0 10px; color: var(--ink); }
+.book-intro p { font-size: 17px; line-height: 1.7; color: #242424; }
+.book-download { display: inline-block; margin-top: 10px; padding: 10px 16px; background: var(--ink);
+  color: var(--white); border-radius: 8px; text-decoration: none; }
+.book-howto { background: var(--soft); border-left: 5px solid var(--accent-2); padding: 18px 22px;
+  margin: 0 0 38px; border-radius: 0 10px 10px 0; }
+.book-howto h2 { margin-top: 0; }
+.book-toc { margin-bottom: 46px; }
+.book-vol { margin: 0 0 30px; }
+.book-vol h2 { border-bottom: 2px solid var(--line); padding-bottom: 8px; }
+.book-chapters { list-style: none; padding: 0; margin: 12px 0 0; }
+.book-chapters li { margin: 0; }
+.book-chapters a { display: flex; justify-content: space-between; gap: 14px; padding: 10px 4px;
+  border-bottom: 1px solid var(--line); text-decoration: none; color: #242424; }
+.book-chapters a:hover { color: var(--accent); }
+.book-chapters .ch-read { color: var(--muted); font-size: 13px; white-space: nowrap; }
+.book-nav { display: flex; flex-wrap: wrap; gap: 10px; padding: 18px 0; }
+.book-nav a { padding: 9px 14px; border: 1px solid var(--line); border-radius: 8px;
+  text-decoration: none; color: var(--ink); background: var(--white); font-size: 14px; }
+.book-nav a:hover { border-color: var(--accent); color: var(--accent); }
+.book-nav-index { margin: 0 auto; }
+.book-license { border-top: 1px solid var(--line); margin-top: 24px; padding: 16px 0 30px;
+  color: var(--muted); font-size: 13px; }
+.article-body h3 { font-size: 23px; margin: 30px 0 8px; color: var(--ink); }
+.article-body h4 { font-size: 19px; margin: 22px 0 6px; }
+.article-body pre { background: #12233a; color: #e8ecf1; padding: 16px 18px; border-radius: 10px;
+  overflow-x: auto; font-size: 14px; line-height: 1.55; }
+.article-body pre code { background: none; color: inherit; padding: 0; }
+.article-body img { max-width: 100%; height: auto; border-radius: 8px; }
+.article-body .chapter-sep { margin: 34px 0; }
+.article-cover { max-height: 380px; width: 100%; object-fit: cover; border-radius: 12px; }
+@media (max-width: 820px) {
+  .book-intro { flex-direction: column; }
+  .book-chapters a { flex-direction: column; gap: 2px; }
+}

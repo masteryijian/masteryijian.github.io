@@ -9,6 +9,24 @@ window.blogPosts = [
     summary: "从 Check-in、Focus、Checkout 和 Daily Close 的状态机出发，复盘 10 个提交、35 项测试和多轮固定点审查背后的框架优势、真实成本、收益、代价与迁移经验。"
   },
   {
+    title: "工业文明地图：一本查得到、连得起来、经得起更新的工业世界地图集",
+    date: "2026-08-06",
+    category: "Book",
+    read: "全书 · 29 章",
+    href: "./books/industrial-atlas/index.html",
+    image: "./assets/industrial-atlas-cover.png",
+    summary: "五卷 22 章 + 模板索引与附录：全球工业地图、中国工业地图、联系与流动、规律与启发、AI 时代的工业文明。按章节分页发布，可检索、可更新。"
+  },
+  {
+    title: "人人都能用德语：六个月起步的长期主义实践",
+    date: "2026-08-06",
+    category: "Book",
+    read: "全书 · 13 章",
+    href: "./books/index.html",
+    image: "../assets/books/cover.png",
+    summary: "参考李笑来《人人都能用英语》的方法论：起点、口语、朗读、词典、语法、精读、写作、叮嘱，含信息茧房与突破方向。按章节分页免费阅读，附整本 PDF 下载。"
+  },
+  {
     title: "HWK 创业路线图（二）：电气工程师如何不重做 Ausbildung 进入 Elektrotechniker-Handwerk",
     date: "2026-07-22",
     category: "Handwerk",
@@ -16,15 +34,6 @@ window.blogPosts = [
     href: "./posts/hwk-elektro-gruendung-direkteintragung.html",
     image: "./assets/hwk-elektro-gruendung-roadmap.jpg",
     summary: "结合 HWK 顾问回复和官方规则，梳理 § 7 Abs. 2 工程师直登 Handwerksrolle、Bauamt 地址核实、Businessplan、Gewerbeanmeldung、Installateurverzeichnis 与 TREI 的正确顺序。"
-  },
-  {
-    title: "FDE 面试准备：不是会调用模型，而是能把结果交付给客户",
-    date: "2026-07-18",
-    category: "Career",
-    read: "12 min",
-    href: "./posts/fde-interview-preparation-roadmap.html",
-    image: "./assets/fde-interview-roadmap.svg",
-    summary: "结合 Superlinear 对 Cresta Head of FDE 的访谈与手写笔记，按 P0/P1/P2 拆解 Python、测试、Agent、部署、客户沟通和产品化能力，并给出四周训练计划与面试证据清单。"
   },
   {
     title: "Voice Collector：真正难的不是录音，而是让每台设备可靠地接力",

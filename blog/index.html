@@ -6,6 +6,15 @@
     <title>Yijian Notes | OPC Blog</title>
     <meta name="description" content="何一建关于中德技术落地、OPC 一人公司、德国市场拜访和自动化工作流的博客。" />
     <link rel="stylesheet" href="./styles.css" />
+    <style>
+      .book-feature { margin: 0 0 28px; border: 2px solid var(--line); background: var(--white); }
+      .book-feature-link { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 22px; padding: 20px; text-decoration: none; color: inherit; align-items: center; }
+      .book-feature-link img { width: 100%; border: 1px solid var(--line); display: block; }
+      .book-feature .badge { display: inline-block; background: var(--ink); color: var(--paper); font-size: 12px; padding: 3px 9px; margin-bottom: 10px; font-weight: 700; letter-spacing: 0.06em; }
+      .book-feature h2 { font-size: 24px; margin: 0 0 7px; color: var(--ink); }
+      .book-feature p { margin: 0; color: var(--muted); font-size: 15px; }
+      @media (max-width: 640px) { .book-feature-link { grid-template-columns: 1fr; } }
+    </style>
   </head>
   <body>
     <div class="site-shell">
@@ -13,6 +22,8 @@
         <a class="brand" href="./index.html">YIJIAN_NOTES</a>
         <nav aria-label="Blog navigation">
           <a href="./index.html">博客首页</a>
+          <a href="./books/industrial-atlas/index.html">工业文明地图</a>
+          <a href="./books/index.html">德语书</a>
           <a href="./about.html">关于博客</a>
           <a href="../lab-product.html">产品页</a>
         </nav>
@@ -35,6 +46,17 @@
           </aside>
         </section>
 
+        <section class="book-feature" aria-label="德语书推荐">
+          <a class="book-feature-link" href="./books/index.html">
+            <img src="../assets/books/cover.png" alt="人人都能用德语 封面" />
+            <div>
+              <span class="badge">新书 · 免费阅读</span>
+              <h2>《人人都能用德语》：六个月起步的长期主义实践</h2>
+              <p>参考李笑来《人人都能用英语》的方法论，按章节分页免费阅读，附整本 PDF 下载。点击进入图书目录 →</p>
+            </div>
+          </a>
+        </section>
+
         <section class="controls" aria-label="文章筛选">
           <input id="search" type="search" placeholder="搜索：OPC、德国市场、自动化、客户拜访..." />
           <div class="filters">
@@ -42,6 +64,7 @@
             <button type="button" data-category="OPC">OPC</button>
             <button type="button" data-category="Market">德国市场</button>
             <button type="button" data-category="Engineering">工程</button>
+            <button type="button" data-category="Book">书</button>
             <button type="button" data-category="Sales">销售</button>
           </div>
           <div class="utility-actions">
