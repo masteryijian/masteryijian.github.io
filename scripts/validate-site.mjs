@@ -34,8 +34,6 @@ const entrypoints = [
   "blog/posts/germany-visit-materials.html",
   "blog/posts/automation-to-business.html",
   "blog/posts/china-supply-chain-germany.html",
-  "blog/posts/browsing-history-information-cocoon-portal.html",
-  "blog/portal.html"
 ];
 
 const failures = [];
