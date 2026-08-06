@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>每日信息门户 · 2026-08-06</title>
+  <style>
+    :root { --ink:#1a1a1a; --muted:#666; --line:#e2e2e2; --bg:#fafafa; --accent:#1f618d; --p0:#c0392b; --p1:#b9770e; --p2:#1f618d; --p3:#6b6b6b; }
+    * { box-sizing:border-box; }
+    body { margin:0; font:21px/1.6 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif; color:var(--ink); background:var(--bg); }
+    .wrap { max-width:1000px; margin:0 auto; padding:32px 24px 80px; }
+    h1 { font-size:34px; margin:0 0 6px; }
+    .sub { color:var(--muted); margin:0 0 18px; font-size:21px; line-height:1.6; }
+    nav { font-size:20px; margin:10px 0 8px; line-height:2.2; }
+    nav a { margin-right:12px; color:var(--accent); text-decoration:none; }
+    nav a:hover { text-decoration:underline; }
+    .toolbar { display:flex; gap:12px; margin:16px 0; flex-wrap:wrap; }
+    input { flex:1; min-width:240px; padding:10px 12px; border:1px solid var(--line); border-radius:6px; font-size:21px; }
+    button { padding:8px 12px; border:1px solid var(--line); border-radius:6px; background:#fff; cursor:pointer; font-size:20px; }
+    button.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+    .routine { background:#fff; border:1px solid var(--line); border-radius:8px; padding:18px 22px; margin:0 0 28px; font-size:21px; line-height:1.7; }
+    .routine ol { margin:10px 0 0; padding-left:24px; }
+    .routine li { margin:6px 0; }
+    section { margin:38px 0; }
+    h2 { font-size:28px; border-bottom:2px solid #333; padding-bottom:6px; margin:0 0 14px; }
+    .legend { font-size:19px; color:var(--muted); margin:0 0 12px; }
+    .badge { display:inline-block; min-width:42px; text-align:center; border-radius:4px; color:#fff; font-size:18px; padding:2px 7px; margin-right:10px; }
+    .p0 { background:var(--p0); } .p1 { background:var(--p1); } .p2 { background:var(--p2); } .p3 { background:var(--p3); }
+    .row { display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 12px; padding:14px 6px; border-bottom:1px solid var(--line); }
+    .row:hover { background:#f1f1f1; }
+    .name { font-weight:600; color:var(--accent); text-decoration:none; }
+    .name:hover { text-decoration:underline; }
+    .desc { color:var(--muted); font-size:21px; flex:1 1 320px; }
+    .meta { font-size:19px; color:#999; }
+    .meta a { color:#999; }
+    .freq, .lang { font-size:19px; color:#555; }
+    footer { margin-top:50px; color:var(--muted); font-size:19px; line-height:1.7; border-top:1px solid var(--line); padding-top:18px; }
+    .hidden { display:none !important; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>每日信息门户</h1>
+    <p class="sub">2026-08-06 · 基于 Safari(11,474) / Chrome(4,883) / Arc(20,670) 三浏览器分析 · 目标：补德语专业输入、合规一手源、社区验证</p>
+  </header>
+
+  <nav>
+    <a href="#daily">每日必刷</a>
+    <a href="#de">德语专业</a>
+    <a href="#compliance">欧盟合规</a>
+    <a href="#community">社区验证</a>
+    <a href="#matrix">语言矩阵</a>
+    <a href="#contrarian">反共识</a>
+    <a href="#job">求职</a>
+    <a href="#tools">工作台</a>
+    <a href="#life">生活信仰</a>
+  </nav>
+
+  <div class="toolbar">
+    <input id="q" type="search" placeholder="搜索：德语、CRA、电池、求职、RSS…">
+    <button data-p="all" class="active" onclick="setP('all',this)">全部</button>
+    <button data-p="0" onclick="setP('0',this)">P0 每日</button>
+    <button data-p="1" onclick="setP('1',this)">P1 每周</button>
+    <button data-p="2" onclick="setP('2',this)">P2 每月</button>
+    <button data-p="3" onclick="setP('3',this)">P3 按需</button>
+  </div>
+
+  <div class="routine">
+    <strong>今日顺序（约 40 分钟）</strong>
+    <ol>
+      <li>RSS 清空 15 分钟：heise + Hacker News + Simon Willison + 阮一峰</li>
+      <li>德语专业一篇 15 分钟：Elektronikpraxis / VDI nachrichten / pv magazine</li>
+      <li>社区一帖 10 分钟：Ask HN / r/PLC / EEVblog</li>
+      <li>周一加 15 分钟：Safety Gate 电子与电池分类</li>
+      <li>每月 1 日加 20 分钟：VDI/IW Ingenieurmonitor + 一个反方来源</li>
+    </ol>
+  </div>
+
+  <p class="legend">优先级：P0 每日 · P1 每周 · P2 每月 · P3 按需　语言：DE 德语 / EN 英语 / ZH 中文 / FR 法语 / JA 日语</p>
+
+  <section id="daily">
+    <h2>每日必刷</h2>
+    <div class="row" data-p="0"><span class="badge p0">P0</span><a class="name" href="https://www.heise.de" target="_blank">heise online</a><span class="lang">DE</span><span class="freq">每日</span><span class="desc">德国 IT/工程每日新闻，你的最大盲区入口</span><span class="meta"><a href="https://www.heise.de/rss/heise-top-atom.xml" target="_blank">RSS</a></span></div>
+    <div class="row" data-p="0"><span class="badge p0">P0</span><a class="name" href="https://news.ycombinator.com" target="_blank">Hacker News</a><span class="lang">EN</span><span class="freq">每日</span><span class="desc">全球技术圈真实讨论；重点看 Ask HN / Show HN</span><span class="meta"><a href="https://hnrss.org/ask" target="_blank">Ask RSS</a> · <a href="https://hnrss.org/show" target="_blank">Show RSS</a></span></div>
+    <div class="row" data-p="0"><span class="badge p0">P0</span><a class="name" href="https://simonwillison.net" target="_blank">Simon Willison</a><span class="lang">EN</span><span class="freq">每日/每周</span><span class="desc">AI 工具最严谨的独立评测，先测后评</span><span class="meta"><a href="https://simonwillison.net/atom/everything/" target="_blank">RSS</a></span></div>
+    <div class="row" data-p="0"><span class="badge p0">P0</span><a class="name" href="https://www.ruanyifeng.com/blog" target="_blank">阮一峰的网络日志</a><span class="lang">ZH</span><span class="freq">每周</span><span class="desc">中文科技周报，信息密度高且克制</span><span class="meta"><a href="https://www.ruanyifeng.com/blog/atom.xml" target="_blank">RSS</a></span></div>
+    <div class="row" data-p="0"><span class="badge p0">P0</span><a class="name" href="https://ec.europa.eu/safety-gate-alerts" target="_blank">EU Safety Gate</a><span class="lang">EN</span><span class="freq">每周一</span><span class="desc">官方召回数据库 = 免费竞品失败情报；扫 Electronics/Batteries</span></div>
+  </section>
+
+  <section id="de">
+    <h2>德语专业输入（最大盲区，优先补）</h2>
+    <div class="row" data-p="1"><span class="badge p1">P1</span><a class="name" href="https://www.elektronikpraxis.de" target="_blank">Elektronikpraxis</a><span class="lang">DE</span><span class="freq">每周</span><span class="desc">德国电子行业专业媒体，比 heise 更贴近你的硬件方向</span></div>
+    <div class="row" data-p="1"><span class="badge p1">P1</span><a class="name" href="https://www.automationspraxis.de" target="_blank">Automationspraxis</a><span class="lang">DE</span><span class="freq">每周</span><span class="desc">工业自动化与机器人，OpenPLC 方向的德语圈</span></div>
+    <div class="row" data-p="1"><span class="badge p1">P1</span><a class="name" href="https://www.vdi-nachrichten.com" target="_blank">VDI nachrichten</a><span class="lang">DE</span><span class="freq">每周</span><span class="desc">德国工程师行业报，能源/自动化/就业全涉及</span></div>
+    <div class="row" data-p="1"><span class="badge p1">P1</span><a class="name" href="https://www.pv-magazine.de" target="_blank">pv magazine DE</a><span class="lang">DE</span><span class="freq">每周</span><span class="desc">光伏+储能+电池法规，能源转型晴雨表</span></div>
+    <div class="row" data-p="1"><span class="badge p1">P1</span><a class="name" href="https://www.tagesschau.de" target="_blank">Tagesschau</a><span class="lang">DE</span><span class="freq">每日</span><span class="desc">德国公共广播，免费且事实核验严格</span><span class="meta"><a href="https://www.tagesschau.de/xml/rss2" target="_blank">RSS</a></span></div>
+    <div class="row" data-p="1"><span class="badge p1">P1</span><a class="name" href="https://www.reddit.com/r/arbeitsleben/" target="_blank">r/arbeitsleben</a><span class="lang">DE</span><span class="freq">每周</span><span class="desc">德国职场真实讨论：工资、裁员、面试、劳动法</span></div>
+    <div class="row" data-p="1"><span class="badge p1">P1</span><a class="name" href="https://www.reddit.com/r/Finanzen/" target="_blank">r/Finanzen</a><span class="lang">DE</span><span class="freq">每周</span><span class="desc">德国个人理财，养老/保险/税务的德式答案</span></div>
+    <div class="row" data-p="1"><span class="badge p1">P1</span><a class="name" href="https://www.karlsruhe.ihk.de" target="_blank">IHK Karlsruhe</a><span class="lang">DE</span><span class="freq">每月</span><span class="desc">本地创业/求职/法规活动，线下人脉入口</span></div>
+    <div class="row" data-p="1"><span class="badge p1">P1</span><a class="name" href="https://www.hwk-karlsruhe.de" target="_blank">HWK Karlsruhe</a><span class="lang">DE</span><span class="freq">每月</span><span class="desc">手工业协会：电工/Meister 方向，比工程师岗更缺人</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://akademie.tuv.com" target="_blank">TÜV Academy</a><span class="lang">DE</span><span class="freq">按需</span><span class="desc">CE/EMC/安全培训与证书课程</span></div>
+  </section>
+
+  <section id="compliance">
+    <h2>欧盟合规护城河（一手源）</h2>
+    <div class="row" data-p="1"><span class="badge p1">P1</span><a class="name" href="https://eur-lex.europa.eu/content/help/my-eurlex/my-rss-feeds.html" target="_blank">EUR-Lex · My RSS alerts</a><span class="lang">EN</span><span class="freq">每周</span><span class="desc">对 CRA/电池法/GPSR 建搜索提醒，修订自动推送</span></div>
+    <div class="row" data-p="1"><span class="badge p1">P1</span><a class="name" href="https://digital-strategy.ec.europa.eu/en/policies/cyber-resilience-act" target="_blank">CRA 官方页</a><span class="lang">EN</span><span class="freq">每周</span><span class="desc">记住：2026-09-11 报告义务，2027-12-11 全面适用</span></div>
+    <div class="row" data-p="1"><span class="badge p1">P1</span><a class="name" href="https://environment.ec.europa.eu/topics/waste-and-recycling/batteries_en" target="_blank">电池法规 2023/1542</a><span class="lang">EN</span><span class="freq">每月</span><span class="desc">>2kWh LMT 电池 2027-02-18 起需数字护照</span></div>
+    <div class="row" data-p="1"><span class="badge p1">P1</span><a class="name" href="https://commission.europa.eu/law/law-topic/consumer-protection-law/consumer-product-safety_en" target="_blank">GPSR 官方页</a><span class="lang">EN</span><span class="freq">每月</span><span class="desc">EU Responsible Person 是上架前提</span></div>
+    <div class="row" data-p="1"><span class="badge p1">P1</span><a class="name" href="https://craevidence.com" target="_blank">CRA Evidence</a><span class="lang">EN</span><span class="freq">每周</span><span class="desc">CRA 合规时间线追踪，比中文自媒体准确</span></div>
+    <div class="row" data-p="1"><span class="badge p1">P1</span><a class="name" href="https://www.dke.de" target="_blank">DKE（电气标准）</a><span class="lang">DE</span><span class="freq">每季度</span><span class="desc">看标准草案评论期，免费参与并影响标准</span></div>
+    <div class="row" data-p="1"><span class="badge p1">P1</span><a class="name" href="https://www.din.de" target="_blank">DIN</a><span class="lang">DE</span><span class="freq">每季度</span><span class="desc">标准目录与草案，先看范围再买正文</span></div>
+    <div class="row" data-p="1"><span class="badge p1">P1</span><a class="name" href="https://artificialintelligenceact.eu" target="_blank">EU AI Act 追踪</a><span class="lang">EN</span><span class="freq">每月</span><span class="desc">AI 法案最新进展，来自你的阅读列表</span></div>
+  </section>
+
+  <section id="community">
+    <h2>社区验证（网友已验证的失败）</h2>
+    <div class="row" data-p="1"><span class="badge p1">P1</span><a class="name" href="https://www.reddit.com/r/PLC/" target="_blank">r/PLC</a><span class="lang">EN</span><span class="freq">每周</span><span class="desc">Codesys/TIA/西门子真实项目踩坑</span></div>
+    <div class="row" data-p="1"><span class="badge p1">P1</span><a class="name" href="https://plctalk.net" target="_blank">PLCTalk</a><span class="lang">EN</span><span class="freq">每周</span><span class="desc">老牌 PLC 论坛，故障案例密度高</span></div>
+    <div class="row" data-p="1"><span class="badge p1">P1</span><a class="name" href="https://forum.kicad.org" target="_blank">KiCad 论坛</a><span class="lang">EN</span><span class="freq">每周</span><span class="desc">PCB 设计问题与评审</span></div>
+    <div class="row" data-p="1"><span class="badge p1">P1</span><a class="name" href="https://www.eevblog.com/forum/" target="_blank">EEVblog 论坛</a><span class="lang">EN</span><span class="freq">每周</span><span class="desc">硬件翻车现场，Manufacturing & Assembly 板块必看</span></div>
+    <div class="row" data-p="1"><span class="badge p1">P1</span><a class="name" href="https://www.reddit.com/r/AskElectronics/" target="_blank">r/AskElectronics</a><span class="lang">EN</span><span class="freq">每周</span><span class="desc">电路设计失败与排查</span></div>
+    <div class="row" data-p="1"><span class="badge p1">P1</span><a class="name" href="https://www.reddit.com/r/PrintedCircuitBoard/" target="_blank">r/PrintedCircuitBoard</a><span class="lang">EN</span><span class="freq">每周</span><span class="desc">PCB 评审与制造问题</span></div>
+    <div class="row" data-p="1"><span class="badge p1">P1</span><a class="name" href="https://www.reddit.com/r/ebikes/" target="_blank">r/ebikes</a><span class="lang">EN</span><span class="freq">每周</span><span class="desc">电助力车真实故障：电池、控制器、BMS</span></div>
+    <div class="row" data-p="1"><span class="badge p1">P1</span><a class="name" href="https://www.reddit.com/r/batteries/" target="_blank">r/batteries</a><span class="lang">EN</span><span class="freq">每周</span><span class="desc">电池鼓包、充电安全、法规讨论</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://www.failory.com" target="_blank">Failory</a><span class="lang">EN</span><span class="freq">每月</span><span class="desc">创业失败案例库</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://www.starterstory.com" target="_blank">Starter Story</a><span class="lang">EN</span><span class="freq">每月</span><span class="desc">真实收入数字，不是叙事</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://www.indiehackers.com" target="_blank">Indie Hackers</a><span class="lang">EN</span><span class="freq">每月</span><span class="desc">独立开发者里程碑与收入</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://www.reddit.com/r/EntrepreneurRideAlong/" target="_blank">r/EntrepreneurRideAlong</a><span class="lang">EN</span><span class="freq">每月</span><span class="desc">连载式真实创业过程</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://www.reddit.com/r/ecommerce/" target="_blank">r/ecommerce</a><span class="lang">EN</span><span class="freq">每月</span><span class="desc">电商运营与合规踩坑</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://www.reddit.com/r/AmazonSeller/" target="_blank">r/AmazonSeller</a><span class="lang">EN</span><span class="freq">每月</span><span class="desc">账号被封、下架、GPSR 罚款现场</span></div>
+  </section>
+
+  <section id="matrix">
+    <h2>语言-领域矩阵（每月扩充）</h2>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://www.v2ex.com" target="_blank">V2EX</a><span class="lang">ZH</span><span class="freq">每周</span><span class="desc">技术+副业+求职真实讨论</span><span class="meta"><a href="https://www.v2ex.com/index.xml" target="_blank">RSS</a></span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://sspai.com" target="_blank">少数派</a><span class="lang">ZH</span><span class="freq">每周</span><span class="desc">工具与效率，克制的中文科技写作</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://www.cifnews.com" target="_blank">雨果跨境</a><span class="lang">ZH</span><span class="freq">每周</span><span class="desc">跨境电商与欧盟合规的中文视角</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://www.latepost.com" target="_blank">晚点 LatePost</a><span class="lang">ZH</span><span class="freq">每周</span><span class="desc">中国科技与商业深度报道</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://www.eet-china.com" target="_blank">电子工程专辑</a><span class="lang">ZH</span><span class="freq">每周</span><span class="desc">半导体与硬件工程中文源</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://lobste.rs" target="_blank">Lobsters</a><span class="lang">EN</span><span class="freq">每周</span><span class="desc">HN 之外的工程师社区，噪声更低</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://spectrum.ieee.org" target="_blank">IEEE Spectrum</a><span class="lang">EN</span><span class="freq">每周</span><span class="desc">工程与科技深度的学院派来源</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://hackaday.com" target="_blank">Hackaday</a><span class="lang">EN</span><span class="freq">每周</span><span class="desc">硬件项目与翻车，工业味正确</span><span class="meta"><a href="https://hackaday.com/feed/" target="_blank">RSS</a></span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://newsletter.pragmaticengineer.com" target="_blank">The Pragmatic Engineer</a><span class="lang">EN</span><span class="freq">每周</span><span class="desc">大厂工程实践+裁员/薪资分析</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://importai.substack.com" target="_blank">Import AI</a><span class="lang">EN</span><span class="freq">每周</span><span class="desc">AI 行业最冷静的周报</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://www.usinenouvelle.com" target="_blank">L'Usine Nouvelle</a><span class="lang">FR</span><span class="freq">每月</span><span class="desc">法国工业与制造业</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://www.electroniques.biz" target="_blank">Électroniques</a><span class="lang">FR</span><span class="freq">每月</span><span class="desc">法国电子行业</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://xtech.nikkei.com" target="_blank">日経XTECH</a><span class="lang">JA</span><span class="freq">每月</span><span class="desc">日本制造工艺与电池技术</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://monoist.itmedia.co.jp" target="_blank">MONOist</a><span class="lang">JA</span><span class="freq">每月</span><span class="desc">日本制造与精益生产</span></div>
+  </section>
+
+  <section id="contrarian">
+    <h2>反共识校验（每月 1 日）</h2>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://www.gitclear.com" target="_blank">GitClear 报告</a><span class="lang">EN</span><span class="freq">每月</span><span class="desc">反对"AI 代码更快更好"：churn +41%、复制粘贴上升</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://metr.org" target="_blank">METR 研究</a><span class="lang">EN</span><span class="freq">每月</span><span class="desc">复杂代码库 AI 辅助反而更慢</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://www.aisnakeoil.com" target="_blank">AI Snake Oil</a><span class="lang">EN</span><span class="freq">每月</span><span class="desc">AI 炒作的对冲阅读</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://www.vdi.de/ingenieurmonitor" target="_blank">VDI/IW Ingenieurmonitor</a><span class="lang">DE</span><span class="freq">每季度</span><span class="desc">反对"到处缺工程师"：2025 Q4 失业 58,392 人创新高</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://web.arbeitsagentur.de/entgeltatlas" target="_blank">BA Entgeltatlas</a><span class="lang">DE</span><span class="freq">每月</span><span class="desc">真实薪资数据，谈判前必看</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://web.arbeitsagentur.de/berufenet" target="_blank">BA Berufenet</a><span class="lang">DE</span><span class="freq">每月</span><span class="desc">职业画像与未来趋势</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://statistik.arbeitsagentur.de" target="_blank">BA Statistik</a><span class="lang">DE</span><span class="freq">每月</span><span class="desc">《Arbeitsmarkt im Überblick》官方月报</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://merics.org" target="_blank">MERICS</a><span class="lang">EN/DE</span><span class="freq">每月</span><span class="desc">德国视角看中国，对冲中文信息源</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://www.beuc.eu" target="_blank">BEUC（消费者方）</a><span class="lang">EN</span><span class="freq">每月</span><span class="desc">消费者组织对欧盟法规的批评</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://www.digitaleurope.org" target="_blank">DIGITALEUROPE（行业方）</a><span class="lang">EN</span><span class="freq">每月</span><span class="desc">科技行业对同一部法的反对立场</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://noyb.eu" target="_blank">noyb（隐私方）</a><span class="lang">EN</span><span class="freq">每月</span><span class="desc">隐私维权组织的第三视角</span></div>
+    <div class="row" data-p="2"><span class="badge p2">P2</span><a class="name" href="https://www.bundesnetzagentur.de" target="_blank">Bundesnetzagentur</a><span class="lang">DE</span><span class="freq">每月</span><span class="desc">电网与能源官方数据，验证"能源转型"叙事</span></div>
+  </section>
+
+  <section id="job">
+    <h2>求职与职业（目标申请优先）</h2>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://jobs.pse.kit.edu" target="_blank">KIT 职位系统</a><span class="lang">DE/EN</span><span class="freq">每周</span><span class="desc">科研/技术/工程岗位，你的目标型来源</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://www.arbeitsagentur.de/jobsuche" target="_blank">BA Jobbörse</a><span class="lang">DE</span><span class="freq">每周</span><span class="desc">官方职位库，含 Vermittlungsvorschläge</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://www.stepstone.de" target="_blank">StepStone</a><span class="lang">DE</span><span class="freq">减频</span><span class="desc">历史访问 1,242 次的大户；建议每周一次，别当内容刷</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://www.workwise.io" target="_blank">Workwise</a><span class="lang">DE</span><span class="freq">每周</span><span class="desc">德国中小企业与技术岗位</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://www.linkedin.com/jobs/" target="_blank">LinkedIn Jobs</a><span class="lang">EN/DE</span><span class="freq">每周</span><span class="desc">职位 + 人脉维护</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://www.xing.com/jobs" target="_blank">XING Jobs</a><span class="lang">DE</span><span class="freq">每周</span><span class="desc">德国本地职业网络</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://www.enbw.com/karriere/" target="_blank">EnBW 招聘</a><span class="lang">DE</span><span class="freq">每周</span><span class="desc">能源转型方向雇主，你的目标之一</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://www.bruker.com/en/careers.html" target="_blank">Bruker 招聘</a><span class="lang">EN</span><span class="freq">每周</span><span class="desc">精密仪器/科研设备方向</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://www.jobvector.de" target="_blank">jobvector</a><span class="lang">DE</span><span class="freq">每周</span><span class="desc">技术/IT/科研工程岗位</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://join.com" target="_blank">JOIN</a><span class="lang">EN/DE</span><span class="freq">每周</span><span class="desc">公司直招页面</span></div>
+  </section>
+
+  <section id="tools">
+    <h2>工作台与工具</h2>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://chatgpt.com" target="_blank">ChatGPT / Codex</a><span class="lang">EN</span><span class="freq">按需</span><span class="desc">初稿和脚手架；终审交给一手源</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://notebooklm.google.com" target="_blank">NotebookLM</a><span class="lang">EN</span><span class="freq">按需</span><span class="desc">基于自有资料的问答与总结</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://gemini.google.com" target="_blank">Gemini</a><span class="lang">EN</span><span class="freq">按需</span><span class="desc">Google 生态 AI 助手</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://claude.ai" target="_blank">Claude</a><span class="lang">EN</span><span class="freq">按需</span><span class="desc">长文分析与写作</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://github.com" target="_blank">GitHub</a><span class="lang">EN</span><span class="freq">按需</span><span class="desc">代码、issue、社区验证</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://app.netlify.com" target="_blank">Netlify</a><span class="lang">EN</span><span class="freq">按需</span><span class="desc">网站部署与状态</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://admin.shopify.com" target="_blank">Shopify 后台</a><span class="lang">EN</span><span class="freq">按需</span><span class="desc">商店与产品管理</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://docs.google.com" target="_blank">Google Docs / Sheets</a><span class="lang">EN</span><span class="freq">按需</span><span class="desc">文档与协作</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://www.deepl.com" target="_blank">DeepL</a><span class="lang">DE/EN</span><span class="freq">按需</span><span class="desc">从写作拐杖降级为校对工具</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://calendly.com" target="_blank">Calendly</a><span class="lang">EN</span><span class="freq">按需</span><span class="desc">预约与面试安排</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://teams.microsoft.com" target="_blank">Microsoft Teams</a><span class="lang">EN/DE</span><span class="freq">按需</span><span class="desc">会议与协作</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://openrouter.ai" target="_blank">OpenRouter</a><span class="lang">EN</span><span class="freq">按需</span><span class="desc">多模型 API 管理</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://omenapi.com/dashboard" target="_blank">OmenAPI</a><span class="lang">EN</span><span class="freq">按需</span><span class="desc">API 密钥与用量</span></div>
+  </section>
+
+  <section id="life">
+    <h2>生活、信仰与健康</h2>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://kitaportal.karlsruhe.de" target="_blank">Karlsruhe 市图书馆</a><span class="lang">DE</span><span class="freq">每周</span><span class="desc">免费合法电子书，替代 z-library 的第一选择</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://app.logos.com" target="_blank">Logos Bible</a><span class="lang">EN/ZH</span><span class="freq">每日</span><span class="desc">你最大的深度阅读支柱，保持</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://wd.bible" target="_blank">微读圣经</a><span class="lang">ZH</span><span class="freq">每日</span><span class="desc">中文圣经快速阅读</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://www.biblegateway.com" target="_blank">Bible Gateway</a><span class="lang">EN</span><span class="freq">按需</span><span class="desc">多版本对照</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://www.immobilienscout24.de" target="_blank">ImmobilienScout24</a><span class="lang">DE</span><span class="freq">找房期</span><span class="desc">Karlsruhe 周边租房，找房期集中处理</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://www.lastminute.de" target="_blank">lastminute.de</a><span class="lang">DE</span><span class="freq">按需</span><span class="desc">旅行，设定预算再刷</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://www.booking.com" target="_blank">Booking</a><span class="lang">EN/DE</span><span class="freq">按需</span><span class="desc">住宿预订</span></div>
+    <div class="row" data-p="3"><span class="badge p3">P3</span><a class="name" href="https://www.sportschau.de" target="_blank">Sportschau</a><span class="lang">DE</span><span class="freq">按需</span><span class="desc">体育新闻，控制在比赛日</span></div>
+  </section>
+
+  <footer>
+    <p><strong>说明：</strong>P0 每日 / P1 每周 / P2 每月 / P3 按需。本页基于 2026-08-06 三浏览器分析整理，只保留官方与社区一手入口。</p>
+    <p><strong>修正记录：</strong>z-library 与盗版影视入口已移除，改用 Karlsruhe 市图书馆；StepStone 保留但标注减频；娱乐建议 ≤20%；德语专业输入是当前最大盲区。</p>
+    <p>本地文件，无网络请求、无统计、无追踪。</p>
+  </footer>
+
+</div>
+
+<script>
+  var currentP = 'all';
+  function setP(p, btn) {
+    currentP = p;
+    document.querySelectorAll('.toolbar button').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    refresh();
+  }
+  function refresh() {
+    var q = document.getElementById('q').value.trim().toLowerCase();
+    document.querySelectorAll('.row').forEach(function(r){
+      var okP = currentP === 'all' || r.getAttribute('data-p') === currentP;
+      var okQ = !q || (r.textContent || '').toLowerCase().indexOf(q) !== -1;
+      r.classList.toggle('hidden', !(okP && okQ));
+    });
+  }
+  document.getElementById('q').addEventListener('input', refresh);
+</script>
+
+</body>
+</html>

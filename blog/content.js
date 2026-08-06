@@ -1,5 +1,14 @@
 window.blogPosts = [
   {
+    title: "我解剖了自己的浏览历史：信息茧房不在算法里，在我的订阅列表里",
+    date: "2026-08-06",
+    category: "Engineering",
+    read: "10 min",
+    href: "./posts/browsing-history-information-cocoon-portal.html",
+    image: "./assets/browsing-cocoon-portal.svg",
+    summary: "三个浏览器、约 3.7 万条 URL，以及一个每天 40 分钟的信息门户：用信息审计替代直觉，把德语专业输入、欧盟合规一手源和社区验证排进日常。"
+  },
+  {
     title: "把一天做成可恢复的系统：Daily Command Center 开发复盘",
     date: "2026-07-23",
     category: "Engineering",

@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>我解剖了自己的浏览历史：信息茧房不在算法里，在我的订阅列表里</title>
+    <meta name="description" content="三个浏览器、约 3.7 万条 URL，以及一个每天 40 分钟的信息门户：把信息审计做成可复用的方法。" />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <div class="article-shell">
+      <header class="topbar">
+        <a class="brand" href="../index.html">YIJIAN_NOTES</a>
+        <nav><a href="../index.html">文章列表</a><a href="../about.html">关于博客</a><a href="../../lab-product.html">产品页</a></nav>
+      </header>
+      <article>
+        <header class="article-head">
+          <div class="article-language-switch" data-article-lang-switch aria-label="文章语言 / Article language / Artikelsprache">
+            <button type="button" class="active" data-article-lang="zh" aria-pressed="true">中文</button>
+            <button type="button" data-article-lang="en" aria-pressed="false">EN</button>
+            <button type="button" data-article-lang="de" aria-pressed="false">DE</button>
+          </div>
+          <div data-article-content="zh">
+            <div class="meta"><span>2026-08-06</span><span class="tag">Engineering</span><span>10 min</span></div>
+            <h1>我解剖了自己的浏览历史：信息茧房不在算法里，在我的订阅列表里</h1>
+            <p>三个浏览器、约 3.7 万条 URL，以及一个每天 40 分钟的信息门户。</p>
+          </div>
+          <div data-article-content="en" hidden>
+            <div class="meta"><span>2026-08-06</span><span class="tag">Engineering</span><span>10 min</span></div>
+            <h1>I Audited My Own Browsing History: The Filter Bubble Isn't the Algorithm—It's My Subscriptions</h1>
+            <p>Three browsers, about 37,000 URLs, and a 40-minute daily portal.</p>
+          </div>
+          <div data-article-content="de" hidden>
+            <div class="meta"><span>2026-08-06</span><span class="tag">Engineering</span><span>10 Min.</span></div>
+            <h1>Ich habe meine Browser-Historie geprüft: Die Informationsblase steckt nicht im Algorithmus, sondern in meinen Abos</h1>
+            <p>Drei Browser, rund 37.000 URLs und ein tägliches Portal in 40 Minuten.</p>
+          </div>
+          <img class="article-cover" src="../assets/browsing-cocoon-portal.svg" alt="三个浏览器汇入一个信息门户" />
+        </header>
+
+        <div class="article-body">
+          <div data-article-content="zh">
+          <p>过去三个月，我一直把“信息茧房”归咎于算法：刷到什么看什么，越刷越同质。直到我决定把自己当成数据源，做一次信息审计。</p>
+
+          <p>方法不复杂：Safari 官方导出历史，Chrome/Arc 的数据库用只读方式查询，按域名、关键词和时段聚合。三个浏览器加起来约 3.7 万条 URL。结果既打脸，也有用。</p>
+
+          <h2>三个浏览器其实是三个分区</h2>
+          <p>最意外的发现：我的浏览器不是工具的差异，而是人格的分区。</p>
+          <ul>
+            <li><strong>Safari = 工作 + 求职 + 信仰 + 生活：</strong>Google Docs、Shopify、KIT 招聘、Logos Bible、图书馆、找房。</li>
+            <li><strong>Chrome = 娱乐 + 邮件：</strong>48% 是 YouTube，其中 79% 是 Shorts。</li>
+            <li><strong>Arc = 求职 + 娱乐 + 翻译：</strong>StepStone 1,242 次、DeepL 608 次、B站和中文影视。</li>
+          </ul>
+          <p>合并后 YouTube 约 8,400 条（约 22%），没有“50% 娱乐”那么夸张。但真正的数字更值得警惕：德语行业媒体 heise 合计 7 条，Elektronikpraxis 和 Automationspraxis 都是 0；z-library 家族约 850 条；StepStone 1,242 次，而 r/PLC、EEVblog、KiCad 论坛几乎没进过浏览器。</p>
+
+          <h2>五个被数据纠正的直觉</h2>
+
+          <h3>1. 算法不是主犯，订阅才是</h3>
+          <p>PNAS 2025 年一项近 9,000 人的 YouTube 实验显示，过滤气泡对观点极化的影响有限。我的数据也支持这一点：不是算法逼我看 Shorts，是我主动订阅了娱乐、主动跳过了德语、主动把求职刷成了内容消费。</p>
+
+          <h3>2. 娱乐没想象中多，但 Shorts 是真重灾区</h3>
+          <p>Chrome 里 79% 的 YouTube 是 Shorts；Safari 里 74% 是长视频。同一个人的两个浏览器，注意力质量完全不同。真正要限制的不是“视频”，是 60 秒以内的自动连播。</p>
+
+          <h3>3. 灰色内容比想象中多</h3>
+          <p>z-library 家族约 850 条，而 Karlsruhe 市图书馆入口只有 41 条。合法替代路径早就存在，只是没有被排进日常。</p>
+
+          <h3>4. 求职是“目标申请 + 惯性刷新”的混合体</h3>
+          <p>KIT、Bruker、Workwise 是有目标的申请；StepStone 的 1,242 次访问更像是焦虑驱动的刷新。VDI/IW 最新数据显示 2025 年 Q4 德国失业工程师+IT 达 58,392 人（2011 年以来最高），而电工行业仍有约 79,567 个空缺——缺的是错配，不是海投。</p>
+
+          <h3>5. 信仰是我最深的慢阅读</h3>
+          <p>Logos Bible 平台 659 条、Bible 226 条。我有能力做深度阅读，只是从没把它迁移到专业领域。这不是注意力问题，是入口问题。</p>
+
+          <h2>我做了什么：一个每天 40 分钟的门户</h2>
+          <p>结论不是“少刷”，而是换源。我把结论做成一个本地门户（<a href="../portal.html">在线版在这里</a>），按优先级组织：</p>
+          <ul>
+            <li><strong>P0 每日必刷：</strong>heise、Hacker News（Ask/Show）、Simon Willison、阮一峰、Safety Gate（周一）。</li>
+            <li><strong>P1 每周：</strong>德语专业（Elektronikpraxis、VDI nachrichten、pv magazine）、欧盟合规（EUR-Lex RSS、CRA、电池法、GPSR）、社区验证（r/PLC、EEVblog、KiCad、r/ebikes）。</li>
+            <li><strong>P2 每月：</strong>语言矩阵（中英法日）、反共识校验（GitClear、METR、Ingenieurmonitor、BEUC 与 DIGITALEUROPE 互读）。</li>
+            <li><strong>P3 按需：</strong>求职、工作台、生活与信仰。</li>
+          </ul>
+          <p>每日顺序：RSS 15 分钟 → 德语一篇 15 分钟 → 社区一帖 10 分钟；周一加 Safety Gate；每月 1 日加 Ingenieurmonitor 和反方来源。</p>
+
+          <h2>三条可复用的经验</h2>
+          <h3>先盘点，再优化</h3>
+          <p>不要凭感觉判断自己“刷太多”或“没时间”。导出历史做一次聚合，让数字替你说话。</p>
+          <h3>护城河是入口，不是收藏夹</h3>
+          <p>EUR-Lex、Safety Gate、BA 数据、DIN/VDE 不是收藏了就算拥有；它们需要每周固定动作。</p>
+          <h3>反共识要排班</h3>
+          <p>给“反对自己”的来源排进日历：GitClear 反对“AI 更快”，Ingenieurmonitor 反对“德国缺人”，BEUC 和 DIGITALEUROPE 互相反对。每月读一个对立面，是打破回音壁的最低成本方式。</p>
+
+          <h2>数据与工具</h2>
+          <ul>
+            <li>方法：Safari 官方导出 JSON；Chrome/Arc 的 History SQLite 用只读查询，按域名、关键词、时段聚合。</li>
+            <li>门户：<a href="../portal.html">每日信息门户</a>（含搜索与 P0–P3 优先级筛选）。</li>
+            <li>关键来源：PNAS 2025、GitClear 2025、METR 2025、VDI/IW Ingenieurmonitor 2025 Q4、EU Safety Gate 2025。</li>
+          </ul>
+
+          <h2>参考来源</h2>
+          <ul>
+            <li><a href="https://www.pnas.org/doi/abs/10.1073/pnas.2318127122" target="_blank" rel="noreferrer">PNAS 2025：YouTube 过滤气泡实验（约 9,000 人）</a></li>
+            <li><a href="https://www.gitclear.com" target="_blank" rel="noreferrer">GitClear：AI 代码质量年度报告</a></li>
+            <li><a href="https://metr.org" target="_blank" rel="noreferrer">METR：AI 对资深开发者效率的影响</a></li>
+            <li><a href="https://www.vdi.de/ingenieurmonitor" target="_blank" rel="noreferrer">VDI/IW Ingenieurmonitor：德国工程师就业季度数据</a></li>
+            <li><a href="https://ec.europa.eu/safety-gate-alerts" target="_blank" rel="noreferrer">EU Safety Gate：欧盟产品召回与预警</a></li>
+            <li><a href="https://digital-strategy.ec.europa.eu/en/policies/cyber-resilience-act" target="_blank" rel="noreferrer">欧盟 CRA 官方时间线</a></li>
+            <li><a href="https://environment.ec.europa.eu/topics/waste-and-recycling/batteries_en" target="_blank" rel="noreferrer">欧盟电池法规 2023/1542</a></li>
+          </ul>
+
+          <p class="vc-note"><strong>关键词：</strong>信息审计 = information audit / Informations-Audit；信息茧房 = information cocoon / Informationsblase；一手源 = primary source / Primärquelle；反共识 = contrarian check / Gegenprobe。</p>
+          </div>
+
+          <div data-article-content="en" hidden>
+            <p>For months I blamed algorithms for my filter bubble. Then I decided to treat myself as a data source and run an information audit.</p>
+
+            <p>The method is simple: export Safari history, query the Chrome/Arc databases read-only, and aggregate by domain, keyword, and time of day. Three browsers, about 37,000 URLs. The results were both uncomfortable and useful.</p>
+
+            <h2>Three browsers turned out to be three partitions</h2>
+            <ul>
+              <li><strong>Safari = work, job hunting, faith, and life:</strong> Google Docs, Shopify, KIT job board, Logos Bible, library, housing.</li>
+              <li><strong>Chrome = entertainment and email:</strong> 48% YouTube, 79% of it Shorts.</li>
+              <li><strong>Arc = job hunting, entertainment, and translation:</strong> 1,242 StepStone visits and 608 DeepL visits.</li>
+            </ul>
+            <p>Combined, YouTube was about 22%, not 50%. The numbers that hurt more: German industry media had about 7 visits total (Elektronikpraxis and Automationspraxis: zero); the z-library family had about 850; StepStone had 1,242, while r/PLC, EEVblog, and the KiCad forum barely appeared.</p>
+
+            <h2>Five intuitions corrected by data</h2>
+            <h3>1. The algorithm was not the culprit—my subscriptions were</h3>
+            <p>A PNAS 2025 experiment with about 9,000 participants found limited polarizing effects from YouTube filter bubbles. My own data agrees: nobody forced me into Shorts; I subscribed to entertainment, skipped German sources, and turned job hunting into content consumption.</p>
+            <h3>2. Entertainment was overestimated, but Shorts is the real problem</h3>
+            <p>In Chrome, 79% of YouTube visits were Shorts; in Safari, 74% were long-form. The same person, two different attention qualities. The thing to limit is not "video"—it is endless 60-second autoplay.</p>
+            <h3>3. Gray content was underestimated</h3>
+            <p>The z-library family had about 850 visits, while the Karlsruhe public library had 41. The legal alternative already existed; it just was not part of my routine.</p>
+            <h3>4. Job hunting was targeted applications plus habitual refreshing</h3>
+            <p>KIT, Bruker, and Workwise were targeted. The 1,242 StepStone visits were mostly anxiety-driven refreshing. The latest VDI/IW data shows 58,392 unemployed engineers and IT professionals in Q4 2025—the highest since 2011—while electrical trades still report about 79,567 vacancies. The gap is a mismatch, not a general shortage.</p>
+            <h3>5. Faith was my deepest slow reading</h3>
+            <p>Logos Bible had 659 visits, Bible 226. I already had a deep-reading habit; I just never moved it into my professional domain. That is an entry problem, not an attention problem.</p>
+
+            <h2>What I built: a 40-minute daily portal</h2>
+            <p>The conclusion was not "scroll less" but "change sources." I built a simple portal (<a href="../portal.html">online version here</a>) organized by priority:</p>
+            <ul>
+              <li><strong>P0 daily:</strong> heise, Hacker News (Ask/Show), Simon Willison, Ruan Yifeng, Safety Gate (Mondays).</li>
+              <li><strong>P1 weekly:</strong> German professional media, EU compliance (EUR-Lex RSS, CRA, battery regulation, GPSR), community verification (r/PLC, EEVblog, KiCad, r/ebikes).</li>
+              <li><strong>P2 monthly:</strong> language matrix (ZH/EN/FR/JA) and contrarian checks (GitClear, METR, Ingenieurmonitor, BEUC vs DIGITALEUROPE).</li>
+              <li><strong>P3 on demand:</strong> job hunting, work tools, life and faith.</li>
+            </ul>
+            <p>Daily routine: 15 minutes of RSS, 15 minutes of one German article, 10 minutes of one community thread; Safety Gate on Mondays; Ingenieurmonitor plus one contrarian source on the first day of the month.</p>
+
+            <h2>Three reusable lessons</h2>
+            <h3>Audit before optimizing</h3>
+            <p>Do not guess whether you "scroll too much." Export your history, aggregate it, and let the numbers speak.</p>
+            <h3>Moats are entries, not bookmarks</h3>
+            <p>EUR-Lex, Safety Gate, BA data, and DIN/VDE do not count because you saved them. They count because you visit them on a fixed schedule.</p>
+            <h3>Schedule your contrarian reading</h3>
+            <p>Put sources that disagree with you into the calendar: GitClear against "AI makes us faster," Ingenieurmonitor against "Germany needs more engineers," BEUC and DIGITALEUROPE against each other. One opposing view per month is the cheapest way to break an echo chamber.</p>
+
+            <h2>Data and tools</h2>
+            <ul>
+              <li>Method: Safari official JSON export; read-only SQLite queries on Chrome/Arc history; aggregation by domain, keyword, and hour.</li>
+              <li>Portal: <a href="../portal.html">daily information portal</a> with search and P0–P3 filters.</li>
+              <li>Key sources: PNAS 2025, GitClear 2025, METR 2025, VDI/IW Ingenieurmonitor Q4 2025, EU Safety Gate 2025.</li>
+            </ul>
+
+            <h2>Sources</h2>
+            <ul>
+              <li><a href="https://www.pnas.org/doi/abs/10.1073/pnas.2318127122" target="_blank" rel="noreferrer">PNAS 2025: YouTube filter-bubble experiments (~9,000 participants)</a></li>
+              <li><a href="https://www.gitclear.com" target="_blank" rel="noreferrer">GitClear: annual AI code quality report</a></li>
+              <li><a href="https://metr.org" target="_blank" rel="noreferrer">METR: AI impact on experienced developer productivity</a></li>
+              <li><a href="https://www.vdi.de/ingenieurmonitor" target="_blank" rel="noreferrer">VDI/IW Ingenieurmonitor: quarterly German engineering labor market data</a></li>
+              <li><a href="https://ec.europa.eu/safety-gate-alerts" target="_blank" rel="noreferrer">EU Safety Gate: product alerts and recalls</a></li>
+              <li><a href="https://digital-strategy.ec.europa.eu/en/policies/cyber-resilience-act" target="_blank" rel="noreferrer">EU Cyber Resilience Act official timeline</a></li>
+              <li><a href="https://environment.ec.europa.eu/topics/waste-and-recycling/batteries_en" target="_blank" rel="noreferrer">EU Battery Regulation 2023/1542</a></li>
+            </ul>
+            <p class="vc-note"><strong>Key terms:</strong> information audit; information cocoon; primary source; contrarian check.</p>
+          </div>
+
+          <div data-article-content="de" hidden>
+            <p>Monatelang habe ich den Algorithmus für meine Informationsblase verantwortlich gemacht. Dann habe ich beschlossen, mich selbst als Datenquelle zu behandeln und ein Informations-Audit durchzuführen.</p>
+
+            <p>Die Methode ist einfach: Safari-Verlauf offiziell exportieren, Chrome-/Arc-Datenbanken schreibgeschützt abfragen und nach Domains, Schlüsselwörtern und Uhrzeiten auswerten. Drei Browser, rund 37.000 URLs. Das Ergebnis war unbequem und nützlich.</p>
+
+            <h2>Drei Browser, drei Partitionen</h2>
+            <ul>
+              <li><strong>Safari = Arbeit, Jobsuche, Glaube und Leben:</strong> Google Docs, Shopify, KIT-Stellenportal, Logos Bible, Bibliothek, Wohnungssuche.</li>
+              <li><strong>Chrome = Unterhaltung und E-Mail:</strong> 48 % YouTube, davon 79 % Shorts.</li>
+              <li><strong>Arc = Jobsuche, Unterhaltung und Übersetzung:</strong> 1.242 StepStone-Besuche und 608 DeepL-Besuche.</li>
+            </ul>
+            <p>Zusammen machte YouTube etwa 22 % aus, nicht 50 %. Deutlicher waren andere Zahlen: deutschsprachige Fachmedien insgesamt etwa 7 Besuche (Elektronikpraxis und Automationspraxis: null); die z-library-Familie etwa 850; StepStone 1.242, während r/PLC, EEVblog und das KiCad-Forum kaum vorkamen.</p>
+
+            <h2>Fünf durch Daten korrigierte Intuitionen</h2>
+            <h3>1. Nicht der Algorithmus, sondern meine Abos</h3>
+            <p>Ein PNAS-Experiment von 2025 mit rund 9.000 Teilnehmenden fand nur begrenzte Polarisierungseffekte von YouTube-Filterblasen. Meine Daten bestätigen das: Niemand hat mich zu Shorts gezwungen; ich habe Unterhaltung abonniert, deutsche Quellen übersprungen und Jobsuche in Inhaltskonsum verwandelt.</p>
+            <h3>2. Unterhaltung war überschätzt, Shorts ist das eigentliche Problem</h3>
+            <p>In Chrome waren 79 % der YouTube-Besuche Shorts; in Safari 74 % lange Videos. Derselbe Mensch, zwei verschiedene Aufmerksamkeitsqualitäten. Es geht nicht um „Video“, sondern um endloses 60-Sekunden-Autoplay.</p>
+            <h3>3. Graue Inhalte wurden unterschätzt</h3>
+            <p>Die z-library-Familie hatte etwa 850 Besuche, die Stadtbibliothek Karlsruhe nur 41. Der legale Ersatz existierte längst; er gehörte nur nicht zur Routine.</p>
+            <h3>4. Jobsuche = gezielte Bewerbungen plus Gewohnheits-Aktualisierung</h3>
+            <p>KIT, Bruker und Workwise waren gezielt. Die 1.242 StepStone-Besuche waren meist angstgetriebenes Aktualisieren. Der aktuelle VDI/IW-Ingenieurmonitor zeigt 58.392 arbeitslose Ingenieur- und IT-Fachkräfte im 4. Quartal 2025 – der höchste Stand seit 2011 – während das Elektrohandwerk rund 79.567 offene Stellen meldet. Es fehlt nicht an Ingenieuren allgemein, sondern an passenden Profilen.</p>
+            <h3>5. Glaube war mein tiefstes langsames Lesen</h3>
+            <p>Logos Bible hatte 659 Besuche, Bible 226. Ich habe also bereits eine Tiefenlese-Gewohnheit; ich habe sie nur nie in den Fachbereich übertragen. Das ist ein Zugangsproblem, kein Aufmerksamkeitsproblem.</p>
+
+            <h2>Was ich gebaut habe: ein tägliches Portal in 40 Minuten</h2>
+            <p>Die Schlussfolgerung war nicht „weniger scrollen“, sondern „Quellen wechseln“. Ich habe ein schlichtes Portal gebaut (<a href="../portal.html">Online-Version hier</a>) mit Prioritäten:</p>
+            <ul>
+              <li><strong>P0 täglich:</strong> heise, Hacker News (Ask/Show), Simon Willison, Ruan Yifeng, Safety Gate (montags).</li>
+              <li><strong>P1 wöchentlich:</strong> deutschsprachige Fachmedien, EU-Compliance (EUR-Lex-RSS, CRA, Batterieverordnung, GPSR), Community-Verifikation (r/PLC, EEVblog, KiCad, r/ebikes).</li>
+              <li><strong>P2 monatlich:</strong> Sprachmatrix (ZH/EN/FR/JA) und Gegenproben (GitClear, METR, Ingenieurmonitor, BEUC vs. DIGITALEUROPE).</li>
+              <li><strong>P3 bei Bedarf:</strong> Jobsuche, Arbeitsmittel, Leben und Glaube.</li>
+            </ul>
+            <p>Tägliche Routine: 15 Minuten RSS, 15 Minuten ein deutscher Fachartikel, 10 Minuten ein Community-Thread; montags Safety Gate; am 1. des Monats Ingenieurmonitor plus eine Gegenposition.</p>
+
+            <h2>Drei wiederverwendbare Lektionen</h2>
+            <h3>Erst prüfen, dann optimieren</h3>
+            <p>Raten Sie nicht, ob Sie „zu viel scrollen“. Exportieren Sie die Historie, aggregieren Sie sie und lassen Sie die Zahlen sprechen.</p>
+            <h3>Burggräben sind Einstiege, keine Lesezeichen</h3>
+            <p>EUR-Lex, Safety Gate, BA-Daten und DIN/VDE zählen nicht, weil man sie gespeichert hat, sondern weil man sie nach festem Plan besucht.</p>
+            <h3>Gegenpositionen in den Kalender nehmen</h3>
+            <p>Planen Sie Quellen ein, die Ihnen widersprechen: GitClear gegen „KI macht uns schneller“, Ingenieurmonitor gegen „Deutschland braucht mehr Ingenieure“, BEUC und DIGITALEUROPE gegeneinander. Eine Gegenposition pro Monat ist der günstigste Weg aus der Echokammer.</p>
+
+            <h2>Daten und Werkzeuge</h2>
+            <ul>
+              <li>Methode: offizieller Safari-JSON-Export; schreibgeschützte SQLite-Abfragen der Chrome-/Arc-Historie; Aggregation nach Domain, Schlüsselwort und Stunde.</li>
+              <li>Portal: <a href="../portal.html">tägliches Informationsportal</a> mit Suche und P0–P3-Filtern.</li>
+              <li>Wichtige Quellen: PNAS 2025, GitClear 2025, METR 2025, VDI/IW-Ingenieurmonitor Q4 2025, EU Safety Gate 2025.</li>
+            </ul>
+
+            <h2>Quellen</h2>
+            <ul>
+              <li><a href="https://www.pnas.org/doi/abs/10.1073/pnas.2318127122" target="_blank" rel="noreferrer">PNAS 2025: YouTube-Filterblasen-Experimente (~9.000 Teilnehmende)</a></li>
+              <li><a href="https://www.gitclear.com" target="_blank" rel="noreferrer">GitClear: jährlicher KI-Codequalitätsbericht</a></li>
+              <li><a href="https://metr.org" target="_blank" rel="noreferrer">METR: KI-Einfluss auf die Produktivität erfahrener Entwickler</a></li>
+              <li><a href="https://www.vdi.de/ingenieurmonitor" target="_blank" rel="noreferrer">VDI/IW-Ingenieurmonitor: vierteljährliche Daten zum deutschen Ingenieurarbeitsmarkt</a></li>
+              <li><a href="https://ec.europa.eu/safety-gate-alerts" target="_blank" rel="noreferrer">EU Safety Gate: Produktwarnungen und Rückrufe</a></li>
+              <li><a href="https://digital-strategy.ec.europa.eu/en/policies/cyber-resilience-act" target="_blank" rel="noreferrer">Offizieller Zeitplan des EU Cyber Resilience Act</a></li>
+              <li><a href="https://environment.ec.europa.eu/topics/waste-and-recycling/batteries_en" target="_blank" rel="noreferrer">EU-Batterieverordnung 2023/1542</a></li>
+            </ul>
+            <p class="vc-note"><strong>Schlüsselbegriffe:</strong> Informations-Audit; Informationsblase; Primärquelle; Gegenprobe.</p>
+          </div>
+        </div>
+
+        <section class="article-tools" data-current-post="browsing-history-information-cocoon-portal.html">
+          <a class="tool-link" href="../index.html">返回列表</a>
+          <button type="button" data-copy-current>复制链接</button>
+          <button type="button" data-save-read>稍后读</button>
+        </section>
+        <section class="article-subscribe" aria-label="订阅更新" data-lang="zh">
+          <div class="subscribe-lang-switch" aria-label="Subscription language">
+            <button type="button" class="active" data-subscribe-lang="zh" aria-pressed="true">中文</button>
+            <button type="button" data-subscribe-lang="en" aria-pressed="false">EN</button>
+            <button type="button" data-subscribe-lang="de" aria-pressed="false">DE</button>
+          </div>
+          <h2 class="sub-lang sub-zh">喜欢这篇文章？订阅后续更新</h2>
+          <h2 class="sub-lang sub-en">Like this article? Subscribe for future updates</h2>
+          <h2 class="sub-lang sub-de">Gefällt Ihnen dieser Beitrag? Updates abonnieren</h2>
+          <p class="sub-lang sub-zh">留下邮箱，新文章、行业动向和德国市场机会更新后，我会优先通知你。</p>
+          <p class="sub-lang sub-en">Leave your email to receive new articles, market trends and Germany opportunity updates as soon as they are published.</p>
+          <p class="sub-lang sub-de">E-Mail eintragen und neue Artikel, Markttrends und Deutschland-Chancen direkt erhalten.</p>
+          <form data-subscribe-form name="opc-subscribe" method="POST" data-netlify="true" netlify-honeypot="company">
+            <input type="hidden" name="form-name" value="opc-subscribe">
+            <input type="text" name="company" tabindex="-1" autocomplete="off" hidden>
+            <input name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+            <button type="submit" class="sub-lang sub-zh">订阅</button>
+            <button type="submit" class="sub-lang sub-en">Subscribe</button>
+            <button type="submit" class="sub-lang sub-de">Abonnieren</button>
+            <label class="subscribe-consent">
+              <input name="consent" type="checkbox" data-subscribe-consent required>
+              <span class="sub-lang sub-zh">我同意接收 OPC TechBridge 的更新邮件，可随时邮件退订。</span>
+              <span class="sub-lang sub-en">I agree to receive OPC TechBridge update emails and can unsubscribe by email at any time.</span>
+              <span class="sub-lang sub-de">Ich stimme zu, Updates von OPC TechBridge zu erhalten. Abmeldung ist jederzeit per E-Mail möglich.</span>
+            </label>
+          </form>
+          <p class="subscribe-status" data-subscribe-status role="status" aria-live="polite"></p>
+        </section>
+        <section class="related-section" aria-label="继续阅读"><h2>继续阅读</h2><div class="related-grid" data-related-posts></div></section>
+      </article>
+      <footer class="footer">Yijian Notes | Information audit</footer>
+    </div>
+    <div class="toast" data-toast hidden></div>
+    <script src="../content.js"></script>
+    <script src="../site.js"></script>
+    <script src="../article-language.js"></script>
+    <script src="../../assets/subscribe.js"></script>
+  </body>
+</html>
