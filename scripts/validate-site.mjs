@@ -17,6 +17,20 @@ const entrypoints = [
   "tools/markdown/index.html",
   "blog/index.html",
   "blog/about.html",
+  "blog/books/index.html",
+  "blog/books/author.html",
+  "blog/books/copyright.html",
+  "blog/books/preface.html",
+  "blog/books/chapter-01-start.html",
+  "blog/books/chapter-02-speaking.html",
+  "blog/books/chapter-03-pronunciation.html",
+  "blog/books/chapter-04-reading-aloud.html",
+  "blog/books/chapter-05-dictionary.html",
+  "blog/books/chapter-06-grammar.html",
+  "blog/books/chapter-07-intensive-reading.html",
+  "blog/books/chapter-08-writing.html",
+  "blog/books/chapter-09-reminders.html",
+  "blog/books/afterword.html",
   "blog/posts/hwk-elektro-gruendung-direkteintragung.html",
   "blog/posts/daily-command-center-local-first-retrospective.html",
   "blog/posts/fde-interview-preparation-roadmap.html",
@@ -68,6 +82,18 @@ function validateHtml(rel) {
   const html = readFileSync(abs, "utf8");
   if (!/<meta\s+name="viewport"/i.test(html)) failures.push(`${rel}: missing viewport meta`);
   if (!/<title>[^<]+<\/title>/i.test(html)) failures.push(`${rel}: missing title`);
+  if (rel.startsWith("blog/books/") && extname(rel) === ".html") {
+    if (!/<html\s+lang="de">/i.test(html)) failures.push(`${rel}: German must be the initial language`);
+    if (!html.includes("data-book-lang-switch")) failures.push(`${rel}: missing book language switch`);
+    if (!html.includes('src="./book-language.js"')) failures.push(`${rel}: missing book language script`);
+    for (const language of ["zh", "en", "de"]) {
+      const count = (html.match(new RegExp(`data-book-content=["']${language}["']`, "g")) || []).length;
+      if (count !== 1) failures.push(`${rel}: expected one content block for ${language}, found ${count}`);
+    }
+    if (!/data-book-content="de">/.test(html)) failures.push(`${rel}: German content must be initially visible`);
+    if (!/data-book-content="zh" hidden>/.test(html)) failures.push(`${rel}: Chinese content must be initially hidden`);
+    if (!/data-book-content="en" hidden>/.test(html)) failures.push(`${rel}: English content must be initially hidden`);
+  }
 
   const attrPattern = /\b(?:href|src)=["']([^"']+)["']/gi;
   let match;
