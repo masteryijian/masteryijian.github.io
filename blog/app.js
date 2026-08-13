@@ -13,7 +13,7 @@ let currentLanguage = initialLanguage();
 
 function initialLanguage() {
   const requested = new URLSearchParams(window.location.search).get("lang");
-  const saved = localStorage.getItem("opcArticleLanguage");
+  const saved = localStorage.getItem("opcPreferredLanguage");
   if (supportedLanguages.has(requested)) return requested;
   if (supportedLanguages.has(saved)) return saved;
   return "de";
@@ -22,7 +22,7 @@ function initialLanguage() {
 function setLanguage(language) {
   if (!supportedLanguages.has(language)) return;
   currentLanguage = language;
-  localStorage.setItem("opcArticleLanguage", language);
+  localStorage.setItem("opcPreferredLanguage", language);
   document.documentElement.lang = language === "zh" ? "zh-CN" : language;
 
   const url = new URL(window.location.href);
