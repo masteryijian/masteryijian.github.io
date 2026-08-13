@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="de">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,11 +19,11 @@
       <article>
         <header class="article-head">
           <div class="article-language-switch" data-article-lang-switch aria-label="文章语言 / Article language / Artikelsprache">
-            <button type="button" class="active" data-article-lang="zh" aria-pressed="true">中文</button>
+            <button type="button" data-article-lang="zh" aria-pressed="false">中文</button>
             <button type="button" data-article-lang="en" aria-pressed="false">EN</button>
-            <button type="button" data-article-lang="de" aria-pressed="false">DE</button>
+            <button type="button" class="active" data-article-lang="de" aria-pressed="true">DE</button>
           </div>
-          <div data-article-content="zh">
+          <div data-article-content="zh" hidden>
           <div class="meta"><span>2026-07-18</span><span class="tag">Engineering</span><span>8 min</span></div>
           <h1>Vibe Coding 不是放手：如何让 AI 按我们的意图开发软件</h1>
           <p>AI 可以把自然语言变成代码，但可靠的软件仍然需要人定义目标、边界、权限和验收标准。</p>
@@ -33,7 +33,7 @@
             <h1>Vibe Coding Is Not Letting Go: How to Keep AI Software Development Aligned with Our Intent</h1>
             <p>AI can turn natural language into code, but reliable software still requires people to define goals, boundaries, permissions, and acceptance criteria.</p>
           </div>
-          <div data-article-content="de" hidden>
+          <div data-article-content="de">
             <div class="meta"><span>2026-07-18</span><span class="tag">Engineering</span><span>8 Min.</span></div>
             <h1>Vibe Coding heißt nicht loslassen: Wie KI-Softwareentwicklung unserer Absicht folgt</h1>
             <p>KI kann natürliche Sprache in Code verwandeln. Zuverlässige Software braucht aber weiterhin Menschen, die Ziele, Grenzen, Berechtigungen und Abnahmekriterien festlegen.</p>
@@ -42,7 +42,7 @@
         </header>
 
         <div class="article-body">
-          <div data-article-content="zh">
+          <div data-article-content="zh" hidden>
           <p>2025 年 2 月，Andrej Karpathy 用 “vibe coding” 描述一种新的编程体验：用自然语言告诉 AI 想要什么，运行结果，再继续用语言推动修改，甚至不再逐行关注代码。这个词很快流行起来，因为它准确捕捉到一个变化：软件开发正在从“手动输入语法”转向“表达意图并管理执行”。</p>
 
           <blockquote>但要先区分两件事：原始意义上的 Vibe Coding 更接近快速、随性的原型开发；生产级软件需要的是可控的意图驱动开发。</blockquote>
@@ -223,7 +223,7 @@
             <p class="vc-note"><strong>Key terms:</strong> intent-driven development; orchestration layer; least privilege; acceptance criteria.</p>
           </div>
 
-          <div data-article-content="de" hidden>
+          <div data-article-content="de">
             <p>Im Februar 2025 beschrieb Andrej Karpathy mit „Vibe Coding“ eine neue Programmiererfahrung: Man erklärt der KI in natürlicher Sprache, was man möchte, führt das Ergebnis aus und steuert die nächsten Änderungen wieder mit Worten – teilweise ohne den Code Zeile für Zeile zu prüfen. Der Begriff verbreitete sich schnell, weil er einen echten Wandel erfasst: Softwareentwicklung bewegt sich von der manuellen Eingabe von Syntax hin zum Formulieren von Absichten und zum Steuern der Ausführung.</p>
 
             <blockquote>Zwei Dinge müssen getrennt werden: Vibe Coding im ursprünglichen Sinn ähnelt schnellem, improvisiertem Prototyping; produktive Software braucht kontrollierte, intentionsgetriebene Entwicklung.</blockquote>

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="de">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,11 +19,11 @@
       <article>
         <header class="article-head">
           <div class="article-language-switch" data-article-lang-switch aria-label="文章语言 / Article language / Artikelsprache">
-            <button type="button" class="active" data-article-lang="zh" aria-pressed="true">中文</button>
+            <button type="button" data-article-lang="zh" aria-pressed="false">中文</button>
             <button type="button" data-article-lang="en" aria-pressed="false">EN</button>
-            <button type="button" data-article-lang="de" aria-pressed="false">DE</button>
+            <button type="button" class="active" data-article-lang="de" aria-pressed="true">DE</button>
           </div>
-          <div data-article-content="zh">
+          <div data-article-content="zh" hidden>
             <div class="meta"><span>2026-07-18</span><span class="tag">Career</span><span>12 min</span></div>
             <h1>FDE 面试准备：不是会调用模型，而是能把结果交付给客户</h1>
             <p>Forward Deployed Engineer 的竞争力，不是工具清单更长，而是能在模糊需求、概率性 AI 和企业约束之间，理解问题、做出系统、部署上线，并对结果负责。</p>
@@ -33,7 +33,7 @@
             <h1>Preparing for an FDE Interview: Deliver Outcomes, Not Just Model Calls</h1>
             <p>An FDE turns ambiguous business needs and probabilistic AI into a deployed, measurable and trusted system.</p>
           </div>
-          <div data-article-content="de" hidden>
+          <div data-article-content="de">
             <div class="meta"><span>18.07.2026</span><span class="tag">Karriere</span><span>12 Min.</span></div>
             <h1>Vorbereitung auf ein FDE-Interview: Ergebnisse liefern statt nur Modelle aufzurufen</h1>
             <p>Ein FDE verwandelt unklare Geschäftsanforderungen und probabilistische KI in ein eingesetztes, messbares und vertrauenswürdiges System.</p>
@@ -42,7 +42,7 @@
         </header>
 
         <div class="article-body">
-          <div data-article-content="zh">
+          <div data-article-content="zh" hidden>
             <blockquote><strong>最短定义：</strong>FDE 不是驻场写代码的人，也不是会讲技术的顾问；他是一个贴近客户、仍然保持工程深度，并把现场经验反哺产品的 outcome owner（结果负责人）。</blockquote>
 
             <p>这份准备路线综合了两类材料：一是 Superlinear Academy 对 Cresta Head of FDE Jove Zhong 的访谈；二是两页面试准备手记。访谈明确提到 Cresta 会保留<strong>不用 AI 写简单 Python</strong>的环节，并观察命名、流程、测试与分层意识；手记进一步列出 Unit Test、End-to-End Test、REST API、Microservice、UI、CLI、Docker、RAG、Voice/Multimedia、咨询沟通和客户信任。</p>
@@ -164,7 +164,7 @@
             <p class="source-note">Sources: <a href="https://www.superlinear.academy/c/main/fde" target="_blank" rel="noopener noreferrer">Superlinear Academy FDE interview</a>, accessed 18 July 2026; and <a href="https://superlinear.eu/insights/articles/what-is-a-forward-deployed-engineer-and-why-the-role-matters-more-than-ever" target="_blank" rel="noopener noreferrer">Superlinear's public FDE article</a>, 7 April 2026. The four-week plan and score thresholds are this article's preparation framework, not a published Cresta interview process.</p>
           </div>
 
-          <div data-article-content="de" hidden>
+          <div data-article-content="de">
             <blockquote><strong>Kurzdefinition:</strong> Ein FDE ist ein kundennaher Engineer, der Ergebnisse verantwortet und Erfahrungen aus Projekten in das Produkt zurückführt.</blockquote>
             <h2>Prioritäten</h2>
             <p><strong>P0:</strong> sauberes Python ohne KI-Hilfe, Unit- und End-to-End-Tests, produktionsnahe Agents, APIs und Deployment sowie Kundengespräch und präzise Kommunikation. <strong>P1:</strong> Observability, Microservices, UI/CLI, Docker, Produktisierung wiederkehrender Kundenarbeit, Fehleranalyse und Vertrauen. <strong>P2:</strong> schwere Algorithmusaufgaben und reine Toolkenntnisse.</p>

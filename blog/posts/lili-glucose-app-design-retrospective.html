@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="de">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -16,11 +16,11 @@
       <article>
         <header class="article-head">
           <div class="article-language-switch" data-article-lang-switch aria-label="文章语言 / Article language / Artikelsprache">
-            <button type="button" class="active" data-article-lang="zh" aria-pressed="true">中文</button>
+            <button type="button" data-article-lang="zh" aria-pressed="false">中文</button>
             <button type="button" data-article-lang="en" aria-pressed="false">EN</button>
-            <button type="button" data-article-lang="de" aria-pressed="false">DE</button>
+            <button type="button" class="active" data-article-lang="de" aria-pressed="true">DE</button>
           </div>
-          <div data-article-content="zh">
+          <div data-article-content="zh" hidden>
             <div class="meta"><span>2026-07-18</span><span class="tag">Engineering</span><span>8 min</span></div>
             <h1>把关心写进代码：我为丽丽做血糖 App 的一次实践</h1>
             <p>妊娠糖尿病让生活多了一套必须遵守的数字秩序。我能做的，是把其中一部分负担接过来，让技术成为一种克制而具体的照顾。</p>
@@ -30,7 +30,7 @@
             <h1>Writing Care into Code: Building a Glucose App for Lili</h1>
             <p>Gestational diabetes imposed a new order of measurements and numbers on daily life. I tried to carry a small part of that burden through software built with restraint and care.</p>
           </div>
-          <div data-article-content="de" hidden>
+          <div data-article-content="de">
             <div class="meta"><span>18.07.2026</span><span class="tag">Engineering</span><span>8 Min.</span></div>
             <h1>Fürsorge in Code: Eine Blutzucker-App für Lili</h1>
             <p>Schwangerschaftsdiabetes brachte eine neue Ordnung aus Messungen und Zahlen in unseren Alltag. Mit einer bewusst einfachen App wollte ich einen kleinen Teil dieser Last mittragen.</p>
@@ -39,7 +39,7 @@
         </header>
 
         <div class="article-body">
-          <div data-article-content="zh">
+          <div data-article-content="zh" hidden>
             <p>妊娠糖尿病进入我们的生活以后，许多原本自然发生的事情忽然有了刻度。什么时候吃，吃了什么，饭后有没有走动，早晨空腹是多少，早餐、午餐、晚餐以后又是多少。一天被分成几个测量节点，身体的感受不断被翻译成数字，再拿这些数字去判断今天过得是否“合格”。</p>
             <p>这些要求当然有它们的医学意义，可真正落到一个孕妇身上，它们并不只是几次简单的测量。每一次扎手指之后，还要记住时间、分清场景、写下数值；几天以后，还要从一堆零散记录里看出变化。丽丽已经在承担怀孕本身带来的身体变化，我不希望记录这件事再多消耗她一点精力。</p>
             <p>于是我开始给她做一个血糖 App。它没有宏大的产品愿景，也不是为了展示某种技术能力。最初的想法很朴素：当我不能替她承受身体上的不适时，至少可以把那些重复、琐碎而容易出错的事情接过来一部分。</p>
@@ -97,7 +97,7 @@
             <p><strong>Note:</strong> This is a product-development retrospective, not medical advice. Glucose targets, activity and treatment decisions belong with the responsible clinician.</p>
           </div>
 
-          <div data-article-content="de" hidden>
+          <div data-article-content="de">
             <blockquote><strong>Entscheidend ist nicht die Funktionszahl, sondern die tägliche Nutzung.</strong> Die App soll mit wenigen Schritten genaue und fortlaufende Blutzucker- und Bewegungsdaten für das Arztgespräch festhalten.</blockquote>
             <h2>Ein konkretes Alltagsproblem</h2>
             <p>Bei Schwangerschaftsdiabetes sind häufig Nüchtern- und mehrere postprandiale Messungen nötig. Die Reibung entsteht nach der Messung: Papier geht verloren, Notizen sind uneinheitlich und Einzelwerte zeigen keinen Verlauf. Deshalb steht eine Aktion im Mittelpunkt: Blutzucker erfassen.</p>

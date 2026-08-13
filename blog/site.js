@@ -59,17 +59,27 @@
       currentIndex >= 0 && currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null
     ].filter(Boolean);
 
-    related.innerHTML = neighbors.length
-      ? neighbors.map((post) => renderRelatedPost(post)).join("")
-      : '<p class="empty-state">已经是当前列表里唯一的文章。</p>';
+    const renderRelated = () => {
+      related.innerHTML = neighbors.length
+        ? neighbors.map((post) => renderRelatedPost(post)).join("")
+        : `<p class="empty-state">${currentLanguage() === "de" ? "Dies ist derzeit der einzige Artikel in der Liste." : currentLanguage() === "en" ? "This is currently the only article in the list." : "已经是当前列表里唯一的文章。"}</p>`;
+    };
+    renderRelated();
+    document.addEventListener("articlelanguagechange", renderRelated);
   }
 
   function renderRelatedPost(post) {
-    const href = post.href.replace("./", "../");
+    const language = currentLanguage();
+    const key = post.href.replace(/^\.\//, "").replace(/^posts\//, "");
+    const translated = language === "zh" ? null : window.blogI18n?.posts?.[key]?.[language];
+    const title = translated?.[0] || post.title;
+    const category = window.blogI18n?.categories?.[language]?.[post.category] || post.category;
+    const baseHref = post.href.replace("./", "../");
+    const href = language === "de" ? baseHref : `${baseHref}${baseHref.includes("?") ? "&" : "?"}lang=${language}`;
     return `
       <a class="related-card" href="${href}">
-        <span>${post.category} · ${post.read}</span>
-        <strong>${post.title}</strong>
+        <span>${category} · ${post.read}</span>
+        <strong>${title}</strong>
       </a>
     `;
   }

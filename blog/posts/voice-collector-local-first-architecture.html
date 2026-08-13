@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="de">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,11 +19,11 @@
       <article>
         <header class="article-head">
           <div class="article-language-switch" data-article-lang-switch aria-label="文章语言 / Article language / Artikelsprache">
-            <button type="button" class="active" data-article-lang="zh" aria-pressed="true">中文</button>
+            <button type="button" data-article-lang="zh" aria-pressed="false">中文</button>
             <button type="button" data-article-lang="en" aria-pressed="false">EN</button>
-            <button type="button" data-article-lang="de" aria-pressed="false">DE</button>
+            <button type="button" class="active" data-article-lang="de" aria-pressed="true">DE</button>
           </div>
-          <div data-article-content="zh">
+          <div data-article-content="zh" hidden>
             <div class="meta"><span>2026-07-18</span><span class="tag">Engineering</span><span>8 min</span></div>
             <h1>Voice Collector：真正难的不是录音，而是让每台设备可靠地接力</h1>
             <p>一套跨 Mac、iPhone、iPad 和 Apple Watch 的本地语音采集系统，最有价值的不是“全天监听”，而是知道谁该录、谁该保管、何时交接，以及失败后如何自动恢复。</p>
@@ -33,7 +33,7 @@
             <h1>Voice Collector: Recording Is Easy; Reliable Handoffs Are Hard</h1>
             <p>A local-first voice system across Mac, iPhone, iPad and Apple Watch must decide who records, who holds each file and when responsibility can safely move.</p>
           </div>
-          <div data-article-content="de" hidden>
+          <div data-article-content="de">
             <div class="meta"><span>18.07.2026</span><span class="tag">Engineering</span><span>8 Min.</span></div>
             <h1>Voice Collector: Nicht die Aufnahme, sondern die zuverlässige Übergabe ist schwierig</h1>
             <p>Ein lokales Sprachsystem für Mac, iPhone, iPad und Apple Watch muss klären, wer aufnimmt, wer Dateien verwahrt und wann Verantwortung sicher übergeht.</p>
@@ -42,7 +42,7 @@
         </header>
 
         <div class="article-body">
-          <div data-article-content="zh">
+          <div data-article-content="zh" hidden>
             <blockquote><strong>这不是录音机，而是一条可靠的数据责任链。</strong> 系统允许传输晚几分钟，但不接受因为断网、休眠或某个服务崩溃而轻易丢掉原始语音。</blockquote>
 
             <h2>先把“可靠”和“智能”分开</h2>
@@ -122,7 +122,7 @@
             <p><strong>Note:</strong> This article distils an architecture proposal, not a claim that every feature has already been implemented. Continuous voice capture must follow local law and appropriate consent requirements.</p>
           </div>
 
-          <div data-article-content="de" hidden>
+          <div data-article-content="de">
             <blockquote><strong>Das System ist keine bloße Aufnahme-App, sondern eine Verantwortungskette für Sprachdaten.</strong> Eine Übertragung darf später ankommen; die Originalaufnahme darf aber nicht wegen Offlinebetrieb, Ruhezustand oder Dienstausfall verschwinden.</blockquote>
             <h2>Zuverlässigkeit vor Intelligenz</h2>
             <p>Erfassung, VAD, Segmentierung, lokale Speicherung, Warteschlangen, Übertragung, Transkription und Monitoring bilden zuerst die Infrastruktur. Zusammenfassungen, Aufgaben, semantische Suche und Assistent folgen erst, wenn Audio und Zeitstempel verlässlich sind.</p>

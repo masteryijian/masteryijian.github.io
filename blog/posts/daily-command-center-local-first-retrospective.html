@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="de">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,11 +19,11 @@
       <article>
         <header class="article-head">
           <div class="article-language-switch" data-article-lang-switch aria-label="文章语言 / Article language / Artikelsprache">
-            <button type="button" class="active" data-article-lang="zh" aria-pressed="true">中文</button>
+            <button type="button" data-article-lang="zh" aria-pressed="false">中文</button>
             <button type="button" data-article-lang="en" aria-pressed="false">EN</button>
-            <button type="button" data-article-lang="de" aria-pressed="false">DE</button>
+            <button type="button" class="active" data-article-lang="de" aria-pressed="true">DE</button>
           </div>
-          <div data-article-content="zh">
+          <div data-article-content="zh" hidden>
             <div class="meta"><span>2026-07-23</span><span class="tag">Engineering</span><span>11 min</span></div>
             <h1>把一天做成可恢复的系统：Daily Command Center 开发复盘</h1>
             <p>我原本只是想在出门前看清什么最重要。真正开始开发后，问题却变成了：如何让任务、时间和判断在刷新、重启、迁移与错误之后仍然可信？</p>
@@ -33,7 +33,7 @@
             <h1>Making a Day Recoverable: A Daily Command Center Retrospective</h1>
             <p>I initially wanted to see what mattered before leaving home. The real engineering question became how tasks, time and decisions could remain trustworthy after reloads, restarts, migrations and mistakes.</p>
           </div>
-          <div data-article-content="de" hidden>
+          <div data-article-content="de">
             <div class="meta"><span>23.07.2026</span><span class="tag">Engineering</span><span>8 Min.</span></div>
             <h1>Einen Tag wiederherstellbar machen: Rückblick auf das Daily Command Center</h1>
             <p>Am Anfang wollte ich nur vor dem Weggehen erkennen, was wirklich wichtig war. Die eigentliche Entwicklungsfrage lautete bald: Wie bleiben Aufgaben, Zeit und Entscheidungen nach Neuladen, Neustart, Migration und Fehlern vertrauenswürdig?</p>
@@ -42,7 +42,7 @@
         </header>
 
         <div class="article-body">
-          <div data-article-content="zh">
+          <div data-article-content="zh" hidden>
             <p class="dcc-lead">这次开发最有意思的地方，是“个人效率工具”最终没有被做成一个更漂亮的待办清单。它被做成了一套小型的、本地优先的工作状态系统：早晨承诺，白天只专注一个任务，结束时留下证据，晚上关闭这一天。</p>
 
             <div class="dcc-facts">
@@ -130,7 +130,7 @@
             <p>The framework's value is a trustworthy chain of responsibility across a day. It costs more code, a slower first release and stricter habits. For long-term learning about one's own time, that cost is more honest than a simpler tool that silently corrupts its history.</p>
           </div>
 
-          <div data-article-content="de" hidden>
+          <div data-article-content="de">
             <p>Ich wollte keine weitere schöne Aufgabenliste. Das System sollte vier Fragen beantworten: Wozu habe ich mich verpflichtet? Woran arbeite ich jetzt? Wohin ging die Zeit? Wo mache ich morgen weiter?</p>
             <h2>Das Framework</h2>
             <p>Das Produkt ist als Zustandsautomat aufgebaut: Check-in begrenzt den Tag auf drei Ergebnisse; Focus erlaubt genau eine laufende Aufgabe und einen Timer; Checkout dokumentiert Ergebnis, Restschätzung und nächsten Schritt; Daily Close erzeugt einen unveränderlichen Tages-Snapshot. Ein append-only Ereignisprotokoll bewahrt Start, Pause, Fortsetzung, Checkout und Korrektur.</p>

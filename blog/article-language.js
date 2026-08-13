@@ -6,7 +6,7 @@
   const available = new Set(Array.from(content, (node) => node.dataset.articleContent));
   const requested = new URLSearchParams(window.location.search).get("lang");
   const saved = localStorage.getItem("opcArticleLanguage");
-  const initial = available.has(requested) ? requested : available.has(saved) ? saved : "zh";
+  const initial = available.has(requested) ? requested : available.has(saved) ? saved : "de";
   const labels = {
     zh: { list: "文章列表", about: "关于博客", news: "行业动态", products: "产品页", back: "返回列表", copy: "复制链接", save: "稍后读", related: "继续阅读" },
     en: { list: "Articles", about: "About", news: "Market news", products: "Products", back: "Back to articles", copy: "Copy link", save: "Read later", related: "Continue reading" },
@@ -28,7 +28,7 @@
     document.documentElement.lang = language === "zh" ? "zh-CN" : language;
     localStorage.setItem("opcArticleLanguage", language);
     const url = new URL(window.location.href);
-    if (language === "zh") url.searchParams.delete("lang");
+    if (language === "de") url.searchParams.delete("lang");
     else url.searchParams.set("lang", language);
     window.history.replaceState({}, "", url);
 

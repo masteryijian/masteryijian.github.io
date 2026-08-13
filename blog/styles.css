@@ -232,6 +232,7 @@ button {
   border-bottom: 2px solid var(--line);
 }
 
+.site-language-switch,
 .article-language-switch {
   display: flex;
   justify-content: flex-end;
@@ -239,6 +240,12 @@ button {
   margin-bottom: 18px;
 }
 
+.site-language-switch {
+  padding-top: 18px;
+  margin-bottom: 0;
+}
+
+.site-language-switch button,
 .article-language-switch button {
   min-width: 46px;
   border: 1px solid var(--line);
@@ -247,6 +254,7 @@ button {
   padding: 7px 11px;
 }
 
+.site-language-switch button.active,
 .article-language-switch button.active {
   background: var(--ink);
   color: var(--white);

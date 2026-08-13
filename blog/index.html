@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="de">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Yijian Notes | OPC Blog</title>
-    <meta name="description" content="何一建关于中德技术落地、OPC 一人公司、德国市场拜访和自动化工作流的博客。" />
+    <meta name="description" content="Yijian Hes Notizen zu technischer Umsetzung zwischen China und Deutschland, OPC, deutschen Kundenbesuchen und Automatisierungsworkflows." />
     <link rel="stylesheet" href="./styles.css" />
     <style>
       .book-feature { margin: 0 0 28px; border: 2px solid var(--line); background: var(--white); }
@@ -21,27 +21,32 @@
       <header class="topbar">
         <a class="brand" href="./index.html">YIJIAN_NOTES</a>
         <nav aria-label="Blog navigation">
-          <a href="./index.html">博客首页</a>
-          <a href="./books/industrial-atlas/index.html">工业文明地图</a>
-          <a href="./books/index.html">德语书</a>
-          <a href="./about.html">关于博客</a>
-          <a href="../lab-product.html">产品页</a>
+          <a href="./index.html" data-i18n="navHome">Blog</a>
+          <a href="./books/industrial-atlas/index.html" data-i18n="navAtlas">Industrieatlas</a>
+          <a href="./books/index.html" data-i18n="navBook">Deutschbuch</a>
+          <a href="./about.html" data-i18n="navAbout">Über den Blog</a>
+          <a href="../lab-product.html" data-i18n="navProducts">Produkte</a>
         </nav>
       </header>
 
       <main>
+        <div class="site-language-switch" data-site-lang-switch aria-label="Seitensprache / Site language / 页面语言">
+          <button type="button" class="active" data-site-lang="de" aria-pressed="true">DE</button>
+          <button type="button" data-site-lang="zh" aria-pressed="false">中文</button>
+          <button type="button" data-site-lang="en" aria-pressed="false">EN</button>
+        </div>
         <section class="intro">
           <div>
-            <h1>把跨境技术落地写成可复用的笔记</h1>
-            <p>
-              这里记录中德自动化、客户拜访、合规资料、OPC 一人公司和业务自动化的实践。文章不追求热闹，重点是能在下一次客户沟通里直接用上。
+            <h1 data-i18n="introTitle">Grenzüberschreitende Technik als wiederverwendbare Notizen</h1>
+            <p data-i18n="introText">
+              Hier dokumentiere ich praktische Erfahrungen mit Automatisierung zwischen China und Deutschland, Kundenbesuchen, Compliance-Unterlagen, dem OPC-Ein-Personen-Unternehmen und Geschäftsautomatisierung. Entscheidend ist, dass sich die Erkenntnisse im nächsten Kundengespräch direkt einsetzen lassen.
             </p>
           </div>
           <aside class="visual-note">
             <img src="./assets/opc-notes.svg" alt="OPC notes visual" />
             <div>
-              <strong>最新主题：把关心写进代码</strong>
-              <span>为一个具体的人做软件，也是在学习怎样照顾她。</span>
+              <strong data-i18n="latestTitle">Aktuelles Thema: Fürsorge in Code</strong>
+              <span data-i18n="latestText">Software für einen konkreten Menschen zu entwickeln heißt auch zu lernen, wie man für ihn sorgt.</span>
             </div>
           </aside>
         </section>
@@ -50,27 +55,27 @@
           <a class="book-feature-link" href="./books/index.html">
             <img src="../assets/books/cover.png" alt="人人都能用德语 封面" />
             <div>
-              <span class="badge">新书 · 免费阅读</span>
-              <h2>《人人都能用德语》：六个月起步的长期主义实践</h2>
-              <p>参考李笑来《人人都能用英语》的方法论，按章节分页免费阅读，附整本 PDF 下载。点击进入图书目录 →</p>
+              <span class="badge" data-i18n="bookBadge">Neues Buch · kostenlos lesen</span>
+              <h2 data-i18n="bookTitle">„Jeder kann Deutsch benutzen“: In sechs Monaten anfangen und langfristig dranbleiben</h2>
+              <p data-i18n="bookText">Kapitelweise kostenlos lesen und das vollständige PDF herunterladen. Zum Inhaltsverzeichnis →</p>
             </div>
           </a>
         </section>
 
         <section class="controls" aria-label="文章筛选">
-          <input id="search" type="search" placeholder="搜索：OPC、德国市场、自动化、客户拜访..." />
+          <input id="search" type="search" placeholder="Suchen: OPC, deutscher Markt, Automatisierung, Kundenbesuche ..." data-i18n-placeholder="searchPlaceholder" />
           <div class="filters">
-            <button class="active" type="button" data-category="All">全部</button>
+            <button class="active" type="button" data-category="All" data-category-label>Alle</button>
             <button type="button" data-category="OPC">OPC</button>
-            <button type="button" data-category="Market">德国市场</button>
-            <button type="button" data-category="Engineering">工程</button>
-            <button type="button" data-category="Book">书</button>
-            <button type="button" data-category="Life">生活</button>
-            <button type="button" data-category="Sales">销售</button>
+            <button type="button" data-category="Market" data-category-label>Deutscher Markt</button>
+            <button type="button" data-category="Engineering" data-category-label>Technik</button>
+            <button type="button" data-category="Book" data-category-label>Bücher</button>
+            <button type="button" data-category="Life" data-category-label>Leben</button>
+            <button type="button" data-category="Sales" data-category-label>Vertrieb</button>
           </div>
           <div class="utility-actions">
-            <button id="clearSearch" type="button">清空筛选</button>
-            <button id="shareBlog" type="button">分享博客</button>
+            <button id="clearSearch" type="button" data-i18n="clearFilters">Filter zurücksetzen</button>
+            <button id="shareBlog" type="button" data-i18n="shareBlog">Blog teilen</button>
           </div>
         </section>
 
@@ -78,7 +83,7 @@
       </main>
 
       <footer class="footer">
-        <p>Yijian Notes | OPC TechBridge | 文章为个人实践笔记，不构成法律、税务或签证建议。</p>
+        <p data-i18n="footer">Yijian Notes | OPC TechBridge | Persönliche Praxisnotizen, keine Rechts-, Steuer- oder Visaberatung.</p>
       </footer>
     </div>
     <script src="./content.js"></script>
