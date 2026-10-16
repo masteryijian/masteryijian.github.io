@@ -208,7 +208,8 @@ async function runPipeline() {
     const result = await generateReport({key, model: document.getElementById("modelName").value.trim(), profile: state.profile, documents: state.extractedText, onStage:stage});
     state.report = result.report; state.audit = result;
     reportPreview.replaceChildren();
-    const pre = document.createElement("pre"); pre.style.whiteSpace = "pre-wrap"; pre.textContent = state.report; reportPreview.append(pre);
+    const {renderMarkdown} = await import("./render.mjs?v=20261016-real1");
+    reportPreview.innerHTML = renderMarkdown(state.report);
     downloadReportBtn.disabled = downloadJsonBtn.disabled = false;
     stage(6, "报告已生成 · 待人工复核");
     setSystemStatus("报告已生成", "已执行模型与网络研究；商业判断仍需人工复核", "done");

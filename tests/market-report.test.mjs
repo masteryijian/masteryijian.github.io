@@ -19,3 +19,6 @@ assert.ok(!requests[1].input.includes('内部报价'));assert.ok(!requests[1].in
 });
 test('oversized files are rejected without truncation or network traffic',async()=>{await assert.rejects(generateReport({key:'test',model:'test',documents:'a'.repeat(180001),fetchImpl:()=>{throw new Error('should not call')}}),/不会静默截断/);});
 test('HTTP errors stop immediately',async()=>{await assert.rejects(generateReport({key:'test',model:'test',profile:{},documents:'资料',fetchImpl:async()=>({ok:false,status:401})}),/401/);});
+
+import {renderMarkdown} from '../tools/market-report/render.mjs';
+test('report preview renders headings and tables but never executes uploaded HTML',()=>{const html=renderMarkdown('## 执行结论\n<script>alert(1)</script>\n[bad](javascript:alert)\n| A | B |\n| --- | --- |\n| 1 | 2 |');assert.ok(html.includes('<h2>'));assert.ok(html.includes('<table>'));assert.ok(!html.includes('<script>'));assert.ok(!html.includes('href="javascript:'));});
