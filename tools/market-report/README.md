@@ -1,3 +1,5 @@
+本地页面回退：连接器同时仅提供 tools/market-report 的六个公开界面文件，访问 http://localhost:4183/tools/market-report/index.html；若远程 HTTPS 页面受浏览器本地访问限制，可直接使用此页面。连接器不会提供 .git 或用户文件。
+
 # 当前默认：本地 GPT OSS 20B（2026-10-16）
 
 用户指定使用本地模型。已发现 LM Studio localhost:1234 的 openai/gpt-oss-20b，已加载上下文 131072；实际 chat/completions 测试回复“本地模型连接成功”。

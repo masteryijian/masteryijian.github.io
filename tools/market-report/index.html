@@ -57,6 +57,7 @@
 <label><input id="consent" type="checkbox" /> 同意把上传文本发送到所选模型接口进行分析</label>
 <label>补充公开研究证据（可选）<textarea id="researchEvidence" rows="5" placeholder="粘贴公开来源 URL、日期及原文摘录；只提供链接时模型不能读取网页。也可把已研究的资料作为文件上传。"></textarea></label>
 <p>本地模式会真实分析文档并生成 12 章评估草稿，但目前不自动联网检索。公开来源由你提供，系统不会声称已核实；缺少证据的市场、价格与法规判断明确标为待核实。</p>
+<p><a href="http://localhost:4183/tools/market-report/index.html" target="_blank" rel="noopener">打开本地评估页面</a>：若 GitHub HTTPS 页面无法访问本机接口，使用此页可避免跨域访问；界面与报告功能相同。</p>
 <p>若本机连接器没有启动，在项目目录运行：python3 scripts/local-model-bridge.py。浏览器如询问访问本地网络，请自行允许后重试。也可填写 http://localhost:1234/v1 直连（需自行在 LM Studio 开启 CORS）。</p>
 </section><section class="grid two-columns">
           <div class="panel" id="upload">
