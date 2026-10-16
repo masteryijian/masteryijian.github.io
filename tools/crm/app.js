@@ -1,5 +1,5 @@
 (()=>{'use strict';
-const M=globalThis.OPCCRM,KEY='opc-techbridge-crm-v2',$=id=>document.getElementById(id),empty=()=>({version:2,customers:[],drafts:[]});let state=empty(),view='overview',query='',stageFilter='all',corrupt=false;
+const M=globalThis.OPCCRM,KEY='opc-techbridge-crm-v2',$=id=>document.getElementById(id),empty=()=>({version:2,customers:[],drafts:[]});let state=empty(),view=(['overview','customers','followups','research','briefs','backup'].includes(location.hash.slice(1))?location.hash.slice(1):'overview'),query='',stageFilter='all',corrupt=false;
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const stageNames={lead:'新线索',qualified:'需求已确认',proposal:'方案 / 报价',won:'已成交',lost:'已关闭'};
 const today=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Berlin',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 const uid=()=>crypto.randomUUID();

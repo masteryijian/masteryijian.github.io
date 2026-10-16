@@ -1,0 +1,9 @@
+(function(root){'use strict';
+const collections=['tasks','resources','communications','needs','signals','projects'];
+function empty(){return {version:1,...Object.fromEntries(collections.map(k=>[k,[]]))};}
+function normalize(value){if(!value||value.version!==1)throw new Error('工作台数据版本不匹配');const result=empty();for(const key of collections){if(!Array.isArray(value[key])||value[key].length>5000)throw new Error('记录集合无效：'+key);const ids=new Set();result[key]=value[key].map(row=>{if(!row||typeof row!=='object'||Array.isArray(row)||typeof row.id!=='string'||!row.id||row.id.length>200||ids.has(row.id))throw new Error('记录 ID 无效或重复');ids.add(row.id);const next={};for(const[k,v]of Object.entries(row)){if(typeof v!=='string'||v.length>50000||k.length>100)throw new Error('记录字段无效');if(!['__proto__','constructor','prototype'].includes(k))next[k]=v;}return next;});}return result;}
+function confirmCommunication(state,id,taskId,createdAt){const next=normalize(state);const record=next.communications.find(r=>r.id===id);if(!record)throw new Error('沟通记录不存在');if(record.state==='confirmed')return next;if(record.state!=='pending')throw new Error('此记录不能确认');record.state='confirmed';if(record.nextAction)next.tasks.unshift({id:taskId,title:record.nextAction,customerId:record.customerId||'',due:record.due||'',state:'open',sourceId:id,createdAt});return normalize(next);}
+function keywords(value){return [...new Set(String(value).split(/[,，;；\n]+/).map(w=>w.trim().toLowerCase()).filter(Boolean))];}
+function match(need,resources){const terms=keywords(need.keywords);if(!terms.length)return [];return resources.map(resource=>{const tags=keywords(resource.keywords);const hits=terms.filter(t=>tags.includes(t));return {resource,hits,missing:terms.filter(t=>!tags.includes(t))};}).filter(item=>item.hits.length).sort((a,b)=>b.hits.length-a.hits.length);}
+root.OPCWorkbench=Object.freeze({empty,normalize,confirmCommunication,keywords,match});
+})(globalThis);

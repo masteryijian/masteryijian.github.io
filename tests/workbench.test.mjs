@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import '../tools/workbench-model.js';
+const M=globalThis.OPCWorkbench;
+test('workspace starts empty with no fabricated tasks or opportunities',()=>{const s=M.empty();assert.equal(s.tasks.length+s.resources.length+s.communications.length+s.needs.length+s.signals.length+s.projects.length,0);});
+test('recording a pending communication does not create an action',()=>{const s=M.empty();s.communications.push({id:'c',state:'pending',nextAction:'Check interface'});assert.equal(M.normalize(s).tasks.length,0);});
+test('confirmation creates one linked action and never duplicates on repeat',()=>{const s=M.empty();s.communications.push({id:'c',state:'pending',customerId:'company-1',nextAction:'Check interface',due:'2026-10-19'});const first=M.confirmCommunication(s,'c','t1','2026-10-16');assert.equal(first.tasks[0].sourceId,'c');assert.equal(first.tasks[0].customerId,'company-1');assert.equal(first.communications[0].state,'confirmed');assert.equal(M.confirmCommunication(first,'c','t2','2026-10-16').tasks.length,1);assert.equal(s.communications[0].state,'pending');});
+test('confirmation without an action does not fabricate a task',()=>{const s=M.empty();s.communications.push({id:'c',state:'pending',nextAction:''});assert.equal(M.confirmCommunication(s,'c','t','now').tasks.length,0);});
+test('matching reports exact tags and uncovered conditions',()=>{const result=M.match({keywords:'OPC UA，机器人, Germany'},[{id:'r',keywords:'opc ua,机器人',title:'Gateway'},{id:'other',keywords:'Battery'}]);assert.equal(result.length,1);assert.deepEqual(result[0].hits,['opc ua','机器人']);assert.deepEqual(result[0].missing,['germany']);assert.equal('score' in result[0],false);});
+test('empty or unmatched requirements return no invented resources',()=>{assert.deepEqual(M.match({keywords:''},[{keywords:'robot'}]),[]);assert.deepEqual(M.match({keywords:'sensor'},[{keywords:'robot'}]),[]);});
+test('duplicate IDs and nested untrusted data are rejected',()=>{const s=M.empty();s.tasks=[{id:'a'},{id:'a'}];assert.throws(()=>M.normalize(s));s.tasks=[{id:'a',payload:{}}];assert.throws(()=>M.normalize(s));});

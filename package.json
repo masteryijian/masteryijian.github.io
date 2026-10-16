@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "python3 -m http.server 4173",
-    "test": "node scripts/validate-site.mjs && node --test tests/crm.test.mjs",
+    "test": "node scripts/validate-site.mjs && node --test tests/*.test.mjs",
     "build": "npm test"
   }
 }
