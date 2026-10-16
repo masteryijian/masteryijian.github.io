@@ -558,3 +558,5 @@ textarea {
 }
 
 #connection {margin-bottom:24px;line-height:1.7} #connection label {display:block;margin:12px 0} #connection input:not([type=checkbox]) {padding:10px;max-width:100%;border:1px solid #cbd5e1;border-radius:6px} .report-preview {line-height:1.85;overflow-wrap:anywhere} .report-preview h2 {margin-top:2em;border-bottom:1px solid #dbe3ec;padding-bottom:.5em} .report-preview table {border-collapse:collapse;width:100%} .report-preview th,.report-preview td {padding:10px;border:1px solid #dbe3ec;text-align:left;vertical-align:top} .report-preview th {background:#edf3f8} .table-scroll {overflow-x:auto} .report-preview blockquote {border-left:3px solid #597f9d;padding-left:16px;color:#526478;margin-left:0} .report-preview a {color:#075985} #progress .progress-bar {display:none}
+
+#connection [hidden] {display:none !important} #connection textarea {display:block;width:100%;box-sizing:border-box;padding:12px;margin-top:8px}

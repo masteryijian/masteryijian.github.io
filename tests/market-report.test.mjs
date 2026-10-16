@@ -22,3 +22,21 @@ test('HTTP errors stop immediately',async()=>{await assert.rejects(generateRepor
 
 import {renderMarkdown} from '../tools/market-report/render.mjs';
 test('report preview renders headings and tables but never executes uploaded HTML',()=>{const html=renderMarkdown('## 执行结论\n<script>alert(1)</script>\n[bad](javascript:alert)\n| A | B |\n| --- | --- |\n| 1 | 2 |');assert.ok(html.includes('<h2>'));assert.ok(html.includes('<table>'));assert.ok(!html.includes('<script>'));assert.ok(!html.includes('href="javascript:'));});
+
+import {localBase, localChat, generateLocalReport} from '../tools/market-report/local-engine.mjs';
+test('local mode rejects non-loopback destinations and credential URLs',()=>{
+ for(const address of ['https://example.com/v1','http://192.168.1.2/v1','http://user:pass@localhost:1234/v1','http://localhost:1234/wrong']) assert.throws(()=>localBase(address));
+ assert.equal(localBase('http://localhost:4183/v1/'),'http://localhost:4183/v1');
+});
+test('local mode rejects truncated output and does not require a cloud key',async()=>{
+ const mock=async()=>({ok:true,json:async()=>({choices:[{finish_reason:'length',message:{content:'partial'}}]})});
+ await assert.rejects(localChat({endpoint:'http://localhost:4183/v1',model:'local',messages:[],fetchImpl:mock}),/未完整/);
+});
+test('local report makes five local calls and never claims internet verification',async()=>{
+ const calls=[];let n=0;
+ const mock=async(url,options)=>{calls.push({url,body:JSON.parse(options.body),headers:options.headers});n++;
+ const text=n>=2 && n<=4 ? SECTIONS.slice((n-2)*4,(n-1)*4).map(s=>'## '+s+'\n'+'[分析判断]具体证据与待核实任务。'.repeat(60)).join('\n'):'[待核实]资料审阅或交付复核';
+ return {ok:true,json:async()=>({id:'local'+n,model:'local',choices:[{finish_reason:'stop',message:{content:text}}]})};};
+ const result=await generateLocalReport({endpoint:'http://localhost:4183/v1',model:'local',profile:{product:'测试'},documents:'测试文档',fetchImpl:mock});
+ assert.equal(calls.length,5);assert.ok(calls.every(c=>c.url.startsWith('http://localhost:4183/')));assert.ok(calls.every(c=>!c.headers.Authorization && !c.body.tools));assert.equal(result.networkResearchPerformed,false);assert.equal(result.status,'local_draft_pending_external_verification');
+});

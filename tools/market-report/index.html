@@ -47,12 +47,17 @@
         </section>
 
         <section class="panel" id="connection">
-<h3>真实研究连接 · GitHub Pages 版</h3>
-<p>本站是静态网页，没有服务器模型密钥。使用你自己的 OpenAI API 连接进行研究（会产生 API 费用）。密钥仅保留在当前页面内存，刷新即清除。请仅在自己的可信设备使用；共享服务需要另建安全后台。</p>
-<label>OpenAI API 密钥 <input id="apiKey" type="password" autocomplete="off" placeholder="仅本次使用，不保存" /></label>
-<label>模型 <input id="modelName" value="gpt-4.1" /></label>
-<label><input id="consent" type="checkbox" /> 同意将上传文本发送给 OpenAI，并使用公开产品名称进行网络研究</label>
-<p>未连接时可提取并下载分析资料包；不会把资料包标为评估报告。报告遵循灵心巧手报告的论证思路，所有企业与市场事实重新研究。</p>
+<h3>本地 GPT OSS 20B · LM Studio</h3>
+<p>默认通过本机连接器调用 LM Studio。文档分析只发往本机，不需要云端 API 密钥。请在运行 LM Studio 的这台电脑打开本页。</p>
+<label>连接方式 <select id="provider"><option value="local">本地 GPT OSS 20B（默认）</option><option value="openai">OpenAI 云端（可选）</option></select></label>
+<label>本地接口地址 <input id="localEndpoint" value="http://localhost:4183/v1" /></label>
+<label>模型 <input id="modelName" value="openai/gpt-oss-20b" /></label>
+<label id="keyLabel" hidden>API 密钥（仅云端需要；不保存） <input id="apiKey" type="password" autocomplete="off" /></label>
+<button class="secondary-action" type="button" id="testConnectionBtn">测试本地模型连接</button><p id="connectionResult" role="status">尚未测试。LM Studio 在 localhost:1234；本机连接器在 localhost:4183。</p>
+<label><input id="consent" type="checkbox" /> 同意把上传文本发送到所选模型接口进行分析</label>
+<label>补充公开研究证据（可选）<textarea id="researchEvidence" rows="5" placeholder="粘贴公开来源 URL、日期及原文摘录；只提供链接时模型不能读取网页。也可把已研究的资料作为文件上传。"></textarea></label>
+<p>本地模式会真实分析文档并生成 12 章评估草稿，但目前不自动联网检索。公开来源由你提供，系统不会声称已核实；缺少证据的市场、价格与法规判断明确标为待核实。</p>
+<p>若本机连接器没有启动，在项目目录运行：python3 scripts/local-model-bridge.py。浏览器如询问访问本地网络，请自行允许后重试。也可填写 http://localhost:1234/v1 直连（需自行在 LM Studio 开启 CORS）。</p>
 </section><section class="grid two-columns">
           <div class="panel" id="upload">
             <div class="panel-heading">
@@ -171,6 +176,6 @@
       </main>
     </div>
 
-    <script type="module" src="./app.js?v=20261016-real1"></script>
+    <script type="module" src="./app.js?v=20261016-local1"></script>
   </body>
 </html>

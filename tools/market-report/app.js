@@ -201,18 +201,25 @@ async function runPipeline() {
     if (!state.extractedText.trim()) throw new Error("没有可读文本，请上传文字版 PDF、DOCX、表格或文本。");
     syncWorkspaceBtn.disabled = copyCodexBtn.disabled = false;
     if (state.files.some(f => !f.text.trim())) throw new Error("部分文件未能读取；请补充 OCR 文本或移除这些文件后重试，避免遗漏资料。");
+    const local = document.getElementById("provider").value === "local";
     const key = document.getElementById("apiKey").value.trim();
-    if (!key) throw new Error("文本已提取，但尚未连接模型。请填写本次使用的 API 密钥，或下载分析资料包交给 Codex 研究。尚未生成报告。");
+    if (!local && !key) throw new Error("云端模式需要 API 密钥；本地模式不需要。");
     if (!document.getElementById("consent").checked) throw new Error("请先确认资料发送授权。");
-    const {generateReport} = await import("./engine.mjs?v=20261016-real1");
-    const result = await generateReport({key, model: document.getElementById("modelName").value.trim(), profile: state.profile, documents: state.extractedText, onStage:stage});
+    let result;
+    if(local) {
+      const {generateLocalReport} = await import("./local-engine.mjs?v=20261016-local1");
+      result = await generateLocalReport({endpoint:document.getElementById("localEndpoint").value, model:document.getElementById("modelName").value.trim(), profile:state.profile, documents:state.extractedText, evidence:document.getElementById("researchEvidence").value, onStage:stage});
+    } else {
+      const {generateReport} = await import("./engine.mjs?v=20261016-real1");
+      result = await generateReport({key, model: document.getElementById("modelName").value.trim(), profile: state.profile, documents: state.extractedText, onStage:stage});
+    }
     state.report = result.report; state.audit = result;
     reportPreview.replaceChildren();
     const {renderMarkdown} = await import("./render.mjs?v=20261016-real1");
     reportPreview.innerHTML = renderMarkdown(state.report);
     downloadReportBtn.disabled = downloadJsonBtn.disabled = false;
-    stage(6, "报告已生成 · 待人工复核");
-    setSystemStatus("报告已生成", "已执行模型与网络研究；商业判断仍需人工复核", "done");
+    stage(6, local ? "本地评估草稿已生成 · 外部证据待核实" : "报告已生成 · 待人工复核");
+    setSystemStatus(local ? "本地草稿已生成" : "报告已生成", local ? "真实本地模型分析；未执行自动网络研究" : "已执行模型与网络研究；商业判断仍需人工复核", "done");
   } catch (error) {
     overallPercent.textContent = "评估未完成";
     steps.forEach(step => step.classList.remove("running"));
@@ -237,3 +244,20 @@ downloadJsonBtn.addEventListener("click", () => {if(state.audit) download("研�
 syncWorkspaceBtn.addEventListener("click", () => download("待评估资料包.md",packet()));
 copyCodexBtn.addEventListener("click", async () => {try {await navigator.clipboard.writeText("请按灵心巧手欧洲市场与代理报告的论证思路重新研究，区分资料事实、公开证据与判断，不虚构数据。\n"+packet()); log("已复制待评估资料包，尚未生成报告。");} catch {download("待评估资料包.md",packet());}});
 renderFiles();
+
+document.getElementById("provider").addEventListener("change", () => {
+  const local=document.getElementById("provider").value === "local";
+  document.getElementById("keyLabel").hidden=local;
+  document.getElementById("modelName").value=local?"openai/gpt-oss-20b":"gpt-4.1";
+  invalidate();
+});
+document.getElementById("testConnectionBtn").addEventListener("click", async () => {
+  const result=document.getElementById("connectionResult"), button=document.getElementById("testConnectionBtn");
+  button.disabled=true;result.textContent="正在请求本地模型实际回复…";
+  try {
+    const {localChat}=await import("./local-engine.mjs?v=20261016-local1");
+    const answer=await localChat({endpoint:document.getElementById("localEndpoint").value,model:document.getElementById("modelName").value.trim(),messages:[{role:"user",content:"只回复：本地模型连接成功"}],maxTokens:128});
+    result.textContent="实际模型回复："+answer.text;
+  } catch(error) {result.textContent="连接失败："+error.message;}
+  finally {button.disabled=false;}
+});
