@@ -46,7 +46,14 @@
           <button class="primary-action" id="runBtn" type="button">开始评估</button>
         </section>
 
-        <section class="grid two-columns">
+        <section class="panel" id="connection">
+<h3>真实研究连接 · GitHub Pages 版</h3>
+<p>本站是静态网页，没有服务器模型密钥。使用你自己的 OpenAI API 连接进行研究（会产生 API 费用）。密钥仅保留在当前页面内存，刷新即清除。请仅在自己的可信设备使用；共享服务需要另建安全后台。</p>
+<label>OpenAI API 密钥 <input id="apiKey" type="password" autocomplete="off" placeholder="仅本次使用，不保存" /></label>
+<label>模型 <input id="modelName" value="gpt-4.1" /></label>
+<label><input id="consent" type="checkbox" /> 同意将上传文本发送给 OpenAI，并使用公开产品名称进行网络研究</label>
+<p>未连接时可提取并下载分析资料包；不会把资料包标为评估报告。报告遵循灵心巧手报告的论证思路，所有企业与市场事实重新研究。</p>
+</section><section class="grid two-columns">
           <div class="panel" id="upload">
             <div class="panel-heading">
               <h3>上传资料</h3>
@@ -121,18 +128,18 @@
           <div class="panel">
             <div class="panel-heading">
               <h3>处理进度</h3>
-              <span id="overallPercent">0%</span>
+              <span id="overallPercent">等待开始</span>
             </div>
             <div class="progress-bar">
               <div id="progressFill"></div>
             </div>
             <ol class="steps" id="steps">
-              <li data-step="0"><span></span>资料接收与分类</li>
-              <li data-step="1"><span></span>文本抽取与信息建档</li>
-              <li data-step="2"><span></span>德国市场数据验证</li>
-              <li data-step="3"><span></span>合规与数据安全检查</li>
-              <li data-step="4"><span></span>落地模式与成本估算</li>
-              <li data-step="5"><span></span>报告与报价生成</li>
+              <li data-step="0"><span></span>文本提取与完整性检查</li>
+              <li data-step="1"><span></span>企业与产品事实审阅</li>
+              <li data-step="2"><span></span>公开市场与竞争研究</li>
+              <li data-step="3"><span></span>商业与代理可行性评估</li>
+              <li data-step="4"><span></span>报告证据与结构检查</li>
+              <li data-step="5"><span></span>报告交付（待人工复核）</li>
             </ol>
           </div>
 
@@ -152,8 +159,8 @@
             <h3>报告预览与下载</h3>
             <div class="download-actions">
               <button class="secondary-action" id="downloadReportBtn" type="button" disabled>下载报告 Markdown</button>
-              <button class="secondary-action" id="downloadJsonBtn" type="button" disabled>下载项目 JSON</button>
-              <button class="secondary-action" id="syncWorkspaceBtn" type="button" disabled>同步到 CRM / 助理</button>
+              <button class="secondary-action" id="downloadJsonBtn" type="button" disabled>下载研究证据 JSON</button>
+              <button class="secondary-action" id="syncWorkspaceBtn" type="button" disabled>下载分析资料包</button>
               <button class="secondary-action" id="copyCodexBtn" type="button" disabled>复制给 Codex 分析</button>
             </div>
           </div>
@@ -164,6 +171,6 @@
       </main>
     </div>
 
-    <script src="./app.js?v=20260527c"></script>
+    <script type="module" src="./app.js?v=20261016-real1"></script>
   </body>
 </html>

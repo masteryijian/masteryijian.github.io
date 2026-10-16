@@ -27,34 +27,7 @@ const profileForm = document.getElementById("profileForm");
 const systemDot = document.getElementById("systemDot");
 const systemStatus = document.getElementById("systemStatus");
 const systemHint = document.getElementById("systemHint");
-const MAX_AI_TEXT_CHARS = 24000;
 
-const pipeline = [
-  {
-    title: "资料接收与分类",
-    detail: "识别文件类型、大小、上传批次和可读文本。"
-  },
-  {
-    title: "文本抽取与信息建档",
-    detail: "从资料和表单中整理客户、产品、用途、行业和信息缺口。"
-  },
-  {
-    title: "德国市场数据验证",
-    detail: "准备官方统计、行业协会、州级产业和采购信号的验证清单。"
-  },
-  {
-    title: "合规与数据安全检查",
-    detail: "按产品类别判断 CE、RoHS、REACH、WEEE、GPSR、GDPR、DPA、NDA 等要求。"
-  },
-  {
-    title: "落地模式与成本估算",
-    detail: "比较直销、代理、经销、仓储、售后维修和补货周期。"
-  },
-  {
-    title: "报告与报价生成",
-    detail: "生成专业简洁报告、项目 JSON 和报价建议。"
-  }
-];
 
 function formatBytes(bytes) {
   if (!bytes) return "0 B";
@@ -125,28 +98,6 @@ function setSystemStatus(status, hint, mode = "idle") {
   systemDot.className = `status-dot ${mode === "idle" ? "" : mode}`;
 }
 
-function setProgress(percent, activeIndex) {
-  progressFill.style.width = `${percent}%`;
-  overallPercent.textContent = `${percent}%`;
-
-  steps.forEach((step, index) => {
-    step.classList.remove("running", "done");
-    if (index < activeIndex) step.classList.add("done");
-    if (index === activeIndex) step.classList.add("running");
-    if (percent === 100) {
-      step.classList.remove("running");
-      step.classList.add("done");
-    }
-  });
-}
-
-function resetProgressView() {
-  progressFill.style.width = "0%";
-  overallPercent.textContent = "0%";
-  steps.forEach((step) => step.classList.remove("running", "done"));
-  reportPreview.innerHTML = "<p>正在生成报告，完成后这里会显示报告预览。</p>";
-}
-
 async function extractDocuments() {
   const chunks = [];
   for (const item of state.files) {
@@ -173,7 +124,7 @@ async function extractDocuments() {
 
 async function extractOneDocument(file) {
   const name = file.name.toLowerCase();
-  if (/\.(txt|md|csv)$/i.test(name)) return file.text();
+  if (/\.(txt|md|csv)$/i.test(name)) return (await file.text()).split("\n").map((line, i) => `[行 ${i + 1}] ${line}`).join("\n");
   if (/\.(xlsx|xls)$/i.test(name)) return extractSpreadsheet(file);
   if (/\.docx$/i.test(name)) return extractDocx(file);
   if (/\.pdf$/i.test(name)) return extractPdf(file);
@@ -196,7 +147,7 @@ async function extractPdf(file) {
   for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
     const page = await pdf.getPage(pageNumber);
     const content = await page.getTextContent();
-    pages.push(content.items.map((item) => item.str).join(" "));
+    pages.push(`[第 ${pageNumber} 页]\n` + content.items.map((item) => item.str).join(" "));
   }
   return pages.join("\n\n");
 }
@@ -221,429 +172,67 @@ function getProfile() {
   return Object.fromEntries(formData.entries());
 }
 
-function estimate(profile) {
-  const unitCost = Number(profile.unitCost || 0);
-  const monthlyVolume = Number(profile.monthlyVolume || 0);
-  const logistics = Math.max(unitCost * 0.12, 1.5);
-  const complianceReserve = unitCost * 0.06;
-  const afterSales = unitCost * 0.05;
-  const channel = unitCost * 0.15;
-  const landedCost = unitCost + logistics + complianceReserve + afterSales + channel;
-  const suggestedLow = landedCost / 0.68;
-  const suggestedHigh = landedCost / 0.58;
-  const monthlyFixed = monthlyVolume > 0 ? 1800 + Math.min(monthlyVolume * 1.6, 5200) : 2500;
 
-  return {
-    landedCost,
-    suggestedLow,
-    suggestedHigh,
-    monthlyFixed
-  };
+function download(name, content, type = "text/markdown;charset=utf-8") {
+  const url = URL.createObjectURL(new Blob([content], {type}));
+  const a = document.createElement("a"); a.href = url; a.download = name; a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
-
-function complianceItems(category) {
-  const common = ["包装法 VerpackG", "GPSR 通用产品安全", "NDA 保密协议", "销售与保修条款"];
-  if (category === "电子电器") {
-    return ["CE", "RoHS", "REACH", "WEEE", "电池法 BattG 如含电池", ...common];
-  }
-  if (category === "软件 / 数据产品") {
-    return ["GDPR", "DPA 数据处理协议", "TOMs 技术和组织措施", "数据托管位置说明", "信息安全附件", ...common];
-  }
-  if (category === "医疗 / 健康") {
-    return ["MDR 医疗器械法规判断", "CE", "临床或安全资料", "德语说明书", ...common];
-  }
-  if (category === "工业设备") {
-    return ["CE", "机械指令/机械法规判断", "EMC 如含电子部件", "REACH", "德语安全说明", ...common];
-  }
-  return common;
+function stage(index, title) {
+  overallPercent.textContent = title;
+  progressFill.style.width = "0%";
+  steps.forEach((step, i) => { step.classList.toggle("done", i < index); step.classList.toggle("running", i === index); });
+  log(title);
 }
-
-function buildReport() {
-  const profile = getProfile();
-  const costs = estimate(profile);
-  const files = state.files.map((item) => `- ${item.file.name} (${fileKind(item)}, ${formatBytes(item.file.size)})：${item.status || "等待抽取"}`).join("\n");
-  const product = profile.product || "待填写产品";
-  const customer = profile.customer || "待填写客户";
-  const industry = profile.industry || "待确认行业";
-  const focus = profile.focus || "市场潜力、合规、数据安全、仓储、售后、报价";
-  const extractedPreview = state.extractedText
-    ? state.extractedText.slice(0, 1600)
-    : "当前没有识别到可读内容；如果资料是扫描件图片，请先补充 OCR 文本或在项目档案中粘贴关键纪要。";
-
-  state.profile = {
-    customer,
-    product,
-    category: profile.category,
-    industry,
-    focus,
-    files: state.files.map((item) => ({
-      name: item.file.name,
-      size: item.file.size,
-      type: item.file.type,
-      kind: fileKind(item),
-      status: item.status,
-      extracted_chars: item.text ? item.text.length : 0,
-      message: item.message || ""
-    })),
-    extracted_text_chars: state.extractedText.length,
-    analysis: {
-      executiveSummary: "AI 分析尚未完成。这里仅保存浏览器抽取到的资料包，不冒充市场判断。",
-      marketScore: null,
-      opportunities: [],
-      risks: [],
-      missing: [],
-      nextSteps: ["配置 Netlify 环境变量 ANTHROPIC_AUTH_TOKEN 或 OPENAI_API_KEY 后重新评估", "或点击“复制给 Codex 分析”并粘贴回当前对话"]
-    },
-    cost_estimate_eur: {
-      landed_cost_per_unit: Number(costs.landedCost.toFixed(2)),
-      suggested_price_low: Number(costs.suggestedLow.toFixed(2)),
-      suggested_price_high: Number(costs.suggestedHigh.toFixed(2)),
-      estimated_monthly_fixed_cost: Number(costs.monthlyFixed.toFixed(2))
-    },
-    ai: {
-      status: "not_completed"
-    },
-    generated_at: new Date().toISOString()
-  };
-
-  state.report = `# 待 AI 分析的拜访资料包
-
-AI 分析尚未完成。以下内容只是浏览器端抽取出的资料包和可计算字段，不是市场判断，也不是最终拜访报告。
-
-## 1. 项目档案
-
-- 客户：${customer}
-- 产品：${product}
-- 产品类别：${profile.category}
-- 目标行业：${industry}
-- 重点关注：${focus}
-
-## 2. 已上传资料
-
-${files || "- 暂无文件"}
-
-## 3. 浏览器可读资料预览
-
-${extractedPreview}
-
-## 4. 可计算成本字段
-
-- 单件落地成本估算：EUR ${costs.landedCost.toFixed(2)}
-- 建议报价低位：EUR ${costs.suggestedLow.toFixed(2)}
-- 建议报价高位：EUR ${costs.suggestedHigh.toFixed(2)}
-- 月度固定成本估算：EUR ${costs.monthlyFixed.toFixed(2)}
-
-## 5. 下一步
-
-- 如果要让网站自动生成报告：在 Netlify 环境变量中配置 ANTHROPIC_AUTH_TOKEN 或 OPENAI_API_KEY，然后重新部署。
-- 如果要回到这里分析：点击“复制给 Codex 分析”，把内容粘贴回当前对话。
-- 如果资料是图片或扫描件：先补充 OCR 文本或手动粘贴关键纪要。
-`;
-
-  return state.report;
+function packet() { return `# 拜访评估输入资料（尚未评估）\n${JSON.stringify(state.profile, null, 2)}\n${state.extractedText}`; }
+function invalidate() {
+  state.report = ""; state.audit = null;
+  syncWorkspaceBtn.disabled = copyCodexBtn.disabled = true;
+  downloadReportBtn.disabled = downloadJsonBtn.disabled = true;
+  reportPreview.textContent = "资料已变化，需要重新评估。";
 }
-
-function buildAnalysisPayload() {
-  const profile = getProfile();
-  return {
-    profile,
-    files: state.files.map((item) => ({
-      name: item.file.name,
-      size: item.file.size,
-      type: item.file.type,
-      kind: fileKind(item),
-      status: item.status,
-      message: item.message || "",
-      extracted_chars: item.text ? item.text.length : 0
-    })),
-    extractedText: state.extractedText.slice(0, MAX_AI_TEXT_CHARS),
-    extractedTextTruncated: state.extractedText.length > MAX_AI_TEXT_CHARS,
-    generatedAt: new Date().toISOString()
-  };
-}
-
-function buildCodexPrompt(payload = buildAnalysisPayload()) {
-  return `请你作为 OPC TechBridge 的德国市场进入顾问，基于下面项目档案和文档抽取内容，生成一份真实的拜访评估报告。
-
-要求：
-1. 不要假装联网，不要编造来源；如果需要外部数据，请列出需要验证的来源清单。
-2. 输出 Markdown，包含：项目摘要、文档关键信息、德国/欧盟市场机会、合规与数据安全风险、客户拜访问题清单、报价/落地模式建议、下一步任务。
-3. 明确哪些判断来自资料，哪些只是推断。
-4. 如果资料不足，请直接指出缺口。
-
-项目与资料 JSON：
-
-\`\`\`json
-${JSON.stringify(payload, null, 2)}
-\`\`\`
-`;
-}
-
-function renderReport() {
-  reportPreview.innerHTML = `<pre>${escapeHtml(state.report)}</pre>`;
-  downloadReportBtn.disabled = false;
-  downloadJsonBtn.disabled = false;
-  syncWorkspaceBtn.disabled = false;
-  copyCodexBtn.disabled = false;
-}
-
-function download(filename, content, type) {
-  const blob = new Blob([content], { type });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = filename;
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  URL.revokeObjectURL(url);
-}
-
-function profileFormData() {
-  const data = new FormData();
-  const profile = getProfile();
-  Object.entries(profile).forEach(([key, value]) => data.append(key, value || ""));
-  state.files.forEach((item) => data.append("files", item.file, item.file.name));
-  return data;
-}
-
-async function analyzeWithAI(payload) {
-  const response = await fetch("/api/analyze", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(payload)
-  });
-
-  const contentType = response.headers.get("content-type") || "";
-  if (!contentType.includes("application/json")) {
-    throw new Error("AI 接口没有返回 JSON，请检查 Netlify Function。");
-  }
-
-  const result = await response.json();
-  if (!response.ok || !result.ok) {
-    const error = new Error(result.error || "AI 分析失败");
-    error.code = result.code || "AI_ANALYZE_FAILED";
-    error.detail = result.detail || "";
-    throw error;
-  }
-  return result;
-}
-
 async function runPipeline() {
   if (state.running) return;
-  state.running = true;
-  runBtn.disabled = true;
-  runBtn.textContent = "评估中...";
-  downloadReportBtn.disabled = true;
-  downloadJsonBtn.disabled = true;
-  syncWorkspaceBtn.disabled = true;
-  copyCodexBtn.disabled = true;
-  activityLog.innerHTML = "";
-  resetProgressView();
-  setSystemStatus("评估中", "正在生成进度和报告", "running");
-  setProgress(0, 0);
-  document.getElementById("progress").scrollIntoView({ behavior: "smooth", block: "start" });
-  log("评估任务启动。");
-  if (!state.files.length) {
-    log("提示：当前没有上传文件，将根据表单内容生成基础报告。");
-  }
-
-  for (let index = 0; index < pipeline.length - 1; index += 1) {
-    const percent = Math.round((index / pipeline.length) * 100);
-    setProgress(percent, index);
-    log(`${pipeline[index].title}：${pipeline[index].detail}`);
-    await new Promise((resolve) => setTimeout(resolve, 720));
-  }
-
-  setProgress(84, pipeline.length - 1);
-  log("报告与报价生成：正在读取上传文档。");
-  await extractDocuments();
-  log(`浏览器读取完成：共抽取 ${state.extractedText.length} 个字符。`);
-  const analysisPayload = buildAnalysisPayload();
-  log("正在调用 AI 接口 /api/analyze 生成真实拜访报告。");
+  invalidate(); state.running = true; runBtn.disabled = true; fileInput.disabled = true;
   try {
-    const aiResult = await analyzeWithAI(analysisPayload);
-    state.report = aiResult.report;
-    state.profile = aiResult.profile || {
-      ...analysisPayload.profile,
-      files: analysisPayload.files,
-      extracted_text_chars: state.extractedText.length,
-      generated_at: new Date().toISOString(),
-      ai: aiResult.ai || {}
-    };
-    state.downloads = {};
-    renderReport();
-    setProgress(100, pipeline.length - 1);
-    setSystemStatus("AI 分析完成", "报告由 OpenAI 生成，可下载或同步到 CRM / 助理", "done");
-    log(`AI 分析完成：${aiResult.ai?.model || "OpenAI"}。`);
+    stage(0, "正在提取实际文件文本");
+    state.profile = getProfile();
+    await extractDocuments();
+    if (!state.extractedText.trim()) throw new Error("没有可读文本，请上传文字版 PDF、DOCX、表格或文本。");
+    syncWorkspaceBtn.disabled = copyCodexBtn.disabled = false;
+    if (state.files.some(f => !f.text.trim())) throw new Error("部分文件未能读取；请补充 OCR 文本或移除这些文件后重试，避免遗漏资料。");
+    const key = document.getElementById("apiKey").value.trim();
+    if (!key) throw new Error("文本已提取，但尚未连接模型。请填写本次使用的 API 密钥，或下载分析资料包交给 Codex 研究。尚未生成报告。");
+    if (!document.getElementById("consent").checked) throw new Error("请先确认资料发送授权。");
+    const {generateReport} = await import("./engine.mjs?v=20261016-real1");
+    const result = await generateReport({key, model: document.getElementById("modelName").value.trim(), profile: state.profile, documents: state.extractedText, onStage:stage});
+    state.report = result.report; state.audit = result;
+    reportPreview.replaceChildren();
+    const pre = document.createElement("pre"); pre.style.whiteSpace = "pre-wrap"; pre.textContent = state.report; reportPreview.append(pre);
+    downloadReportBtn.disabled = downloadJsonBtn.disabled = false;
+    stage(6, "报告已生成 · 待人工复核");
+    setSystemStatus("报告已生成", "已执行模型与网络研究；商业判断仍需人工复核", "done");
   } catch (error) {
-    buildReport();
-    renderReport();
-    setProgress(100, pipeline.length - 1);
-    setSystemStatus("AI 未完成", "已生成可复制给 Codex 的分析包", "done");
-    log(`AI 分析未完成：${error.message}`);
-    if (error.code === "AI_KEY_MISSING") {
-      log("需要在 Netlify 环境变量中配置 ANTHROPIC_AUTH_TOKEN 或 OPENAI_API_KEY。");
-    }
-    log("已保留本地资料抽取结果。请点击“复制给 Codex 分析”，回到这里让我继续分析。");
-  }
-  document.getElementById("report").scrollIntoView({ behavior: "smooth", block: "start" });
-  state.running = false;
-  runBtn.disabled = false;
-  runBtn.textContent = "重新评估";
+    overallPercent.textContent = "评估未完成";
+    steps.forEach(step => step.classList.remove("running"));
+    log(error.message); reportPreview.textContent = error.message;
+    setSystemStatus("评估未完成", "不会生成模板报告或虚假报价", "idle");
+  } finally { state.running = false; runBtn.disabled = false; fileInput.disabled = false; }
 }
-
 function addFiles(files) {
-  const wrapped = Array.from(files).map((file) => ({
-    id: `file_${Date.now()}_${Math.random().toString(16).slice(2)}`,
-    file,
-    text: "",
-    status: "等待抽取",
-    message: ""
-  }));
-  state.files = [...state.files, ...wrapped];
+  if(state.running) return;
+  invalidate();
+  for (const file of files) state.files.push({id:crypto.randomUUID(), file, text:"", status:"等待抽取"});
   renderFiles();
-  setSystemStatus("资料已接收", `${state.files.length} 个文件等待评估`, "idle");
-  log(`已加入 ${files.length} 个文件。`);
-  reportPreview.innerHTML = "<p>资料已上传。点击“开始评估”后会生成报告预览和下载文件。</p>";
-  downloadReportBtn.disabled = true;
-  downloadJsonBtn.disabled = true;
-  copyCodexBtn.disabled = true;
 }
-
-fileInput.addEventListener("change", (event) => {
-  addFiles(event.target.files);
-  fileInput.value = "";
-});
-
-["dragenter", "dragover"].forEach((eventName) => {
-  dropzone.addEventListener(eventName, (event) => {
-    event.preventDefault();
-    dropzone.classList.add("dragover");
-  });
-});
-
-["dragleave", "drop"].forEach((eventName) => {
-  dropzone.addEventListener(eventName, (event) => {
-    event.preventDefault();
-    dropzone.classList.remove("dragover");
-  });
-});
-
-dropzone.addEventListener("drop", (event) => {
-  addFiles(event.dataTransfer.files);
-});
-
-fileList.addEventListener("click", (event) => {
-  const button = event.target.closest("[data-remove-file]");
-  if (!button) return;
-  state.files = state.files.filter((item) => item.id !== button.dataset.removeFile);
-  state.extractedText = state.files.map((item) => item.text).filter(Boolean).join("\n\n");
-  renderFiles();
-  setSystemStatus("资料已更新", `${state.files.length} 个文件等待评估`, "idle");
-  log("已删除一个上传文件。");
-});
-
+fileInput.addEventListener("change", e => addFiles(e.target.files));
+for (const name of ["dragover", "drop"]) dropzone.addEventListener(name, e => { e.preventDefault(); if(name === "drop") addFiles(e.dataTransfer.files); });
+fileList.addEventListener("click", e => {const b=e.target.closest("[data-remove-file]"); if(b && !state.running) { state.files=state.files.filter(f=>f.id!==b.dataset.removeFile); invalidate(); renderFiles(); }});
+profileForm.addEventListener("input", invalidate);
 runBtn.addEventListener("click", runPipeline);
-
-clearLogBtn.addEventListener("click", () => {
-  activityLog.innerHTML = "<p>等待开始。</p>";
-});
-
-downloadReportBtn.addEventListener("click", () => {
-  if (state.downloads.report) {
-    window.location.href = state.downloads.report;
-    return;
-  }
-  download("germany-market-report.md", state.report, "text/markdown;charset=utf-8");
-});
-
-downloadJsonBtn.addEventListener("click", () => {
-  if (state.downloads.json) {
-    window.location.href = state.downloads.json;
-    return;
-  }
-  download("customer-product-profile.json", JSON.stringify(state.profile, null, 2), "application/json;charset=utf-8");
-});
-
-copyCodexBtn.addEventListener("click", async () => {
-  const prompt = buildCodexPrompt();
-  try {
-    await navigator.clipboard.writeText(prompt);
-    log("已复制 Codex 分析包。回到 Codex 对话粘贴即可继续分析。");
-    setSystemStatus("已复制分析包", "可以回到 Codex 对话继续真实分析", "done");
-  } catch {
-    download("codex-market-analysis-prompt.md", prompt, "text/markdown;charset=utf-8");
-    log("浏览器不允许写剪贴板，已下载 Codex 分析包 Markdown。");
-  }
-});
-
-syncWorkspaceBtn.addEventListener("click", () => {
-  if (!state.profile || !Object.keys(state.profile).length) return;
-  const sharedKey = "opc-shared-crm";
-  const assistantKey = "opc-assistant-store";
-  const shared = readJson(sharedKey, {});
-  const assistant = readJson(assistantKey, {});
-  const customer = state.profile.customer || "待填写客户";
-  const reportId = `market_report_${Date.now()}`;
-  const taskId = `market_task_${Date.now()}`;
-  const logId = `market_log_${Date.now()}`;
-  const reportItem = {
-    id: reportId,
-    name: `${customer} - 德国市场拜访评估报告`,
-    owner: "OPC",
-    status: "ready",
-    due: new Date().toISOString().slice(0, 10),
-    link: "../market-report/index.html",
-    notes: state.profile.analysis?.executiveSummary || "市场评估已生成"
-  };
-  const taskItem = {
-    id: taskId,
-    title: `跟进 ${customer} 市场评估报告`,
-    date: new Date().toISOString().slice(0, 10),
-    customer,
-    channel: "internal",
-    priority: "high",
-    status: "open",
-    duration: 45,
-    notes: (state.profile.analysis?.nextSteps || []).join("；")
-  };
-  const logItem = {
-    id: logId,
-    customer,
-    contact: "",
-    note: `市场评估已生成，评分 ${state.profile.analysis?.marketScore || "-"} / 100。`,
-    nextStep: taskItem.notes,
-    createdAt: new Date().toISOString()
-  };
-  const nextShared = {
-    ...shared,
-    updatedAt: new Date().toISOString(),
-    marketReports: [...(shared.marketReports || []), state.profile],
-    reports: [reportItem, ...(shared.reports || [])],
-    tasks: [taskItem, ...(shared.tasks || [])],
-    logs: [logItem, ...(shared.logs || [])]
-  };
-  const nextAssistant = {
-    ...assistant,
-    reports: [reportItem, ...(assistant.reports || [])],
-    tasks: [taskItem, ...(assistant.tasks || [])],
-    logs: [logItem, ...(assistant.logs || [])]
-  };
-  localStorage.setItem(sharedKey, JSON.stringify(nextShared));
-  localStorage.setItem(assistantKey, JSON.stringify(nextAssistant));
-  log("已同步到本地 CRM / 助理共享数据池。");
-  setSystemStatus("已同步", "CRM 和助理可读取该报告、任务与日志", "done");
-});
-
-function readJson(key, fallback) {
-  try {
-    return JSON.parse(localStorage.getItem(key) || "null") || fallback;
-  } catch {
-    return fallback;
-  }
-}
-
+clearLogBtn.addEventListener("click", () => activityLog.textContent = "等待开始。");
+downloadReportBtn.addEventListener("click", () => {if(state.report) download("市场与代理可行性评估.md",state.report);});
+downloadJsonBtn.addEventListener("click", () => {if(state.audit) download("研究证据.json",JSON.stringify(state.audit,null,2),"application/json");});
+syncWorkspaceBtn.addEventListener("click", () => download("待评估资料包.md",packet()));
+copyCodexBtn.addEventListener("click", async () => {try {await navigator.clipboard.writeText("请按灵心巧手欧洲市场与代理报告的论证思路重新研究，区分资料事实、公开证据与判断，不虚构数据。\n"+packet()); log("已复制待评估资料包，尚未生成报告。");} catch {download("待评估资料包.md",packet());}});
 renderFiles();
