@@ -22,10 +22,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate site and CRM
+        run: npm test
       - name: Stage static site
         run: |
           mkdir -p _site
-          rsync -a --exclude='.git' --exclude='.github' ./ _site/
+          rsync -a --exclude='.git' --exclude='.github' --exclude='_site' --exclude='node_modules' --exclude='tests' --exclude='netlify' --exclude='*.backup.*' ./ _site/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

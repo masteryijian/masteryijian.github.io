@@ -1,27 +1,17 @@
-# CEO 私人情报型 CRM
+# OPC CRM v2
 
-一个面向 CEO/单人销售使用的内部 CRM MVP。第一版聚焦“输入行业、关键词或客户需求后，快速匹配合适公司、产品与联系人”。
+Live entry: `/tools/crm/index.html`.
 
-## 当前实现
+A clean browser-local customer desk for GitHub Pages. No fake contacts, inferred confidence percentages, simulated recording analysis or fake monitoring feeds.
 
-- 智能匹配：中文关键词、行业、需求类型、紧急度、可信度筛选。
-- 需求图谱：区分个人需求和企业需求，并绑定联系人与公司。
-- 录音分析：模拟上传后生成结构化纪要和待确认更新建议，不自动改主库。
-- 情报监控：模拟官网/招聘页变化队列，确认后避免重复提醒。
-- 合规来源：每条外部数据展示来源、采集方式、授权状态和可信度。
+- Overview: real record counts and due follow-ups.
+- Customers: company, contact, email, stage, next date, next action, notes and source.
+- Research: separate unverified prospects; never counted as confirmed customers or subscribers.
+- Follow-ups: date order, closed opportunities excluded.
+- Briefs: local drafts and copy; no automatic email sending.
+- Backup: JSON export and non-destructive import, with schema validation and conflict rejection.
+- Legacy import: known demo contacts are excluded; old localStorage is preserved.
 
-## 运行
+Storage key: `opc-techbridge-crm-v2`. Data remains in this browser and is not synced. Local storage is not an authenticated server-side database; use a trusted browser profile, export backups and avoid treating a shared browser as private access control.
 
-直接打开 `index.html` 即可查看静态版本。
-
-如果安装了依赖，也可以运行：
-
-```bash
-npm run start
-```
-
-## 测试
-
-```bash
-npm test
-```
+The backend version is maintained separately in https://github.com/masteryijian/yijian. GitHub Pages cannot execute its Python or SMTP services.

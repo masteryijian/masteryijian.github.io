@@ -1,0 +1,14 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import '../tools/crm/model.js';
+const M=globalThis.OPCCRM;
+const record=(id,extra={})=>M.customer({id,company:'Test company',kind:'customer',stage:'lead',...extra});
+const state=customers=>({version:2,customers,drafts:[]});
+test('empty data stays empty; no invented customers',()=>assert.deepEqual(M.normalize(state([])),state([])));
+test('research cannot claim a confirmed sales stage',()=>assert.equal(record('r1',{kind:'research',stage:'won'}).stage,'lead'));
+test('invalid email and impossible date rejected',()=>{assert.throws(()=>record('a',{email:'bad'}));assert.throws(()=>record('a',{nextDate:'2026-02-31'}));});
+test('customer import rejects duplicate IDs',()=>assert.throws(()=>M.normalize(state([record('a'),record('a')]))));
+test('backup merges new records and is idempotent',()=>{const a=state([record('a')]),b=state([record('b')]);const merged=M.merge(a,b);assert.equal(merged.customers.length,2);assert.deepEqual(M.merge(merged,b),merged);});
+test('conflicting backup never overwrites existing record',()=>{const original=state([record('a')]);assert.throws(()=>M.merge(original,state([record('a',{company:'Changed'})])));assert.equal(original.customers[0].company,'Test company');});
+test('due list ignores research and closed records, sorts dates',()=>{const data=[record('future',{nextDate:'2026-11-01'}),record('late',{nextDate:'2026-10-10'}),record('today',{nextDate:'2026-10-16'}),record('research',{kind:'research',nextDate:'2026-10-01'}),record('won',{stage:'won',nextDate:'2026-10-01'})];assert.deepEqual(M.due(data,'2026-10-16').map(c=>c.id),['late','today']);});
+test('backup only retains defined record fields',()=>{const item=record('a',{password:'do-not-import'});assert.equal('password' in item,false);});
