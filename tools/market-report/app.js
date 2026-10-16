@@ -207,7 +207,7 @@ async function runPipeline() {
     if (!document.getElementById("consent").checked) throw new Error("请先确认资料发送授权。");
     let result;
     if(local) {
-      const {generateLocalReport} = await import("./local-engine.mjs?v=20261016-local1");
+      const {generateLocalReport} = await import("./local-engine.mjs?v=20261016-local2");
       result = await generateLocalReport({endpoint:document.getElementById("localEndpoint").value, model:document.getElementById("modelName").value.trim(), profile:state.profile, documents:state.extractedText, evidence:document.getElementById("researchEvidence").value, onStage:stage});
     } else {
       const {generateReport} = await import("./engine.mjs?v=20261016-real1");
@@ -255,8 +255,8 @@ document.getElementById("testConnectionBtn").addEventListener("click", async () 
   const result=document.getElementById("connectionResult"), button=document.getElementById("testConnectionBtn");
   button.disabled=true;result.textContent="正在请求本地模型实际回复…";
   try {
-    const {localChat}=await import("./local-engine.mjs?v=20261016-local1");
-    const answer=await localChat({endpoint:document.getElementById("localEndpoint").value,model:document.getElementById("modelName").value.trim(),messages:[{role:"user",content:"只回复：本地模型连接成功"}],maxTokens:128});
+    const {localChat}=await import("./local-engine.mjs?v=20261016-local2");
+    const answer=await localChat({endpoint:document.getElementById("localEndpoint").value,model:document.getElementById("modelName").value.trim(),messages:[{role:"user",content:"只回复：本地模型连接成功"}],maxTokens:128,timeoutMs:30000});
     result.textContent="实际模型回复："+answer.text;
   } catch(error) {result.textContent="连接失败："+error.message;}
   finally {button.disabled=false;}

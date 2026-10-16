@@ -4,11 +4,11 @@ export function localBase(endpoint) {
   if(url.protocol !== 'http:' || !['localhost','127.0.0.1','[::1]'].includes(url.hostname) || url.username || url.password || url.search || url.hash || !['/v1','/v1/'].includes(url.pathname)) throw new Error('本地模式仅接受 http://localhost:端口/v1 或回环地址，防止误将资料发往外网。');
   return url.href.replace(/\/$/,'');
 }
-export async function localChat({endpoint,model,messages,maxTokens=6000,fetchImpl=globalThis.fetch}) {
+export async function localChat({endpoint,model,messages,maxTokens=6000,timeoutMs=900000,fetchImpl=globalThis.fetch}) {
   const base=localBase(endpoint);
   let response;
   try {
-    response=await fetchImpl(base+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model,messages,max_tokens:maxTokens,temperature:0.2,stream:false}),signal:AbortSignal.timeout(900000)});
+    response=await fetchImpl(base+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model,messages,max_tokens:maxTokens,temperature:0.2,stream:false}),signal:AbortSignal.timeout(timeoutMs)});
   } catch {throw new Error('无法访问本地模型。检查 LM Studio 和本机连接器是否启动；浏览器可能需要允许本地网络访问。直连 1234 时需开启 CORS。');}
   if(!response.ok) throw new Error(`本地模型 HTTP ${response.status}，请检查模型已加载、上下文容量和服务日志。`);
   const data=await response.json(), choice=data.choices?.[0];
