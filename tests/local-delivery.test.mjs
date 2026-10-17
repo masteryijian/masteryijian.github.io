@@ -50,3 +50,17 @@ test('unsupported foreign names, invented deadlines and cross-SKU claims are wit
  const result=quarantineUnsupportedClaims(text,'O6重量370g，重复定位精度±0.2mm。');
  assert.equal(result.withheld.length,3);assert.ok(!result.report.includes('DIA'));assert.ok(!result.report.includes('产品均提供'));assert.ok(!result.report.includes('3–6个月'));assert.ok(result.report.includes('O6重量370g'));
 });
+
+import {sourceClaimIssues} from '../tools/market-report/local-engine.mjs';
+test('validation and quarantine share sentence boundaries; separate sentences do not imply cross-SKU claims',()=>{
+ const text='所有方案仍需验证。下一步测量精度与抓握力。';
+ assert.deepEqual(sourceClaimIssues(text,'原文'),[]);
+ assert.equal(quarantineUnsupportedClaims(text,'原文').withheld.length,0);
+});
+test('remaining source diagnostics identify exact sentences and quarantine removes exactly those issues',()=>{
+ const source='产品O6重量370g';
+ const text='依据原文对照资料，再安排客户样机验证。'.repeat(40)+'所有型号提供相同精度。虚构ZZZZ协会要求审批。';
+ const issues=sourceClaimIssues(text,source);assert.equal(issues.length,2);
+ assert.equal(issues[0].text,'所有型号提供相同精度。');
+ const filtered=quarantineUnsupportedClaims(text,source);assert.equal(filtered.withheld.length,2);assert.deepEqual(sourceClaimIssues(filtered.report,source),[]);
+});

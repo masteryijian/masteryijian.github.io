@@ -109,3 +109,15 @@ test('timeout is not automatically duplicated and carries diagnostic audit',asyn
  await assert.rejects(generateLocalReport({endpoint:'http://localhost:4183/v1',model:'local',documents:'资料',fetchImpl:async()=>{calls++;throw {name:'TimeoutError'};}}),error=>{assert.ok(error.audit);return /超时/.test(error.message);});
  assert.equal(calls,1);
 });
+
+test('complete pipeline delivers after correction with valid adjacent sentences formerly misread across boundaries',async()=>{
+ let calls=0;
+ const mock=async(url,options)=>{
+  calls++;const body=JSON.parse(options.body),sections=body.response_format?.json_schema.schema.required;
+  const good='所有方案仍需验证。下一步测量精度与抓握力，并按客户任务设置验收条件。'.repeat(20);
+  const text=sections?JSON.stringify(Object.fromEntries(sections.map(s=>[s,good+(calls===5?'须取得ISO 99999认证。':'')]))):'资料审阅';
+  return {ok:true,json:async()=>({choices:[{finish_reason:'stop',message:{content:text}}]})};
+ };
+ const result=await generateLocalReport({endpoint:'http://localhost:4183/v1',model:'local',documents:'原始样机资料',fetchImpl:mock});
+ assert.equal(calls,6);assert.equal(result.withheldClaims.length,0);assert.ok(result.report.includes('所有方案仍需验证。下一步测量精度'));
+});

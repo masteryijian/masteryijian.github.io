@@ -1,4 +1,4 @@
-import {verifyPrivateCitations} from "./private-context.mjs?v=20261017-report7";
+import {verifyPrivateCitations} from "./private-context.mjs?v=20261017-report8";
 import {SECTIONS} from './engine.mjs';
 export function localBase(endpoint) {
   const url = new URL(endpoint);
@@ -55,7 +55,7 @@ export async function generateLocalReport({endpoint,model,profile={},documents,e
   const audit={createdAt:new Date().toISOString(),provider:'local',endpoint:localBase(endpoint),model,profile,documentCharacters:documents.length,originalDocumentCharacters,evidence,stages:[],networkResearchPerformed:false,status:'local_draft_pending_external_verification'};
   const context=`项目：${JSON.stringify(profile)}\n原始资料：\n${documents}\n用户补充公开摘录（未独立核实）：\n${evidence || '未提供'}`;
   const sourceEvidence=documents+"\n"+evidence+"\n"+JSON.stringify(profile.privateEvidence||{});
-  const identity=JSON.stringify({version:7,endpoint:localBase(endpoint),model,profile,documents,evidence});
+  const identity=JSON.stringify({version:8,endpoint:localBase(endpoint),model,profile,documents,evidence});
   if(checkpoint.identity!==identity){checkpoint.identity=identity;checkpoint.responses={};}
   checkpoint.responses ||= {};
   const forget=name=>delete checkpoint.responses[name];
@@ -112,7 +112,7 @@ export async function generateLocalReport({endpoint,model,profile={},documents,e
   return {...audit,report,automaticChecks:['complete_sections','private_source_ids','unsupported_standards'],expertReview:'pending'};
   } catch(error){
     forget('交付问题定向修订');
-    audit.status='failed_not_delivered';audit.error=error.message;
+    audit.status='failed_not_delivered';audit.error=error.message;if(error.sourceIssues)audit.sourceIssues=error.sourceIssues;
     error.audit=audit;throw error;
   }
 }
@@ -138,7 +138,8 @@ export function validateLocalDelivery(text,sourceContext,privateEvidence) {
   }
   const unknown=unsupportedStandards(text,sourceContext);
   if(unknown.length)throw new Error('新增无原始来源的标准编号：'+unknown.join('、'));
-  if(unsupportedClaims(text,sourceContext).length)throw new Error('出现原始资料未支持的名称、数值或跨型号推论；需要删除相关整句或补充来源');
+  const issues=sourceClaimIssues(text,sourceContext);
+  if(issues.length){const error=new Error('来源检查发现 '+issues.length+' 处问题：'+[...new Set(issues.flatMap(issue=>issue.identifiers))].slice(0,5).join('、')+'。未交付这些判断；可下载诊断JSON。');error.sourceIssues=issues;throw error;}
   for(const sentence of text.split(/[。；\n]/)) {
     if(/(?:表明|说明|证明|因此|意味着).{0,30}(?:正式注册|运营资质|来源可靠|数据可靠)/.test(sentence))throw new Error("出现以宣传资料推断资质或可靠性的无效论证");
     if(/(?:无|未出现|没有)标准编号|符合删除.{0,12}要求/.test(sentence))throw new Error("报告正文混入内部校验说明");
@@ -166,12 +167,21 @@ function unsupportedClaims(sentence,sourceContext){
   }
   return [...new Set(missing)];
 }
+function sentences(text){return text.split('\n').map(line=>line.match(/[^。！？；]+[。！？；]?/g)||[]);}
+export function sourceClaimIssues(text,sourceContext){
+  const issues=[];
+  sentences(text).forEach((line,index)=>line.forEach(sentence=>{
+    const identifiers=unsupportedClaims(sentence,sourceContext);
+    if(identifiers.length)issues.push({line:index+1,text:sentence,identifiers});
+  }));
+  return issues;
+}
 export function quarantineUnsupportedClaims(text,sourceContext){return quarantineUnsupportedStandards(text,sourceContext,true);}
 export function quarantineUnsupportedStandards(text,sourceContext,includeOtherClaims=false){
   const withheld=[];
-  const report=text.split('\n').map(line=>{
+  const report=sentences(text).map(line=>{
     // Never merely erase an identifier and leave its unsupported claim intact.
-    return (line.match(/[^。！？；]+[。！？；]?/g)||[]).map(sentence=>{
+    return line.map(sentence=>{
       const ids=unsupportedStandards(sentence,sourceContext);
       const other=includeOtherClaims?unsupportedClaims(sentence,sourceContext):[];
       if(!ids.length&&!other.length)return sentence;
