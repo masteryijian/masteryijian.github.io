@@ -1,4 +1,4 @@
-import {verifyPrivateCitations} from "./private-context.mjs?v=20261017-report3";
+import {verifyPrivateCitations} from "./private-context.mjs?v=20261017-report4";
 import {SECTIONS} from './engine.mjs';
 export function localBase(endpoint) {
   const url = new URL(endpoint);
@@ -71,10 +71,12 @@ export async function generateLocalReport({endpoint,model,profile={},documents,e
   }
   catch(error){
     onStage(4,'交付结构或来源检查未通过，正在进行一次定向修订');
-    revised=parseStructuredReport(await ask('交付问题定向修订',`按指定JSON schema输出12章修订正文，字段为：${SECTIONS.join('、')}。检查发现：${error.message}。逐一修复来源问题；删除没有原始资料依据的标准编号和断言；不能只追加免责声明。只输出完整正文，至少3000汉字。\n唯一可使用的业务资料：${context}`,14000,LOCAL_REPORT_FORMAT));
-    revised=validateLocalDelivery(revised,context,profile.privateEvidence);
+    revised=parseStructuredReport(await ask('交付问题定向修订',`按指定JSON schema输出12章修订正文，字段为：${SECTIONS.join('、')}。检查发现：${error.message.startsWith("新增无原始来源的标准编号")?"出现原始资料未提供的标准编号，所有此类整句判断须删除，不能改编号或补别的编号":error.message}。逐一修复来源问题；删除没有原始资料依据的标准编号和断言；不能只追加免责声明。只输出完整正文，至少3000汉字。\n唯一可使用的业务资料：${context}`,14000,LOCAL_REPORT_FORMAT));
+    const filtered=quarantineUnsupportedStandards(revised,context);
+    audit.withheldClaims=filtered.withheld;
+    revised=validateLocalDelivery(filtered.report,context,profile.privateEvidence);
   }
-  const report=`# ${profile.product || profile.customer || '项目'} · 欧洲市场与代理可行性评估草稿\n\n> 真实本地模型分析 · ${audit.createdAt} · ${model}\n> 已进行全文证据修订；未执行自动联网研究，用户提供的外部摘录也未独立核实。模型检查不等于专业审签。\n\n${revised}\n\n## 输入与证据说明\n文档字符数：${documents.length}。所有章节依据本次上传资料与补充摘录，模型常识不视为已核实来源。\n\n${evidence || '未另行提供公开研究摘录。'}`;
+  const report=`# ${profile.product || profile.customer || '项目'} · 欧洲市场与代理可行性评估草稿\n\n> 真实本地模型分析 · ${audit.createdAt} · ${model}\n> 已进行全文证据修订；未执行自动联网研究，用户提供的外部摘录也未独立核实。模型检查不等于专业审签。\n\n${audit.withheldClaims?.length?'提示：来源检查已撤下 '+audit.withheldClaims.length+' 处含无来源标准编号的句子；撤下内容不作为报告结论，相关事项需另行核实。\n\n':''}${revised}\n\n## 输入与证据说明\n文档字符数：${documents.length}。所有章节依据本次上传资料与补充摘录，模型常识不视为已核实来源。\n\n${evidence || '未另行提供公开研究摘录。'}`;
   onStage(5,'12章本地评估草稿已生成，准备交付');
   return {...audit,report,automaticChecks:['complete_sections','private_source_ids','unsupported_standards'],expertReview:'pending'};
 }
@@ -92,15 +94,34 @@ export function validateLocalDelivery(text,sourceContext,privateEvidence) {
   const missing=SECTIONS.filter(s=>!new RegExp(`^##\\s+${s}\\s*$`,'m').test(text));
   if(missing.length)throw new Error('修订报告缺少章节：'+missing.join('、'));
   if(text.length<2500)throw new Error('修订报告论证不足');
-  const canonical=value=>value.replace(/[\s\-‐‑–—]/g,'').toUpperCase();
-  const source=canonical(sourceContext);
-  const standards=text.match(/\b(?:ISO|IEC|EN|VDE)[\s\-‐‑–]*\d[\d.:/\-‐‑–]*/g)||[];
-  const unknown=standards.filter(id=>!source.includes(canonical(id)));
-  if(unknown.length)throw new Error('新增无原始来源的标准编号：'+[...new Set(unknown)].join('、'));
+  const unknown=unsupportedStandards(text,sourceContext);
+  if(unknown.length)throw new Error('新增无原始来源的标准编号：'+unknown.join('、'));
   for(const sentence of text.split(/[。；\n]/)) {
     if(/(?:必须|强制|须).{0,18}(?:CE|REACH|ISO|IEC|VDE|认证)/.test(sentence) && !/(?:是否|核实|确认|可能|视用途|待验证|客户要求|客户陈述)/.test(sentence))throw new Error('出现未经核实的强制合规断言');
   }
   return verifyPrivateCitations(text,privateEvidence).report;
+}
+
+const STANDARD_PATTERN=/\b(?:ISO|IEC|EN|VDE)[\s\-‐‑–]*\d[\d.:/\-‐‑–]*/g;
+const canonicalStandard=value=>value.replace(/[\s\-‐‑–—]/g,'').toUpperCase();
+function unsupportedStandards(text,sourceContext){
+  const known=new Set((sourceContext.match(STANDARD_PATTERN)||[]).map(canonicalStandard));
+  return [...new Set((text.match(STANDARD_PATTERN)||[]).filter(id=>!known.has(canonicalStandard(id))))];
+}
+export function quarantineUnsupportedStandards(text,sourceContext){
+  const withheld=[];
+  const report=text.split('\n').map(line=>{
+    // Never merely erase an identifier and leave its unsupported claim intact.
+    return (line.match(/[^。！？；]+[。！？；]?/g)||[]).map(sentence=>{
+      const ids=unsupportedStandards(sentence,sourceContext);
+      if(!ids.length)return sentence;
+      withheld.push({reason:'unsupported_standard',identifiers:ids,text:sentence});
+      return '[待核实] 此句含资料未提供依据的标准编号，已撤下；需取得适用性依据后重新评估。';
+    }).join('');
+  }).join('\n');
+  const removed=withheld.reduce((sum,item)=>sum+item.text.length,0);
+  if(removed>text.length*0.25)throw new Error('无来源标准相关内容超过全文四分之一，不能安全交付；请补充证据后重做。');
+  return {report,withheld};
 }
 
 export const LOCAL_ANALYST_RULES=RULES;

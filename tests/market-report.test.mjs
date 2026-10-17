@@ -66,3 +66,19 @@ test('local report makes five local calls and never claims internet verification
  await assert.rejects(generateLocalReport({endpoint:'http://localhost:4183/v1',model:'local',documents:'资料',fetchImpl:mock}),/未返回修订章节/);
  assert.equal(calls,3);
  });
+
+test('repeated invented standards are quarantined transparently after model correction',async()=>{
+ let n=0;const bodies=[];
+ const mock=async(url,options)=>{
+  n++;const body=JSON.parse(options.body);bodies.push(body);
+  const sections=body.response_format?.json_schema.schema.required;
+  const text=sections?JSON.stringify(Object.fromEntries(sections.map(s=>[s,'[分析判断]样机接口需取得供应商文件和客户测试反馈后决策。'.repeat(25)+(n>=5?'必须ISO 10218认证才能出售。':'')]))):'原始资料审阅';
+  return {ok:true,json:async()=>({choices:[{finish_reason:'stop',message:{content:text}}]})};
+ };
+ const result=await generateLocalReport({endpoint:'http://localhost:4183/v1',model:'local',documents:'虚构样机，无标准资料',fetchImpl:mock});
+ assert.equal(n,6);assert.equal(result.withheldClaims.length,12);
+ assert.ok(!result.report.includes('ISO 10218'));
+ assert.ok(!result.report.includes('认证才能出售'));
+ assert.ok(result.report.includes('已撤下 12 处'));
+ assert.ok(!bodies[5].messages[1].content.includes('ISO 10218'));
+});

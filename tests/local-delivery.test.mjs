@@ -11,3 +11,20 @@ test('numbered or bold section headings normalize without accepting missing chap
 
 import {parseStructuredReport} from '../tools/market-report/local-engine.mjs';
 test('structured revision produces canonical complete chapters and rejects missing fields',()=>{assert.ok(parseStructuredReport(JSON.stringify(Object.fromEntries(SECTIONS.map(s=>[s,'有证据的判断'])))).startsWith('## 执行结论'));assert.throws(()=>parseStructuredReport('{"执行结论":"摘要"}'),/未返回/);});
+
+import {quarantineUnsupportedStandards} from '../tools/market-report/local-engine.mjs';
+test('unsupported standard sentences are withheld in full, known exact IDs remain',()=>{
+ const clean='[分析判断]根据资料确认接口和样机测试，其他事项待核实。'.repeat(20);
+ const result=quarantineUnsupportedStandards(clean+'需要ISO 10218认证才能出售。核实客户用途。已提供ISO 9001。','企业自述ISO 9001');
+ assert.ok(!result.report.includes('认证才能出售'));
+ assert.ok(!result.report.includes('ISO 10218'));
+ assert.ok(result.report.includes('ISO 9001'));
+ assert.ok(result.report.includes('核实客户用途'));
+ assert.equal(result.withheld.length,1);
+ assert.match(result.withheld[0].text,/认证才能出售/);
+});
+test('source substring cannot authorize another standard and excessive removals block delivery',()=>{
+ const result=quarantineUnsupportedStandards('有依据分析。'.repeat(100)+'ISO 900认证。','ISO 9001');
+ assert.equal(result.withheld.length,1);
+ assert.throws(()=>quarantineUnsupportedStandards('必须ISO 10218认证。','无标准'),/四分之一/);
+});
