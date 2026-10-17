@@ -43,3 +43,10 @@ test('contact details cannot prove registration or source reliability',()=>{
  assert.throws(()=>validateLocalDelivery(base+'\n官网和电话说明企业具备正式注册及运营资质。','资料'),/无效论证/);
  assert.throws(()=>validateLocalDelivery(base+'\n无标准编号引用，符合删除要求。','资料'),/内部校验/);
 });
+
+import {quarantineUnsupportedClaims} from '../tools/market-report/local-engine.mjs';
+test('unsupported foreign names, invented deadlines and cross-SKU claims are withheld as whole sentences',()=>{
+ const text='[分析判断]需根据客户任务核实接口，尚未验证商业需求。'.repeat(30)+'德国DIA协会要求注册。产品均提供±0.2mm精度。应在3–6个月内完成。O6重量370g。';
+ const result=quarantineUnsupportedClaims(text,'O6重量370g，重复定位精度±0.2mm。');
+ assert.equal(result.withheld.length,3);assert.ok(!result.report.includes('DIA'));assert.ok(!result.report.includes('产品均提供'));assert.ok(!result.report.includes('3–6个月'));assert.ok(result.report.includes('O6重量370g'));
+});
