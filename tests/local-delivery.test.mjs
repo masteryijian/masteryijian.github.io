@@ -33,3 +33,13 @@ test('long total report cannot conceal an empty chapter',()=>{
  const report=SECTIONS.map((s,i)=>'## '+s+'\n'+(i===11?'待核实':'具体依据和行动。'.repeat(80))).join('\n\n');
  assert.throws(()=>validateLocalDelivery(report,'资料'),/章节有效论证不足/);
 });
+
+import {normalizeSourceText} from '../tools/market-report/local-engine.mjs';
+test('PDF compatibility glyph cleanup preserves real repetitions and numbers',()=>{
+ assert.equal(normalizeSourceText('灵⼼心巧⼿手（北北京）科技，⼒力力 370g ±0.2mm'),'灵心巧手（北京）科技，力 370g ±0.2mm');
+ assert.equal(normalizeSourceText('人人协作 1100'), '人人协作 1100');
+});
+test('contact details cannot prove registration or source reliability',()=>{
+ assert.throws(()=>validateLocalDelivery(base+'\n官网和电话说明企业具备正式注册及运营资质。','资料'),/无效论证/);
+ assert.throws(()=>validateLocalDelivery(base+'\n无标准编号引用，符合删除要求。','资料'),/内部校验/);
+});
