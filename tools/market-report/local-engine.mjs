@@ -1,4 +1,4 @@
-import {verifyPrivateCitations} from "./private-context.mjs?v=20261017-report8";
+import {verifyPrivateCitations} from "./private-context.mjs?v=20261017-personal1";
 import {SECTIONS} from './engine.mjs';
 export function localBase(endpoint) {
   const url = new URL(endpoint);
