@@ -1,0 +1,12 @@
+build/
+.venv/
+__pycache__/
+*.pyc
+*.xcresult/
+*.xcodeproj/
+config.json
+Pairing.json
+*.wav
+*.m4a
+*.caf
+*.db*

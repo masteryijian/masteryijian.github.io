@@ -30,7 +30,7 @@ jobs:
       - name: Stage static site
         run: |
           mkdir -p _site
-          rsync -a --exclude='.git' --exclude='.github' --exclude='_site' --exclude='node_modules' --exclude='tests' --exclude='netlify' --exclude='*.backup.*' ./ _site/
+          rsync -a --exclude='.git' --exclude='.github' --exclude='_site' --exclude='node_modules' --exclude='tests' --exclude='native' --exclude='__pycache__' --exclude='netlify' --exclude='*.backup.*' ./ _site/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

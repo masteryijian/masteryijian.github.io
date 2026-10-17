@@ -10,6 +10,7 @@ const entrypoints = [
   "news.html",
   "tools/index.html",
   "tools/market-report/index.html",
+  "tools/visit-capture/index.html",
   "tools/crm/index.html",
   "tools/ausbildung/index.html",
   "tools/assistant/index.html",

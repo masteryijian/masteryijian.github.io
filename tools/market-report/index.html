@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>德国市场拜访评估系统</title>
-    <link rel="stylesheet" href="./styles.css?v=20261016-local1" />
+    <link rel="stylesheet" href="./styles.css?v=20261017-report2" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -41,24 +41,19 @@
         <section class="topbar">
           <div>
             <p class="eyebrow">Germany Market Entry Desk</p>
-            <h2>把产品资料变成可拜访、可报价、可落地的客户报告</h2>
+            <h2>结合客户现场证据，形成可追溯的市场判断</h2>
           </div>
-          <button class="primary-action" id="runBtn" type="button">开始评估</button>
+          <button class="primary-action" id="runBtn" type="button">生成评估报告</button>
         </section>
 
-        <section class="panel" id="connection">
-<h3>本地 GPT OSS 20B · LM Studio</h3>
-<p>默认通过本机连接器调用 LM Studio。文档分析只发往本机，不需要云端 API 密钥。请在运行 LM Studio 的这台电脑打开本页。</p>
-<label>连接方式 <select id="provider"><option value="local">本地 GPT OSS 20B（默认）</option><option value="openai">OpenAI 云端（可选）</option></select></label>
-<label>本地接口地址 <input id="localEndpoint" value="http://localhost:4183/v1" /></label>
-<label>模型 <input id="modelName" value="openai/gpt-oss-20b" /></label>
-<label id="keyLabel" hidden>API 密钥（仅云端需要；不保存） <input id="apiKey" type="password" autocomplete="off" /></label>
-<button class="secondary-action" type="button" id="testConnectionBtn">测试本地模型连接</button><p id="connectionResult" role="status">尚未测试。LM Studio 在 localhost:1234；本机连接器在 localhost:4183。</p>
-<label><input id="consent" type="checkbox" /> 同意把上传文本发送到所选模型接口进行分析</label>
-<label>补充公开研究证据（可选）<textarea id="researchEvidence" rows="5" placeholder="粘贴公开来源 URL、日期及原文摘录；只提供链接时模型不能读取网页。也可把已研究的资料作为文件上传。"></textarea></label>
-<p>本地模式会真实分析文档并生成 12 章评估草稿，但目前不自动联网检索。公开来源由你提供，系统不会声称已核实；缺少证据的市场、价格与法规判断明确标为待核实。</p>
-<p><a href="http://localhost:4183/tools/market-report/index.html" target="_blank" rel="noopener">打开本地评估页面</a>：若 GitHub HTTPS 页面无法访问本机接口，使用此页可避免跨域访问；界面与报告功能相同。</p>
-<p>若本机连接器没有启动，在项目目录运行：python3 scripts/local-model-bridge.py。浏览器如询问访问本地网络，请自行允许后重试。也可填写 http://localhost:1234/v1 直连（需自行在 LM Studio 开启 CORS）。</p>
+        <section class="panel" id="privateContext">
+<div class="panel-heading"><h3>你的专有客户与产品证据</h3><button class="text-action" id="reloadCRM" type="button">重新读取 CRM</button></div>
+<p>读取同一浏览器的 CRM 客户、工作台产品与沟通记录，也可读取 Mac 本地客户库和拜访资料。只有你选择的记录才进入本次评估；不会自动写回客户销售阶段。</p>
+<p id="crmStatus" role="status">正在读取现有资料…</p>
+<div class="context-grid"><label>关联客户 <select id="crmCustomer"><option value="">不使用客户档案</option></select></label><label>关联产品（可多选） <select id="crmProducts" multiple size="4"></select></label><label>关联现场拜访 <select id="crmVisit"><option value="">不使用现场拜访</option></select></label></div>
+<p id="contextSummary">尚未选择专有资料。</p>
+<label>跨浏览器 / 本地页面：读取 CRM 或工作台 JSON 备份 <input id="contextImport" type="file" accept=".json,application/json" /></label>
+<p class="context-note">GitHub 页面和本地页面的浏览器存储相互隔离；本地页面读不到 GitHub 浏览器资料时，请导入备份。备份只读取，不覆盖 CRM。你的拜访证据会注明来源、日期及是否待复核，不会上传到 GitHub。</p>
 </section><section class="grid two-columns">
           <div class="panel" id="upload">
             <div class="panel-heading">
@@ -130,6 +125,16 @@
           </div>
         </section>
 
+<section class="panel" id="connection">
+<div class="panel-heading"><h3>本地 GPT OSS 20B</h3><button class="secondary-action" type="button" id="testConnectionBtn">检查本机模型</button></div>
+<p id="connectionResult" role="status">文档和所选客户资料仅发送到这台 Mac 的模型服务。</p>
+<input id="provider" type="hidden" value="local" /><input id="apiKey" type="hidden" value="" /><span id="keyLabel" hidden></span>
+<label><input id="consent" type="checkbox" /> 同意将本次上传文本与选中的专有业务资料发送给本机模型进行评估</label>
+<label>补充公开研究证据（可选）<textarea id="researchEvidence" rows="3" placeholder="粘贴来源 URL、日期和原文摘录。只提供链接时，本地模型不能读取网页。"></textarea></label>
+<p class="context-note">本地分析不自动联网。报告会区分客户陈述、现场证据与 AI 判断，缺少外部证据的事项标为待核实。</p>
+<details><summary>连接设置与排障</summary><label>本地接口地址 <input id="localEndpoint" value="http://localhost:4183/v1" /></label><label>模型 <input id="modelName" value="openai/gpt-oss-20b" /></label><p><a href="http://localhost:4183/tools/market-report/index.html" target="_blank" rel="noopener">打开本地评估页面</a>：GitHub 网页访问本机受限时使用。报告服务需运行；默认服务已配置为随 Mac 登录启动。修改代码后运行 scripts/install-local-report-service.py 更新本机副本。</p></details>
+</section>
+
         <section class="grid progress-layout" id="progress">
           <div class="panel">
             <div class="panel-heading">
@@ -164,12 +169,13 @@
           <div class="panel-heading">
             <h3>报告预览与下载</h3>
             <div class="download-actions">
-              <button class="secondary-action" id="downloadReportBtn" type="button" disabled>下载报告 Markdown</button>
+              <button class="primary-action" id="downloadPdfBtn" type="button" disabled>下载 PDF</button><button class="secondary-action" id="printReportBtn" type="button" disabled>打印 / 另存 PDF</button><button class="secondary-action" id="downloadReportBtn" type="button" disabled>下载报告 Markdown</button>
               <button class="secondary-action" id="downloadJsonBtn" type="button" disabled>下载研究证据 JSON</button>
               <button class="secondary-action" id="syncWorkspaceBtn" type="button" disabled>下载分析资料包</button>
               <button class="secondary-action" id="copyCodexBtn" type="button" disabled>复制给 Codex 分析</button>
             </div>
           </div>
+          <label class="context-note">载入历史报告（Markdown / 研究 JSON，未重新研究） <input id="loadReport" type="file" accept=".md,.txt,.json" /></label>
           <div class="report-preview" id="reportPreview">
             <p>完成评估后，这里会显示报告预览。</p>
           </div>
@@ -177,6 +183,8 @@
       </main>
     </div>
 
-    <script type="module" src="./app.js?v=20261016-local2"></script>
+    <script src="../crm/model.js?v=20261016-2"></script>
+    <script src="../workbench-model.js?v=20261016-3"></script>
+    <script type="module" src="./app.js?v=20261017-report2"></script>
   </body>
 </html>

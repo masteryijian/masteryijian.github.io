@@ -1,0 +1,115 @@
+name: VoiceCollectorMobile
+options:
+  bundleIdPrefix: com.yijian
+  deploymentTarget:
+    iOS: "17.0"
+    watchOS: "10.0"
+  postGenCommand: python3 fix_xcode26_watch_embed.py
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    DEVELOPMENT_TEAM: ""
+targets:
+  VoiceCollectorMobile:
+    type: application
+    platform: iOS
+    sources:
+      - VoiceCollectorMobile
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.yijian.techbridge.capture
+        PRODUCT_NAME: TechBridge Visit
+        CODE_SIGN_STYLE: Automatic
+        TARGETED_DEVICE_FAMILY: "1,2"
+    info:
+      path: VoiceCollectorMobile/Info.plist
+      properties:
+        CFBundleDisplayName: TechBridge 拜访
+        UILaunchScreen: {}
+        NSMicrophoneUsageDescription: Voice Collector需要麦克风权限来录制你主动开始的语音。
+        NSLocalNetworkUsageDescription: Voice Collector需要访问家庭局域网中的Mac以安全上传录音。
+        NSAppTransportSecurity:
+          NSAllowsLocalNetworking: true
+          NSExceptionDomains:
+            192.168.0.112:
+              NSExceptionAllowsInsecureHTTPLoads: true
+        UIBackgroundModes:
+          - audio
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+    entitlements:
+      path: VoiceCollectorMobile/VoiceCollectorMobile.entitlements
+      properties: {}
+    dependencies:
+      - target: VoiceCollectorWatch
+        embed: true
+  VoiceCollectorWatch:
+    type: application
+    platform: watchOS
+    sources:
+      - VoiceCollectorWatch
+    dependencies:
+      - target: VoiceCollectorWatchComplications
+        embed: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.yijian.techbridge.capture.watchkitapp
+        PRODUCT_NAME: TechBridge Watch
+        CODE_SIGN_STYLE: Automatic
+        SKIP_INSTALL: YES
+    info:
+      path: VoiceCollectorWatch/Info.plist
+      properties:
+        CFBundleDisplayName: TechBridge 拜访
+        WKApplication: true
+        WKCompanionAppBundleIdentifier: com.yijian.techbridge.capture
+        NSMicrophoneUsageDescription: Voice Collector需要麦克风权限来记录你主动开始的语音。
+        UIBackgroundModes:
+          - audio
+        CFBundleURLTypes:
+          - CFBundleURLName: com.yijian.techbridge.capture.watch
+            CFBundleURLSchemes:
+              - voicecollector
+  VoiceCollectorWatchComplications:
+    type: app-extension
+    platform: watchOS
+    sources:
+      - VoiceCollectorWatchComplications
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.yijian.techbridge.capture.watchkitapp.complications
+        PRODUCT_NAME: Voice Collector Complications
+        CODE_SIGN_STYLE: Automatic
+        SKIP_INSTALL: YES
+        APPLICATION_EXTENSION_API_ONLY: YES
+    info:
+      path: VoiceCollectorWatchComplications/Info.plist
+      properties:
+        CFBundleDisplayName: TechBridge 拜访
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+
+  VisitDeviceTests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [UITests]
+    dependencies:
+      - target: VoiceCollectorMobile
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.yijian.techbridge.capture.uitests
+        CODE_SIGN_STYLE: Automatic
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_TARGET_NAME: VoiceCollectorMobile
+schemes:
+  VoiceCollectorMobile:
+    build:
+      targets:
+        VoiceCollectorMobile: all
+    test:
+      targets: [VisitDeviceTests]

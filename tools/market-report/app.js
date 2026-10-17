@@ -1,3 +1,5 @@
+let contextCatalog, selectedContext;
+const privateContextReady=import("./private-context.mjs?v=20261017-report2").then(api=>{contextCatalog=api.contextCatalog;selectedContext=api.selectedContext;});
 const state = {
   files: [],
   extractedText: "",
@@ -189,15 +191,21 @@ function invalidate() {
   state.report = ""; state.audit = null;
   syncWorkspaceBtn.disabled = copyCodexBtn.disabled = true;
   downloadReportBtn.disabled = downloadJsonBtn.disabled = true;
+  document.getElementById("downloadPdfBtn").disabled=document.getElementById("printReportBtn").disabled=true;
   reportPreview.textContent = "资料已变化，需要重新评估。";
 }
 async function runPipeline() {
   if (state.running) return;
   invalidate(); state.running = true; runBtn.disabled = true; fileInput.disabled = true;
+  const controls=[...document.querySelectorAll('#profile input,#profile select,#profile textarea,#privateContext input,#privateContext select,#privateContext button,#connection input,#connection select,#connection textarea,#connection button')];
+  const previousDisabled=controls.map(c=>c.disabled);controls.forEach(c=>c.disabled=true);
   try {
     stage(0, "正在提取实际文件文本");
     state.profile = getProfile();
+    const privateEvidence=await collectPrivateContext();
+    state.profile.privateEvidence=privateEvidence;
     await extractDocuments();
+    if(!state.files.length && (privateEvidence.customer || privateEvidence.products.length || privateEvidence.visit || privateEvidence.communications.length)) state.extractedText="未上传新增文件。本次以项目档案中明确选择的专有客户、产品与拜访资料为分析依据，不将此说明当作业务证据。";
     if (!state.extractedText.trim()) throw new Error("没有可读文本，请上传文字版 PDF、DOCX、表格或文本。");
     syncWorkspaceBtn.disabled = copyCodexBtn.disabled = false;
     if (state.files.some(f => !f.text.trim())) throw new Error("部分文件未能读取；请补充 OCR 文本或移除这些文件后重试，避免遗漏资料。");
@@ -207,17 +215,19 @@ async function runPipeline() {
     if (!document.getElementById("consent").checked) throw new Error("请先确认资料发送授权。");
     let result;
     if(local) {
-      const {generateLocalReport} = await import("./local-engine.mjs?v=20261016-local2");
+      const {generateLocalReport} = await import("./local-engine.mjs?v=20261017-report2");
       result = await generateLocalReport({endpoint:document.getElementById("localEndpoint").value, model:document.getElementById("modelName").value.trim(), profile:state.profile, documents:state.extractedText, evidence:document.getElementById("researchEvidence").value, onStage:stage});
     } else {
-      const {generateReport} = await import("./engine.mjs?v=20261016-real1");
+      const {generateReport} = await import("./engine.mjs?v=20261017-report2");
       result = await generateReport({key, model: document.getElementById("modelName").value.trim(), profile: state.profile, documents: state.extractedText, onStage:stage});
     }
+    result.report += privateEvidenceIndex(privateEvidence);
     state.report = result.report; state.audit = result;
     reportPreview.replaceChildren();
-    const {renderMarkdown} = await import("./render.mjs?v=20261016-real1");
+    const {renderMarkdown} = await import("./render.mjs?v=20261017-report2");
     reportPreview.innerHTML = renderMarkdown(state.report);
     downloadReportBtn.disabled = downloadJsonBtn.disabled = false;
+    document.getElementById("downloadPdfBtn").disabled=document.getElementById("printReportBtn").disabled=false;
     stage(6, local ? "本地评估草稿已生成 · 外部证据待核实" : "报告已生成 · 待人工复核");
     setSystemStatus(local ? "本地草稿已生成" : "报告已生成", local ? "真实本地模型分析；未执行自动网络研究" : "已执行模型与网络研究；商业判断仍需人工复核", "done");
   } catch (error) {
@@ -225,7 +235,7 @@ async function runPipeline() {
     steps.forEach(step => step.classList.remove("running"));
     log(error.message); reportPreview.textContent = error.message;
     setSystemStatus("评估未完成", "不会生成模板报告或虚假报价", "idle");
-  } finally { state.running = false; runBtn.disabled = false; fileInput.disabled = false; }
+  } finally { state.running = false; runBtn.disabled = false; fileInput.disabled = false; controls.forEach((c,i)=>c.disabled=previousDisabled[i]); }
 }
 function addFiles(files) {
   if(state.running) return;
@@ -255,9 +265,109 @@ document.getElementById("testConnectionBtn").addEventListener("click", async () 
   const result=document.getElementById("connectionResult"), button=document.getElementById("testConnectionBtn");
   button.disabled=true;result.textContent="正在请求本地模型实际回复…";
   try {
-    const {localChat}=await import("./local-engine.mjs?v=20261016-local2");
+    const {localChat}=await import("./local-engine.mjs?v=20261017-report2");
     const answer=await localChat({endpoint:document.getElementById("localEndpoint").value,model:document.getElementById("modelName").value.trim(),messages:[{role:"user",content:"只回复：本地模型连接成功"}],maxTokens:128,timeoutMs:30000});
     result.textContent="实际模型回复："+answer.text;
   } catch(error) {result.textContent="连接失败："+error.message;}
   finally {button.disabled=false;}
+});
+
+const localServiceBase="http://localhost:4183";
+let catalog={customers:[],products:[],communications:[]}, localVisits=[];
+function readBrowser(key,validator){const raw=localStorage.getItem(key);return raw?validator(JSON.parse(raw)):null;}
+async function reloadCRM() {
+  await privateContextReady;
+  if(state.running)return;
+  const status=document.getElementById("crmStatus");
+  let messages=[];
+  try {catalog=contextCatalog(readBrowser("opc-techbridge-crm-v2",OPCCRM.normalize),readBrowser("opc-workbench-v2",OPCWorkbench.normalize));}
+  catch(error){catalog=contextCatalog(null,null);messages.push("浏览器资料读取失败："+error.message);}
+  localVisits=[];
+  try {
+    const response=await fetch(localServiceBase+"/api/context",{signal:AbortSignal.timeout(6000)});
+    if(!response.ok)throw new Error("HTTP "+response.status);
+    const local=await response.json();
+    catalog.customers.push(...contextCatalog({customers:local.customers},null).customers);
+    localVisits=local.visits || [];
+    messages.push("Mac本地资料已连接");
+  } catch {messages.push("Mac本地资料服务未连接；可在本地评估页读取拜访，或导入备份");}
+  if(state.running)return;
+  fillContextChoices();
+  status.textContent=`可选客户 ${catalog.customers.length} · 产品 ${catalog.products.length} · 沟通 ${catalog.communications.length} · 现场拜访 ${localVisits.length}。`+messages.join("；");
+}
+function fillContextChoices(){
+  const option=(id,label)=>{const o=document.createElement("option");o.value=id;o.textContent=label;return o;};
+  const customers=document.getElementById("crmCustomer");customers.replaceChildren(option("","不使用客户档案"));catalog.customers.forEach(c=>customers.append(option(c.id,c.company)));
+  const products=document.getElementById("crmProducts");products.replaceChildren();catalog.products.forEach(p=>products.append(option(p.id,p.title)));
+  const visits=document.getElementById("crmVisit");visits.replaceChildren(option("","不使用现场拜访"));localVisits.forEach(v=>visits.append(option(v.id,`${v.customer} · ${(v.created_at||"").slice(0,10)} · ${v.clip_count}段`)));
+  invalidate();contextSelectionChanged();
+}
+function contextSelectionChanged(){
+  if(state.running)return;
+  const id=document.getElementById("crmCustomer").value, customer=catalog.customers.find(c=>c.id===id);
+  const products=[...document.getElementById("crmProducts").selectedOptions].map(o=>o.value);
+  const product=catalog.products.find(p=>p.id===products[0]);
+  if(customer){profileForm.elements.customer.value=customer.company;if(!profileForm.elements.industry.value)profileForm.elements.industry.value=customer.sector;}
+  if(product)profileForm.elements.product.value=product.title;
+  const communications=id?catalog.communications.filter(c=>c.customerId===id).length:0;
+  const selectedVisit=localVisits.find(v=>v.id===document.getElementById("crmVisit").value);
+  if(!customer && selectedVisit)profileForm.elements.customer.value=selectedVisit.customer;
+  const crossWarning=customer && selectedVisit && customer.company.trim()!==selectedVisit.customer.trim()?" 注意：拜访原客户与所选档案不同，将按跨客户参考处理。":"";
+  document.getElementById("contextSummary").textContent=`本次选用：${customer?customer.company:"未选客户"} · ${products.length}个产品 · ${communications}条关联纪要 · ${document.getElementById("crmVisit").value?"已选现场拜访（转写待复核）":"未选现场拜访"}。`+crossWarning;
+  invalidate();
+}
+async function collectPrivateContext(){
+  await privateContextReady;
+  const visitId=document.getElementById("crmVisit").value;let visit=null;
+  if(visitId){const response=await fetch(localServiceBase+"/api/visit-evidence?id="+encodeURIComponent(visitId),{signal:AbortSignal.timeout(10000)});if(!response.ok)throw new Error("未取得选中拜访资料，已阻止遗漏证据的评估。");visit=await response.json();}
+  return selectedContext(catalog,{customerId:document.getElementById("crmCustomer").value,productIds:[...document.getElementById("crmProducts").selectedOptions].map(o=>o.value),visit});
+}
+function privateEvidenceIndex(e){
+  const rows=[];const clean=s=>String(s||"").replaceAll("|","／").replaceAll("\n"," ");
+  if(e.customer)rows.push([e.customer.evidenceId,e.customer.company,e.customer.updatedAt,"客户档案；按原记录的来源核实"]);
+  e.products.forEach(p=>rows.push([p.evidenceId,p.title,p.updatedAt,"专有产品资料"]));
+  e.communications.forEach(c=>rows.push([c.evidenceId,c.title,c.date,c.state==="confirmed"?"用户已确认纪要":"待确认纪要"]));
+  if(e.visit)e.visit.clips.forEach(c=>rows.push([c.evidenceId,e.visit.customer,c.date,"ASR转写，未逐字人工复核"]));
+  if(!rows.length)return "\n\n## 专有业务证据使用说明\n本次未选择 CRM、产品或现场拜访资料；不得声称已结合用户独有客户情报。\n";
+  return "\n\n## 本次专有业务证据索引\n以下资料由用户明确选择，仅用于本次私有评估。证据的独有性不等于真实性已经独立核实。\n\n| 证据 ID | 客户／资料 | 日期 | 证据边界 |\n| --- | --- | --- | --- |\n"+rows.map(row=>"| "+row.map(clean).join(" | ")+" |").join("\n");
+}
+document.getElementById("reloadCRM").addEventListener("click",reloadCRM);
+for(const id of ["crmCustomer","crmProducts","crmVisit"])document.getElementById(id).addEventListener("change",contextSelectionChanged);
+document.getElementById("contextImport").addEventListener("change",async event=>{
+  if(state.running)return;
+  try {
+    const file=event.target.files[0];if(!file)return;if(file.size>5000000)throw new Error("备份超过5MB，请拆分资料");
+    const data=JSON.parse(await file.text());
+    const incoming=data.version===2?contextCatalog(OPCCRM.normalize(data),null):contextCatalog(null,OPCWorkbench.normalize(data));
+    for(const key of ["customers","products","communications"]){for(const record of incoming[key]){const old=catalog[key].find(c=>c.id===record.id);if(old&&JSON.stringify(old)!==JSON.stringify(record))throw new Error("存在同ID不同版本资料，请先核对，不会覆盖。");}}
+    for(const key of ["customers","products","communications"])catalog[key]=[...new Map([...catalog[key],...incoming[key]].map(r=>[r.id,r])).values()];
+    fillContextChoices();document.getElementById("crmStatus").textContent=`备份已读取：客户 ${catalog.customers.length}，产品 ${catalog.products.length}，纪要 ${catalog.communications.length}。未写回CRM。`;
+  } catch(error){document.getElementById("crmStatus").textContent=error.message;}
+});
+document.getElementById("downloadPdfBtn").addEventListener("click",async()=>{
+  if(!state.report)return;const button=document.getElementById("downloadPdfBtn");button.disabled=true;button.textContent="正在排版PDF…";
+  try {
+    const response=await fetch(localServiceBase+"/api/report/pdf",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({report:state.report,profile:{customer:state.profile.customer,product:state.profile.product},createdAt:state.audit.createdAt}),signal:AbortSignal.timeout(60000)});
+    if(!response.ok)throw new Error("本地PDF服务 HTTP "+response.status);
+    const blob=await response.blob();if(blob.type!=="application/pdf")throw new Error("返回的文件不是PDF");
+    const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=(state.profile.product||"市场与代理可行性评估")+".pdf";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);log("PDF已生成并下载，资料仅在本机排版。");
+  } catch(error){log(error.message+"。请打开本地评估页重试，或点击‘打印 / 另存 PDF’。");}
+  finally {button.disabled=false;button.textContent="下载 PDF";}
+});
+document.getElementById("printReportBtn").addEventListener("click",()=>{if(state.report)window.print();});
+reloadCRM();
+
+document.getElementById("loadReport").addEventListener("change",async event=>{
+  if(state.running)return;
+  try {
+    const file=event.target.files[0];if(!file)return;if(file.size>2000000)throw new Error("报告文件超过2MB");
+    const raw=await file.text();let report=raw,profile={},original={};
+    if(file.name.toLowerCase().endsWith(".json")){original=JSON.parse(raw);report=original.report;profile=original.profile||{};}
+    if(typeof report!=="string" || !report.trim() || report.length>180000)throw new Error("未找到有效报告正文，或正文超过180000字符");
+    state.report=report;state.profile=profile;state.audit={...original,report,profile,status:"imported_unverified",sourceStatus:original.status||"unknown",createdAt:original.createdAt||"日期未提供",importedAt:new Date().toISOString()};
+    const {renderMarkdown}=await import("./render.mjs?v=20261017-report2");reportPreview.innerHTML=renderMarkdown(report);
+    downloadReportBtn.disabled=downloadJsonBtn.disabled=false;
+    document.getElementById("downloadPdfBtn").disabled=document.getElementById("printReportBtn").disabled=false;
+    overallPercent.textContent="历史报告已载入 · 未重新研究";setSystemStatus("历史报告已载入","可导出PDF；没有执行新的模型分析或事实核验");log("已载入历史报告，仅排版导出，未重新研究。");
+  } catch(error){log(error.message);}
 });
