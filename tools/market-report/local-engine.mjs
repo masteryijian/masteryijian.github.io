@@ -41,7 +41,7 @@ export async function generateLocalReport({endpoint,model,profile={},documents,e
   const context=`项目：${JSON.stringify(profile)}\n原始资料：\n${documents}\n用户补充公开摘录（未独立核实）：\n${evidence || '未提供'}`;
   async function ask(name,content,maxTokens=6000,responseFormat=null) {
     const result=await localChat({endpoint,model,messages:[{role:'system',content:RULES},{role:'user',content}],maxTokens,responseFormat,fetchImpl});
-    audit.stages.push({name,responseId:result.id,model:result.model,usage:result.usage,text:result.text,completedAt:new Date().toISOString()});
+    audit.stages.push({name,stageStatus:'intermediate_unreviewed',responseId:result.id,model:result.model,usage:result.usage,text:result.text,completedAt:new Date().toISOString()});
     return result.text;
   }
   onStage(1,'本地模型正在审阅资料、参数和证据缺口');
@@ -67,7 +67,7 @@ export async function generateLocalReport({endpoint,model,profile={},documents,e
   }
   const report=`# ${profile.product || profile.customer || '项目'} · 欧洲市场与代理可行性评估草稿\n\n> 真实本地模型分析 · ${audit.createdAt} · ${model}\n> 已进行全文证据修订；未执行自动联网研究，用户提供的外部摘录也未独立核实。模型检查不等于专业审签。\n\n${revised}\n\n## 输入与证据说明\n文档字符数：${documents.length}。所有章节依据本次上传资料与补充摘录，模型常识不视为已核实来源。\n\n${evidence || '未另行提供公开研究摘录。'}`;
   onStage(5,'12章本地评估草稿已生成，准备交付');
-  return {...audit,report};
+  return {...audit,report,automaticChecks:['complete_sections','private_source_ids','unsupported_standards'],expertReview:'pending'};
 }
 
 export function normalizeLocalHeadings(text) {

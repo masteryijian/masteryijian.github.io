@@ -23,6 +23,7 @@ H2=ParagraphStyle('H2',parent=BODY,fontSize=14,leading=21,spaceBefore=17,spaceAf
 H3=ParagraphStyle('H3',parent=BODY,fontSize=11.3,leading=18,spaceBefore=9,keepWithNext=True)
 SMALL=ParagraphStyle('Small',parent=BODY,fontSize=8.5,leading=13,textColor=MUTED)
 QUOTE=ParagraphStyle('Quote',parent=SMALL,leftIndent=10,borderPadding=8,backColor=colors.HexColor('#F1F5F4'),spaceAfter=5)
+LABEL=ParagraphStyle('Label',parent=SMALL,fontSize=8.8,leading=12,spaceBefore=3,spaceAfter=3,keepWithNext=True)
 CELL=ParagraphStyle('Cell',parent=BODY,fontSize=8.6,leading=13,spaceAfter=0)
 def inline(value):
     value=html.escape(str(value),quote=True)
@@ -37,6 +38,7 @@ def render_pdf(payload):
     title=str(payload.get('title') or profile.get('product') or '市场与代理可行性评估')[:180]
     customer=str(profile.get('customer') or '项目研究')[:180]
     created=str(payload.get('createdAt') or '')[:40]
+    if re.match(r'^\d{4}-\d{2}-\d{2}T',created):created=created[:10]
     out=BytesIO();doc=SimpleDocTemplate(out,pagesize=A4,rightMargin=19*mm,leftMargin=19*mm,topMargin=23*mm,bottomMargin=21*mm,title=title,author='TechBridge · AI-assisted analysis',pageCompression=1)
     story=[Paragraph('TECHBRIDGE / PRIVATE RESEARCH',SMALL),Spacer(1,5*mm),Paragraph(inline(title),ParagraphStyle('Title',parent=BODY,fontSize=23,leading=31,spaceAfter=10)),Paragraph(inline(customer)+' · '+inline(created),SMALL),HRFlowable(width='100%',thickness=1.2,color=ACCENT,spaceBefore=8,spaceAfter=14),Paragraph('AI 辅助分析 · 待人工复核。客户拜访资料属于专有业务证据，不等同于经独立核验的公开事实。',QUOTE)]
     lines=text.splitlines();i=0
@@ -58,6 +60,8 @@ def render_pdf(payload):
             table=LongTable(data,colWidths=[doc.width/count]*count,repeatRows=1,splitInRow=1,hAlign='LEFT')
             table.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),colors.HexColor('#EAF2F0')),('VALIGN',(0,0),(-1,-1),'TOP'),('LINEBELOW',(0,0),(-1,0),.7,ACCENT),('LINEBELOW',(0,1),(-1,-1),.3,colors.HexColor('#DEE6E8')),('LEFTPADDING',(0,0),(-1,-1),7),('RIGHTPADDING',(0,0),(-1,-1),7),('TOPPADDING',(0,0),(-1,-1),8),('BOTTOMPADDING',(0,0),(-1,-1),8)]))
             story.extend([table,Spacer(1,8)]);continue
+        if re.fullmatch(r'\*\*(判断|依据|边界|行动)\*\*',line):
+            story.append(Paragraph(inline(line.strip('*')),LABEL));continue
         heading=re.match(r'^(#{1,6})\s+(.+)',line)
         if heading:
             if len(heading[1])==1:continue
