@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>德国市场拜访评估系统</title>
-    <link rel="stylesheet" href="./styles.css?v=20261017-report4" />
+    <link rel="stylesheet" href="./styles.css?v=20261017-report5" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -16,7 +16,8 @@
           <div class="brand-mark">DE</div>
           <div>
             <h1>德国市场拜访评估</h1>
-            <p>资料抽取、市场验证、合规评估、报价生成</p>
+            <p class="muted">版本 2026.10.17 · R5｜失败可在本页接续，刷新会清除进度</p>
+            <p>资料抽取、专有证据、商业评估、PDF 报告</p>
           </div>
         </div>
 
@@ -79,7 +80,7 @@
           <div class="panel" id="profile">
             <div class="panel-heading">
               <h3>项目档案</h3>
-              <span>用于生成报告和报价</span>
+              <span>用于评估背景；未知数字可留空</span>
             </div>
             <form class="profile-form" id="profileForm">
               <label>
@@ -147,7 +148,7 @@
             <ol class="steps" id="steps">
               <li data-step="0"><span></span>文本提取与完整性检查</li>
               <li data-step="1"><span></span>企业与产品事实审阅</li>
-              <li data-step="2"><span></span>公开市场与竞争研究</li>
+              <li data-step="2"><span></span>用户提供的外部证据整理</li>
               <li data-step="3"><span></span>商业与代理可行性评估</li>
               <li data-step="4"><span></span>报告证据与结构检查</li>
               <li data-step="5"><span></span>报告交付（待人工复核）</li>
@@ -185,6 +186,6 @@
 
     <script src="../crm/model.js?v=20261016-2"></script>
     <script src="../workbench-model.js?v=20261016-3"></script>
-    <script type="module" src="./app.js?v=20261017-report4"></script>
+    <script type="module" src="./app.js?v=20261017-report5"></script>
   </body>
 </html>

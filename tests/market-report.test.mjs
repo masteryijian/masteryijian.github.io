@@ -82,3 +82,30 @@ test('repeated invented standards are quarantined transparently after model corr
  assert.ok(result.report.includes('已撤下 12 处'));
  assert.ok(!bodies[5].messages[1].content.includes('ISO 10218'));
 });
+
+test('transient failure preserves completed stages and resumes without replay; changed source invalidates cache',async()=>{
+ const checkpoint={};let calls=0,fail=true;
+ const mock=async(url,options)=>{
+  const body=JSON.parse(options.body);calls++;
+  const sections=body.response_format?.json_schema.schema.required;
+  if(sections?.[0]===SECTIONS[4] && fail)return {ok:false,status:503};
+  const text=sections?JSON.stringify(Object.fromEntries(sections.map(s=>[s,'[分析判断]实际资料支持范围与核实步骤。'.repeat(60)]))):'事实';
+  return {ok:true,json:async()=>({choices:[{finish_reason:'stop',message:{content:text}}]})};
+ };
+ const args={endpoint:'http://localhost:4183/v1',model:'local',documents:'资料一',checkpoint,fetchImpl:mock};
+ await assert.rejects(generateLocalReport(args),error=>{assert.equal(error.audit.status,'failed_not_delivered');assert.equal(error.audit.stages.length,2);return /503/.test(error.message);});
+ assert.equal(calls,4);fail=false;
+ const result=await generateLocalReport(args);assert.equal(calls,7);assert.equal(result.stages.filter(s=>s.reused).length,2);
+ await generateLocalReport({...args,documents:'资料二'});assert.equal(calls,12);
+});
+test('authentication failure does not retry or launch final correction',async()=>{
+ let calls=0;
+ await assert.rejects(generateLocalReport({endpoint:'http://localhost:4183/v1',model:'local',documents:'资料',fetchImpl:async()=>{calls++;return {ok:false,status:401};}}),/401/);
+ assert.equal(calls,1);
+});
+
+test('timeout is not automatically duplicated and carries diagnostic audit',async()=>{
+ let calls=0;
+ await assert.rejects(generateLocalReport({endpoint:'http://localhost:4183/v1',model:'local',documents:'资料',fetchImpl:async()=>{calls++;throw {name:'TimeoutError'};}}),error=>{assert.ok(error.audit);return /超时/.test(error.message);});
+ assert.equal(calls,1);
+});

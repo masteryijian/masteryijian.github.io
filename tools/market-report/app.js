@@ -1,5 +1,5 @@
 let contextCatalog, selectedContext;
-const privateContextReady=import("./private-context.mjs?v=20261017-report4").then(api=>{contextCatalog=api.contextCatalog;selectedContext=api.selectedContext;});
+const privateContextReady=import("./private-context.mjs?v=20261017-report5").then(api=>{contextCatalog=api.contextCatalog;selectedContext=api.selectedContext;});
 const state = {
   files: [],
   extractedText: "",
@@ -187,7 +187,8 @@ function stage(index, title) {
   log(title);
 }
 function packet() { return `# 拜访评估输入资料（尚未评估）\n${JSON.stringify(state.profile, null, 2)}\n${state.extractedText}`; }
-function invalidate() {
+function invalidate(clearCheckpoint=true) {
+  if(clearCheckpoint)state.checkpoint={};
   state.report = ""; state.audit = null;
   syncWorkspaceBtn.disabled = copyCodexBtn.disabled = true;
   downloadReportBtn.disabled = downloadJsonBtn.disabled = true;
@@ -196,12 +197,12 @@ function invalidate() {
 }
 async function runPipeline() {
   if (state.running) return;
-  invalidate(); state.running = true; runBtn.disabled = true; fileInput.disabled = true;
-  const controls=[...document.querySelectorAll('#profile input,#profile select,#profile textarea,#privateContext input,#privateContext select,#privateContext button,#connection input,#connection select,#connection textarea,#connection button')];
+  state.profile = getProfile();
+  invalidate(false); state.running = true; runBtn.disabled = true; fileInput.disabled = true;
+  const controls=[document.getElementById('loadReport'),...document.querySelectorAll('#profile input,#profile select,#profile textarea,#privateContext input,#privateContext select,#privateContext button,#connection input,#connection select,#connection textarea,#connection button')];
   const previousDisabled=controls.map(c=>c.disabled);controls.forEach(c=>c.disabled=true);
   try {
     stage(0, "正在提取实际文件文本");
-    state.profile = getProfile();
     const privateEvidence=await collectPrivateContext();
     state.profile.privateEvidence=privateEvidence;
     await extractDocuments();
@@ -215,16 +216,16 @@ async function runPipeline() {
     if (!document.getElementById("consent").checked) throw new Error("请先确认资料发送授权。");
     let result;
     if(local) {
-      const {generateLocalReport} = await import("./local-engine.mjs?v=20261017-report4");
-      result = await generateLocalReport({endpoint:document.getElementById("localEndpoint").value, model:document.getElementById("modelName").value.trim(), profile:state.profile, documents:state.extractedText, evidence:document.getElementById("researchEvidence").value, onStage:stage});
+      const {generateLocalReport} = await import("./local-engine.mjs?v=20261017-report5");
+      result = await generateLocalReport({endpoint:document.getElementById("localEndpoint").value, model:document.getElementById("modelName").value.trim(), profile:state.profile, documents:state.extractedText, evidence:document.getElementById("researchEvidence").value, onStage:stage,checkpoint:state.checkpoint ||= {}});
     } else {
-      const {generateReport} = await import("./engine.mjs?v=20261017-report4");
+      const {generateReport} = await import("./engine.mjs?v=20261017-report5");
       result = await generateReport({key, model: document.getElementById("modelName").value.trim(), profile: state.profile, documents: state.extractedText, onStage:stage});
     }
     result.report += privateEvidenceIndex(privateEvidence);
     state.report = result.report; state.audit = result;
     reportPreview.replaceChildren();
-    const {renderMarkdown} = await import("./render.mjs?v=20261017-report4");
+    const {renderMarkdown} = await import("./render.mjs?v=20261017-report5");
     reportPreview.innerHTML = renderMarkdown(state.report);
     downloadReportBtn.disabled = downloadJsonBtn.disabled = false;
     document.getElementById("downloadPdfBtn").disabled=document.getElementById("printReportBtn").disabled=false;
@@ -233,7 +234,8 @@ async function runPipeline() {
   } catch (error) {
     overallPercent.textContent = "评估未完成";
     steps.forEach(step => step.classList.remove("running"));
-    log(error.message); reportPreview.textContent = error.message;
+    if(error.audit){state.audit=error.audit;downloadJsonBtn.disabled=false;}
+    log(error.message); reportPreview.textContent = error.message+" 已完成阶段保留在本页；不改资料点击生成可重试，刷新或关闭页面会清除。可下载研究证据查看失败记录。";
     setSystemStatus("评估未完成", "不会生成模板报告或虚假报价", "idle");
   } finally { state.running = false; runBtn.disabled = false; fileInput.disabled = false; controls.forEach((c,i)=>c.disabled=previousDisabled[i]); }
 }
@@ -265,7 +267,7 @@ document.getElementById("testConnectionBtn").addEventListener("click", async () 
   const result=document.getElementById("connectionResult"), button=document.getElementById("testConnectionBtn");
   button.disabled=true;result.textContent="正在请求本地模型实际回复…";
   try {
-    const {localChat}=await import("./local-engine.mjs?v=20261017-report4");
+    const {localChat}=await import("./local-engine.mjs?v=20261017-report5");
     const answer=await localChat({endpoint:document.getElementById("localEndpoint").value,model:document.getElementById("modelName").value.trim(),messages:[{role:"user",content:"只回复：本地模型连接成功"}],maxTokens:128,timeoutMs:30000});
     result.textContent="实际模型回复："+answer.text;
   } catch(error) {result.textContent="连接失败："+error.message;}
@@ -365,7 +367,7 @@ document.getElementById("loadReport").addEventListener("change",async event=>{
     if(file.name.toLowerCase().endsWith(".json")){original=JSON.parse(raw);report=original.report;profile=original.profile||{};}
     if(typeof report!=="string" || !report.trim() || report.length>180000)throw new Error("未找到有效报告正文，或正文超过180000字符");
     state.report=report;state.profile=profile;state.audit={...original,report,profile,status:"imported_unverified",sourceStatus:original.status||"unknown",createdAt:original.createdAt||"日期未提供",importedAt:new Date().toISOString()};
-    const {renderMarkdown}=await import("./render.mjs?v=20261017-report4");reportPreview.innerHTML=renderMarkdown(report);
+    const {renderMarkdown}=await import("./render.mjs?v=20261017-report5");reportPreview.innerHTML=renderMarkdown(report);
     downloadReportBtn.disabled=downloadJsonBtn.disabled=false;
     document.getElementById("downloadPdfBtn").disabled=document.getElementById("printReportBtn").disabled=false;
     overallPercent.textContent="历史报告已载入 · 未重新研究";setSystemStatus("历史报告已载入","可导出PDF；没有执行新的模型分析或事实核验");log("已载入历史报告，仅排版导出，未重新研究。");

@@ -1,4 +1,4 @@
-import {verifyPrivateCitations} from "./private-context.mjs?v=20261017-report4";
+import {verifyPrivateCitations} from "./private-context.mjs?v=20261017-report5";
 import {SECTIONS} from './engine.mjs';
 export function localBase(endpoint) {
   const url = new URL(endpoint);
@@ -10,8 +10,8 @@ export async function localChat({endpoint,model,messages,maxTokens=6000,timeoutM
   let response;
   try {
     response=await fetchImpl(base+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model,messages,max_tokens:maxTokens,temperature:0.2,stream:false,...(responseFormat?{response_format:responseFormat}:{})}),signal:AbortSignal.timeout(timeoutMs)});
-  } catch {throw new Error('无法访问本地模型。检查 LM Studio 和本机连接器是否启动；浏览器可能需要允许本地网络访问。直连 1234 时需开启 CORS。');}
-  if(!response.ok) throw new Error(`本地模型 HTTP ${response.status}，请检查模型已加载、上下文容量和服务日志。`);
+  } catch(cause) {const error=new Error(cause.name==='TimeoutError'?'本地模型响应超时；已完成阶段可保留后重试。':'无法访问本地模型。检查 LM Studio 和本机连接器是否启动；浏览器可能需要允许本地网络访问。');error.retryable=cause.name!=='TimeoutError';throw error;}
+  if(!response.ok) {const error=new Error(`本地模型 HTTP ${response.status}，请检查模型已加载、上下文容量和服务日志。`);error.retryable=[502,503,504].includes(response.status);throw error;}
   const data=await response.json(), choice=data.choices?.[0];
   if(choice?.finish_reason!=='stop') throw new Error(`本地输出未完整结束（${choice?.finish_reason || '无正文'}），不交付截断报告。`);
   if(typeof choice.message?.content!=='string' || !choice.message.content.trim()) throw new Error('本地模型没有返回正文。');
@@ -32,18 +32,31 @@ const DETAILS=[
   '把每个尽调问题对应到风险、证据、影响的决策和优先级。',
   '按优先级给前三项行动、投入上限的依据、停止条件与不能下结论的事项。'
 ];
-export async function generateLocalReport({endpoint,model,profile={},documents,evidence='',onStage=()=>{},fetchImpl=globalThis.fetch}) {
+export async function generateLocalReport({endpoint,model,profile={},documents,evidence='',onStage=()=>{},checkpoint={},fetchImpl=globalThis.fetch}) {
   localBase(endpoint);
   if(!model) throw new Error('请填写本地模型名称。');
   if(!documents.trim()) throw new Error('需要可读资料。');
   if(documents.length+evidence.length+JSON.stringify(profile).length>60000) throw new Error('本地分析输入超过60000字符，请按独立项目拆分；不会静默截断。');
   const audit={createdAt:new Date().toISOString(),provider:'local',endpoint:localBase(endpoint),model,profile,documentCharacters:documents.length,evidence,stages:[],networkResearchPerformed:false,status:'local_draft_pending_external_verification'};
   const context=`项目：${JSON.stringify(profile)}\n原始资料：\n${documents}\n用户补充公开摘录（未独立核实）：\n${evidence || '未提供'}`;
+  const sourceEvidence=documents+"\n"+evidence+"\n"+JSON.stringify(profile.privateEvidence||{});
+  const identity=JSON.stringify({version:5,endpoint:localBase(endpoint),model,profile,documents,evidence});
+  if(checkpoint.identity!==identity){checkpoint.identity=identity;checkpoint.responses={};}
+  checkpoint.responses ||= {};
+  const forget=name=>delete checkpoint.responses[name];
   async function ask(name,content,maxTokens=6000,responseFormat=null) {
-    const result=await localChat({endpoint,model,messages:[{role:'system',content:RULES},{role:'user',content}],maxTokens,responseFormat,fetchImpl});
-    audit.stages.push({name,stageStatus:'intermediate_unreviewed',responseId:result.id,model:result.model,usage:result.usage,text:result.text,completedAt:new Date().toISOString()});
+    let result=checkpoint.responses[name],reused=!!result;
+    if(!result){
+      for(let attempt=0;attempt<2;attempt++){
+        try {result=await localChat({endpoint,model,messages:[{role:'system',content:RULES},{role:'user',content}],maxTokens,responseFormat,fetchImpl});break;}
+        catch(error){if(attempt || !error.retryable)throw error;onStage(3,`${name}：连接暂时失败，自动重试一次`);}
+      }
+      checkpoint.responses[name]=result;
+    } else onStage(3,`${name}：恢复本页已完成的结果`);
+    audit.stages.push({name,stageStatus:'intermediate_unreviewed',reused,responseId:result.id,model:result.model,usage:result.usage,text:result.text,completedAt:new Date().toISOString()});
     return result.text;
   }
+  try {
   onStage(1,'本地模型正在审阅资料、参数和证据缺口');
   const facts=await ask('事实审阅',`提取证据表，标文件/页码/行号、企业、SKU、技术参数、价格/成本、用途、矛盾和缺失项及其对商业判断的影响。最多2000字。\n${context}`,4000);
   onStage(2,'梳理用户提供的外部证据；本地模式不自动联网');
@@ -58,6 +71,7 @@ export async function generateLocalReport({endpoint,model,profile={},documents,e
         parseStructuredReport(await ask('商业评估 '+(group+1)+(attempt?' · 结构重试':''),prompt,7000,format),requested);
         completed=true;break;
       } catch(error) {
+        forget('商业评估 '+(group+1)+(attempt?' · 结构重试':''));
         if(attempt || !/章节JSON|未返回修订章节|缺少论证字段|未完整结束/.test(error.message))throw error;
       }
     }
@@ -67,18 +81,25 @@ export async function generateLocalReport({endpoint,model,profile={},documents,e
   let revised;
   try {
     revised=parseStructuredReport(await ask('全文证据修订',`按指定JSON schema输出12章修订正文，每个字段对应一章，不要在字段里重复章标题。不要输出审阅意见清单，不保留原稿错误。章节字段为：${SECTIONS.join('、')}。正文至少3000汉字。核对原始资料与专有证据，逐条修正数字、单位、计算和建议矛盾。不得推断客户下单、预算或采购承诺。未实测不等于技术矛盾，预算未知不等于需求不存在。没有可核实公开法规依据时，合规章仅写用途、销售角色、需要核实的问题及所需文件；删除所有资料未给出的ISO/IEC/EN/VDE标准编号，不能写“必须符合/认证”。不要给没有依据的销量门槛、响应时间、预算上限、利润阈值或税率；未知值明确待商定，若为情景假设必须逐项标明假设及原因，不作为已知事实。引用原样的PRIVATE证据ID，必须覆盖选定的客户、产品和拜访。每章仍给有条件的商业判断及下一步，不能仅复述资料。\n唯一可以使用的原始资料与专有证据：${context}。不要沿用前序草稿或模型记忆中的事实，重新从这些证据推导全文。`,14000,LOCAL_REPORT_FORMAT));
-    revised=validateLocalDelivery(revised,context,profile.privateEvidence);
+    revised=validateLocalDelivery(revised,sourceEvidence,profile.privateEvidence);
   }
   catch(error){
+    forget('全文证据修订');
+    if(error.retryable!==undefined)throw error;
     onStage(4,'交付结构或来源检查未通过，正在进行一次定向修订');
     revised=parseStructuredReport(await ask('交付问题定向修订',`按指定JSON schema输出12章修订正文，字段为：${SECTIONS.join('、')}。检查发现：${error.message.startsWith("新增无原始来源的标准编号")?"出现原始资料未提供的标准编号，所有此类整句判断须删除，不能改编号或补别的编号":error.message}。逐一修复来源问题；删除没有原始资料依据的标准编号和断言；不能只追加免责声明。只输出完整正文，至少3000汉字。\n唯一可使用的业务资料：${context}`,14000,LOCAL_REPORT_FORMAT));
-    const filtered=quarantineUnsupportedStandards(revised,context);
+    const filtered=quarantineUnsupportedStandards(revised,sourceEvidence);
     audit.withheldClaims=filtered.withheld;
-    revised=validateLocalDelivery(filtered.report,context,profile.privateEvidence);
+    revised=validateLocalDelivery(filtered.report,sourceEvidence,profile.privateEvidence);
   }
   const report=`# ${profile.product || profile.customer || '项目'} · 欧洲市场与代理可行性评估草稿\n\n> 真实本地模型分析 · ${audit.createdAt} · ${model}\n> 已进行全文证据修订；未执行自动联网研究，用户提供的外部摘录也未独立核实。模型检查不等于专业审签。\n\n${audit.withheldClaims?.length?'提示：来源检查已撤下 '+audit.withheldClaims.length+' 处含无来源标准编号的句子；撤下内容不作为报告结论，相关事项需另行核实。\n\n':''}${revised}\n\n## 输入与证据说明\n文档字符数：${documents.length}。所有章节依据本次上传资料与补充摘录，模型常识不视为已核实来源。\n\n${evidence || '未另行提供公开研究摘录。'}`;
   onStage(5,'12章本地评估草稿已生成，准备交付');
   return {...audit,report,automaticChecks:['complete_sections','private_source_ids','unsupported_standards'],expertReview:'pending'};
+  } catch(error){
+    forget('交付问题定向修订');
+    audit.status='failed_not_delivered';audit.error=error.message;
+    error.audit=audit;throw error;
+  }
 }
 
 export function normalizeLocalHeadings(text) {
@@ -94,6 +115,12 @@ export function validateLocalDelivery(text,sourceContext,privateEvidence) {
   const missing=SECTIONS.filter(s=>!new RegExp(`^##\\s+${s}\\s*$`,'m').test(text));
   if(missing.length)throw new Error('修订报告缺少章节：'+missing.join('、'));
   if(text.length<2500)throw new Error('修订报告论证不足');
+  for(const section of SECTIONS){
+    const start=text.indexOf('## '+section+'\n');
+    const tail=text.slice(start+section.length+4);
+    const body=tail.split(/\n## /)[0].replace(/\[待核实\] 此句含资料未提供依据的标准编号，已撤下；需取得适用性依据后重新评估。/g,'').replace(/\*\*[^\n]+\*\*/g,'').trim();
+    if(body.length<120)throw new Error('章节有效论证不足：'+section);
+  }
   const unknown=unsupportedStandards(text,sourceContext);
   if(unknown.length)throw new Error('新增无原始来源的标准编号：'+unknown.join('、'));
   for(const sentence of text.split(/[。；\n]/)) {

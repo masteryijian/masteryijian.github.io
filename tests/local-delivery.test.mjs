@@ -28,3 +28,8 @@ test('source substring cannot authorize another standard and excessive removals 
  assert.equal(result.withheld.length,1);
  assert.throws(()=>quarantineUnsupportedStandards('必须ISO 10218认证。','无标准'),/四分之一/);
 });
+
+test('long total report cannot conceal an empty chapter',()=>{
+ const report=SECTIONS.map((s,i)=>'## '+s+'\n'+(i===11?'待核实':'具体依据和行动。'.repeat(80))).join('\n\n');
+ assert.throws(()=>validateLocalDelivery(report,'资料'),/章节有效论证不足/);
+});
