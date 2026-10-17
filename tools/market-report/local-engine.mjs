@@ -1,4 +1,4 @@
-import {verifyPrivateCitations} from "./private-context.mjs?v=20261017-report2";
+import {verifyPrivateCitations} from "./private-context.mjs?v=20261017-report3";
 import {SECTIONS} from './engine.mjs';
 export function localBase(endpoint) {
   const url = new URL(endpoint);
@@ -47,21 +47,30 @@ export async function generateLocalReport({endpoint,model,profile={},documents,e
   onStage(1,'本地模型正在审阅资料、参数和证据缺口');
   const facts=await ask('事实审阅',`提取证据表，标文件/页码/行号、企业、SKU、技术参数、价格/成本、用途、矛盾和缺失项及其对商业判断的影响。最多2000字。\n${context}`,4000);
   onStage(2,'梳理用户提供的外部证据；本地模式不自动联网');
-  const chapters=[];
   for(let group=0;group<3;group++) {
-    onStage(3,`本地模型正在评估第${group*4+1}—${group*4+4}章（共12章）`);
     const requested=SECTIONS.slice(group*4,group*4+4);
-    const part=await ask('商业评估 '+(group+1),`完成以下4章，每章300—600汉字，逐章用精确二级标题（## 标题）输出；只输出这4章。每章有具体判断、证据依据、不确定性和下一步，不能只复述资料。\n${requested.map((s,i)=>`## ${s}\n${DETAILS[group*4+i]}`).join('\n')}\n资料审阅：${facts}\n${context}`,7000);
-    const missing=requested.filter(s=>!new RegExp(`^##\\s+${s}\\s*$`,'m').test(part));
-    if(missing.length) throw new Error('本地报告章节不完整：'+missing.join('、')+'。请重试；未交付残缺报告。');
-    chapters.push(part);
+    const format=localReportFormat(requested);
+    const prompt=`完成以下4章，按指定JSON schema输出，字段名必须一致。每章有具体判断、证据依据、不确定性和下一步，不能只复述资料。\n${requested.map((s,i)=>`${s}：${DETAILS[group*4+i]}`).join('\n')}\n资料审阅：${facts}\n${context}`;
+    let completed=false;
+    for(let attempt=0;attempt<2;attempt++) {
+      onStage(3,`本地模型正在${attempt?'重新生成':'评估'}第${group*4+1}—${group*4+4}章（共12章）${attempt?'；首次输出未通过结构检查':''}`);
+      try {
+        parseStructuredReport(await ask('商业评估 '+(group+1)+(attempt?' · 结构重试':''),prompt,7000,format),requested);
+        completed=true;break;
+      } catch(error) {
+        if(attempt || !/章节JSON|未返回修订章节|缺少论证字段|未完整结束/.test(error.message))throw error;
+      }
+    }
+    if(!completed)throw new Error('分章评估未完成，未交付残缺报告。');
   }
   onStage(4,'本地模型正在全文修订并删除无依据结论');
-  const draft=chapters.join('\n\n');
-  let revised=parseStructuredReport(await ask('全文证据修订',`按指定JSON schema输出12章修订正文，每个字段对应一章，不要在字段里重复章标题。不要输出审阅意见清单，不保留原稿错误。章节字段为：${SECTIONS.join('、')}。正文至少3000汉字。核对原始资料与专有证据，逐条修正数字、单位、计算和建议矛盾。不得推断客户下单、预算或采购承诺。未实测不等于技术矛盾，预算未知不等于需求不存在。没有可核实公开法规依据时，合规章仅写用途、销售角色、需要核实的问题及所需文件；删除所有资料未给出的ISO/IEC/EN/VDE标准编号，不能写“必须符合/认证”。不要给没有依据的销量门槛、响应时间、预算上限、利润阈值或税率；未知值明确待商定，若为情景假设必须逐项标明假设及原因，不作为已知事实。引用原样的PRIVATE证据ID，必须覆盖选定的客户、产品和拜访。每章仍给有条件的商业判断及下一步，不能仅复述资料。\n唯一可以使用的原始资料与专有证据：${context}。不要沿用前序草稿或模型记忆中的事实，重新从这些证据推导全文。`,14000,LOCAL_REPORT_FORMAT));
-  try {revised=validateLocalDelivery(revised,context,profile.privateEvidence);}
+  let revised;
+  try {
+    revised=parseStructuredReport(await ask('全文证据修订',`按指定JSON schema输出12章修订正文，每个字段对应一章，不要在字段里重复章标题。不要输出审阅意见清单，不保留原稿错误。章节字段为：${SECTIONS.join('、')}。正文至少3000汉字。核对原始资料与专有证据，逐条修正数字、单位、计算和建议矛盾。不得推断客户下单、预算或采购承诺。未实测不等于技术矛盾，预算未知不等于需求不存在。没有可核实公开法规依据时，合规章仅写用途、销售角色、需要核实的问题及所需文件；删除所有资料未给出的ISO/IEC/EN/VDE标准编号，不能写“必须符合/认证”。不要给没有依据的销量门槛、响应时间、预算上限、利润阈值或税率；未知值明确待商定，若为情景假设必须逐项标明假设及原因，不作为已知事实。引用原样的PRIVATE证据ID，必须覆盖选定的客户、产品和拜访。每章仍给有条件的商业判断及下一步，不能仅复述资料。\n唯一可以使用的原始资料与专有证据：${context}。不要沿用前序草稿或模型记忆中的事实，重新从这些证据推导全文。`,14000,LOCAL_REPORT_FORMAT));
+    revised=validateLocalDelivery(revised,context,profile.privateEvidence);
+  }
   catch(error){
-    onStage(4,'交付检查发现来源问题，正在进行一次定向修订');
+    onStage(4,'交付结构或来源检查未通过，正在进行一次定向修订');
     revised=parseStructuredReport(await ask('交付问题定向修订',`按指定JSON schema输出12章修订正文，字段为：${SECTIONS.join('、')}。检查发现：${error.message}。逐一修复来源问题；删除没有原始资料依据的标准编号和断言；不能只追加免责声明。只输出完整正文，至少3000汉字。\n唯一可使用的业务资料：${context}`,14000,LOCAL_REPORT_FORMAT));
     revised=validateLocalDelivery(revised,context,profile.privateEvidence);
   }
@@ -96,11 +105,12 @@ export function validateLocalDelivery(text,sourceContext,privateEvidence) {
 
 export const LOCAL_ANALYST_RULES=RULES;
 
-export const LOCAL_REPORT_FORMAT={type:"json_schema",json_schema:{name:"techbridge_assessment",strict:true,schema:{type:"object",properties:Object.fromEntries(SECTIONS.map((s,i)=>[s,{type:"object",description:DETAILS[i]+"。只据本次原始资料，无数据就明确待核实；不从模型记忆补事实。",properties:{"判断":{type:"string",minLength:80,description:"具体商业判断及推理，不重复标题"},"依据":{type:"string",minLength:60,description:"原始资料事实、PRIVATE证据编号及其支持范围"},"边界":{type:"string",minLength:60,description:"未知项、不能推出的结论、哪些证据会改变判断"},"行动":{type:"string",minLength:80,description:"针对本客户/产品的可执行验证步骤、所需证据、角色及条件，不编数值"}},required:["判断","依据","边界","行动"],additionalProperties:false}])),required:SECTIONS,additionalProperties:false}}};
-export function parseStructuredReport(text){
+export function localReportFormat(sections=SECTIONS){return {type:"json_schema",json_schema:{name:"techbridge_assessment",strict:true,schema:{type:"object",properties:Object.fromEntries(sections.map(s=>[s,{type:"object",description:DETAILS[SECTIONS.indexOf(s)]+"。只据本次原始资料，无数据就明确待核实；不从模型记忆补事实。",properties:{"判断":{type:"string",minLength:80,description:"具体商业判断及推理，不重复标题"},"依据":{type:"string",minLength:60,description:"原始资料事实、PRIVATE证据编号及其支持范围"},"边界":{type:"string",minLength:60,description:"未知项、不能推出的结论、哪些证据会改变判断"},"行动":{type:"string",minLength:80,description:"针对本客户/产品的可执行验证步骤、所需证据、角色及条件，不编数值"}},required:["判断","依据","边界","行动"],additionalProperties:false}])),required:sections,additionalProperties:false}}};}
+export const LOCAL_REPORT_FORMAT=localReportFormat();
+export function parseStructuredReport(text,sections=SECTIONS){
   let data;try{data=JSON.parse(text);}catch{throw new Error("模型修订结果不是有效章节JSON，未交付");}
   const chapters=[];
-  for(const section of SECTIONS){
+  for(const section of sections){
     const value=data?.[section];let body;
     if(typeof value==="string" && value.trim())body=value;
     else if(value && typeof value==="object"){

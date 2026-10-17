@@ -35,8 +35,34 @@ test('local mode rejects truncated output and does not require a cloud key',asyn
 test('local report makes five local calls and never claims internet verification',async()=>{
  const calls=[];let n=0;
  const mock=async(url,options)=>{calls.push({url,body:JSON.parse(options.body),headers:options.headers});n++;
- const text=n===5?JSON.stringify(Object.fromEntries(SECTIONS.map(s=>[s,'[分析判断]具体证据与待核实任务。'.repeat(60)]))):n>=2 && n<=4?SECTIONS.slice((n-2)*4,(n-1)*4).map(s=>'## '+s+'\n'+'[分析判断]具体证据与待核实任务。'.repeat(60)).join('\n'):'[待核实]资料审阅或交付复核';
+ const text=n===5?JSON.stringify(Object.fromEntries(SECTIONS.map(s=>[s,'[分析判断]具体证据与待核实任务。'.repeat(60)]))):n>=2 && n<=4?JSON.stringify(Object.fromEntries(SECTIONS.slice((n-2)*4,(n-1)*4).map(s=>[s,'[分析判断]具体证据与待核实任务。'.repeat(60)]))):'[待核实]资料审阅或交付复核';
  return {ok:true,json:async()=>({id:'local'+n,model:'local',choices:[{finish_reason:'stop',message:{content:text}}]})};};
  const result=await generateLocalReport({endpoint:'http://localhost:4183/v1',model:'local',profile:{product:'测试'},documents:'测试文档',fetchImpl:mock});
  assert.equal(calls.length,5);assert.ok(calls.every(c=>c.url.startsWith('http://localhost:4183/')));assert.ok(calls.every(c=>!c.headers.Authorization && !c.body.tools));assert.equal(result.networkResearchPerformed,false);assert.equal(result.status,'local_draft_pending_external_verification');
 });
+
+ test('structured chapter groups retry only the failed group and final malformed JSON gets repaired',async()=>{
+ const calls=[], stages=[];let failedGroup=false,failedFinal=false;
+ const mock=async(url,options)=>{
+  const body=JSON.parse(options.body);calls.push(body);
+  const required=body.response_format?.json_schema.schema.required;
+  let text='资料事实审阅';
+  if(required){
+   if(required[0]===SECTIONS[8] && required.length===4 && !failedGroup){failedGroup=true;text='## 9. **代理与合作**\n格式不匹配';}
+   else if(required.length===12 && !failedFinal){failedFinal=true;text='{';}
+   else text=JSON.stringify(Object.fromEntries(required.map(s=>[s,'[分析判断]具体证据与待核实任务。'.repeat(60)])));
+  }
+  return {ok:true,json:async()=>({choices:[{finish_reason:'stop',message:{content:text}}]})};
+ };
+ const result=await generateLocalReport({endpoint:'http://localhost:4183/v1',model:'local',documents:'测试资料',onStage:(_,text)=>stages.push(text),fetchImpl:mock});
+ assert.equal(calls.length,7);
+ assert.equal(calls.filter(c=>c.response_format?.json_schema.schema.required[0]===SECTIONS[0] && c.response_format.json_schema.schema.required.length===4).length,1);
+ assert.ok(stages.some(s=>s.includes('重新生成第9')));
+ assert.ok(result.report.includes('## 最终建议'));
+ });
+ test('repeated incomplete chapter output stops after one retry',async()=>{
+ let calls=0;
+ const mock=async()=>({ok:true,json:async()=>({choices:[{finish_reason:'stop',message:{content:++calls===1?'资料':'{}'}}]})});
+ await assert.rejects(generateLocalReport({endpoint:'http://localhost:4183/v1',model:'local',documents:'资料',fetchImpl:mock}),/未返回修订章节/);
+ assert.equal(calls,3);
+ });
