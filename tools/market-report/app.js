@@ -235,8 +235,15 @@ async function runPipeline() {
     steps.forEach(step => step.classList.remove("running"));
     if(error.audit){state.audit=error.audit;downloadJsonBtn.disabled=false;}
     log(error.message); reportPreview.textContent = error.message+" 已完成阶段保留在本页；不改资料点击生成可重试，刷新或关闭页面会清除。可下载研究证据查看失败记录。";
-    setSystemStatus("评估未完成", "不会生成模板报告或虚假报价", "idle");
+    if(/无法访问本地模型|本地模型响应超时/.test(error.message))offerLocalEntry(reportPreview);
+    setSystemStatus("评估未完成", "请查看连接提示或诊断记录", "idle");
   } finally { state.running = false; runBtn.disabled = false; fileInput.disabled = false; controls.forEach((c,i)=>c.disabled=previousDisabled[i]); }
+}
+function offerLocalEntry(container){
+  if(location.protocol!=='https:')return;
+  const note=document.createElement('p');
+  note.textContent='如果本机服务已启动，请改用本机入口，避免浏览器阻止网页连接本地服务。原页面和已选资料会保留；新页面需重新选择文件。 ';
+  const link=document.createElement('a');link.href='http://localhost:4183/tools/market-report/index.html';link.target='_blank';link.rel='noopener';link.textContent='打开本机评估入口';note.append(link);container.append(note);
 }
 function addFiles(files) {
   if(state.running) return;
@@ -274,7 +281,7 @@ async function reloadCRM() {
   let messages=[];
   try {catalog=contextCatalog(readBrowser("opc-techbridge-crm-v2",OPCCRM.normalize),readBrowser("opc-workbench-v2",OPCWorkbench.normalize));}
   catch(error){catalog=contextCatalog(null,null);messages.push("浏览器资料读取失败："+error.message);}
-  localVisits=[];
+  localVisits=[];let localUnavailable=false;
   try {
     const response=await fetch(localServiceBase+"/api/context",{signal:AbortSignal.timeout(6000)});
     if(!response.ok)throw new Error("HTTP "+response.status);
@@ -282,10 +289,11 @@ async function reloadCRM() {
     catalog.customers.push(...contextCatalog({customers:local.customers},null).customers);
     localVisits=local.visits || [];
     messages.push("Mac本地资料已连接");
-  } catch {messages.push("Mac本地资料服务未连接；可在本地评估页读取拜访，或导入备份");}
+  } catch {localUnavailable=true;messages.push("浏览器未连接到Mac本地资料服务");}
   if(state.running)return;
   fillContextChoices();
   status.textContent=`可选客户 ${catalog.customers.length} · 产品 ${catalog.products.length} · 沟通 ${catalog.communications.length} · 现场拜访 ${localVisits.length}。`+messages.join("；");
+  if(localUnavailable)offerLocalEntry(status);
 }
 function fillContextChoices(){
   const option=(id,label)=>{const o=document.createElement("option");o.value=id;o.textContent=label;return o;};
