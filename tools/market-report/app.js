@@ -380,6 +380,7 @@ async function renderResearchProgress(job){
  if(state.audit?.id!==job.id)for(const [name,value] of Object.entries(job.profile||{})){const field=profileForm.elements.namedItem(name);if(field && ['INPUT','TEXTAREA'].includes(field.tagName) && ['string','number'].includes(typeof value))field.value=String(value);}
  state.audit=job;state.profile=job.profile||{};
  const count=job.completedChapters||0,total=job.totalChapters||13;
+ steps.forEach((step,i)=>{const done=job.status==='completed'||i===0||((i===1||i===2)&&Boolean(job.sources?.length));step.classList.toggle('done',done);step.classList.toggle('running',!done&&i===3&&job.status==='running');});
  overallPercent.textContent=`已完成 ${count}/${total} 章 · ${job.sources?.length||0} 个公开来源`;
  progressFill.style.width=(100*count/total)+'%';
  if(job.status==='running'||job.status==='queued')setSystemStatus('本机研究进行中',`${count}/${total}章已保存；页面关闭后后台继续运行`,'running');

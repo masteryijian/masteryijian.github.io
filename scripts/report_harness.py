@@ -200,6 +200,7 @@ def scenario_table(profile):
 def assemble(job,partial=False):
  chapters={c['id']:c for c in job.get('chapters',[])};product=job['profile'].get('product') or '项目'
  text='# '+product+' · 欧洲市场与代理研究\n\n> '+job['createdAt'][:10]+' · 本地模型辅助研究，待人工复核。公开来源已实际读取，不等于每项事实已独立核实；厂家自述、私有记录及分析假设须区分。\n'
+ if job.get('sourceReviewStatus')=='codex_source_review_completed':text+='\n> 本稿由本地模型起草，并经 Codex 逐章来源与逻辑复核修订；不等于现场验收、客户确认或专业审签。\n'
  private_count=len(job.get('privateSources',[]));text+='\n> 本次选入专有证据 '+str(private_count)+' 条。'+('未选入不代表库中没有资料；客户分层、服务与访谈安排属于研究建议。' if not private_count else '须逐项区分客户陈述、用户确认记录与未复核ASR。')+'\n'
  if partial:text+='\n> 分章预览，尚未完成。\n'
  if len(job.get('sources',[]))<6:text+='\n> 可读取的公开来源有限，不能视为全面研究。\n'
