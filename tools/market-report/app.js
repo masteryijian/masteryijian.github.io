@@ -217,7 +217,7 @@ async function runPipeline() {
     if (!local && !key) throw new Error("云端模式需要 API 密钥；本地模式不需要。");
     let result;
     if(local) {
-      const {generateResearchReport} = await import("./research-client.mjs?v=20261019-research1");
+      const {generateResearchReport} = await import("./research-client.mjs?v=20261020-research2");
       result = await generateResearchReport({endpoint:document.getElementById("localEndpoint").value,profile:state.profile,documents:state.extractedText,onUpdate:renderResearchProgress,onEvent:event=>log(event.text,event.time),onJob:id=>{try{localStorage.setItem('opc-research-job-v1',id);}catch{}}});
     } else {
       const {generateReport} = await import("./engine.mjs?v=20261017-personal1");
@@ -226,7 +226,7 @@ async function runPipeline() {
     result.report += privateEvidenceIndex(privateEvidence);
     state.report = result.report; state.audit = result;
     reportPreview.replaceChildren();
-    const {renderMarkdown} = await import("./render.mjs?v=20261017-personal1");
+    const {renderMarkdown} = await import("./render.mjs?v=20261020-research2");
     reportPreview.innerHTML = renderMarkdown(state.report);
     downloadReportBtn.disabled = downloadJsonBtn.disabled = false;
     document.getElementById("downloadPdfBtn").disabled=document.getElementById("printReportBtn").disabled=false;
@@ -238,7 +238,7 @@ async function runPipeline() {
     if(error.audit){state.audit=error.audit;downloadJsonBtn.disabled=false;}
     log(error.message);
     const failure=document.createElement('p');failure.className='research-failure';failure.textContent=error.message+' 已通过章节已保存到本机，可从“本机研究记录”接续。';
-    if(error.audit?.report){const {renderMarkdown}=await import('./render.mjs?v=20261019-research1');reportPreview.innerHTML=renderMarkdown(error.audit.report);reportPreview.prepend(failure);}else reportPreview.replaceChildren(failure);
+    if(error.audit?.report){const {renderMarkdown}=await import('./render.mjs?v=20261020-research2');reportPreview.innerHTML=renderMarkdown(error.audit.report);reportPreview.prepend(failure);}else reportPreview.replaceChildren(failure);
     if(/无法访问本地模型|本地模型响应超时/.test(error.message))offerLocalEntry(reportPreview);
     setSystemStatus("评估未完成", "请查看连接提示或诊断记录", "idle");
   } finally { state.running = false; runBtn.disabled = false; fileInput.disabled = false; controls.forEach((c,i)=>c.disabled=previousDisabled[i]); }
@@ -369,7 +369,7 @@ document.getElementById("loadReport").addEventListener("change",async event=>{
     if(file.name.toLowerCase().endsWith(".json")){original=JSON.parse(raw);report=original.report;profile=original.profile||{};}
     if(typeof report!=="string" || !report.trim() || report.length>180000)throw new Error("未找到有效报告正文，或正文超过180000字符");
     state.report=report;state.profile=profile;state.audit={...original,report,profile,status:"imported_unverified",sourceStatus:original.status||"unknown",createdAt:original.createdAt||"日期未提供",importedAt:new Date().toISOString()};
-    const {renderMarkdown}=await import("./render.mjs?v=20261017-personal1");reportPreview.innerHTML=renderMarkdown(report);
+    const {renderMarkdown}=await import("./render.mjs?v=20261020-research2");reportPreview.innerHTML=renderMarkdown(report);
     downloadReportBtn.disabled=downloadJsonBtn.disabled=false;
     document.getElementById("downloadPdfBtn").disabled=document.getElementById("printReportBtn").disabled=false;
     overallPercent.textContent="历史报告已载入 · 未重新研究";setSystemStatus("历史报告已载入","可导出PDF；没有执行新的模型分析或事实核验");log("已载入历史报告，仅排版导出，未重新研究。");
@@ -384,7 +384,7 @@ async function renderResearchProgress(job){
  overallPercent.textContent=`已完成 ${count}/${total} 章 · ${job.sources?.length||0} 个公开来源`;
  progressFill.style.width=(100*count/total)+'%';
  if(job.status==='running'||job.status==='queued')setSystemStatus('本机研究进行中',`${count}/${total}章已保存；页面关闭后后台继续运行`,'running');
- if(job.report && state.report!==job.report){state.report=job.report;const {renderMarkdown}=await import('./render.mjs?v=20261019-research1');reportPreview.innerHTML=renderMarkdown(job.report);}
+ if(job.report && state.report!==job.report){state.report=job.report;const {renderMarkdown}=await import('./render.mjs?v=20261020-research2');reportPreview.innerHTML=renderMarkdown(job.report);}
  downloadJsonBtn.disabled=false;
  document.getElementById('researchProgressNote').textContent=job.status==='completed'?(job.sourceReviewStatus==='codex_source_review_completed'?'已完成来源与逻辑复核；未完成现场验收、客户确认或专业审签。':'模型研究稿已装配完成，待来源与逻辑复核；引文可核对不等于结论已证实。'):'研究在本机后台运行，章节完成后会显示。刷新页面后可从下方研究记录重新打开。';
 }
@@ -393,7 +393,7 @@ async function openResearchJob(id){
  const controls=[fileInput,document.getElementById('loadReport'),...document.querySelectorAll('#profile input,#profile select,#profile textarea,#privateContext input,#privateContext select,#privateContext button,#connection input,#connection select,#connection textarea,#connection button')];
  const previousDisabled=controls.map(c=>c.disabled);controls.forEach(c=>c.disabled=true);
  try{
-  const {watchResearchJob}=await import('./research-client.mjs?v=20261019-research1');
+  const {watchResearchJob}=await import('./research-client.mjs?v=20261020-research2');
   const job=await watchResearchJob(id,{endpoint:'http://localhost:4183/v1',onUpdate:renderResearchProgress,onEvent:event=>log(event.text,event.time)});
   state.report=job.report;state.audit=job;state.profile=job.profile||{};
   downloadReportBtn.disabled=downloadJsonBtn.disabled=false;
