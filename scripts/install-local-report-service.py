@@ -4,7 +4,7 @@ import shutil,plistlib,os,subprocess,sys,time
 source=Path(__file__).resolve().parent.parent
 runtime=Path.home()/'Library/Application Support/OPCTechBridge/ReportService'
 app=runtime/'app';logs=runtime/'logs';logs.mkdir(parents=True,exist_ok=True)
-for folder,names in {'scripts':['local-model-bridge.py','report_pdf.py'],'tools/market-report':['index.html','app.js','styles.css','engine.mjs','local-engine.mjs','render.mjs','private-context.mjs'],'tools/crm':['model.js'],'tools':['workbench-model.js']}.items():
+for folder,names in {'scripts':['local-model-bridge.py','report_pdf.py','research_sources.py','report_harness.py','product_evidence.py'],'tools/market-report':['index.html','app.js','styles.css','engine.mjs','local-engine.mjs','render.mjs','private-context.mjs','research-client.mjs'],'tools/crm':['model.js'],'tools':['workbench-model.js']}.items():
     dest=app/folder;dest.mkdir(parents=True,exist_ok=True)
     for name in names:shutil.copy2(source/folder/name,dest/name)
 label='com.yijian.techbridge.report';plist=Path.home()/('Library/LaunchAgents/'+label+'.plist');plist.parent.mkdir(exist_ok=True)

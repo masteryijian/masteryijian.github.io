@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>德国市场拜访评估系统</title>
-    <link rel="stylesheet" href="./styles.css?v=20261019-connection1" />
+    <link rel="stylesheet" href="./styles.css?v=20261019-research1" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -16,7 +16,7 @@
           <div class="brand-mark">DE</div>
           <div>
             <h1>德国市场拜访评估</h1>
-            <p class="muted">版本 2026.10.17 · 个人版｜失败可在本页接续，刷新会清除进度</p>
+            <p class="muted">版本 2026.10.19 · 研究版｜分章写作，本机保存，可接续</p>
             <p>资料抽取、专有证据、商业评估、PDF 报告</p>
           </div>
         </div>
@@ -44,7 +44,7 @@
             <p class="eyebrow">Germany Market Entry Desk</p>
             <h2>结合客户现场证据，形成可追溯的市场判断</h2>
           </div>
-          <button class="primary-action" id="runBtn" type="button">生成评估报告</button>
+          <button class="primary-action" id="runBtn" type="button">生成研究报告</button>
         </section>
 
         <section class="panel" id="privateContext">
@@ -129,26 +129,28 @@
 <details class="panel" id="connection">
 <summary>补充资料与设置</summary>
 <input id="provider" type="hidden" value="local" /><input id="apiKey" type="hidden" value="" /><span id="keyLabel" hidden></span>
+<label>历史研究参考（仅本机，同企业才可选）<select id="researchReference"><option value="">不使用历史材料</option></select></label>
 <label>补充资料（可选）<textarea id="researchEvidence" rows="3" placeholder="补充来源、摘录或需要重点评估的内容"></textarea></label>
 <label>本地接口地址 <input id="localEndpoint" value="http://localhost:4183/v1" /></label>
 <label>模型 <input id="modelName" value="openai/gpt-oss-20b" /></label>
 </details>
 
+        <section class="panel"><h3>本机研究记录</h3><div id="researchLibrary">正在读取…</div></section>
         <section class="grid progress-layout" id="progress">
           <div class="panel">
             <div class="panel-heading">
-              <h3>处理进度</h3>
+              <h3>研究进度</h3>
               <span id="overallPercent">等待开始</span>
             </div>
-            <div class="progress-bar">
+            <p id="researchProgressNote">研究按章节保存到本机；完成的章节不会在最终步骤被压缩重写。</p><div class="progress-bar">
               <div id="progressFill"></div>
             </div>
             <ol class="steps" id="steps">
               <li data-step="0"><span></span>文本提取与完整性检查</li>
-              <li data-step="1"><span></span>企业与产品事实审阅</li>
-              <li data-step="2"><span></span>用户提供的外部证据整理</li>
-              <li data-step="3"><span></span>商业与代理可行性评估</li>
-              <li data-step="4"><span></span>报告证据与结构检查</li>
+              <li data-step="1"><span></span>公开来源与上传资料对照</li>
+              <li data-step="2"><span></span>建立可追溯证据账本</li>
+              <li data-step="3"><span></span>逐章研究、矩阵与经营情景</li>
+              <li data-step="4"><span></span>逐章引文及交付检查</li>
               <li data-step="5"><span></span>报告交付（待人工复核）</li>
             </ol>
           </div>
@@ -166,7 +168,7 @@
 
         <section class="panel report-panel" id="report">
           <div class="panel-heading">
-            <h3>报告预览与下载</h3>
+            <h3>研究报告预览与下载</h3>
             <div class="download-actions">
               <button class="primary-action" id="downloadPdfBtn" type="button" disabled>下载 PDF</button><button class="secondary-action" id="printReportBtn" type="button" disabled>打印 / 另存 PDF</button><button class="secondary-action" id="downloadReportBtn" type="button" disabled>下载报告 Markdown</button>
               <button class="secondary-action" id="downloadJsonBtn" type="button" disabled>下载研究证据 JSON</button>
@@ -184,6 +186,6 @@
 
     <script src="../crm/model.js?v=20261016-2"></script>
     <script src="../workbench-model.js?v=20261016-3"></script>
-    <script type="module" src="./app.js?v=20261019-connection1"></script>
+    <script type="module" src="./app.js?v=20261019-research1"></script>
   </body>
 </html>

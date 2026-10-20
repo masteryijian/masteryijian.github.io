@@ -87,8 +87,8 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
-function log(message) {
-  const time = new Date().toLocaleTimeString("zh-CN", { hour12: false });
+function log(message, timestamp) {
+  const time = (timestamp ? new Date(timestamp) : new Date()).toLocaleTimeString("zh-CN", { hour12: false });
   if (activityLog.textContent.trim() === "等待开始。") activityLog.innerHTML = "";
   activityLog.insertAdjacentHTML("beforeend", `<p>[${time}] ${escapeHtml(message)}</p>`);
   activityLog.scrollTop = activityLog.scrollHeight;
@@ -198,6 +198,8 @@ function invalidate(clearCheckpoint=true) {
 async function runPipeline() {
   if (state.running) return;
   state.profile = getProfile();
+  state.profile.referenceId=document.getElementById('researchReference').value;
+  state.profile.supplement=document.getElementById('researchEvidence').value.trim();
   invalidate(false); state.running = true; runBtn.disabled = true; fileInput.disabled = true;
   const controls=[document.getElementById('loadReport'),...document.querySelectorAll('#profile input,#profile select,#profile textarea,#privateContext input,#privateContext select,#privateContext button,#connection input,#connection select,#connection textarea,#connection button')];
   const previousDisabled=controls.map(c=>c.disabled);controls.forEach(c=>c.disabled=true);
@@ -215,8 +217,8 @@ async function runPipeline() {
     if (!local && !key) throw new Error("云端模式需要 API 密钥；本地模式不需要。");
     let result;
     if(local) {
-      const {generateLocalReport} = await import("./local-engine.mjs?v=20261017-personal1");
-      result = await generateLocalReport({endpoint:document.getElementById("localEndpoint").value, model:document.getElementById("modelName").value.trim(), profile:state.profile, documents:state.extractedText, evidence:document.getElementById("researchEvidence").value, onStage:stage,checkpoint:state.checkpoint ||= {}});
+      const {generateResearchReport} = await import("./research-client.mjs?v=20261019-research1");
+      result = await generateResearchReport({endpoint:document.getElementById("localEndpoint").value,profile:state.profile,documents:state.extractedText,onUpdate:renderResearchProgress,onEvent:event=>log(event.text,event.time),onJob:id=>{try{localStorage.setItem('opc-research-job-v1',id);}catch{}}});
     } else {
       const {generateReport} = await import("./engine.mjs?v=20261017-personal1");
       result = await generateReport({key, model: document.getElementById("modelName").value.trim(), profile: state.profile, documents: state.extractedText, onStage:stage});
@@ -228,13 +230,15 @@ async function runPipeline() {
     reportPreview.innerHTML = renderMarkdown(state.report);
     downloadReportBtn.disabled = downloadJsonBtn.disabled = false;
     document.getElementById("downloadPdfBtn").disabled=document.getElementById("printReportBtn").disabled=false;
-    stage(6, local ? "本地评估草稿已生成 · 外部证据待核实" : "报告已生成 · 待人工复核");
-    setSystemStatus(local ? "本地草稿已生成" : "报告已生成", local ? "真实本地模型分析；未执行自动网络研究" : "已执行模型与网络研究；商业判断仍需人工复核", "done");
+    stage(6, local ? "研究稿已生成 · 来源、矩阵与全部章节已保留，待复核" : "报告已生成 · 待人工复核");
+    setSystemStatus(local ? "本地研究稿已生成" : "报告已生成", local ? "已实际读取公开来源；经营情景与事实仍待人工复核" : "已执行模型与网络研究；商业判断仍需人工复核", "done");
   } catch (error) {
     overallPercent.textContent = "评估未完成";
     steps.forEach(step => step.classList.remove("running"));
     if(error.audit){state.audit=error.audit;downloadJsonBtn.disabled=false;}
-    log(error.message); reportPreview.textContent = error.message+" 已完成阶段保留在本页；不改资料点击生成可重试，刷新或关闭页面会清除。可下载研究证据查看失败记录。";
+    log(error.message);
+    const failure=document.createElement('p');failure.className='research-failure';failure.textContent=error.message+' 已通过章节已保存到本机，可从“本机研究记录”接续。';
+    if(error.audit?.report){const {renderMarkdown}=await import('./render.mjs?v=20261019-research1');reportPreview.innerHTML=renderMarkdown(error.audit.report);reportPreview.prepend(failure);}else reportPreview.replaceChildren(failure);
     if(/无法访问本地模型|本地模型响应超时/.test(error.message))offerLocalEntry(reportPreview);
     setSystemStatus("评估未完成", "请查看连接提示或诊断记录", "idle");
   } finally { state.running = false; runBtn.disabled = false; fileInput.disabled = false; controls.forEach((c,i)=>c.disabled=previousDisabled[i]); }
@@ -276,8 +280,8 @@ let catalog={customers:[],products:[],communications:[]}, localVisits=[];
 function readBrowser(key,validator){const raw=localStorage.getItem(key);return raw?validator(JSON.parse(raw)):null;}
 async function reloadCRM() {
   await privateContextReady;
-  if(state.running)return;
   const status=document.getElementById("crmStatus");
+  if(state.running){status.textContent="正在查看已保存研究任务；本次采用的专有证据已固定。新建评估时可重新读取并选择资料。";return;}
   let messages=[];
   try {catalog=contextCatalog(readBrowser("opc-techbridge-crm-v2",OPCCRM.normalize),readBrowser("opc-workbench-v2",OPCWorkbench.normalize));}
   catch(error){catalog=contextCatalog(null,null);messages.push("浏览器资料读取失败："+error.message);}
@@ -290,7 +294,7 @@ async function reloadCRM() {
     localVisits=local.visits || [];
     messages.push("Mac本地资料已连接");
   } catch {localUnavailable=true;messages.push("浏览器未连接到Mac本地资料服务");}
-  if(state.running)return;
+  if(state.running){status.textContent="正在查看已保存研究任务；资料目录可在任务结束后重新读取。";return;}
   fillContextChoices();
   status.textContent=`可选客户 ${catalog.customers.length} · 产品 ${catalog.products.length} · 沟通 ${catalog.communications.length} · 现场拜访 ${localVisits.length}。`+messages.join("；");
   if(localUnavailable)offerLocalEntry(status);
@@ -371,3 +375,45 @@ document.getElementById("loadReport").addEventListener("change",async event=>{
     overallPercent.textContent="历史报告已载入 · 未重新研究";setSystemStatus("历史报告已载入","可导出PDF；没有执行新的模型分析或事实核验");log("已载入历史报告，仅排版导出，未重新研究。");
   } catch(error){log(error.message);}
 });
+
+async function renderResearchProgress(job){
+ if(state.audit?.id!==job.id)for(const [name,value] of Object.entries(job.profile||{})){const field=profileForm.elements.namedItem(name);if(field && ['INPUT','TEXTAREA'].includes(field.tagName) && ['string','number'].includes(typeof value))field.value=String(value);}
+ state.audit=job;state.profile=job.profile||{};
+ const count=job.completedChapters||0,total=job.totalChapters||13;
+ overallPercent.textContent=`已完成 ${count}/${total} 章 · ${job.sources?.length||0} 个公开来源`;
+ progressFill.style.width=(100*count/total)+'%';
+ if(job.status==='running'||job.status==='queued')setSystemStatus('本机研究进行中',`${count}/${total}章已保存；页面关闭后后台继续运行`,'running');
+ if(job.report && state.report!==job.report){state.report=job.report;const {renderMarkdown}=await import('./render.mjs?v=20261019-research1');reportPreview.innerHTML=renderMarkdown(job.report);}
+ downloadJsonBtn.disabled=false;
+ document.getElementById('researchProgressNote').textContent=job.status==='completed'?(job.sourceReviewStatus==='codex_source_review_completed'?'已完成来源与逻辑复核；未完成现场验收、客户确认或专业审签。':'模型研究稿已装配完成，待来源与逻辑复核；引文可核对不等于结论已证实。'):'研究在本机后台运行，章节完成后会显示。刷新页面后可从下方研究记录重新打开。';
+}
+async function openResearchJob(id){
+ if(state.running)return;state.running=true;runBtn.disabled=true;
+ const controls=[fileInput,document.getElementById('loadReport'),...document.querySelectorAll('#profile input,#profile select,#profile textarea,#privateContext input,#privateContext select,#privateContext button,#connection input,#connection select,#connection textarea,#connection button')];
+ const previousDisabled=controls.map(c=>c.disabled);controls.forEach(c=>c.disabled=true);
+ try{
+  const {watchResearchJob}=await import('./research-client.mjs?v=20261019-research1');
+  const job=await watchResearchJob(id,{endpoint:'http://localhost:4183/v1',onUpdate:renderResearchProgress,onEvent:event=>log(event.text,event.time)});
+  state.report=job.report;state.audit=job;state.profile=job.profile||{};
+  downloadReportBtn.disabled=downloadJsonBtn.disabled=false;
+  document.getElementById('downloadPdfBtn').disabled=document.getElementById('printReportBtn').disabled=false;
+  overallPercent.textContent=job.sourceReviewStatus==='codex_source_review_completed'?'研究报告 · 来源与逻辑复核完成':'研究稿已生成 · 待复核';
+  setSystemStatus(job.sourceReviewStatus==='codex_source_review_completed'?'来源与逻辑复核完成':'研究稿已生成 · 待复核',`${job.quality?.chapters||13}章 · ${job.quality?.tables||0}张矩阵 · ${job.sources?.length||0}个公开来源`,'done');
+ }catch(error){log(error.message);setSystemStatus('研究尚未完成',error.message);}
+ finally{state.running=false;runBtn.disabled=false;controls.forEach((c,i)=>c.disabled=previousDisabled[i]);}
+}
+async function loadResearchLibrary(){
+ const list=document.getElementById('researchLibrary');
+ try{
+  const response=await fetch(localServiceBase+'/api/research/jobs',{signal:AbortSignal.timeout(6000)});if(!response.ok)throw new Error();
+  const data=await response.json();list.replaceChildren();
+  if(!data.jobs.length){list.textContent='暂无本机研究记录。';return;}
+  for(const job of data.jobs){const row=document.createElement('p'),button=document.createElement('button');button.className='secondary-action';button.type='button';button.textContent=`${job.product} · ${job.createdAt.slice(0,10)} · ${job.status==='completed'?'已完成':['failed','interrupted'].includes(job.status)?'可接续':job.status==='running'?'研究中':'排队中'} · ${job.completedChapters}/${job.totalChapters}章`;button.addEventListener('click',()=>openResearchJob(job.id));row.append(button);
+   if(job.status!=='completed'){const resume=document.createElement('button');resume.type='button';resume.className='secondary-action';resume.textContent='接续后台任务';resume.addEventListener('click',async()=>{if(state.running)return;resume.disabled=true;try{const response=await fetch(localServiceBase+'/api/research/resume',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:job.id}),signal:AbortSignal.timeout(12000)});if(!response.ok)throw new Error('接续失败，请检查本机服务');await openResearchJob(job.id);}catch(error){log(error.message);}finally{resume.disabled=false;}});row.append(resume);}list.append(row);}
+ }catch{list.textContent='本机研究记录需在本地入口查看。';}
+}
+loadResearchLibrary();
+const requestedJob=new URLSearchParams(location.search).get('research');
+if(requestedJob && /^[a-f0-9]{32}$/.test(requestedJob))openResearchJob(requestedJob);
+
+(async()=>{try{const response=await fetch(localServiceBase+'/api/research/references');if(!response.ok)return;const data=await response.json();const select=document.getElementById('researchReference');for(const item of data.references){const option=document.createElement('option');option.value=item.id;option.textContent=item.title;select.append(option);}}catch{}})();

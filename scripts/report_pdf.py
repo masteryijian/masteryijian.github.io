@@ -27,6 +27,7 @@ LABEL=ParagraphStyle('Label',parent=SMALL,fontSize=8.8,leading=12,spaceBefore=3,
 CELL=ParagraphStyle('Cell',parent=BODY,fontSize=8.6,leading=13,spaceAfter=0)
 def inline(value):
     value=html.escape(str(value),quote=True)
+    value=re.sub(r'&lt;br\s*/?&gt;','<br/>',value,flags=re.I)
     value=re.sub(r'\[([^\]]+)\]\((https?://[^\s)]+)\)',r'<link href="\2" color="#216E68">\1</link>',value)
     return re.sub(r'\*\*([^*]+)\*\*',r'<b>\1</b>',value)
 def render_pdf(payload):
