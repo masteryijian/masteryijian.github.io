@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="de">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -12,10 +12,10 @@
 </head>
 <body>
 <header class="top"><div class="wrap">
-<nav aria-label="站点导航"><a href="index.html">OPC TechBridge</a><a href="blog/">Blog</a></nav>
-<div class="languages" aria-label="语言 / Sprache"><button type="button" data-switch="zh" aria-pressed="true">中文</button><button type="button" data-switch="de" aria-pressed="false">Deutsch</button></div>
+<nav aria-label="Hauptnavigation"><a href="index.html">OPC TechBridge</a><a href="blog/">Blog</a></nav>
+<div class="languages" aria-label="语言 / Sprache"><button type="button" data-switch="zh" aria-pressed="false">中文</button><button type="button" data-switch="de" aria-pressed="true">Deutsch</button></div>
 </div></header>
-<div data-lang="zh">
+<div data-lang="zh" hidden>
 <section class="hero"><div class="wrap">
 <h1>Yijian He</h1><h2>技术项目管理 · 自动化、数据与传感系统</h2>
 <p>传感器与自动化技术硕士，常驻 Karlsruhe。我的工作贯穿现场测量、汽车验证、数据交付和 IT 运营，经常负责把客户要求转成工程团队可以执行、双方可以验收的任务。</p>
@@ -80,7 +80,7 @@
 <p>学习期间担任过实验课助手和翻译，也曾返回母校浙江科技大学参与项目。</p>
 </article>
 </div></main></div>
-<div data-lang="de" hidden>
+<div data-lang="de">
 <section class="hero"><div class="wrap">
 <h1>Yijian He</h1><h2>Technisches Projektmanagement für Automatisierung, Daten und Sensorik</h2>
 <p>M.Eng. Sensor- und Automatisierungstechnik, Karlsruhe. Ich übersetze Kundenanforderungen in überprüfbare Arbeitspakete und koordiniere die Umsetzung zwischen Feldteams, Entwicklung, IT und Kunden.</p>
@@ -158,7 +158,7 @@ function selectLanguage(lang) {
   history.replaceState(null, '', url);
 }
 for (const button of languages) button.addEventListener('click', () => selectLanguage(button.dataset.switch));
-if (new URLSearchParams(location.search).get('lang') === 'de') selectLanguage('de');
+if (new URLSearchParams(location.search).get('lang') === 'zh') selectLanguage('zh');
 </script>
 </body>
 </html>
