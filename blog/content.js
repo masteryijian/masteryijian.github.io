@@ -1,4 +1,5 @@
 window.blogPosts = [
+  {"title": "让 NAS、Mac 和 iPhone 各做擅长的事", "date": "2026-11-19", "category": "Engineering", "read": "9 min", "href": "./posts/nas-mac-iphone-local-first.html", "image": "./assets/nas-mac-iphone-cover.png", "summary": "从研经与 OPC TechBridge 出发，记录局域网、Tailscale 私有转发、Compose、SQLite 和 Obsidian 如何连接 NAS、Mac 和 iPhone。"},
   {
     title: "如果我先走：三地生活里的配偶保护清单",
     date: "2026-08-06",

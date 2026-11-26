@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>让 NAS、Mac 和 iPhone 各做擅长的事 · Yijian Notes</title>
+<meta name="description" content="从研经系统和 OPC TechBridge 出发，记录 Synology NAS、Mac 与 iPhone 如何通过局域网和 Tailscale 协作，以及 Compose、SQLite 和 Obsidian 的具体实现。">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.network-map{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:.7rem;margin:1.2rem 0}.network-map div{background:#f3f6f2;border:1px solid #d9e2d9;border-radius:9px;padding:.85rem}.network-map strong,.network-map span{display:block}.network-map span{margin-top:.25rem}.network-map .server{grid-column:1/-1;border-left:4px solid #397456}.network-map .mac{grid-column:1/-1}.article-body code{overflow-wrap:anywhere}@media(max-width:540px){.network-map{grid-template-columns:1fr}.network-map .server,.network-map .mac{grid-column:auto}}
+</style>
+</head>
+<body>
+<div class="article-shell">
+<header class="topbar"><a class="brand" href="../">YIJIAN_NOTES</a><nav><a href="../">文章列表</a><a href="../../index.html">OPC TechBridge</a></nav></header>
+<article>
+<header class="article-head">
+<div class="meta"><time datetime="2026-11-19">2026-11-19</time><span class="tag">Engineering</span><span>约 9 分钟</span></div>
+<h1>让 NAS、Mac 和 iPhone 各做擅长的事</h1>
+<p>一次家庭私有服务的实作。从浏览器里的单机研经表，到两条网络路径共用一份数据库，再到把 OPC TechBridge 的站点镜像放在 NAS 上。</p>
+</header>
+<div class="article-body">
+<h2>从一个具体需求开始</h2>
+<p>我想在桌上用 Mac 写长笔记，也想在外面用 iPhone 打开同一段经文。早期网页把笔记存进浏览器，换设备就需要手动搬资料。把研经应用和 SQLite 放到常开的 Synology DS920+ 后，设备只需打开网页，草稿和历史记录都由 NAS 保存。Mac 在线时还可以把已经归档的 Markdown 送到 Obsidian。</p>
+<div class="network-map" aria-label="设备和网络路径">
+<div><strong>在家 · 局域网</strong><span>Mac 或 iPhone → 家庭 Wi‑Fi → NAS 的内网监听</span></div>
+<div><strong>在外 · 私有网络</strong><span>iPhone 或 Mac → Tailscale → NAS 的私有转发 → 回环监听</span></div>
+<div class="server"><strong>NAS · 常在线</strong><span>研经的两个监听共用 SQLite。另一个 Compose 项目用 Nginx 提供 OPC 官网、工作台和博客镜像。</span></div>
+<div class="mac"><strong>Mac · 需要时启动</strong><span>开发、长文编辑、Obsidian 和本地 AI。Mac 关机时，NAS 上的服务仍能运行。</span></div>
+</div>
+
+<h2>家里走内网，出门走 Tailscale</h2>
+<p>内网入口绑定 NAS 的家庭网络地址，浏览器通过 Wi‑Fi 直接访问。外出入口通过 NAS 上的 Tailscale Serve 建立私有 TCP 转发。接入同一私有网络的设备连接 NAS 的 Tailscale 地址后，转发把请求交给 NAS 回环地址上的研经监听。手机不需要知道内网地址，也不需要在路由器上做公网端口映射。</p>
+<p>两个监听都使用同一份研经前端和同一份 SQLite。后端分别核对请求来源和 Host，写请求还要求匹配 Origin 和指定请求头。这些检查服务于隔离和防止跨站写入。访问边界由上游网络决定，尤其是外出入口的 Tailscale 权限。实际检查中，我从 Mac 通过两条路打开网页，比较了相同经文草稿和历史列表的返回结果。</p>
+
+<h2>研经系统如何记住两次不同的研读</h2>
+<ul>
+<li><strong>经文与研经模板。</strong> 浏览器按书卷、章和起止节选择经文。准备、观察、解释、应用共用同一套框架。观察提示可多选，每个选项还能单独留下节号和依据。</li>
+<li><strong>自动保存。</strong> 前端短暂合并连续编辑，再逐项写入 NAS。正文、勾选、提示选项和提示笔记分开保存。这样写一条观察时，不必把整份草稿重新提交。</li>
+<li><strong>归档和新一轮。</strong> 已完成的研读生成一条独立记录，带有经文、译本、时间、观察方法及相应笔记。启动新一轮时，数据库在同一事务中处理归档和草稿切换。旧设备若仍在写上一轮，后端用草稿代次识别并拒绝该写入。</li>
+<li><strong>原书和笔记是两条线。</strong> 检查清单有 PDF 页码出处。原页用清晰扫描图展开，简体 OCR 文本可跨页接读。总笔记则可下载 Markdown 或存入 Obsidian；Mac 的同步任务按记录 ID 识别已经导入的文件，每次新增独立笔记。</li>
+</ul>
+
+<h2>Compose 怎样切换，为什么保留两套服务</h2>
+<p>研经最初是 NAS 上的 Python 进程。迁移时先用 SQLite 备份副本启动临时容器，在独立端口核对旧笔记、写入测试记录、重启容器并读回。通过后停止旧进程，再启动正式的两个监听。镜像里有应用代码和资源，数据库仍放在 NAS 的持久目录，通过挂载交给容器。Compose 使用 <code>restart: unless-stopped</code>，并保留迁移前数据库备份。</p>
+<p>第一次镜像构建成功，容器却无法通过健康检查。原因是 NAS 上传文件权限较严，镜像复制后的文件归属与非 root 运行用户不匹配。给 Dockerfile 的 <code>COPY</code> 加上明确的 <code>--chown</code> 后，测试容器就能读取脚本和资源。这次故障说明，构建成功、进程启动和应用可读写，是三个需要分别验证的状态。</p>
+<p>OPC 使用另一个 Compose 项目。官网、工作台和博客来自同一份 GitHub Pages 发布树，保留目录关系，由 Nginx 只读提供静态文件。NAS 的三个首页入口已与对应发布文件逐字节比对。工作台原有业务数据属于原网页地址在浏览器里的存储，换到 NAS 地址后要通过工作台的备份和导入功能迁移。NAS 镜像可从家庭局域网或独立的 Tailscale 私有入口访问。两条路径由同一个 Nginx 容器提供文件，工作台仍按浏览器中的站点地址分别存储数据。公开访问使用原 GitHub Pages。</p>
+
+<h2>其他设备和 AI 怎么接</h2>
+<p>iPad 适合在现场看资料、做较长的标注。Apple Watch 适合用在独立的 Voice Collector 采集链上，先把内容交给 iPhone，再交给能保存和处理的设备。对于不能装 Tailscale 的打印机或其他家庭设备，可以按需规划受限的子网路由，只开放确实需要的资源。</p>
+<p>本地模型适合留在 Mac。接入研经或工作台时，可以由 NAS 保存问题和任务状态，再在 Mac 在线时交给本地推理进程。推理结果应有独立状态和来源，只有用户明确发起的内容才进入模型处理。当前研经网页的问答与任务队列仍属后续构想。</p>
+
+<h2>验收边界</h2>
+<p>截至 2026 年 11 月 19 日，已验证 NAS 容器迁移、备份副本读写、容器重启、Mac 的内网和 Tailscale 访问，以及 OPC 三个 NAS 页面。接下来要实测 iPhone 关闭 Wi‑Fi 后在蜂窝网络保存并由 Mac 读回，再安排一次 NAS 整机重启，验证应用和私有转发都能恢复。</p>
+<p><a href="https://docs.docker.com/compose/">Docker Compose 文档</a> · <a href="https://tailscale.com/docs/integrations/synology">Synology 上的 Tailscale</a> · <a href="https://obsidian.md/help/uri">Obsidian URI</a> · <a href="voice-collector-local-first-architecture.html">Voice Collector 的设备接力设计</a></p>
+</div>
+</article>
+</div>
+</body>
+</html>

@@ -1,107 +1,164 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Yijian He</title>
-    <style>
-        /* 90s 极客/老派风格 */
-        :root { --bg: #ffffff; --text: #000000; --border: #000000; }
-        * { margin: 0; padding: 0; box-sizing: border-box; border-radius: 0 !important; }
-        body { 
-            font-family: "Courier New", Courier, monospace; 
-            background: var(--bg); color: var(--text); 
-            line-height: 1.5; padding: 1rem; 
-        }
-        .container { max-width: 800px; margin: 0 auto; border: 2px solid var(--border); padding: 2rem; }
-        header { border-bottom: 2px solid var(--border); padding-bottom: 1rem; margin-bottom: 2rem; text-align: center; }
-        h1 { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px; }
-        
-        /* 导航与语言切换 */
-        .toolbar { display: flex; justify-content: space-between; margin-bottom: 1rem; }
-        .btn-lang { background: #eee; border: 1px solid #000; padding: 2px 8px; cursor: pointer; font-family: inherit; font-size: 0.8rem; }
-        
-        h2 { font-size: 1.1rem; background: #000; color: #fff; padding: 2px 8px; margin: 2rem 0 1rem; display: inline-block; text-transform: uppercase; }
-        .entry { margin-bottom: 2rem; }
-        .entry-head { display: flex; justify-content: space-between; font-weight: bold; border-bottom: 1px dashed #000; margin-bottom: 0.5rem; }
-        .entry-sub { font-style: italic; font-weight: bold; margin-bottom: 0.5rem; }
-        ul { padding-left: 1.5rem; }
-        li { margin-bottom: 0.3rem; }
-        
-        a { color: inherit; text-decoration: underline; font-weight: bold; }
-        .back-link { display: inline-block; margin-top: 3rem; }
-
-        /* 双语控制 */
-        body.lang-zh .lang-de { display: none !important; }
-        body.lang-de .lang-zh { display: none !important; }
-
-        @media (max-width: 600px) { .entry-head { flex-direction: column; } .container { padding: 1rem; } }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Yijian He 的技术项目案例，涵盖欧洲 ADAS 验证、Einstein Telescope 地球物理测量、IT 运营、数据标注与工业自动化。">
+<title>Yijian He · 技术项目与交付</title>
+<style>
+:root{--canvas:#f4f6f3;--paper:#fff;--ink:#142821;--muted:#516059;--line:#d8e2db;--green:#175742;--hero:#12372c}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--canvas);color:var(--ink);font-family:system-ui,"PingFang SC",sans-serif;line-height:1.67}a{color:var(--green);text-underline-offset:.2em}a:focus-visible,button:focus-visible{outline:2px solid #368e70;outline-offset:3px}button{font:inherit;cursor:pointer}header.top{background:var(--paper);border-bottom:1px solid var(--line)}.wrap{width:min(1100px,calc(100% - 2rem));margin:auto}.top .wrap,.section-nav{display:flex;gap:1rem;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:.75rem 0}.top a{font-weight:700;text-decoration:none}.top nav,.languages{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap}.languages button{background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:.25rem .65rem;color:var(--green)}.languages [aria-pressed=true]{background:var(--green);color:white}.hero{background:var(--hero);color:#fff;padding:clamp(2rem,6vw,5rem) 0 2rem}.hero h1{font-size:clamp(3rem,8vw,6rem);letter-spacing:-.065em;line-height:1;margin:0 0 .65rem}.hero h2{font-size:clamp(1.14rem,3vw,1.8rem);margin:0;color:#d2ebde}.hero p{max-width:68ch;color:#e0eee7}.hero a{color:#f2fcf6}.metrics{display:grid;gap:1px;background:#36594c;border:1px solid #36594c;grid-template-columns:repeat(3,minmax(0,1fr));margin:1.75rem 0 0}.metrics div{background:var(--hero);padding:.8rem 1rem}.metrics strong{display:block;font-size:1.6rem}.metrics span{color:#d2ebde;font-size:.87rem}.section-nav{justify-content:start;gap:.9rem;border-bottom:1px solid var(--line);padding:1rem 0}.section-nav a{font-weight:650;font-size:.9rem}main{padding:1.25rem 0 3rem}.cases{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.case{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:clamp(1rem,2.5vw,1.55rem);min-width:0;scroll-margin-top:1rem}.case.wide{grid-column:1/-1}.case h2{line-height:1.27;font-size:clamp(1.28rem,2.2vw,1.75rem);margin:.2rem 0 .65rem}.case h3{font-size:clamp(1.16rem,2.15vw,1.36rem);font-weight:760;line-height:1.35;margin:1.18rem 0 .42rem;color:var(--green)}.case p,.case ul{margin:.2rem 0 .7rem}.case ul{padding-inline-start:1.2rem}.case li+li{margin-top:.33rem}.date{color:var(--muted);font-size:.82rem}.result{border-left:3px solid #4c9b77;background:#eef5f0;padding:.55rem .7rem;margin-top:.7rem}.result p{margin:0}.sources{font-size:.87rem}footer{border-top:1px solid var(--line);padding:1rem 0 2rem;color:var(--muted)}[hidden]{display:none!important}@media(max-width:710px){.cases{grid-template-columns:minmax(0,1fr)}.top .wrap{gap:.55rem}.metrics div{padding:.55rem}.metrics strong{font-size:1.24rem}.metrics span{font-size:.77rem}}
+</style>
 </head>
-<body class="lang-zh">
-    <div class="container">
-        <header>
-            <div class="toolbar">
-                <a href="index.html" style="color: #000; font-weight: bold;"><< BACK</a>
-                <button class="btn-lang" onclick="document.body.classList.toggle('lang-zh');document.body.classList.toggle('lang-de');">[DE/中文]</button>
-            </div>
-            <h1>Yijian He</h1>
-            <p class="lang-zh">传感器与自动化技术硕士</p>
-            <p class="lang-de">M.Eng. Sensor- und Automatisierungstechnik</p>
-            <p>Karlsruhe, DE | heyijianchina@gmail.com</p>
-        </header>
-
-        <h2 class="lang-zh">职业经历</h2>
-        <h2 class="lang-de">Berufserfahrung</h2>
-
-        <div class="entry">
-            <div class="entry-head"><span>KIT (GPI)</span><span>2025.08 - 2026.01</span></div>
-            <div class="entry-sub lang-zh">地质物理研究所 (GPI) - eLabor 技术员</div>
-            <div class="entry-sub lang-de">Techniker im eLabor (GPI)</div>
-            <ul class="lang-zh">
-                <li>负责地质物理研究所实验设备的维护与管理。</li>
-                <li>支持测量数据评估（Messdatenauswertung）及数据管理。</li>
-                <li>概念化并构建新型 Datalogger 系统及地震设备测试台。</li>
-            </ul>
-            <ul class="lang-de">
-                <li>Wartung und Instandhaltung der Laborausrüstung am Institut für Geophysik.</li>
-                <li>Unterstützung bei Messdatenauswertung und Datenmanagement.</li>
-                <li>Konzeption und Aufbau neuer Datalogger-Systeme und Testbenches.</li>
-            </ul>
-        </div>
-
-        <div class="entry">
-            <div class="entry-head"><span>LiangDao GmbH</span><span>2022.07 - 2024.12</span></div>
-            <div class="entry-sub lang-zh">项目经理 / IT 运营经理</div>
-            <div class="entry-sub lang-de">Project Manager / IT Operations Manager</div>
-            <ul class="lang-zh">
-                <li>为 <b>BMW, NIO, BYD</b> 等客户协调传感器验证项目。</li>
-                <li>构建并维护 IT 基础设施（AWS, Microsoft, IONOS），支持 SAP 引入。</li>
-                <li>掌握 <b>Kubernetes (K8s)</b> 容器编排，应用于自动驾驶数据处理与激光雷达仿真环境部署。<a href="K8s技术分享-PPT.html">[技术分享 PPT]</a> | <a href="K8s学习路线-双语.html">[完整学习路线]</a></li>
-            </ul>
-            <ul class="lang-de">
-                <li>Projektkoordination für Kunden wie BMW, NIO, BYD im Bereich Sensorvalidierung.</li>
-                <li>Aufbau und Wartung der IT-Infrastruktur (AWS, Microsoft, IONOS).</li>
-                <li>Beherrschung von <b>Kubernetes (K8s)</b> für Container-Orchestrierung, angewendet für Datenverarbeitung und LiDAR-Simulation in der autonomen Fahrt. <a href="K8s技术分享-PPT.html">[Technischer Vortrag PPT]</a> | <a href="K8s学习路线-双语.html">[Vollständiger Lernpfad]</a></li>
-            </ul>
-        </div>
-
-        <div class="entry">
-            <div class="entry-head"><span>Modis (Daimler Projekt)</span><span>2018.04 - 2020.11</span></div>
-            <div class="entry-sub lang-zh">自动化项目工程师</div>
-            <div class="entry-sub lang-de">Projektingenieur Automatisierung</div>
-            <ul class="lang-zh">
-                <li>SPS 编程 (TIA Portal, S7-1500) 与 EPLAN 硬件规划。</li>
-                <li>负责 <b>Daimler</b> 的 AGV 系统、测试台及输送技术项目。</li>
-            </ul>
-            <ul class="lang-de">
-                <li>SPS-Programmierung (TIA Portal, S7-1500) und Hardwareplanung mit EPLAN.</li>
-                <li>Projekte: AGV-Systeme, Prüfstände, Fördertechnik für Daimler.</li>
-            </ul>
-        </div>
-
-        <a href="index.html" class="back-link lang-zh"><< 返回首页</a>
-        <a href="index.html" class="back-link lang-de"><< ZURÜCK ZUR STARTSEITE</a>
-    </div>
+<body>
+<header class="top"><div class="wrap">
+<nav aria-label="站点导航"><a href="index.html">OPC TechBridge</a><a href="blog/">Blog</a></nav>
+<div class="languages" aria-label="语言 / Sprache"><button type="button" data-switch="zh" aria-pressed="true">中文</button><button type="button" data-switch="de" aria-pressed="false">Deutsch</button></div>
+</div></header>
+<div data-lang="zh">
+<section class="hero"><div class="wrap">
+<h1>Yijian He</h1><h2>技术项目管理 · 自动化、数据与传感系统</h2>
+<p>传感器与自动化技术硕士，常驻 Karlsruhe。我的工作贯穿现场测量、汽车验证、数据交付和 IT 运营，经常负责把客户要求转成工程团队可以执行、双方可以验收的任务。</p>
+<div class="metrics"><div><strong>5+</strong><span>较大型汽车客户项目</span></div><div><strong>50+</strong><span>协调的标注团队人数</span></div><div><strong>约 250 m</strong><span>Lausitz 深孔地震测量深度</span></div></div>
+</div></section>
+<main class="wrap" id="projects">
+<nav class="section-nav" aria-label="项目目录"><a href="#automotive">汽车验证</a><a href="#geophysics">地球物理</a><a href="#it">IT 运营</a><a href="#labeling">数据运营</a><a href="#automation">自动化</a><a href="#service">技术服务</a></nav>
+<div class="cases">
+<article class="case wide" id="automotive">
+<span class="date">LiangDao GmbH · 2023.09–2024.12 / NewSense Engineering GmbH · 2026 年转入</span>
+<h2>欧洲 ADAS 与自动驾驶验证项目</h2>
+<p>在 LiangDao 推进 BMW、NIO、BYD 等客户的五个以上较大型项目。2026 年转入同一管理体系下的 NewSense，继续负责交接过来的 ADAS 项目。</p>
+<h3>难点与做法</h3>
+<p>跨国道路测试要同时对齐车辆、路线、测试场景、数据采集和交付窗口。客户要求变更时，我与测试、数据团队核对影响，把变更落实到任务、负责人和时间。遇到验证数据有缺口，协调团队区分可补采、需复测和需客户确认的项目，并向客户说明影响。</p>
+<div class="result"><p><strong>交付结果。</strong> 支持客户完成欧洲测试和验证任务，并参与推动一项客户供应商评价由 B 提升至 A。与管理层协同管理的年度项目规模约为 40 万欧元，单个项目周期从数周到两年。</p></div>
+</article>
+<article class="case" id="geophysics">
+<span class="date">2025.08–2026.01 · KIT 地球物理研究所（GPI）</span>
+<h2>Einstein Telescope 的前期地震测量</h2>
+<p>在 eLabor 参与 Lausitz 候选场址的测量，以及黑森林和希腊的测量任务。Lausitz 的深孔测量用于了解地下地震背景噪声，测站在地表及约 250 米深处布设仪器。</p>
+<h3>难点与做法</h3>
+<p>深孔仪器部署后，现场维护和手动取数不方便。我参与地震仪安装工作，并协助集成传感器、数据记录器、供电和网络通信，使站点的测量数据可以远程访问。也参与记录器与测试台搭建，并按 FAIR 原则整理和提供测量数据。</p>
+<p class="sources"><a href="https://www.gpi.kit.edu/329.php">KIT GPI 研究项目</a> · <a href="https://einsteintelescope-lausitz.de/en/node/59">Lausitz 测站与深度</a></p>
+</article>
+<article class="case" id="it">
+<span class="date">2022.07–2023.09 · LiangDao GmbH</span>
+<h2>IT 运营、SAP Business One 与 TISAX</h2>
+<p>参与 SAP Business One 的引入与技术部署，管理 Azure / Microsoft 365、AWS 和 IONOS 环境，以及 Windows、Linux 终端及服务器、账号和访问权限。</p>
+<h3>难点与做法</h3>
+<p>在业务继续运行的同时，调整防火墙访问规则和攻击防护设置，整理机房、访问控制和 IT 安全措施所需的评估材料。日常用 Power Automate 定制重复任务，也负责服务器管理和 Kubernetes 环境的部署。</p>
+<div class="result"><p>参与准备及陪同机房与 IT 范围的 TISAX 评估，评估以 Assessment Level 2 完成。</p></div>
+<p class="sources"><a href="https://portal.enx.com/handbook/">ENX TISAX 手册</a> · <a href="K8s技术分享-PPT.html">Kubernetes 技术分享</a></p>
+</article>
+<article class="case" id="labeling">
+<span class="date">2022.04–2022.07 · LiangDao GmbH</span>
+<h2>50 人以上的数据标注与质量交付</h2>
+<p>协调标注团队的任务量、产能和交期，把外部客户的数据要求落实到内部标注、校验和交付流程。高峰月份交付量达数十 GB。</p>
+<h3>难点与做法</h3>
+<p>多人并行时，规则理解和工具版本会直接影响结果一致性。遇到客户规则变更或标注软件更新，我协调团队同步变更，安排质量复核和修正，并跟进数据放行与客户反馈。</p>
+</article>
+<article class="case" id="automation">
+<span class="date">2018.04–2020.11 · Modis GmbH，Daimler 客户项目</span>
+<h2>AGV、试验台与输送设备自动化</h2>
+<p>参与从概念、控制设计到现场调试的项目交付，涵盖 AGV、试验台与输送设备。工作涉及 TIA Portal / S7-1500、EPLAN、Profinet 和 Profibus。</p>
+<h3>难点与做法</h3>
+<p>同时推进多项任务时，需要协调机械、电气、控制程序和现场节奏。调试中分析控制流程与现场反馈，和客户、设计及调试团队一起定位问题和落实调整。</p>
+<h3>Volkswagen Emden · AGV 运货系统维护</h3>
+<p>另一个现场案例是在大众 Emden 工厂参与 AGV 运货系统维护。工作重点是维持生产物流中车辆运输系统的可用性，并配合现场处理运行问题。</p>
+</article>
+<article class="case" id="service">
+<span class="date">2020.11–2021.12 · Begis GmbH</span>
+<h2>员工信息系统的技术服务</h2>
+<p>为银行、公共部门、护理和零售客户提供 Orchard Core CMS 应用的一、二级支持。用流利、自然的德语直接为德国客户提供专业服务，从澄清工单和解释技术问题，到和业务部门、研发团队协作跟进直至解决。</p>
+<h3>难点与做法</h3>
+<p>各客户用的是同一系统，部署和具体需求却不同。我把重复的部署工作整理为模板，减少逐个项目重新配置，也便于后续排查。</p>
+</article>
+<article class="case">
+<span class="date">Hochschule Hannover · M.Eng. / B.Eng.</span>
+<h2>传感、自动化和工程训练</h2>
+<p>硕士论文开发从 C 到 Python 的代码生成器。在 Siemens 实习时独立设计 SIMATIC PLC 的自动化测试方案。本科在 WAGO 完成家用电动车充电站相关课题。</p>
+<h3>实验教学与中德项目协作</h3>
+<p>学习期间担任过实验课助手和翻译，也曾返回母校浙江科技大学参与项目。</p>
+</article>
+</div></main></div>
+<div data-lang="de" hidden>
+<section class="hero"><div class="wrap">
+<h1>Yijian He</h1><h2>Technisches Projektmanagement für Automatisierung, Daten und Sensorik</h2>
+<p>M.Eng. Sensor- und Automatisierungstechnik, Karlsruhe. Ich übersetze Kundenanforderungen in überprüfbare Arbeitspakete und koordiniere die Umsetzung zwischen Feldteams, Entwicklung, IT und Kunden.</p>
+<div class="metrics"><div><strong>5+</strong><span>größere Automotive-Kundenprojekte</span></div><div><strong>50+</strong><span>Personen im koordinierten Labeling-Team</span></div><div><strong>ca. 250 m</strong><span>Messtiefe in Lausitzer Bohrlöchern</span></div></div>
+</div></section>
+<main class="wrap">
+<nav class="section-nav" aria-label="Projekte"><a href="#automotive-de">Automotive</a><a href="#geophysics-de">Geophysik</a><a href="#it-de">IT-Betrieb</a><a href="#labeling-de">Datenbetrieb</a><a href="#automation-de">Automatisierung</a><a href="#service-de">Service</a></nav>
+<div class="cases">
+<article class="case wide" id="automotive-de">
+<span class="date">LiangDao GmbH · 09/2023–12/2024 / NewSense Engineering GmbH · Wechsel 2026</span>
+<h2>Europäische Erprobung von ADAS und automatisierten Fahrfunktionen</h2>
+<p>Bei LiangDao steuerte ich mehr als fünf größere Kundenprojekte unter anderem für BMW, NIO und BYD. 2026 wechselte ich zu NewSense Engineering innerhalb derselben Unternehmensleitung und führte übernommene ADAS-Projekte fort.</p>
+<h3>Aufgabe und Vorgehen</h3>
+<p>Bei länderübergreifenden Versuchsfahrten mussten Fahrzeuge, Strecken, Testszenarien, Datenerfassung und Liefertermine zusammenpassen. Ich klärte Änderungen mit Kunden, Test- und Datenteams, legte Verantwortlichkeiten fest und koordinierte Nachmessungen oder Wiederholungstests bei Datenlücken.</p>
+<div class="result"><p><strong>Ergebnis.</strong> Ich unterstützte Kunden bei Erprobung und Validierung in Europa und trug zur Verbesserung einer kundenseitigen Lieferantenbewertung von B auf A bei. Das jährlich gesteuerte Projektvolumen lag in Abstimmung mit der Geschäftsführung bei rund 400.000 Euro.</p></div>
+</article>
+<article class="case" id="geophysics-de">
+<span class="date">08/2025–01/2026 · Geophysikalisches Institut (GPI), KIT</span>
+<h2>Seismische Standorterkundung für das Einstein Telescope</h2>
+<p>Im eLabor wirkte ich an Messkampagnen in der Lausitz, im Schwarzwald und in Griechenland mit. In der Lausitz wird seismisches Hintergrundrauschen an der Oberfläche und in rund 250 Metern Tiefe erfasst.</p>
+<h3>Aufgabe und Vorgehen</h3>
+<p>Ich wirkte bei der Installation von Seismometern mit und integrierte Sensorik, Datenlogger, Stromversorgung und Netzwerkkommunikation. Der Fernzugriff auf Messdaten erleichterte die Betreuung schwer zugänglicher Messstellen. Dazu kamen Prüfaufbauten und die Bereitstellung von Messdaten nach FAIR-Grundsätzen.</p>
+<p class="sources"><a href="https://www.gpi.kit.edu/329.php">Forschung am GPI</a> · <a href="https://einsteintelescope-lausitz.de/en/node/59">Messnetz in der Lausitz</a></p>
+</article>
+<article class="case" id="it-de">
+<span class="date">07/2022–09/2023 · LiangDao GmbH</span>
+<h2>IT-Betrieb, SAP Business One und TISAX</h2>
+<p>Ich wirkte an der Einführung und technischen Bereitstellung von SAP Business One mit. Ich administrierte Azure und Microsoft 365, AWS und IONOS sowie Windows- und Linux-Systeme, Konten und Berechtigungen.</p>
+<h3>Aufgabe und Vorgehen</h3>
+<p>Im laufenden Betrieb konfigurierte ich Firewall-Regeln und Schutzmaßnahmen gegen Angriffe und bereitete Nachweise für Serverraum, IT-Infrastruktur und Zugriffskontrolle vor. Wiederkehrende Aufgaben automatisierte ich mit Microsoft Power Automate. Zu meinem Aufgabenbereich gehörten Serverbetrieb und die Bereitstellung von Kubernetes-Umgebungen.</p>
+<div class="result"><p>Ich bereitete das erfolgreich abgeschlossene TISAX-Assessment für IT und Serverraum auf Assessment Level 2 mit vor und begleitete es.</p></div>
+<p class="sources"><a href="https://portal.enx.com/handbook/">ENX TISAX-Handbuch</a> · <a href="K8s技术分享-PPT.html">Kubernetes-Vortrag</a></p>
+</article>
+<article class="case" id="labeling-de">
+<span class="date">04/2022–07/2022 · LiangDao GmbH</span>
+<h2>Datenlabeling mit mehr als 50 Personen</h2>
+<p>Ich koordinierte Kapazitäten, Qualitätssicherung und Liefertermine für ein Labeling-Team mit mehr als 50 Personen. In Spitzenmonaten umfassten die Lieferungen mehrere Dutzend Gigabyte.</p>
+<h3>Aufgabe und Vorgehen</h3>
+<p>Bei geänderten Kundenanforderungen oder neuen Versionen der Labeling-Software stimmte ich die Umsetzung im Team ab. Ich koordinierte Nachprüfungen, Korrekturen und Freigaben und klärte offene Fragen zwischen dem internen Team und den Kunden.</p>
+</article>
+<article class="case" id="automation-de">
+<span class="date">04/2018–11/2020 · Modis GmbH, Kundenprojekte für Daimler</span>
+<h2>Automatisierung von FTS, Prüfständen und Förderanlagen</h2>
+<p>Ich begleitete Projekte vom Konzept bis zur Inbetriebnahme. Dazu gehörten SPS-Programmierung mit TIA Portal und S7-1500, EPLAN sowie Profinet und Profibus.</p>
+<h3>Aufgabe und Vorgehen</h3>
+<p>Ich koordinierte parallel laufende Arbeitspakete zwischen Konstruktion, Elektrotechnik und Inbetriebnahme. Vor Ort analysierte ich Fehler in Steuerungsabläufen und stimmte Änderungen mit Kunden und Fachteams ab.</p>
+<h3>Volkswagen Emden · Wartung des FTS für Warentransporte</h3>
+<p>In einem weiteren Einsatz wirkte ich im Volkswagen-Werk Emden an der Wartung des fahrerlosen Transportsystems mit. Im Mittelpunkt standen die Verfügbarkeit des Systems in der Werkslogistik und die Abstimmung bei Betriebsstörungen.</p>
+</article>
+<article class="case" id="service-de">
+<span class="date">11/2020–12/2021 · Begis GmbH</span>
+<h2>Technischer Service für Mitarbeiterinformationssysteme</h2>
+<p>Ich betreute Kunden aus Banken, Verwaltung, Pflege und Einzelhandel im First- und Second-Level-Support für Orchard Core CMS. Ich betreute deutsche Kunden direkt auf fließendem, idiomatischem Deutsch. Dazu gehörten die Klärung von Tickets, verständliche technische Erläuterungen und die Abstimmung mit Fachbereichen und Entwicklung bis zur Lösung.</p>
+<h3>Aufgabe und Vorgehen</h3>
+<p>Um wiederkehrende Bereitstellungen trotz kundenspezifischer Unterschiede handhabbar zu machen, standardisierte ich sie mit Vorlagen. So ließen sich Konfiguration und Fehlersuche leichter nachvollziehen.</p>
+</article>
+<article class="case">
+<span class="date">Hochschule Hannover · M.Eng. / B.Eng.</span>
+<h2>Ingenieurstudium und technische Projekte</h2>
+<p>Masterarbeit zu einem Codegenerator von C nach Python. Bei Siemens konzipierte ich im Praktikum eine Testautomatisierung für SIMATIC-SPS. Bei WAGO bearbeitete ich in der Bachelorarbeit ein Thema zu Heimladestationen.</p>
+<h3>Laborlehre und deutsch-chinesische Projektarbeit</h3>
+<p>Während des Studiums assistierte ich in Laborpraktika und übernahm Übersetzungsaufgaben. Außerdem kehrte ich für Projektarbeit an meine chinesische Heimathochschule, die Zhejiang University of Science and Technology, zurück.</p>
+</article>
+</div></main></div>
+<footer><div class="wrap">Yijian He · Karlsruhe · <a href="mailto:heyijianchina@gmail.com">Kontakt / 联系</a></div></footer>
+<script>
+const languages = [...document.querySelectorAll('[data-switch]')];
+function selectLanguage(lang) {
+  document.documentElement.lang = lang === 'de' ? 'de' : 'zh-CN';
+  for (const section of document.querySelectorAll('[data-lang]')) section.hidden = section.dataset.lang !== lang;
+  for (const button of languages) button.setAttribute('aria-pressed', String(button.dataset.switch === lang));
+  const url = new URL(location.href);
+  url.searchParams.set('lang', lang);
+  url.hash = '';
+  history.replaceState(null, '', url);
+}
+for (const button of languages) button.addEventListener('click', () => selectLanguage(button.dataset.switch));
+if (new URLSearchParams(location.search).get('lang') === 'de') selectLanguage('de');
+</script>
 </body>
 </html>
